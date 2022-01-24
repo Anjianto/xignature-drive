@@ -2,7 +2,7 @@
     <nav class="main-navigation">
         <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
             <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
-            <!-- <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b> -->
+            <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">

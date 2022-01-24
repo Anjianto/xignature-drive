@@ -204,7 +204,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".color-label[data-v-c96acb7c] {\n  text-transform: capitalize;\n  font-size: 0.75em;\n  display: inline-block;\n  border-radius: 6px;\n  font-weight: 700;\n  padding: 4px 6px;\n}\n.color-label.purple[data-v-c96acb7c] {\n  color: #9D66FE;\n  background: rgba(157, 102, 254, 0.1);\n}\n.color-label.yellow[data-v-c96acb7c] {\n  color: #FFBD2D;\n  background: rgba(255, 189, 45, 0.1);\n}\n.color-label.green[data-v-c96acb7c] {\n  color: #00BC7E;\n  background: rgba(0, 188, 126, 0.1);\n}\n.color-label.red[data-v-c96acb7c] {\n  color: #fd397a;\n  background: rgba(253, 57, 122, 0.1);\n}\n", ""]);
+exports.push([module.i, ".color-label[data-v-c96acb7c] {\n  text-transform: capitalize;\n  font-size: 0.75em;\n  display: inline-block;\n  border-radius: 6px;\n  font-weight: 700;\n  padding: 4px 6px;\n}\n.color-label.purple[data-v-c96acb7c] {\n  color: #9D66FE;\n  background: rgba(157, 102, 254, 0.1);\n}\n.color-label.yellow[data-v-c96acb7c] {\n  color: #FFBD2D;\n  background: rgba(255, 189, 45, 0.1);\n}\n.color-label.green[data-v-c96acb7c] {\n  color: #0667B3;\n  background: rgba(6, 103, 179, 0.1);\n}\n.color-label.red[data-v-c96acb7c] {\n  color: #fd397a;\n  background: rgba(253, 57, 122, 0.1);\n}\n", ""]);
 
 // exports
 

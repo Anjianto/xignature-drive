@@ -24,7 +24,7 @@
 
     {{--Icons--}}
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
-    <link rel="icon" href="{{ isset($settings->app_favicon) && $settings->app_favicon ? $settings->app_favicon : asset('favicon.png') }}?v={{ get_version() }}">
+    <link rel="icon" href="{{ isset($settings->app_favicon) && $settings->app_favicon ? $settings->app_favicon : asset('assets/images/fav-icon-webdrive.png') }}?v={{ get_version() }}">
 
     {{--Format Detection--}}
     <meta name="format-detection" content="telephone=no">
@@ -45,8 +45,8 @@
             app_description: '{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}',
             app_footer: '{!! isset($settings->footer_content) && $settings->footer_content ? $settings->footer_content : null !!}',
 
-            app_logo: '{{ isset($settings->app_logo) && $settings->app_logo ? $settings->app_logo : null }}',
-            app_logo_horizontal: '{{ isset($settings->app_logo_horizontal) && $settings->app_logo_horizontal ? $settings->app_logo_horizontal : null }}',
+            app_logo: '{{ isset($settings->app_logo) && $settings->app_logo ? $settings->app_logo : "assets/images/webdrive.png" }}',
+            app_logo_horizontal: '{{ isset($settings->app_logo_horizontal) && $settings->app_logo_horizontal ? $settings->app_logo_horizontal : "assets/images/webdrive.png" }}',
 
             app_payments_active: {{ isset($settings->payments_active) ? $settings->payments_active : 0 }},
 

@@ -114,7 +114,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".text-label[data-v-18797a34] {\n  padding-left: 25px;\n  font-size: 0.75em;\n  color: #AFAFAF;\n  font-weight: 700;\n  display: block;\n  margin-bottom: 5px;\n}\n@media only screen and (max-width: 1024px) {\n.text-label[data-v-18797a34] {\n    padding-left: 20px;\n}\n}\n@media (prefers-color-scheme: dark) {\n.text-label[data-v-18797a34] {\n    color: #00BC7E;\n}\n}\n", ""]);
+exports.push([module.i, ".text-label[data-v-18797a34] {\n  padding-left: 25px;\n  font-size: 0.75em;\n  color: #AFAFAF;\n  font-weight: 700;\n  display: block;\n  margin-bottom: 5px;\n}\n@media only screen and (max-width: 1024px) {\n.text-label[data-v-18797a34] {\n    padding-left: 20px;\n}\n}\n@media (prefers-color-scheme: dark) {\n.text-label[data-v-18797a34] {\n    color: #0667B3;\n}\n}\n", ""]);
 
 // exports
 

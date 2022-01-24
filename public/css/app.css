@@ -112,7 +112,7 @@
 }
 
 .menu-list-wrapper.horizontal .menu-list-item.router-link-exact-active {
-  border-bottom: 2px solid #00BC7E;
+  border-bottom: 2px solid #0667B3;
 }
 
 .menu-list-wrapper .menu-list-item {
@@ -165,13 +165,13 @@
 .menu-list-wrapper .menu-list-item.link:hover svg rect,
 .menu-list-wrapper .menu-list-item.link:hover svg circle,
 .menu-list-wrapper .menu-list-item.link:hover svg ellipse {
-  stroke: #00BC7E;
+  stroke: #0667B3;
 }
 
 .menu-list-wrapper .menu-list-item.link.is-active .label,
 .menu-list-wrapper .menu-list-item.link.router-link-exact-active .label,
 .menu-list-wrapper .menu-list-item.link:hover .label {
-  color: #00BC7E;
+  color: #0667B3;
 }
 
 .menu-list-wrapper .menu-list-item.link .icon {
@@ -228,7 +228,7 @@
 }
 
 .menu-list-wrapper.favourites.is-dragenter .menu-list {
-  border: 2px dashed #00BC7E;
+  border: 2px dashed #0667B3;
   border-radius: 8px;
 }
 
@@ -276,13 +276,13 @@
 .menu-list-wrapper.favourites .menu-list .menu-list-item.is-current .folder-icon rect,
 .menu-list-wrapper.favourites .menu-list .menu-list-item.is-current .folder-icon circle,
 .menu-list-wrapper.favourites .menu-list .menu-list-item.is-current .folder-icon ellipse {
-  stroke: #00BC7E;
+  stroke: #0667B3;
 }
 
 .menu-list-wrapper.favourites .menu-list .menu-list-item:hover .label,
 .menu-list-wrapper.favourites .menu-list .menu-list-item.is-selected .label,
 .menu-list-wrapper.favourites .menu-list .menu-list-item.is-current .label {
-  color: #00BC7E;
+  color: #0667B3;
 }
 
 .empty-note {
@@ -419,11 +419,11 @@
   }
 
   .menu-list-wrapper .menu-list-item:hover {
-    background: rgba(0, 188, 126, 0.1);
+    background: rgba(6, 103, 179, 0.1);
   }
 
   .menu-list-wrapper .menu-list-item:hover .label {
-    color: #00BC7E;
+    color: #0667B3;
   }
 
   .menu-list-wrapper .menu-list-item:hover .icon path,
@@ -432,7 +432,7 @@
   .menu-list-wrapper .menu-list-item:hover .icon rect,
   .menu-list-wrapper .menu-list-item:hover .icon circle,
   .menu-list-wrapper .menu-list-item:hover .icon ellipse {
-    stroke: #00BC7E;
+    stroke: #0667B3;
   }
 
   .table .action-icons .icon circle,
