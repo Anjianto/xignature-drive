@@ -1439,7 +1439,30 @@ var render = function () {
             }),
             _vm._v(" "),
             _c("div", { staticClass: "dashboard-headline" }, [
-              _vm._m(0),
+              _c(
+                "div",
+                { staticClass: "logo" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "logo",
+                      attrs: { to: { name: "SaaSLandingPage" }, tag: "div" },
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "light-mode",
+                        attrs: {
+                          src: _vm.$getImage(_vm.config.app_logo_horizontal),
+                          alt: _vm.config.app_name,
+                          width: "200px",
+                        },
+                      }),
+                    ]
+                  ),
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "metadata" }, [
                 _c(
@@ -1633,28 +1656,7 @@ var render = function () {
       : _vm._e(),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "logo" }, [
-      _c(
-        "a",
-        { attrs: { href: "https://vuefilemanager.com", target: "_blank" } },
-        [
-          _c("img", {
-            staticClass: "light-mode",
-            attrs: {
-              src: "/assets/images/vuefilemanager-horizontal-logo.svg",
-              alt: "VueFileManager",
-            },
-          }),
-        ]
-      ),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

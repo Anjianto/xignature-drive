@@ -5,9 +5,9 @@
 
             <div class="dashboard-headline">
                 <div class="logo">
-                    <a href="https://vuefilemanager.com" target="_blank">
-                        <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode">
-                    </a>
+                    <router-link :to="{name: 'SaaSLandingPage'}" tag="div" class="logo">
+                        <img :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name" width="200px" class="light-mode">
+                    </router-link>
                 </div>
                 <div class="metadata">
                     <a href="https://vuefilemanager.com/changelog" target="_blank" class="meta">
