@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, HomeIcon} from 'vue-feather-icons'
+    import {UsersIcon, SettingsIcon, Trash2Icon, EyeIcon, FileTextIcon, CodeIcon, MailIcon, CreditCardIcon, HomeIcon, InboxIcon} from 'vue-feather-icons'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
     import PageHeader from '@/components/Others/PageHeader'
