@@ -262,6 +262,16 @@ const routesAdmin = [
                         },
                     },
                     {
+                        name: 'AppIntegration',
+                        path: '/admin/settings/integration',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/app-email" */ './views/Admin/AppSettings/AppSettingsTabs/Integration'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Integration'
+                        },
+                    },
+                    {
                         name: 'AppPayments',
                         path: '/admin/settings/payments',
                         component: () =>

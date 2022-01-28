@@ -66,6 +66,16 @@
                             {{ $t('admin_settings.tabs.email') }}
                         </div>
                     </router-link>
+
+                    <router-link replace :to="{name: 'AppIntegration'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <inbox-icon size="17"></inbox-icon>
+                        </div>
+                        <div class="label">
+                            Integration
+                        </div>
+                    </router-link>
                 </div>
 
                 <!--Router Content-->
@@ -91,6 +101,7 @@
             MailIcon,
             FileTextIcon,
             EyeIcon,
+            InboxIcon,
             UsersIcon,
             Trash2Icon,
             SettingsIcon,

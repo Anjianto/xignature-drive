@@ -97,6 +97,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -111,6 +121,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     MailIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["MailIcon"],
     FileTextIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["FileTextIcon"],
     EyeIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["EyeIcon"],
+    InboxIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["InboxIcon"],
     UsersIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["UsersIcon"],
     Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["Trash2Icon"],
     SettingsIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["SettingsIcon"],
@@ -352,6 +363,28 @@ var render = function () {
                         "\n                        " +
                           _vm._s(_vm.$t("admin_settings.tabs.email")) +
                           "\n                    "
+                      ),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "menu-list-item link",
+                    attrs: { replace: "", to: { name: "AppIntegration" } },
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "icon" },
+                      [_c("inbox-icon", { attrs: { size: "17" } })],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "label" }, [
+                      _vm._v(
+                        "\n                        Integration\n                    "
                       ),
                     ]),
                   ]
