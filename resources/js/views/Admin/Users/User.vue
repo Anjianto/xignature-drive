@@ -78,6 +78,16 @@
                             {{ $t('admin_page_user.tabs.delete') }}
                         </div>
                     </router-link>
+
+                    <router-link replace :to="{name: 'UserIntegration'}"
+                                 class="menu-list-item link">
+                        <div class="icon">
+                            <inbox-icon size="17"></inbox-icon>
+                        </div>
+                        <div class="label">
+                            Integration
+                        </div>
+                    </router-link>
                 </div>
 
                 <!--Router Content-->
@@ -91,7 +101,7 @@
 </template>
 
 <script>
-    import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon} from 'vue-feather-icons'
+    import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon, InboxIcon} from 'vue-feather-icons'
     import StorageItemDetail from '@/components/Others/StorageItemDetail'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import SectionTitle from '@/components/Others/SectionTitle'
@@ -106,6 +116,7 @@
         components: {
             CreditCardIcon,
             HardDriveIcon,
+            InboxIcon,
             StorageItemDetail,
             SectionTitle,
             FileTextIcon,

@@ -139,6 +139,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -153,6 +163,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     CreditCardIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["CreditCardIcon"],
     HardDriveIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["HardDriveIcon"],
+    InboxIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["InboxIcon"],
     StorageItemDetail: _components_Others_StorageItemDetail__WEBPACK_IMPORTED_MODULE_1__["default"],
     SectionTitle: _components_Others_SectionTitle__WEBPACK_IMPORTED_MODULE_3__["default"],
     FileTextIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["FileTextIcon"],
@@ -561,6 +572,28 @@ var render = function () {
                           ]
                         )
                       : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "menu-list-item link",
+                        attrs: { replace: "", to: { name: "UserIntegration" } },
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "icon" },
+                          [_c("inbox-icon", { attrs: { size: "17" } })],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "label" }, [
+                          _vm._v(
+                            "\n                        Integration\n                    "
+                          ),
+                        ]),
+                      ]
+                    ),
                   ],
                   1
                 ),

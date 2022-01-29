@@ -13,17 +13,9 @@
                 </InfoBox>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.driver') }}:</label>
+                    <label>Token :</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-
-                <div class="block-wrapper">
-                    <label>{{ $t('admin_settings.email.host') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="mail.driver" :placeholder="$t('Type Your token.')" type="text" :class="{'is-error': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -93,38 +85,7 @@
             }
         },
         methods: {
-            async EmailSetupSubmit() {
-
-                // Validate fields
-                const isValid = await this.$refs.EmailSetup.validate();
-
-                if (!isValid) return;
-
-                // Start loading
-                this.isSendingRequest = true
-
-                // Send request to get verify account
-                axios
-                    .post('/api/settings/email', this.mail)
-                    .then(() => {
-
-                        events.$emit('toaster', {
-                            type: 'success',
-                            message: this.$t('toaster.email_set'),
-                        })
-                    })
-                    .catch(() => {
-                        events.$emit('alert:open', {
-                            title: this.$t('popup_error.title'),
-                            message: this.$t('popup_error.message'),
-                        })
-                    })
-                    .finally(() => {
-
-                        // End loading
-                        this.isSendingRequest = false
-                    })
-            },
+            
         }
     }
 </script>

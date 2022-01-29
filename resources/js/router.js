@@ -167,6 +167,16 @@ const routesAdmin = [
                             title: 'routes_title.users_delete'
                         },
                     },
+                    {
+                        name: 'UserIntegration',
+                        path: '/admin/user/:id/integration',
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/user-delete" */ './views/Admin/Users/UserTabs/UserIntegration'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Integration User'
+                        },
+                    },
                 ]
             },
             {

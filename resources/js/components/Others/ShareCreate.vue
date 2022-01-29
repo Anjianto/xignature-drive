@@ -29,6 +29,13 @@
                         </ValidationProvider>
                     </TabOption>
 
+                    <!-- share xiganture -->
+                    <TabOption :title="$t('Xignature')" icon="link">
+                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
+                        </ValidationProvider>
+                    </TabOption>
+
                 </TabWrapper>
 
                 <!--Permision Select-->
@@ -101,7 +108,7 @@ import TabWrapper from '@/components/Others/TabWrapper'
 import TabOption from '@/components/Others/TabOption'
 import ButtonBase from '@/components/FilesView/ButtonBase'
 import InfoBox from '@/components/Others/Forms/InfoBox'
-import { LinkIcon, MailIcon } from 'vue-feather-icons'
+import { LinkIcon, MailIcon, Share2Icon } from 'vue-feather-icons'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '@/bus'
@@ -127,6 +134,7 @@ export default {
         ButtonBase,
         CopyInput,
         MailIcon,
+        Share2Icon,
         required,
         LinkIcon,
         InfoBox
