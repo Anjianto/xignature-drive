@@ -1320,7 +1320,7 @@ var render = function () {
     _c("img", {
       staticClass: "hero-light",
       attrs: {
-        src: "/assets/images/vuefilemanager-screenshot-light.png",
+        src: "/assets/images/xignature-screenshot-light.png",
         alt: _vm.config.app_name,
       },
     }),
@@ -1328,7 +1328,7 @@ var render = function () {
     _c("img", {
       staticClass: "hero-dark",
       attrs: {
-        src: "/assets/images/vuefilemanager-screenshot-dark.png",
+        src: "/assets/images/xignature-screenshot-dark.png",
         alt: _vm.config.app_name,
       },
     }),
@@ -1496,7 +1496,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "hero" }, [
       _c("img", {
-        attrs: { src: "/assets/images/hero-Illustration.svg", alt: "Hero" },
+        attrs: { src: "/assets/images/hero-Illustration.png", alt: "Hero" },
       }),
     ])
   },

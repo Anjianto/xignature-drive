@@ -8,7 +8,7 @@
         ></PageTitle>
         <div v-if="index.section_feature_boxes === '1'" class="content">
             <div class="hero">
-                <img src="/assets/images/hero-Illustration.svg" alt="Hero">
+                <img src="/assets/images/hero-Illustration.png" alt="Hero">
             </div>
             <div class="features">
                 <div class="feature">

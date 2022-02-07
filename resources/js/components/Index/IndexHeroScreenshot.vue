@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrapper large hero-screenshot">
-        <img class="hero-light" src="/assets/images/vuefilemanager-screenshot-light.png" :alt="config.app_name">
-        <img class="hero-dark" src="/assets/images/vuefilemanager-screenshot-dark.png" :alt="config.app_name">
+        <img class="hero-light" src="/assets/images/xignature-screenshot-light.png" :alt="config.app_name">
+        <img class="hero-dark" src="/assets/images/xignature-screenshot-dark.png" :alt="config.app_name">
 
         <div class="icons">
             <link-icon size="20" class="icon"></link-icon>
