@@ -589,7 +589,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".button[data-v-03fd7dc6] {\n  cursor: pointer;\n  border-radius: 8px;\n  text-decoration: none;\n  padding: 12px 32px;\n  display: inline-block;\n  margin-left: 15px;\n  margin-right: 15px;\n  white-space: nowrap;\n  transition: 150ms all ease;\n  background: transparent;\n}\n.button .text-label[data-v-03fd7dc6] {\n  transition: 150ms all ease;\n  font-size: 1.0625em;\n  font-weight: 800;\n  line-height: 0;\n}\n.button .icon[data-v-03fd7dc6] {\n  margin-left: 12px;\n  font-size: 1em;\n}\n.button.solid[data-v-03fd7dc6] {\n  background: #0667B3;\n  border: 2px solid #0667B3;\n}\n.button.solid .text-label[data-v-03fd7dc6] {\n  color: white;\n}\n.button.outline[data-v-03fd7dc6] {\n  border: 2px solid #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n  color: #1B2539;\n}\n.button.outline .icon path[data-v-03fd7dc6] {\n  fill: #0667B3;\n}\n.button.outline[data-v-03fd7dc6]:hover {\n  border-color: #0667B3;\n}\n.button.outline:hover .text-label[data-v-03fd7dc6] {\n  color: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button.outline[data-v-03fd7dc6] {\n    background: #131414;\n    border-color: #bec6cf;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n    color: #bec6cf;\n}\n}\n.sync-alt[data-v-03fd7dc6] {\n  -webkit-animation: spin-data-v-03fd7dc6 1s linear infinite;\n          animation: spin-data-v-03fd7dc6 1s linear infinite;\n}\n@-webkit-keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
+exports.push([module.i, ".button[data-v-03fd7dc6] {\n  cursor: pointer;\n  border-radius: 8px;\n  text-decoration: none;\n  padding: 12px 32px;\n  display: inline-block;\n  margin-left: 15px;\n  margin-right: 15px;\n  white-space: nowrap;\n  transition: 150ms all ease;\n  background: transparent;\n}\n.button .text-label[data-v-03fd7dc6] {\n  transition: 150ms all ease;\n  font-size: 1.0625em;\n  font-weight: 800;\n  line-height: 0;\n}\n.button .icon[data-v-03fd7dc6] {\n  margin-left: 12px;\n  font-size: 1em;\n}\n.button.solid[data-v-03fd7dc6] {\n  background: #0667B3;\n  border: 2px solid #0667B3;\n}\n.button.solid .text-label[data-v-03fd7dc6] {\n  color: white;\n}\n.button.outline[data-v-03fd7dc6] {\n  border: 2px solid #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n  color: #1B2539;\n}\n.button.outline .icon path[data-v-03fd7dc6] {\n  fill: #0667B3;\n}\n.button.outline[data-v-03fd7dc6]:hover {\n  border-color: #0667B3;\n}\n.button.outline:hover .text-label[data-v-03fd7dc6] {\n  color: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button.outline[data-v-03fd7dc6] {\n    background: #f4f5f6;\n    border-color: #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n    color: #1B2539;\n}\n}\n.sync-alt[data-v-03fd7dc6] {\n  -webkit-animation: spin-data-v-03fd7dc6 1s linear infinite;\n          animation: spin-data-v-03fd7dc6 1s linear infinite;\n}\n@-webkit-keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
 
 // exports
 
@@ -608,7 +608,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".plans-wrapper[data-v-217bfada] {\n  box-shadow: 0 7px 20px 5px rgba(26, 36, 55, 0.05);\n  border-radius: 8px;\n  background: white;\n}\n.plan[data-v-217bfada] {\n  text-align: center;\n  flex: 0 0 33%;\n  padding: 55px 25px 75px;\n}\n.plan[data-v-217bfada]:last-child {\n  border-right: none;\n}\n.plan .plan-header .icon path[data-v-217bfada], .plan .plan-header .icon line[data-v-217bfada], .plan .plan-header .icon polyline[data-v-217bfada], .plan .plan-header .icon rect[data-v-217bfada], .plan .plan-header .icon circle[data-v-217bfada] {\n  color: #0667B3;\n}\n.plan .plan-header .title[data-v-217bfada] {\n  font-size: 1.375em;\n  font-weight: 800;\n  padding-top: 10px;\n}\n.plan .plan-header .description[data-v-217bfada] {\n  font-size: 0.875em;\n  font-weight: 600;\n}\n.plan .plan-features[data-v-217bfada] {\n  margin: 55px 0;\n}\n.plan .plan-features .storage-size[data-v-217bfada] {\n  font-size: 3em;\n  font-weight: 900;\n  line-height: 1.1;\n}\n.plan .plan-features .storage-description[data-v-217bfada] {\n  display: block;\n  font-size: 0.9375em;\n  font-weight: 800;\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] {\n  width: 100%;\n  text-align: center;\n}\n.plan .plan-footer .price[data-v-217bfada] {\n  color: #0667B3;\n  font-size: 1.125em;\n  display: block;\n  padding-top: 5px;\n}\n.plan .plan-footer .price .vat-disclaimer[data-v-217bfada] {\n  font-size: 0.6875em;\n  color: #1B2539;\n  display: block;\n  font-weight: 300;\n  opacity: 0.45;\n  margin-top: 5px;\n}\n.plans-wrapper[data-v-217bfada] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n@media only screen and (max-width: 960px) {\n.plans-wrapper[data-v-217bfada] {\n    display: block;\n    margin: 0;\n}\n.plans-wrapper .plan[data-v-217bfada] {\n    padding: 30px 25px;\n    border-bottom: 1px solid #F7F7F7;\n    border-right: none;\n}\n}\n@media (prefers-color-scheme: dark) {\n.plans-wrapper[data-v-217bfada] {\n    background: #1e2024;\n}\n.plan[data-v-217bfada] {\n    border-color: rgba(255, 255, 255, 0.02) !important;\n}\n.plan .plan-wrapper[data-v-217bfada] {\n    background: #1e2024;\n}\n.plan .plan-header .title[data-v-217bfada] {\n    color: #bec6cf;\n}\n.plan .plan-header .description[data-v-217bfada] {\n    color: #7d858c;\n}\n.plan .plan-features .storage-size[data-v-217bfada] {\n    color: #bec6cf;\n}\n.plan .plan-features .storage-description[data-v-217bfada] {\n    color: #bec6cf;\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] {\n    background: rgba(6, 103, 179, 0.1);\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] .content {\n    color: #0667B3;\n}\n.plan .plan-footer .price .vat-disclaimer[data-v-217bfada] {\n    color: #bec6cf;\n}\n}\n", ""]);
+exports.push([module.i, ".plans-wrapper[data-v-217bfada] {\n  box-shadow: 0 7px 20px 5px rgba(26, 36, 55, 0.05);\n  border-radius: 8px;\n  background: white;\n}\n.plan[data-v-217bfada] {\n  text-align: center;\n  flex: 0 0 33%;\n  padding: 55px 25px 75px;\n}\n.plan[data-v-217bfada]:last-child {\n  border-right: none;\n}\n.plan .plan-header .icon path[data-v-217bfada], .plan .plan-header .icon line[data-v-217bfada], .plan .plan-header .icon polyline[data-v-217bfada], .plan .plan-header .icon rect[data-v-217bfada], .plan .plan-header .icon circle[data-v-217bfada] {\n  color: #0667B3;\n}\n.plan .plan-header .title[data-v-217bfada] {\n  font-size: 1.375em;\n  font-weight: 800;\n  padding-top: 10px;\n}\n.plan .plan-header .description[data-v-217bfada] {\n  font-size: 0.875em;\n  font-weight: 600;\n}\n.plan .plan-features[data-v-217bfada] {\n  margin: 55px 0;\n}\n.plan .plan-features .storage-size[data-v-217bfada] {\n  font-size: 3em;\n  font-weight: 900;\n  line-height: 1.1;\n}\n.plan .plan-features .storage-description[data-v-217bfada] {\n  display: block;\n  font-size: 0.9375em;\n  font-weight: 800;\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] {\n  width: 100%;\n  text-align: center;\n}\n.plan .plan-footer .price[data-v-217bfada] {\n  color: #0667B3;\n  font-size: 1.125em;\n  display: block;\n  padding-top: 5px;\n}\n.plan .plan-footer .price .vat-disclaimer[data-v-217bfada] {\n  font-size: 0.6875em;\n  color: #1B2539;\n  display: block;\n  font-weight: 300;\n  opacity: 0.45;\n  margin-top: 5px;\n}\n.plans-wrapper[data-v-217bfada] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n@media only screen and (max-width: 960px) {\n.plans-wrapper[data-v-217bfada] {\n    display: block;\n    margin: 0;\n}\n.plans-wrapper .plan[data-v-217bfada] {\n    padding: 30px 25px;\n    border-bottom: 1px solid #F7F7F7;\n    border-right: none;\n}\n}\n@media (prefers-color-scheme: dark) {\n.plans-wrapper[data-v-217bfada] {\n    background: #1e2024;\n}\n.plan[data-v-217bfada] {\n    border-color: rgba(255, 255, 255, 0.02) !important;\n}\n.plan .plan-wrapper[data-v-217bfada] {\n    background: #1e2024;\n}\n.plan .plan-header .title[data-v-217bfada] {\n    color: #1B2539;\n}\n.plan .plan-header .description[data-v-217bfada] {\n    color: #7d858c;\n}\n.plan .plan-features .storage-size[data-v-217bfada] {\n    color: #1B2539;\n}\n.plan .plan-features .storage-description[data-v-217bfada] {\n    color: #1B2539;\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] {\n    background: rgba(6, 103, 179, 0.1);\n}\n.plan .plan-footer .sign-in-button[data-v-217bfada] .content {\n    color: #0667B3;\n}\n.plan .plan-footer .price .vat-disclaimer[data-v-217bfada] {\n    color: #1B2539;\n}\n}\n", ""]);
 
 // exports
 
@@ -1328,7 +1328,7 @@ var render = function () {
     _c("img", {
       staticClass: "hero-dark",
       attrs: {
-        src: "/assets/images/xignature-screenshot-dark.png",
+        src: "/assets/images/xignature-screenshot-light.png",
         alt: _vm.config.app_name,
       },
     }),
@@ -1412,7 +1412,7 @@ var render = function () {
                 _c(
                   "div",
                   { staticClass: "icon" },
-                  [_c("cloud-icon", { attrs: { size: "24" } })],
+                  [_c("user-icon", { attrs: { size: "24" } })],
                   1
                 ),
                 _vm._v(" "),
@@ -1437,7 +1437,7 @@ var render = function () {
                 _c(
                   "div",
                   { staticClass: "icon" },
-                  [_c("user-icon", { attrs: { size: "24" } })],
+                  [_c("cloud-icon", { attrs: { size: "24" } })],
                   1
                 ),
                 _vm._v(" "),
@@ -1496,7 +1496,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "hero" }, [
       _c("img", {
-        attrs: { src: "/assets/images/hero-Illustration.png", alt: "Hero" },
+        attrs: {
+          src: "/assets/images/hero-Illustration.png",
+          alt: "Hero",
+          width: "600",
+        },
       }),
     ])
   },

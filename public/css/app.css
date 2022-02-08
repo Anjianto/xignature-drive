@@ -393,7 +393,7 @@
 
   .menu-list-wrapper.horizontal {
     border-bottom: 2px solid rgba(255, 255, 255, 0.02);
-    background: #131414;
+    background: #f4f5f6;
   }
 
   .menu-list-wrapper .menu-list-item.link .icon path,
@@ -402,11 +402,11 @@
   .menu-list-wrapper .menu-list-item.link .icon rect,
   .menu-list-wrapper .menu-list-item.link .icon circle,
   .menu-list-wrapper .menu-list-item.link .icon ellipse {
-    stroke: #bec6cf;
+    stroke: #1B2539;
   }
 
   .menu-list-wrapper .menu-list-item .label {
-    color: #bec6cf;
+    color: #1B2539;
   }
 
   .menu-list-wrapper .menu-list-item .icon path,
@@ -415,7 +415,7 @@
   .menu-list-wrapper .menu-list-item .icon rect,
   .menu-list-wrapper .menu-list-item .icon circle,
   .menu-list-wrapper .menu-list-item .icon ellipse {
-    stroke: #bec6cf;
+    stroke: #1B2539;
   }
 
   .menu-list-wrapper .menu-list-item:hover {
@@ -439,7 +439,7 @@
   .table .action-icons .icon path,
   .table .action-icons .icon line,
   .table .action-icons .icon polyline {
-    stroke: #bec6cf;
+    stroke: #1B2539;
   }
 }
 
@@ -469,7 +469,7 @@
 
 @media (prefers-color-scheme: dark) {
   .windows ::-webkit-scrollbar-thumb {
-    border: 6px solid #131414;
+    border: 6px solid #f4f5f6;
     background: #1e2024 !important;
   }
 }

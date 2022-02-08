@@ -76,7 +76,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".list-info-item[data-v-1b4acf50] {\n  display: block;\n  padding-bottom: 20px;\n}\n.list-info-item .action-button[data-v-1b4acf50] {\n  cursor: pointer;\n}\n.list-info-item .action-button .edit-icon[data-v-1b4acf50] {\n  display: inline-block;\n  margin-left: 3px;\n}\n.list-info-item b[data-v-1b4acf50] {\n  display: block;\n  font-size: 0.8125em;\n  color: #0667B3;\n  margin-bottom: 2px;\n}\n.list-info-item span[data-v-1b4acf50] {\n  display: inline-block;\n  font-size: 0.875em;\n  font-weight: bold;\n  color: #1B2539;\n}\n@media (prefers-color-scheme: dark) {\n.list-info-item span[data-v-1b4acf50] {\n    color: #bec6cf;\n}\n.list-info-item .action-button .icon[data-v-1b4acf50] {\n    color: #bec6cf;\n}\n}\n", ""]);
+exports.push([module.i, ".list-info-item[data-v-1b4acf50] {\n  display: block;\n  padding-bottom: 20px;\n}\n.list-info-item .action-button[data-v-1b4acf50] {\n  cursor: pointer;\n}\n.list-info-item .action-button .edit-icon[data-v-1b4acf50] {\n  display: inline-block;\n  margin-left: 3px;\n}\n.list-info-item b[data-v-1b4acf50] {\n  display: block;\n  font-size: 0.8125em;\n  color: #0667B3;\n  margin-bottom: 2px;\n}\n.list-info-item span[data-v-1b4acf50] {\n  display: inline-block;\n  font-size: 0.875em;\n  font-weight: bold;\n  color: #1B2539;\n}\n@media (prefers-color-scheme: dark) {\n.list-info-item span[data-v-1b4acf50] {\n    color: #1B2539;\n}\n.list-info-item .action-button .icon[data-v-1b4acf50] {\n    color: #1B2539;\n}\n}\n", ""]);
 
 // exports
 

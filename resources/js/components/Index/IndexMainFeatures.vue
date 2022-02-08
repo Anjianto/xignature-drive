@@ -8,12 +8,12 @@
         ></PageTitle>
         <div v-if="index.section_feature_boxes === '1'" class="content">
             <div class="hero">
-                <img src="/assets/images/hero-Illustration.png" alt="Hero">
+                <img src="/assets/images/hero-Illustration.png" alt="Hero" width="600">
             </div>
             <div class="features">
                 <div class="feature">
                     <div class="icon">
-                        <cloud-icon size="24"></cloud-icon>
+                        <user-icon size="24"></user-icon>
                     </div>
                     <h3 class="title">
                         {{ index.feature_title_1 }}
@@ -24,7 +24,7 @@
                 </div>
                 <div class="feature">
                     <div class="icon">
-                        <user-icon size="24"></user-icon>
+                        <cloud-icon size="24"></cloud-icon>
                     </div>
                     <h3 class="title">
                         {{ index.feature_title_2 }}
