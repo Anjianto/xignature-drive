@@ -15,7 +15,7 @@
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
     <meta property="og:description" content="{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
-    <meta property="og:image" content="{{ asset('assets/images/vuefilemanager-og-image.jpg') }}">
+    <meta property="og:image" content="{{ asset('assets/images/xignature-screenshot-light.png') }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
