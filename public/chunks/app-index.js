@@ -601,7 +601,7 @@ var render = function () {
                       _c("img", {
                         staticClass: "page-image",
                         attrs: {
-                          src: "/assets/images/admin/main-header.jpg",
+                          src: "/assets/images/admin/main-header-xignature.png",
                           alt: "Main Header",
                         },
                       }),
@@ -817,7 +817,7 @@ var render = function () {
                             _c("img", {
                               staticClass: "page-image",
                               attrs: {
-                                src: "/assets/images/admin/main-features.jpg",
+                                src: "/assets/images/admin/main-features-xignature.png",
                                 alt: "Main Features",
                               },
                             }),
@@ -1049,7 +1049,7 @@ var render = function () {
                             _c("img", {
                               staticClass: "page-image",
                               attrs: {
-                                src: "/assets/images/admin/feature-boxes.jpg",
+                                src: "/assets/images/admin/feature-boxes-xignature.png",
                                 alt: "Main Features",
                               },
                             }),
@@ -1857,7 +1857,7 @@ var render = function () {
                             _c("img", {
                               staticClass: "page-image",
                               attrs: {
-                                src: "/assets/images/admin/get-started-content.jpg",
+                                src: "/assets/images/admin/get-started-content-xignature.png",
                                 alt: "Main Features",
                               },
                             }),

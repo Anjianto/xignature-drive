@@ -27,7 +27,7 @@
                     <FormLabel>Header Title</FormLabel>
 
                     <div class="block-wrapper">
-                        <img src="/assets/images/admin/main-header.jpg" alt="Main Header" class="page-image">
+                        <img src="/assets/images/admin/main-header-xignature.png" alt="Main Header" class="page-image">
                     </div>
 
                     <div class="block-wrapper">
@@ -67,7 +67,7 @@
 
                     <div v-if="app.section_features">
                         <div class="block-wrapper">
-                            <img src="/assets/images/admin/main-features.jpg" alt="Main Features" class="page-image">
+                            <img src="/assets/images/admin/main-features-xignature.png" alt="Main Features" class="page-image">
                         </div>
 
                         <div class="block-wrapper">
@@ -107,7 +107,7 @@
 
                     <div v-if="app.section_feature_boxes">
                         <div class="block-wrapper">
-                            <img src="/assets/images/admin/feature-boxes.jpg" alt="Main Features" class="page-image">
+                            <img src="/assets/images/admin/feature-boxes-xignature.png" alt="Main Features" class="page-image">
                         </div>
                         <div class="block-wrapper">
                             <label>First Box Title:</label>
@@ -213,7 +213,7 @@
 
                     <div v-if="app.section_get_started">
                         <div class="block-wrapper">
-                            <img src="/assets/images/admin/get-started-content.jpg" alt="Main Features" class="page-image">
+                            <img src="/assets/images/admin/get-started-content-xignature.png" alt="Main Features" class="page-image">
                         </div>
                         <div class="block-wrapper">
                             <label>Title:</label>
