@@ -9,7 +9,7 @@
                         <img :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name" width="200px" class="light-mode">
                     </router-link>
                 </div>
-                <div class="metadata">
+                <!-- <div class="metadata">
                     <a href="https://vuefilemanager.com/changelog" target="_blank" class="meta">
                         <span class="meta-title">{{ $t('admin_page_dashboard.version') }}:</span>
                         <ColorLabel color="purple">
@@ -30,7 +30,7 @@
                             {{ $t('admin_page_dashboard.backer_button') }}
                         </span>
                     </a>
-                </div>
+                </div> -->
             </div>
 
             <!--Stripe notice-->

@@ -12,7 +12,7 @@
             <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
                     <p>If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where
-                        you can host your files <a href="https://vuefilemanager.com/docs/guide/storage.html#introduction" target="_blank">visit our guide</a>.</p>
+                        you can host your files .</p>
                 </InfoBox>
 
                 <FormLabel>Storage Setup</FormLabel>

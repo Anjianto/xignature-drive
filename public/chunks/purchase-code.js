@@ -333,39 +333,6 @@ var render = function () {
               },
             ]),
           }),
-          _vm._v(" "),
-          _c("p", { staticClass: "additional-link" }, [
-            _c(
-              "a",
-              {
-                attrs: {
-                  href: "https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-",
-                  target: "_blank",
-                },
-              },
-              [
-                _vm._v(
-                  "\n                Where I can find purchase code?\n            "
-                ),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "black-link",
-                attrs: {
-                  href: "https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986",
-                  target: "_blank",
-                },
-              },
-              [
-                _vm._v(
-                  "\n                Don’t have purchase code?\n            "
-                ),
-              ]
-            ),
-          ]),
         ],
         1
       ),

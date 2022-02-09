@@ -713,19 +713,8 @@ var render = function () {
                         ),
                         _c("b", [_vm._v("'Local Driver'")]),
                         _vm._v(
-                          ". For more info, where\n                    you can host your files "
+                          ". For more info, where\n                    you can host your files ."
                         ),
-                        _c(
-                          "a",
-                          {
-                            attrs: {
-                              href: "https://vuefilemanager.com/docs/guide/storage.html#introduction",
-                              target: "_blank",
-                            },
-                          },
-                          [_vm._v("visit our guide")]
-                        ),
-                        _vm._v("."),
                       ]),
                     ]),
                     _vm._v(" "),

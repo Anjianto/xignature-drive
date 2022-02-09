@@ -18,14 +18,14 @@
                 <AuthButton icon="chevron-right" text="Verify" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <p class="additional-link">
+            <!-- <p class="additional-link">
                 <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">
                     Where I can find purchase code?
                 </a>
                 <a class="black-link" href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank">
                     Don’t have purchase code?
                 </a>
-            </p>
+            </p> -->
         </AuthContent>
     </AuthContentWrapper>
 </template>

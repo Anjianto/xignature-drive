@@ -13,7 +13,7 @@
                                 class="form block-form">
                 <FormLabel>Set your License</FormLabel>
 
-                <div class="block-wrapper">
+                <!-- <div class="block-wrapper">
                     <label>Purchase Code:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Purchase code" rules="required" v-slot="{ errors }">
                         <input v-model="app.purchase_code" placeholder="Paste your purchase code" type="text" :class="{'is-error': errors[0]}"/>
@@ -22,7 +22,7 @@
                         </a>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
-                </div>
+                </div> -->
 
                 <FormLabel class="mt-70">General Settings</FormLabel>
 
