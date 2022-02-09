@@ -22,11 +22,11 @@
                             :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
+            <!-- <span v-if="config.userRegistration" class="additional-link">{{ $t('page_login.registration_text') }}
                 <router-link :to="{name: 'SignUp'}">
                     {{ $t('page_login.registration_button') }}
                 </router-link>
-            </span>
+            </span> -->
         </AuthContent>
 
         <!--Log in By Password-->

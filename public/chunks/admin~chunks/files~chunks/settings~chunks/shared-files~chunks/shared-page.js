@@ -152,7 +152,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".content-sidebar[data-v-ce09ddfe] {\n  background: rgba(244, 245, 246, 0.6);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  padding-top: 25px;\n  overflow-y: auto;\n  flex: 0 0 225px;\n}\n@media only screen and (max-width: 1024px) {\n.content-sidebar[data-v-ce09ddfe] {\n    flex: 0 0 205px;\n}\n}\n@media only screen and (max-width: 690px) {\n.content-sidebar[data-v-ce09ddfe] {\n    display: none;\n}\n}\n@media (prefers-color-scheme: dark) {\n.content-sidebar[data-v-ce09ddfe] {\n    background: rgba(30, 32, 36, 0.2);\n}\n}\n", ""]);
+exports.push([module.i, ".content-sidebar[data-v-ce09ddfe] {\n  background: rgba(244, 245, 246, 0.6);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  padding-top: 25px;\n  overflow-y: auto;\n  flex: 0 0 225px;\n}\n@media only screen and (max-width: 1024px) {\n.content-sidebar[data-v-ce09ddfe] {\n    flex: 0 0 205px;\n}\n}\n@media only screen and (max-width: 690px) {\n.content-sidebar[data-v-ce09ddfe] {\n    display: none;\n}\n}\n@media (prefers-color-scheme: dark) {\n.content-sidebar[data-v-ce09ddfe] {\n    background: rgba(244, 245, 246, 0.2);\n}\n}\n", ""]);
 
 // exports
 

@@ -19,15 +19,15 @@
             </ul>
             <ul class="navigation-links">
                 <li>
-                    <router-link :to="{name: 'SignIn'}">
+                    <router-link class="cta-button" :to="{name: 'SignIn'}">
                         {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
-                <li v-if="config.userRegistration">
+                <!-- <li v-if="config.userRegistration">
                     <router-link class="cta-button" :to="{name: 'SignUp'}">
                         {{ $t('page_index.menu.sign_in') }}
                     </router-link>
-                </li>
+                </li> -->
             </ul>
         </div>
         <router-link class="cta-button log-in" :to="{name: 'SignIn'}">

@@ -470,7 +470,7 @@
 @media (prefers-color-scheme: dark) {
   .windows ::-webkit-scrollbar-thumb {
     border: 6px solid #f4f5f6;
-    background: #1e2024 !important;
+    background: #f4f5f6 !important;
   }
 }
 

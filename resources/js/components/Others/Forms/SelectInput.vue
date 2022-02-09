@@ -175,7 +175,7 @@ export default {
     border-color: transparent;
     justify-content: space-between;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-    //background: $light_mode_input_background;
+    background: $light_mode_input_background;
     @include transition(150ms);
     align-items: center;
     border-radius: 8px;

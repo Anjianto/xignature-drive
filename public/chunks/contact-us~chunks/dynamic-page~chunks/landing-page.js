@@ -386,39 +386,23 @@ var render = function () {
           _c(
             "li",
             [
-              _c("router-link", { attrs: { to: { name: "SignIn" } } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.$t("page_index.menu.log_in")) +
-                    "\n                "
-                ),
-              ]),
+              _c(
+                "router-link",
+                {
+                  staticClass: "cta-button",
+                  attrs: { to: { name: "SignIn" } },
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.$t("page_index.menu.log_in")) +
+                      "\n                "
+                  ),
+                ]
+              ),
             ],
             1
           ),
-          _vm._v(" "),
-          _vm.config.userRegistration
-            ? _c(
-                "li",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "cta-button",
-                      attrs: { to: { name: "SignUp" } },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.$t("page_index.menu.sign_in")) +
-                          "\n                "
-                      ),
-                    ]
-                  ),
-                ],
-                1
-              )
-            : _vm._e(),
         ]),
       ]),
       _vm._v(" "),
