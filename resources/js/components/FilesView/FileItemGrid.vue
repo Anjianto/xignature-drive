@@ -15,7 +15,7 @@
                     </div>
                 </div>               
 
-                <div id="pdf-wrapper" style="height: 300px;">
+                <div id="pdf-wrapper">
                     <pdf src="/assets/sample.pdf" :page="1" scale="page-width" style="width:100%;">
                         <template slot="loading">
                             loading content here...
@@ -327,12 +327,10 @@ export default {
     overflow-x: hidden;
     margin: 0 auto;
     // position: relati;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    width: 600px;   
+    display: flex !important;
+    justify-content: center !important;
+    width: 800px;
+    height: 600px;
 }
 
 .check-select {
