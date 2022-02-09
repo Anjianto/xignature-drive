@@ -325,11 +325,12 @@ export default {
 
 #pdf-wrapper {
     overflow-x: hidden;
+    overflow-y: hidden;
     margin: 0 auto;
     // position: relati;
-    display: flex !important;
+    display: inline !important;
     justify-content: center !important;
-    width: 800px;
+    width: 600px;
     height: 600px;
 }
 
