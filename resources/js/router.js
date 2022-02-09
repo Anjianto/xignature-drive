@@ -440,6 +440,16 @@ const routesUser = [
                 },
             },
             {
+                name: 'Integration',
+                path: '/settings/integration',
+                component: () =>
+                    import(/* webpackChunkName: "chunks/settings-password" */ './views/User/Integration'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'Integration'
+                },
+            },
+            {
                 name: 'Storage',
                 path: '/settings/storage',
                 component: () =>

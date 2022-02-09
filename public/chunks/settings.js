@@ -282,6 +282,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -310,7 +319,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     UserIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_10__["UserIcon"],
     LockIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_10__["LockIcon"],
     Spinner: _components_FilesView_Spinner__WEBPACK_IMPORTED_MODULE_8__["default"],
-    InfoBox: _components_Others_Forms_InfoBox__WEBPACK_IMPORTED_MODULE_5__["default"]
+    InfoBox: _components_Others_Forms_InfoBox__WEBPACK_IMPORTED_MODULE_5__["default"],
+    InboxIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_10__["InboxIcon"]
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_9__["mapGetters"])(['user', 'config'])), {}, {
     subscriptionStatus: function subscriptionStatus() {
@@ -760,6 +770,28 @@ var render = function () {
                           "\n                        " +
                             _vm._s(_vm.$t("menu.password")) +
                             "\n                    "
+                        ),
+                      ]),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "menu-list-item link",
+                      attrs: { replace: "", to: { name: "Integration" } },
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "icon" },
+                        [_c("inbox-icon", { attrs: { size: "17" } })],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "label" }, [
+                        _vm._v(
+                          "\n                       Integration\n                    "
                         ),
                       ]),
                     ]
