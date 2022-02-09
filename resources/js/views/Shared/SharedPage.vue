@@ -1,5 +1,6 @@
 <template>
     <div id="shared">
+        <Navigation class="page-wrapper medium" />
         <!-- File Preview -->
         <FileFullPreview />
 
@@ -123,6 +124,7 @@
     import MobileMultiSelectMenu from '@/components/FilesView/MobileMultiSelectMenu'
     import DesktopSortingAndPreview from '@/components/FilesView/DesktopSortingAndPreview'
     import ProcessingPopup from '@/components/FilesView/ProcessingPopup'
+    import Navigation from '@/components/Index/ShareNavigation'
     import TreeMenuNavigator from '@/components/Others/TreeMenuNavigator'
     import FileFullPreview from '@/components/FilesView/FileFullPreview'
     import DesktopToolbar from '@/components/FilesView/DesktopToolbar'
@@ -173,6 +175,7 @@
             MobileMenu,
             ButtonBase,
             RenameItem,
+            Navigation,
             HomeIcon,
             MoveItem,
             required,
