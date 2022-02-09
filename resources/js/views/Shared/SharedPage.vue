@@ -1,6 +1,5 @@
 <template>
     <div id="shared">
-        <Navigation class="page-wrapper medium" />
         <!-- File Preview -->
         <FileFullPreview />
 

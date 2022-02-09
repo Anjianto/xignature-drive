@@ -298,7 +298,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -832,8 +831,6 @@ var render = function () {
     "div",
     { attrs: { id: "shared" } },
     [
-      _c("Navigation", { staticClass: "page-wrapper medium" }),
-      _vm._v(" "),
       _c("FileFullPreview"),
       _vm._v(" "),
       _vm.isPageLoading ? _c("Spinner") : _vm._e(),

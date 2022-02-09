@@ -292,7 +292,8 @@ export default {
             }
         },
         shareXignature() {
-            events.$emit('popup:open', { name: 'share-create', item: this.item })
+            // window.location.href = ;    
+            window.open('/pdfViewer.html', '_blank');
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites

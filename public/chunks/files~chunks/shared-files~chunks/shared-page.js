@@ -350,10 +350,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     shareXignature: function shareXignature() {
-      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
-        name: 'share-create',
-        item: this.item
-      });
+      // window.location.href = ;    
+      window.open('/pdfViewer.html', '_blank');
     },
     addToFavourites: function addToFavourites() {
       var _this2 = this;
@@ -1323,15 +1321,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3023,7 +3012,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "#pdf-wrapper[data-v-2085e75a] {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  margin: 0 auto;\n  display: inline !important;\n  justify-content: center !important;\n  width: 600px;\n  height: 600px;\n}\n.check-select[data-v-2085e75a] {\n  margin-right: 10px;\n  margin-left: 3px;\n  position: absolute;\n  top: -10px;\n  z-index: 5;\n  left: 0px;\n}\n.check-select-folder[data-v-2085e75a] {\n  margin-right: 10px;\n  margin-left: 3px;\n  position: absolute;\n  top: 8px;\n  z-index: 5;\n  left: 10px;\n}\n.select-box[data-v-2085e75a] {\n  width: 20px;\n  height: 20px;\n  background-color: #f4f5f6;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px 2px rgba(26, 36, 55, 0.05);\n}\n.select-box-active[data-v-2085e75a] {\n  background-color: #0667B3;\n}\n.select-box-active .icon[data-v-2085e75a] {\n  stroke: white;\n}\n.show-actions[data-v-2085e75a] {\n  cursor: pointer;\n  padding: 4px 26px;\n}\n.show-actions .icon-action[data-v-2085e75a] {\n  font-size: 0.75em;\n}\n.show-actions path[data-v-2085e75a] {\n  fill: #0667B3;\n}\n.file-wrapper[data-v-2085e75a] {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative;\n  text-align: center;\n  display: inline-block;\n  vertical-align: text-top;\n  width: 100%;\n}\n.file-wrapper .item-name[data-v-2085e75a] {\n  display: block;\n  padding-left: 10px;\n  padding-right: 10px;\n  line-height: 20px;\n}\n.file-wrapper .item-name .item-size[data-v-2085e75a],\n.file-wrapper .item-name .item-length[data-v-2085e75a] {\n  font-size: 0.6875em;\n  font-weight: 400;\n  color: rgba(27, 37, 57, 0.7);\n  display: inline-block;\n}\n.file-wrapper .item-name .item-info[data-v-2085e75a] {\n  display: block;\n  line-height: 1;\n}\n.file-wrapper .item-name .item-shared[data-v-2085e75a] {\n  display: inline-block;\n}\n.file-wrapper .item-name .item-shared .label[data-v-2085e75a] {\n  font-size: 0.75em;\n  font-weight: 400;\n  color: #0667B3;\n}\n.file-wrapper .item-name .item-shared .shared-icon[data-v-2085e75a] {\n  vertical-align: middle;\n}\n.file-wrapper .item-name .item-shared .shared-icon path[data-v-2085e75a], .file-wrapper .item-name .item-shared .shared-icon circle[data-v-2085e75a], .file-wrapper .item-name .item-shared .shared-icon line[data-v-2085e75a] {\n  stroke: #0667B3;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n  color: #1B2539;\n  font-size: 0.875em;\n  font-weight: 700;\n  max-height: 40px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.file-wrapper .item-name .name[contenteditable][data-v-2085e75a] {\n  -webkit-user-select: text;\n  -moz-user-select: text;\n   -ms-user-select: text;\n       user-select: text;\n}\n.file-wrapper .item-name .name[contenteditable='true'][data-v-2085e75a]:hover {\n  text-decoration: underline;\n}\n.file-wrapper .item-name .name.actived[data-v-2085e75a] {\n  max-height: initial;\n}\n.file-wrapper.selected .file-item[data-v-2085e75a] {\n  background: #f4f5f6;\n}\n.file-wrapper .file-item[data-v-2085e75a] {\n  border: 2px dashed transparent;\n  width: 165px;\n  margin: 0 auto;\n  cursor: pointer;\n  position: relative;\n  padding: 15px 0;\n}\n.file-wrapper .file-item.is-dragenter[data-v-2085e75a] {\n  border: 2px dashed #0667B3;\n  border-radius: 8px;\n}\n.file-wrapper .file-item.no-clicked[data-v-2085e75a] {\n  background: white !important;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2085e75a] {\n  color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2085e75a]:hover, .file-wrapper .file-item.is-clicked[data-v-2085e75a] {\n  border-radius: 8px;\n  background: #f4f5f6;\n}\n.file-wrapper .icon-item[data-v-2085e75a] {\n  text-align: center;\n  position: relative;\n  height: 110px;\n  margin-bottom: 20px;\n  display: flex;\n  align-items: center;\n}\n.file-wrapper .icon-item .file-link[data-v-2085e75a] {\n  display: block;\n}\n.file-wrapper .icon-item .file-icon[data-v-2085e75a] {\n  font-size: 6.25em;\n  margin: 0 auto;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2085e75a] {\n  fill: #fafafc;\n  stroke: #dfe0e8;\n  stroke-width: 1;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2085e75a] {\n  margin: 5px auto 0;\n  position: absolute;\n  text-align: center;\n  left: 0;\n  right: 0;\n  color: #0667B3;\n  font-size: 0.75em;\n  font-weight: 600;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 65px;\n  max-height: 20px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .icon-item .image[data-v-2085e75a] {\n  max-width: 95%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  height: 110px;\n  border-radius: 5px;\n  margin: 0 auto;\n  pointer-events: none;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] {\n  width: 80px;\n  height: 80px;\n  margin: auto;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] .folder-icon {\n  font-size: 5em;\n}\n@media only screen and (max-width: 960px) {\n.file-wrapper .icon-item[data-v-2085e75a] {\n    margin-bottom: 15px;\n}\n}\n@media only screen and (max-width: 690px) {\n.file-wrapper .file-item[data-v-2085e75a] {\n    width: 120px;\n}\n.file-wrapper .icon-item[data-v-2085e75a] {\n    margin-bottom: 10px;\n    height: 90px;\n}\n.file-wrapper .icon-item .file-icon[data-v-2085e75a] {\n    font-size: 4.6875em;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2085e75a] {\n    font-size: 0.75em;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] {\n    width: 75px;\n    height: 75px;\n    margin-top: 0;\n    margin-bottom: 0;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] .folder-icon {\n    font-size: 4.6875em;\n}\n.file-wrapper .icon-item .image[data-v-2085e75a] {\n    width: 90px;\n    height: 90px;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n    font-size: 0.8125em;\n    line-height: .9;\n    max-height: 30px;\n}\n}\n@media (prefers-color-scheme: dark) {\n.select-box[data-v-2085e75a] {\n    background-color: white;\n}\n.select-box-active[data-v-2085e75a] {\n    background-color: #0775cc;\n}\n.select-box-active .icon[data-v-2085e75a] {\n    stroke: white;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6;\n    stroke: #2F3C54;\n}\n.file-wrapper .file-item.no-clicked[data-v-2085e75a] {\n    background: #f4f5f6 !important;\n}\n.file-wrapper .file-item.no-clicked .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6 !important;\n    stroke: #2F3C54;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2085e75a] {\n    color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2085e75a]:hover, .file-wrapper .file-item.is-clicked[data-v-2085e75a] {\n    background: #f4f5f6;\n}\n.file-wrapper .file-item:hover .file-icon path[data-v-2085e75a], .file-wrapper .file-item.is-clicked .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n    color: #1B2539;\n}\n.file-wrapper .item-name .item-size[data-v-2085e75a],\n  .file-wrapper .item-name .item-length[data-v-2085e75a] {\n    color: #7d858c;\n}\n}\n", ""]);
+exports.push([module.i, ".check-select[data-v-2085e75a] {\n  margin-right: 10px;\n  margin-left: 3px;\n  position: absolute;\n  top: -10px;\n  z-index: 5;\n  left: 0px;\n}\n.check-select-folder[data-v-2085e75a] {\n  margin-right: 10px;\n  margin-left: 3px;\n  position: absolute;\n  top: 8px;\n  z-index: 5;\n  left: 10px;\n}\n.select-box[data-v-2085e75a] {\n  width: 20px;\n  height: 20px;\n  background-color: #f4f5f6;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px 2px rgba(26, 36, 55, 0.05);\n}\n.select-box-active[data-v-2085e75a] {\n  background-color: #0667B3;\n}\n.select-box-active .icon[data-v-2085e75a] {\n  stroke: white;\n}\n.show-actions[data-v-2085e75a] {\n  cursor: pointer;\n  padding: 4px 26px;\n}\n.show-actions .icon-action[data-v-2085e75a] {\n  font-size: 0.75em;\n}\n.show-actions path[data-v-2085e75a] {\n  fill: #0667B3;\n}\n.file-wrapper[data-v-2085e75a] {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative;\n  text-align: center;\n  display: inline-block;\n  vertical-align: text-top;\n  width: 100%;\n}\n.file-wrapper .item-name[data-v-2085e75a] {\n  display: block;\n  padding-left: 10px;\n  padding-right: 10px;\n  line-height: 20px;\n}\n.file-wrapper .item-name .item-size[data-v-2085e75a],\n.file-wrapper .item-name .item-length[data-v-2085e75a] {\n  font-size: 0.6875em;\n  font-weight: 400;\n  color: rgba(27, 37, 57, 0.7);\n  display: inline-block;\n}\n.file-wrapper .item-name .item-info[data-v-2085e75a] {\n  display: block;\n  line-height: 1;\n}\n.file-wrapper .item-name .item-shared[data-v-2085e75a] {\n  display: inline-block;\n}\n.file-wrapper .item-name .item-shared .label[data-v-2085e75a] {\n  font-size: 0.75em;\n  font-weight: 400;\n  color: #0667B3;\n}\n.file-wrapper .item-name .item-shared .shared-icon[data-v-2085e75a] {\n  vertical-align: middle;\n}\n.file-wrapper .item-name .item-shared .shared-icon path[data-v-2085e75a], .file-wrapper .item-name .item-shared .shared-icon circle[data-v-2085e75a], .file-wrapper .item-name .item-shared .shared-icon line[data-v-2085e75a] {\n  stroke: #0667B3;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n  color: #1B2539;\n  font-size: 0.875em;\n  font-weight: 700;\n  max-height: 40px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.file-wrapper .item-name .name[contenteditable][data-v-2085e75a] {\n  -webkit-user-select: text;\n  -moz-user-select: text;\n   -ms-user-select: text;\n       user-select: text;\n}\n.file-wrapper .item-name .name[contenteditable='true'][data-v-2085e75a]:hover {\n  text-decoration: underline;\n}\n.file-wrapper .item-name .name.actived[data-v-2085e75a] {\n  max-height: initial;\n}\n.file-wrapper.selected .file-item[data-v-2085e75a] {\n  background: #f4f5f6;\n}\n.file-wrapper .file-item[data-v-2085e75a] {\n  border: 2px dashed transparent;\n  width: 165px;\n  margin: 0 auto;\n  cursor: pointer;\n  position: relative;\n  padding: 15px 0;\n}\n.file-wrapper .file-item.is-dragenter[data-v-2085e75a] {\n  border: 2px dashed #0667B3;\n  border-radius: 8px;\n}\n.file-wrapper .file-item.no-clicked[data-v-2085e75a] {\n  background: white !important;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2085e75a] {\n  color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2085e75a]:hover, .file-wrapper .file-item.is-clicked[data-v-2085e75a] {\n  border-radius: 8px;\n  background: #f4f5f6;\n}\n.file-wrapper .icon-item[data-v-2085e75a] {\n  text-align: center;\n  position: relative;\n  height: 110px;\n  margin-bottom: 20px;\n  display: flex;\n  align-items: center;\n}\n.file-wrapper .icon-item .file-link[data-v-2085e75a] {\n  display: block;\n}\n.file-wrapper .icon-item .file-icon[data-v-2085e75a] {\n  font-size: 6.25em;\n  margin: 0 auto;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2085e75a] {\n  fill: #fafafc;\n  stroke: #dfe0e8;\n  stroke-width: 1;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2085e75a] {\n  margin: 5px auto 0;\n  position: absolute;\n  text-align: center;\n  left: 0;\n  right: 0;\n  color: #0667B3;\n  font-size: 0.75em;\n  font-weight: 600;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 65px;\n  max-height: 20px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .icon-item .image[data-v-2085e75a] {\n  max-width: 95%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  height: 110px;\n  border-radius: 5px;\n  margin: 0 auto;\n  pointer-events: none;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] {\n  width: 80px;\n  height: 80px;\n  margin: auto;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] .folder-icon {\n  font-size: 5em;\n}\n@media only screen and (max-width: 960px) {\n.file-wrapper .icon-item[data-v-2085e75a] {\n    margin-bottom: 15px;\n}\n}\n@media only screen and (max-width: 690px) {\n.file-wrapper .file-item[data-v-2085e75a] {\n    width: 120px;\n}\n.file-wrapper .icon-item[data-v-2085e75a] {\n    margin-bottom: 10px;\n    height: 90px;\n}\n.file-wrapper .icon-item .file-icon[data-v-2085e75a] {\n    font-size: 4.6875em;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2085e75a] {\n    font-size: 0.75em;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] {\n    width: 75px;\n    height: 75px;\n    margin-top: 0;\n    margin-bottom: 0;\n}\n.file-wrapper .icon-item .folder[data-v-2085e75a] .folder-icon {\n    font-size: 4.6875em;\n}\n.file-wrapper .icon-item .image[data-v-2085e75a] {\n    width: 90px;\n    height: 90px;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n    font-size: 0.8125em;\n    line-height: .9;\n    max-height: 30px;\n}\n}\n@media (prefers-color-scheme: dark) {\n.select-box[data-v-2085e75a] {\n    background-color: white;\n}\n.select-box-active[data-v-2085e75a] {\n    background-color: #0775cc;\n}\n.select-box-active .icon[data-v-2085e75a] {\n    stroke: white;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6;\n    stroke: #2F3C54;\n}\n.file-wrapper .file-item.no-clicked[data-v-2085e75a] {\n    background: #f4f5f6 !important;\n}\n.file-wrapper .file-item.no-clicked .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6 !important;\n    stroke: #2F3C54;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2085e75a] {\n    color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2085e75a]:hover, .file-wrapper .file-item.is-clicked[data-v-2085e75a] {\n    background: #f4f5f6;\n}\n.file-wrapper .file-item:hover .file-icon path[data-v-2085e75a], .file-wrapper .file-item.is-clicked .file-icon path[data-v-2085e75a] {\n    fill: #f4f5f6;\n}\n.file-wrapper .item-name .name[data-v-2085e75a] {\n    color: #1B2539;\n}\n.file-wrapper .item-name .item-size[data-v-2085e75a],\n  .file-wrapper .item-name .item-length[data-v-2085e75a] {\n    color: #7d858c;\n}\n}\n", ""]);
 
 // exports
 
@@ -5892,14 +5881,6 @@ var render = function () {
       },
     },
     [
-      _c("img", {
-        attrs: {
-          src: "/assets/images/logo-xignaturedrive.png",
-          alt: "",
-          width: "200px",
-        },
-      }),
-      _vm._v(" "),
       _c(
         "div",
         {
@@ -5959,33 +5940,6 @@ var render = function () {
                     ]
                   )
                 : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                { attrs: { id: "pdf-wrapper" } },
-                [
-                  _c(
-                    "pdf",
-                    {
-                      staticStyle: { width: "100%" },
-                      attrs: {
-                        src: "/assets/sample.pdf",
-                        page: 1,
-                        scale: "page-width",
-                      },
-                    },
-                    [
-                      _c("template", { slot: "loading" }, [
-                        _vm._v(
-                          "\n                            loading content here...\n                        "
-                        ),
-                      ]),
-                    ],
-                    2
-                  ),
-                ],
-                1
-              ),
               _vm._v(" "),
               _vm.isFile || (_vm.isImage && !_vm.item.thumbnail)
                 ? _c("span", { staticClass: "file-icon-text" }, [

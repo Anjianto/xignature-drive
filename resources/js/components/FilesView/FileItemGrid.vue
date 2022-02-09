@@ -1,7 +1,6 @@
 <template>
     <div class="file-wrapper" @mouseup.stop="clickedItem" @dblclick="goToItem" spellcheck="false">
         <!--Grid preview-->
-        <img src="/assets/images/logo-xignaturedrive.png" alt="" width="200px">
         <div :draggable="canDrag" @dragstart="$emit('dragstart')" @drop="
 				drop()
 				area = false" @dragleave="dragLeave" @dragover.prevent="dragEnter" class="file-item" :class="{'is-clicked' : isClicked , 'no-clicked' : !isClicked && this.$isMobile(), 'is-dragenter': area }">
@@ -13,15 +12,7 @@
                     <div class="select-box" :class="{'select-box-active' : isClicked } ">
                         <CheckIcon v-if="isClicked" class="icon" size="17"/>
                     </div>
-                </div>               
-
-                <div id="pdf-wrapper">
-                    <pdf src="/assets/sample.pdf" :page="1" scale="page-width" style="width:100%;">
-                        <template slot="loading">
-                            loading content here...
-                        </template>
-                    </pdf>
-                </div>               
+                </div>             
 
                 <!--If is file or image, then link item-->
                 <span v-if="isFile || (isImage && !item.thumbnail)" class="file-icon-text">
@@ -322,17 +313,6 @@ export default {
 <style scoped lang="scss">
 @import '@assets/vue-file-manager/_variables';
 @import '@assets/vue-file-manager/_mixins';
-
-#pdf-wrapper {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin: 0 auto;
-    // position: relati;
-    display: inline !important;
-    justify-content: center !important;
-    width: 600px;
-    height: 600px;
-}
 
 .check-select {
     margin-right: 10px;
