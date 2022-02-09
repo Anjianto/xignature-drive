@@ -57,6 +57,7 @@
             <OptionGroup v-if="item && multiSelectContextMenu">
                 <Option @click.native="renameItem" :title="$t('context_menu.rename')" icon="rename"/>
                 <Option @click.native="shareItem" :title=" item.shared ? $t('context_menu.share_edit'): $t('context_menu.share')" icon="share"/>
+                <Option @click.native="shareXignature" v-if="item.shared" :title="$t('Share Xignature')" icon="share"/>
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
             </OptionGroup>
 
@@ -103,6 +104,7 @@
                 <Option @click.native="shareItem" :title="item.shared
                                                             ? $t('context_menu.share_edit')
                                                             : $t('context_menu.share')" icon="share"/>
+                <Option @click.native="shareXignature" v-if="item.shared" :title="$t('Share Xignature')" icon="share"/>                                            
                 <Option @click.native="deleteItem" :title="$t('context_menu.delete')" icon="trash"/>
             </OptionGroup>
 
@@ -288,6 +290,9 @@ export default {
                 // Open create share popup
                 events.$emit('popup:open', { name: 'share-create', item: this.item })
             }
+        },
+        shareXignature() {
+            events.$emit('popup:open', { name: 'share-create', item: this.item })
         },
         addToFavourites() {
             // Check if folder is in favourites and then add/remove from favourites

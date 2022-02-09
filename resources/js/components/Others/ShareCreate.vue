@@ -17,7 +17,7 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
-                <TabWrapper>
+                <TabWrapper v-if="!pickedItem.shared">
 
                     <!-- Share via link -->
                     <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link"/>
@@ -31,6 +31,17 @@
 
                     <!-- share xiganture -->
                     <TabOption :title="$t('Xignature')" icon="link">
+                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
+                        </ValidationProvider>
+                    </TabOption>
+
+                </TabWrapper>
+
+                <TabWrapper v-if="pickedItem.shared">
+
+                    <!-- share xiganture -->
+                    <TabOption :selected="true" :title="$t('Xignature')" icon="link">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                             <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
                         </ValidationProvider>

@@ -246,6 +246,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -346,6 +348,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           item: this.item
         });
       }
+    },
+    shareXignature: function shareXignature() {
+      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
+        name: 'share-create',
+        item: this.item
+      });
     },
     addToFavourites: function addToFavourites() {
       var _this2 = this;
@@ -4360,6 +4368,20 @@ var render = function () {
                         },
                       }),
                       _vm._v(" "),
+                      _vm.item.shared
+                        ? _c("Option", {
+                            attrs: {
+                              title: _vm.$t("Share Xignature"),
+                              icon: "share",
+                            },
+                            nativeOn: {
+                              click: function ($event) {
+                                return _vm.shareXignature.apply(null, arguments)
+                              },
+                            },
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c("Option", {
                         attrs: {
                           title: _vm.$t("context_menu.delete"),
@@ -4600,6 +4622,20 @@ var render = function () {
                           },
                         },
                       }),
+                      _vm._v(" "),
+                      _vm.item.shared
+                        ? _c("Option", {
+                            attrs: {
+                              title: _vm.$t("Share Xignature"),
+                              icon: "share",
+                            },
+                            nativeOn: {
+                              click: function ($event) {
+                                return _vm.shareXignature.apply(null, arguments)
+                              },
+                            },
+                          })
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("Option", {
                         attrs: {
