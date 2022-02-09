@@ -5,13 +5,7 @@
                 <FormLabel>{{ $t('Integration Setup') }}</FormLabel>
                 <div class="block-wrapper">
                     <label>{{ $t('Token') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-                                        rules="required" v-slot="{ errors }">
-                        <input v-model="newPassword" :placeholder="$t('Type Your Token')"
-                               type="password"
-                               :class="{'is-error': errors[0]}"/>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
+                    <SwitchInput class="switch" :state="0"/>
                 </div>
                 <div class="block-wrapper">
                     <ButtonBase type="submit" button-style="theme" class="confirm-form">
@@ -30,6 +24,7 @@
     import FormLabel from '@/components/Others/Forms/FormLabel'
     import MobileHeader from '@/components/Mobile/MobileHeader'
     import ButtonBase from '@/components/FilesView/ButtonBase'
+    import SwitchInput from '@/components/Others/Forms/SwitchInput'
     import PageTab from '@/components/Others/Layout/PageTab'
     import PageHeader from '@/components/Others/PageHeader'
     import ThemeLabel from '@/components/Others/ThemeLabel'
@@ -51,6 +46,7 @@
             ButtonBase,
             ThemeLabel,
             required,
+            SwitchInput,
         },
         data() {
             return {

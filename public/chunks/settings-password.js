@@ -92,13 +92,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Others/Forms/FormLabel */ "./resources/js/components/Others/Forms/FormLabel.vue");
 /* harmony import */ var _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Mobile/MobileHeader */ "./resources/js/components/Mobile/MobileHeader.vue");
 /* harmony import */ var _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/FilesView/ButtonBase */ "./resources/js/components/FilesView/ButtonBase.vue");
-/* harmony import */ var _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Others/Layout/PageTab */ "./resources/js/components/Others/Layout/PageTab.vue");
-/* harmony import */ var _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Others/PageHeader */ "./resources/js/components/Others/PageHeader.vue");
-/* harmony import */ var _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Others/ThemeLabel */ "./resources/js/components/Others/ThemeLabel.vue");
-/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
-/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _components_Others_Forms_SwitchInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Others/Forms/SwitchInput */ "./resources/js/components/Others/Forms/SwitchInput.vue");
+/* harmony import */ var _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Others/Layout/PageTab */ "./resources/js/components/Others/Layout/PageTab.vue");
+/* harmony import */ var _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Others/PageHeader */ "./resources/js/components/Others/PageHeader.vue");
+/* harmony import */ var _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Others/ThemeLabel */ "./resources/js/components/Others/ThemeLabel.vue");
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
 //
 //
 //
@@ -118,12 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -141,15 +137,16 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     PageTabGroup: _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_1__["default"],
     FormLabel: _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_3__["default"],
-    PageTab: _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_6__["default"],
+    PageTab: _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_7__["default"],
     ValidationProvider: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__["ValidationProvider"],
     ValidationObserver: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__["ValidationObserver"],
     UserImageInput: _components_Others_UserImageInput__WEBPACK_IMPORTED_MODULE_2__["default"],
     MobileHeader: _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_4__["default"],
-    PageHeader: _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_7__["default"],
+    PageHeader: _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_8__["default"],
     ButtonBase: _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ThemeLabel: _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_8__["default"],
-    required: vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_9__["required"]
+    ThemeLabel: _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_9__["default"],
+    required: vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__["required"],
+    SwitchInput: _components_Others_Forms_SwitchInput__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
     return {
@@ -574,60 +571,9 @@ var render = function () {
                       [
                         _c("label", [_vm._v(_vm._s(_vm.$t("Token")) + ":")]),
                         _vm._v(" "),
-                        _c("ValidationProvider", {
-                          staticClass: "input-wrapper",
-                          attrs: {
-                            tag: "div",
-                            mode: "passive",
-                            name: "New Password",
-                            rules: "required",
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "default",
-                                fn: function (ref) {
-                                  var errors = ref.errors
-                                  return [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.newPassword,
-                                          expression: "newPassword",
-                                        },
-                                      ],
-                                      class: { "is-error": errors[0] },
-                                      attrs: {
-                                        placeholder: _vm.$t("Type Your Token"),
-                                        type: "password",
-                                      },
-                                      domProps: { value: _vm.newPassword },
-                                      on: {
-                                        input: function ($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.newPassword = $event.target.value
-                                        },
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    errors[0]
-                                      ? _c(
-                                          "span",
-                                          { staticClass: "error-message" },
-                                          [_vm._v(_vm._s(errors[0]))]
-                                        )
-                                      : _vm._e(),
-                                  ]
-                                },
-                              },
-                            ],
-                            null,
-                            true
-                          ),
+                        _c("SwitchInput", {
+                          staticClass: "switch",
+                          attrs: { state: 0 },
                         }),
                       ],
                       1
