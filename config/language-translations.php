@@ -460,7 +460,7 @@ return [
         "page_registration.label_pass"                     => "Password",
         "page_registration.label_phone"                    => "Phone",
         "page_registration.label_ktp"                      => "KTP",
-        "page_registration.label_birthdate"                 => "BirthDay",
+        "page_registration.label_birthdate"                 => "Birthday",
         "page_registration.label_birthplace"               => "Birthplace",
         "page_registration.label_selfie"                   => "Selfie With Ktp",
         "page_registration.label_nik"                      => "Nik",

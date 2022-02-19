@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <slot name="head" :props="{progress}" ></slot>
     <div ref="stepWrapper" class="stepper-wrapper">
       <div ref="progress" class="progress"></div>
       <div
@@ -15,7 +16,7 @@
         }"
         :key="k"
       >
-        <slot name="indicator">
+        <slot :props="{x}" name="indicator">
           {{ x }}
         </slot>
       </div>
@@ -131,14 +132,15 @@ export default {
 .screen-indicator {
   border-radius: 50%;
   border: 3px solid lightgrey;
+  align-items: center;
   background-color: white;
   text-align: center;
   z-index: 1;
   display: flex;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   color: gray;
   transition: border-color color;
   transition-duration: 0.7s;

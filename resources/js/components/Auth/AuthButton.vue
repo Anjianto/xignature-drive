@@ -44,6 +44,7 @@
         text-decoration: none;
         padding: 12px 32px;
         display: flex;
+        justify-content: center;
         align-items: center;
         margin-left: 15px;
         margin-right: 15px;

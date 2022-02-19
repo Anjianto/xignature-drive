@@ -2,10 +2,42 @@
   <div id="profile-wrapper">
     <div class="container">
       <div v-if="displayConfirm" class="confirm-container">
+        <div class="wrapper">
+          <h1>Confirm Form</h1>
+          <h2>Please check for input bellow</h2>
+        </div>
         <div>
           <div class="block-wrapper">
             <h4>{{ $t("page_registration.label_name") }}</h4>
             <div>{{ profile.fullname }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_email") }}</h4>
+            <div>{{ profile.email }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_phone") }}</h4>
+            <div>{{ profile.phone }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_ktp") }}</h4>
+            <img :src="profile.ktp" alt="foto ktp" />
+        </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_nik") }}</h4>
+            <div>{{ profile.nik }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_birthplace") }}</h4>
+            <div>{{ profile.birthplace }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_birthdate") }}</h4>
+            <div>{{ birthday }}</div>
+          </div>
+          <div class="block-wrapper">
+            <h4>{{ $t("page_registration.label_selfie") }}</h4>
+            <img :src="profile.selfie" alt="foto selfie" />
           </div>
         </div>
         <div class="action_wrapper">
@@ -23,6 +55,25 @@
         <p>Please wait while we make your signature.</p>
       </div>
       <StepperTab v-else :steps="[1, 2, 3]" @finish="loadConfirm">
+        <template #indicator="{ props: {x} }">
+          <FontAwesomeIcon class="indicator-icon" v-if="x===1" icon="cubes"/>
+          <FontAwesomeIcon class="indicator-icon" v-if="x===2" icon="address-card"/>
+          <FontAwesomeIcon class="indicator-icon" v-if="x===3" icon="camera"/>
+        </template>
+        <template #head="{ props: {progress }}">
+          <div v-if="progress === 0" class="wrapper">
+            <h1>Create Signature</h1>
+            <h2>Fill the profile form</h2>
+          </div>
+          <div v-if="progress === 1" class="wrapper">
+            <h1>Create Signature</h1>
+            <h2>Fill the ktp form</h2>
+          </div>
+          <div v-if="progress === 2" class="wrapper">
+            <h1>Create Signature</h1>
+            <h2>Upload selifie with ktp</h2>
+          </div>
+        </template>
         <template #default="{ props: { progress } }">
           <ValidationObserver
             v-if="progress === 0"
@@ -86,7 +137,7 @@
                 <input
                   v-model="profile.phone"
                   :placeholder="$t('page_registration.placeholder_phone')"
-                  type="text"
+                  type="tel"
                   :class="{ 'is-error': errors[0] }"
                 />
                 <span class="error-message" v-if="errors[0]">{{
@@ -144,6 +195,7 @@
                   :placeholder="$t('page_registration.placeholder_nik')"
                   type="number"
                   minlength="16"
+                  maxlength="16"
                   :class="{ 'is-error': errors[0] }"
                 />
                 <span class="error-message" v-if="errors[0]">{{
@@ -283,6 +335,7 @@ import signature_client from "@/http_client/signature_client";
 import DatePicker from "vue2-datepicker";
 import { events } from "@/bus";
 import "vue2-datepicker/index.css";
+import {format} from 'date-fns';
 
 export default {
   name: "ProfileForm",
@@ -310,6 +363,11 @@ export default {
       type: String,
       default: "onepage",
     }, // onepage or stepbar
+  },
+  computed: {
+    birthday() {
+      return format(this.profile.birthdate, 'dd MMMM yyyy');
+    },
   },
   data() {
     return {
@@ -362,6 +420,7 @@ export default {
       this.displayConfirm = true;
     },
     async reqToken() {
+      this.displayConfirm = false;
       this.loading = true;
       try {
         const { data } = await signature_client.genLTC(this.profile, 2);
@@ -372,7 +431,8 @@ export default {
           data.message === "success"
         ) {
           this.token = data.data.token;
-          this.$emit("receive-token", data.data.token, data.data.expiredAt);
+          const expiresDate = new Date(data.data.expiredAt);
+          this.$emit("token", data.data.token, expiresDate);
           this.loading = false;
         } else if (data.statusCode != null && data.statusCode < 600) {
           events.$emit("alert:open", {
@@ -396,6 +456,7 @@ export default {
           this.retries++;
           this.reqToken();
         } else {
+          this.displayConfirm = true;
           events.$emit("alert:open", {
             emoji: "🤔",
             title: "Error",
@@ -423,7 +484,8 @@ export default {
       }
     },
     roolback() {
-      
+      this.displayConfirm = false;
+      this.loading = false;
     },
     createImage(file) {
       return new Promise((resolve, reject) => {
@@ -515,10 +577,44 @@ export default {
   align-items: center;
   margin-top: 20px;
 }
+.wrapper {
+  margin-bottom: 30px;
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .text-left {
   text-align: left;
 }
 .mt-8 {
   margin-bottom: 1.25rem;
+}
+.indicator-icon {
+  height: 20px;
+}
+.block-wrapper {
+    text-align: left;
+    margin-bottom: 16px;
+}
+.confirm-container {
+  .block-wrapper h4 {
+      margin-bottom: 4px;
+  }
+
+  .block-wrapper div {
+      background: #eee;
+      padding: 12px 10px;
+      border-radius: 6px;
+  }
+
+  .block-wrapper img {
+      height: 240px;
+      border-radius: 8px;
+  }
 }
 </style>

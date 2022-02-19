@@ -160,7 +160,7 @@
           </ValidationObserver>
           <div class="container" v-else>
             <div class="card">
-              <ProfileForm @receive-token="signUp" :email="register.email" :name="register.name"></ProfileForm>
+              <ProfileForm @token="signUp" :email="register.email" :name="register.name"></ProfileForm>
             </div>
           </div>
         </div>
@@ -182,7 +182,8 @@ import { required } from "vee-validate/dist/rules";
 import { mapGetters } from "vuex";
 import { events } from "@/bus";
 import axios from "axios";
-
+import Cookies from 'js-cookie'
+import {differenceInDays} from 'date-fns'
 export default {
   name: "SignUp",
   components: {
@@ -220,37 +221,23 @@ export default {
     };
   },
   methods: {
-    async saveRegister() {
-      // Validate fields
-      const isValid = await this.$refs.sign_up.validate();
-
-      if (!isValid) return;
-      this.isPreRegister = true;
-    },
     async signUp(token, expired) {
-      // Validate fields
-      const isValid = await this.$refs.sign_up.validate();
-
-      if (!isValid) return;
-
+      const daysDiff = differenceInDays(expired, new Date());
+      Cookies.set('sign', token, { expires: daysDiff });
+      this.$router.push({name: 'Files'})
+    },
+    async saveRegister() {
       // Start loading
       this.isLoading = true;
-      // add token into cookies
-      this.$cookies.set("token", token, expired);
-      // Send request to get user token
       axios
-        .post("/api/user/register", {
-          ...this.register,
-          token,
-        })
+        .post("/api/user/register", this.register)
         .then(() => {
           // End loading
           this.isLoading = false;
-
           // Set login state
           this.$store.commit("SET_AUTHORIZED", true);
           // complete the profile
-          this.$router.push({name: 'Files'})
+          this.isPreRegister = true;
         })
         .catch((error) => {
           if (error.response.status == 401) {
