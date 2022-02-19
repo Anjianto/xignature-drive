@@ -22,7 +22,7 @@
           <div class="block-wrapper">
             <h4>{{ $t("page_registration.label_ktp") }}</h4>
             <img :src="profile.ktp" alt="foto ktp" />
-        </div>
+          </div>
           <div class="block-wrapper">
             <h4>{{ $t("page_registration.label_nik") }}</h4>
             <div>{{ profile.nik }}</div>
@@ -55,12 +55,20 @@
         <p>Please wait while we make your signature.</p>
       </div>
       <StepperTab v-else :steps="[1, 2, 3]" @finish="loadConfirm">
-        <template #indicator="{ props: {x} }">
-          <FontAwesomeIcon class="indicator-icon" v-if="x===1" icon="cubes"/>
-          <FontAwesomeIcon class="indicator-icon" v-if="x===2" icon="address-card"/>
-          <FontAwesomeIcon class="indicator-icon" v-if="x===3" icon="camera"/>
+        <template #indicator="{ props: { x } }">
+          <FontAwesomeIcon class="indicator-icon" v-if="x === 1" icon="cubes" />
+          <FontAwesomeIcon
+            class="indicator-icon"
+            v-if="x === 2"
+            icon="address-card"
+          />
+          <FontAwesomeIcon
+            class="indicator-icon"
+            v-if="x === 3"
+            icon="camera"
+          />
         </template>
-        <template #head="{ props: {progress }}">
+        <template #head="{ props: { progress } }">
           <div v-if="progress === 0" class="wrapper">
             <h1>Create Signature</h1>
             <h2>Fill the profile form</h2>
@@ -334,8 +342,9 @@ import StepperTab from "@/components/Others/StepperTab";
 import signature_client from "@/http_client/signature_client";
 import DatePicker from "vue2-datepicker";
 import { events } from "@/bus";
+import { format } from "date-fns";
+import axios from "axios";
 import "vue2-datepicker/index.css";
-import {format} from 'date-fns';
 
 export default {
   name: "ProfileForm",
@@ -366,7 +375,7 @@ export default {
   },
   computed: {
     birthday() {
-      return format(this.profile.birthdate, 'dd MMMM yyyy');
+      return format(this.profile.birthdate, "dd MMMM yyyy");
     },
   },
   data() {
@@ -419,22 +428,26 @@ export default {
     loadConfirm() {
       this.displayConfirm = true;
     },
+    async saveToken(data) {
+      const { data: result } = await axios.post("/api/sign", {
+        sign_token: data.token,
+      });
+      if (result.statusCode === 200) {
+        const expiresDate = new Date(data.expiredAt);
+        this.$emit("token", data.token, expiresDate);
+        this.token = "";
+        this.loading = false;
+      }
+    },
     async reqToken() {
       this.displayConfirm = false;
       this.loading = true;
       try {
         const { data } = await signature_client.genLTC(this.profile, 2);
-        console.log(data);
-        if (
-          data.statusCode != null &&
-          data.statusCode < 300 &&
-          data.message === "success"
-        ) {
-          this.token = data.data.token;
-          const expiresDate = new Date(data.data.expiredAt);
-          this.$emit("token", data.data.token, expiresDate);
-          this.loading = false;
-        } else if (data.statusCode != null && data.statusCode < 600) {
+
+        if (data.statusCode === 200) {
+          this.saveToken(data.data);
+        } else if (data.statusCode < 600) {
           events.$emit("alert:open", {
             emoji: "🤔",
             title: data.error ?? "Error",
@@ -444,15 +457,15 @@ export default {
           this.loading = false;
         } else {
           this.loading = false;
-        events.$emit("alert:open", {
-          emoji: "🤔",
-          title: "Error",
-          message: "Something went wrong",
-        });
+          events.$emit("alert:open", {
+            emoji: "🤔",
+            title: "Error",
+            message: "Something went wrong",
+          });
         }
       } catch (error) {
         this.loading = false;
-        if(this.retries < 2) {
+        if (this.retries < 2 && this.token === "") {
           this.retries++;
           this.reqToken();
         } else {
@@ -460,15 +473,15 @@ export default {
           events.$emit("alert:open", {
             emoji: "🤔",
             title: "Error",
-            message: "Something went wrong",
+            message: "Something went wrong, please try again",
           });
+          throw error;
         }
       }
     },
     async saveFields(pos, next) {
       if (pos === 0) {
         const isValid = await this.$refs.make_profile.validate();
-        console.log(isValid);
         if (!isValid) return;
         next();
       } else if (pos === 1) {
@@ -509,7 +522,8 @@ export default {
   width: 100%;
   display: table;
 }
-.preview, .date-field {
+.preview,
+.date-field {
   border: 1px solid transparent;
   transition: 150ms all ease;
   text-align: start;
@@ -598,23 +612,23 @@ img {
   height: 20px;
 }
 .block-wrapper {
-    text-align: left;
-    margin-bottom: 16px;
+  text-align: left;
+  margin-bottom: 16px;
 }
 .confirm-container {
   .block-wrapper h4 {
-      margin-bottom: 4px;
+    margin-bottom: 4px;
   }
 
   .block-wrapper div {
-      background: #eee;
-      padding: 12px 10px;
-      border-radius: 6px;
+    background: #eee;
+    padding: 12px 10px;
+    border-radius: 6px;
   }
 
   .block-wrapper img {
-      height: 240px;
-      border-radius: 8px;
+    height: 240px;
+    border-radius: 8px;
   }
 }
 </style>

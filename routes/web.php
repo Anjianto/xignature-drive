@@ -56,5 +56,4 @@ if( Crawler::isCrawler()) {
 } else {
     Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
 }
-
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

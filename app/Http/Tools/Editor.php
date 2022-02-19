@@ -635,7 +635,7 @@ class Editor
                 Storage::disk('local')->makeDirectory($directory);
             }
 
-            if (!is_storage_driver(['local'])) {
+            if (!is_storage_driver('local')) {
                 if (!Storage::exists($directory)) {
                     Storage::makeDirectory($directory);
                 }

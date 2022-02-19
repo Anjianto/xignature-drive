@@ -209,9 +209,11 @@ export default {
     },
   },
   data() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('preRegister') || false;
     return {
       isLoading: false,
-      isPreRegister: false,
+      isPreRegister: myParam,
       register: {
         name: "",
         email: "",
@@ -238,6 +240,7 @@ export default {
           this.$store.commit("SET_AUTHORIZED", true);
           // complete the profile
           this.isPreRegister = true;
+          this.$router.push({name: 'SignUp', query: {preRegister: true}})
         })
         .catch((error) => {
           if (error.response.status == 401) {

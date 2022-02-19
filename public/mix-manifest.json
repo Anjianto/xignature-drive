@@ -4,7 +4,7 @@
     "/chunks/admin.js": "/chunks/admin.js?id=6a398c4101717049c1fd",
     "/chunks/admin-account.js": "/chunks/admin-account.js?id=00acdfd2b902d066f7d9",
     "/chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chu~8789e1d8.js": "/chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chu~8789e1d8.js?id=73f097990cff74975d55",
-    "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~3b77a26e.js": "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~3b77a26e.js?id=afa59164d31843cae145",
+    "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~01aef58e.js": "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~01aef58e.js?id=546c93edb24270221582",
     "/chunks/admin~chunks/files~chunks/settings~chunks/shared-files~chunks/shared-page.js": "/chunks/admin~chunks/files~chunks/settings~chunks/shared-files~chunks/shared-page.js?id=9cc2f90d2bc7be6062c7",
     "/chunks/app-appearance.js": "/chunks/app-appearance.js?id=f49fcfc006374cfd2d51",
     "/chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chunks/app-others~chunks~4810e2ac.js": "/chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chunks/app-others~chunks~4810e2ac.js?id=5f4e235df703479597c5",
@@ -58,7 +58,7 @@
     "/chunks/shared-files.js": "/chunks/shared-files.js?id=05d8b26b8c297f3baf92",
     "/chunks/shared-page.js": "/chunks/shared-page.js?id=dee80a4a0dcd84debcf4",
     "/chunks/sign-in.js": "/chunks/sign-in.js?id=4fe37ac898233e5a40c8",
-    "/chunks/sign-up.js": "/chunks/sign-up.js?id=86379e4af94f3702aa24",
+    "/chunks/sign-up.js": "/chunks/sign-up.js?id=65d276b20bdecb5fef2a",
     "/chunks/stripe-credentials.js": "/chunks/stripe-credentials.js?id=3e29bf78e170f3a59115",
     "/chunks/subscription-plans.js": "/chunks/subscription-plans.js?id=617383760357ea6327a9",
     "/chunks/subscription-service.js": "/chunks/subscription-service.js?id=dd36a5b79a074eaf60ba",
@@ -75,6 +75,5 @@
     "/chunks/user-storage.js": "/chunks/user-storage.js?id=d11ad8b9f690b2f5c70a",
     "/chunks/user-subscription.js": "/chunks/user-subscription.js?id=4c43194a86c0e16bd5d3",
     "/chunks/users.js": "/chunks/users.js?id=e8f46d4e7e8c663ddfd2",
-    "/vendors~chunks/sign-up.js": "/vendors~chunks/sign-up.js?id=4e812f6fcd22924464fd",
-    "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~01aef58e.js": "/chunks/admin-account~chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/datab~01aef58e.js?id=546c93edb24270221582"
+    "/vendors~chunks/sign-up.js": "/vendors~chunks/sign-up.js?id=4e812f6fcd22924464fd"
 }

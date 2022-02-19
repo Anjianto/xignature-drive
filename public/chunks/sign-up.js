@@ -146,9 +146,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _http_client_signature_client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/http_client/signature_client */ "./resources/js/http_client/signature_client.js");
 /* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
-/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
-/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_10__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -480,6 +482,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -519,7 +530,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     birthday: function birthday() {
-      return Object(date_fns__WEBPACK_IMPORTED_MODULE_9__["format"])(this.profile.birthdate, 'dd MMMM yyyy');
+      return Object(date_fns__WEBPACK_IMPORTED_MODULE_8__["format"])(this.profile.birthdate, "dd MMMM yyyy");
     }
   },
   data: function data() {
@@ -633,166 +644,203 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadConfirm: function loadConfirm() {
       this.displayConfirm = true;
     },
-    reqToken: function reqToken() {
+    saveToken: function saveToken(data) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _yield$signature_clie, data, expiresDate, _data$error;
+        var _yield$axios$post, result, expiresDate;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.displayConfirm = false;
-                _this3.loading = true;
-                _context3.prev = 2;
-                _context3.next = 5;
-                return _http_client_signature_client__WEBPACK_IMPORTED_MODULE_5__["default"].genLTC(_this3.profile, 2);
+                _context3.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_9___default.a.post("/api/sign", {
+                  sign_token: data.token
+                });
+
+              case 2:
+                _yield$axios$post = _context3.sent;
+                result = _yield$axios$post.data;
+
+                if (result.statusCode === 200) {
+                  expiresDate = new Date(data.expiredAt);
+
+                  _this3.$emit("token", data.token, expiresDate);
+
+                  _this3.token = "";
+                  _this3.loading = false;
+                }
 
               case 5:
-                _yield$signature_clie = _context3.sent;
-                data = _yield$signature_clie.data;
-                console.log(data);
-
-                if (data.statusCode != null && data.statusCode < 300 && data.message === "success") {
-                  _this3.token = data.data.token;
-                  expiresDate = new Date(data.data.expiredAt);
-
-                  _this3.$emit("token", data.data.token, expiresDate);
-
-                  _this3.loading = false;
-                } else if (data.statusCode != null && data.statusCode < 600) {
-                  _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
-                    emoji: "🤔",
-                    title: (_data$error = data.error) !== null && _data$error !== void 0 ? _data$error : "Error",
-                    message: data.message
-                  });
-                  _this3.errors = data.error;
-                  _this3.loading = false;
-                } else {
-                  _this3.loading = false;
-                  _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
-                    emoji: "🤔",
-                    title: "Error",
-                    message: "Something went wrong"
-                  });
-                }
-
-                _context3.next = 15;
-                break;
-
-              case 11:
-                _context3.prev = 11;
-                _context3.t0 = _context3["catch"](2);
-                _this3.loading = false;
-
-                if (_this3.retries < 2) {
-                  _this3.retries++;
-
-                  _this3.reqToken();
-                } else {
-                  _this3.displayConfirm = true;
-                  _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
-                    emoji: "🤔",
-                    title: "Error",
-                    message: "Something went wrong"
-                  });
-                }
-
-              case 15:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[2, 11]]);
+        }, _callee3);
       }))();
     },
-    saveFields: function saveFields(pos, next) {
+    reqToken: function reqToken() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var isValid, _isValid, _isValid2;
+        var _yield$signature_clie, data, _data$error;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(pos === 0)) {
-                  _context4.next = 10;
-                  break;
+                _this4.displayConfirm = false;
+                _this4.loading = true;
+                _context4.prev = 2;
+                _context4.next = 5;
+                return _http_client_signature_client__WEBPACK_IMPORTED_MODULE_5__["default"].genLTC(_this4.profile, 2);
+
+              case 5:
+                _yield$signature_clie = _context4.sent;
+                data = _yield$signature_clie.data;
+
+                if (data.statusCode === 200) {
+                  _this4.saveToken(data.data);
+                } else if (data.statusCode < 600) {
+                  _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
+                    emoji: "🤔",
+                    title: (_data$error = data.error) !== null && _data$error !== void 0 ? _data$error : "Error",
+                    message: data.message
+                  });
+                  _this4.errors = data.error;
+                  _this4.loading = false;
+                } else {
+                  _this4.loading = false;
+                  _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
+                    emoji: "🤔",
+                    title: "Error",
+                    message: "Something went wrong"
+                  });
                 }
 
-                _context4.next = 3;
-                return _this4.$refs.make_profile.validate();
-
-              case 3:
-                isValid = _context4.sent;
-                console.log(isValid);
-
-                if (isValid) {
-                  _context4.next = 7;
-                  break;
-                }
-
-                return _context4.abrupt("return");
-
-              case 7:
-                next();
-                _context4.next = 26;
+                _context4.next = 21;
                 break;
 
               case 10:
-                if (!(pos === 1)) {
-                  _context4.next = 19;
+                _context4.prev = 10;
+                _context4.t0 = _context4["catch"](2);
+                _this4.loading = false;
+
+                if (!(_this4.retries < 2 && _this4.token === "")) {
+                  _context4.next = 18;
                   break;
                 }
 
-                _context4.next = 13;
-                return _this4.$refs.make_signature.validate();
+                _this4.retries++;
 
-              case 13:
-                _isValid = _context4.sent;
+                _this4.reqToken();
 
-                if (_isValid) {
-                  _context4.next = 16;
-                  break;
-                }
-
-                return _context4.abrupt("return");
-
-              case 16:
-                next();
-                _context4.next = 26;
+                _context4.next = 21;
                 break;
 
-              case 19:
-                if (!(pos === 2)) {
-                  _context4.next = 26;
-                  break;
-                }
+              case 18:
+                _this4.displayConfirm = true;
+                _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("alert:open", {
+                  emoji: "🤔",
+                  title: "Error",
+                  message: "Something went wrong, please try again"
+                });
+                throw _context4.t0;
 
-                _context4.next = 22;
-                return _this4.$refs.make_selfie.validate();
-
-              case 22:
-                _isValid2 = _context4.sent;
-
-                if (_isValid2) {
-                  _context4.next = 25;
-                  break;
-                }
-
-                return _context4.abrupt("return");
-
-              case 25:
-                next();
-
-              case 26:
+              case 21:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4);
+        }, _callee4, null, [[2, 10]]);
+      }))();
+    },
+    saveFields: function saveFields(pos, next) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var isValid, _isValid, _isValid2;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!(pos === 0)) {
+                  _context5.next = 9;
+                  break;
+                }
+
+                _context5.next = 3;
+                return _this5.$refs.make_profile.validate();
+
+              case 3:
+                isValid = _context5.sent;
+
+                if (isValid) {
+                  _context5.next = 6;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 6:
+                next();
+                _context5.next = 25;
+                break;
+
+              case 9:
+                if (!(pos === 1)) {
+                  _context5.next = 18;
+                  break;
+                }
+
+                _context5.next = 12;
+                return _this5.$refs.make_signature.validate();
+
+              case 12:
+                _isValid = _context5.sent;
+
+                if (_isValid) {
+                  _context5.next = 15;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 15:
+                next();
+                _context5.next = 25;
+                break;
+
+              case 18:
+                if (!(pos === 2)) {
+                  _context5.next = 25;
+                  break;
+                }
+
+                _context5.next = 21;
+                return _this5.$refs.make_selfie.validate();
+
+              case 21:
+                _isValid2 = _context5.sent;
+
+                if (_isValid2) {
+                  _context5.next = 24;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 24:
+                next();
+
+              case 25:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     },
     roolback: function roolback() {
@@ -1062,9 +1110,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   data: function data() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var myParam = urlParams.get('preRegister') || false;
     return {
       isLoading: false,
-      isPreRegister: true,
+      isPreRegister: myParam,
       register: {
         name: "",
         email: "",
@@ -1118,6 +1168,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
                   _this2.isPreRegister = true;
+
+                  _this2.$router.push({
+                    name: 'SignUp',
+                    query: {
+                      preRegister: true
+                    }
+                  });
                 })["catch"](function (error) {
                   if (error.response.status == 401) {
                     if (error.response.data.error === "invalid_client") {
@@ -1221,7 +1278,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form[data-v-69239abb] {\n  max-width: 700px;\n}\n.form.inline-form[data-v-69239abb] {\n  display: flex;\n  position: relative;\n  justify-content: center;\n  margin: 0 auto;\n}\n.form.inline-form .input-wrapper[data-v-69239abb] {\n  position: relative;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n  position: absolute;\n  left: 0;\n  bottom: -25px;\n}\n.form.block-form .wrapper-inline[data-v-69239abb] {\n  display: flex;\n  margin: 0 -15px;\n}\n.form.block-form .wrapper-inline .block-wrapper[data-v-69239abb] {\n  width: 100%;\n  padding: 0 15px;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n  margin-bottom: 32px;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n  font-size: 0.875em;\n  color: rgba(27, 37, 57, 0.8);\n  font-weight: 700;\n  display: block;\n  margin-bottom: 7px;\n  text-align: left;\n}\n.form.block-form .block-wrapper[data-v-69239abb]:last-child {\n  margin-bottom: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n  margin-top: 50px;\n}\n.form .inline-wrapper[data-v-69239abb] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.form .inline-wrapper .switch-label .input-help[data-v-69239abb] {\n  padding-top: 0;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n  font-weight: 700;\n  color: #1B2539;\n  font-size: 1em;\n  margin-bottom: 5px;\n}\n.form .input-help[data-v-69239abb] {\n  font-size: 0.75em;\n  color: rgba(27, 37, 57, 0.7);\n  line-height: 1.35;\n  padding-top: 10px;\n  display: block;\n}\n.single-line-form[data-v-69239abb] {\n  display: flex;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n  margin-left: 20px;\n}\n.error-message[data-v-69239abb] {\n  font-size: 0.875em;\n  color: #fd397a;\n  padding-top: 5px;\n  display: block;\n  text-align: left;\n}\ntextarea[data-v-69239abb] {\n  width: 100%;\n}\ntextarea[data-v-69239abb],\ninput[type=\"password\"][data-v-69239abb],\ninput[type=\"text\"][data-v-69239abb],\ninput[type=\"tel\"][data-v-69239abb],\ninput[type=\"number\"][data-v-69239abb],\ninput[type=\"email\"][data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);\n}\ntextarea.is-error[data-v-69239abb],\ninput[type=\"password\"].is-error[data-v-69239abb],\ninput[type=\"text\"].is-error[data-v-69239abb],\ninput[type=\"tel\"].is-error[data-v-69239abb],\ninput[type=\"number\"].is-error[data-v-69239abb],\ninput[type=\"email\"].is-error[data-v-69239abb] {\n  border-color: #fd397a;\n  box-shadow: 0 1px 5px rgba(253, 57, 122, 0.3);\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]::placeholder,\ninput[type=\"password\"][data-v-69239abb]::placeholder,\ninput[type=\"text\"][data-v-69239abb]::placeholder,\ninput[type=\"tel\"][data-v-69239abb]::placeholder,\ninput[type=\"number\"][data-v-69239abb]::placeholder,\ninput[type=\"email\"][data-v-69239abb]::placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:focus,\ninput[type=\"password\"][data-v-69239abb]:focus,\ninput[type=\"text\"][data-v-69239abb]:focus,\ninput[type=\"tel\"][data-v-69239abb]:focus,\ninput[type=\"number\"][data-v-69239abb]:focus,\ninput[type=\"email\"][data-v-69239abb]:focus {\n  border-color: #0667B3;\n  box-shadow: 0 1px 5px rgba(6, 103, 179, 0.3);\n}\ntextarea[disabled][data-v-69239abb],\ninput[type=\"password\"][disabled][data-v-69239abb],\ninput[type=\"text\"][disabled][data-v-69239abb],\ninput[type=\"tel\"][disabled][data-v-69239abb],\ninput[type=\"number\"][disabled][data-v-69239abb],\ninput[type=\"email\"][disabled][data-v-69239abb] {\n  background: white;\n  color: rgba(27, 37, 57, 0.8);\n  -webkit-text-fill-color: rgba(27, 37, 57, 0.8);\n  opacity: 1;\n  cursor: not-allowed;\n}\n.additional-link[data-v-69239abb] {\n  font-size: 1em;\n  margin-top: 50px;\n  display: block;\n  color: #1B2539;\n}\n.additional-link b[data-v-69239abb], .additional-link a[data-v-69239abb] {\n  color: #0667B3;\n  cursor: pointer;\n}\n.additional-link b[data-v-69239abb]:hover, .additional-link a[data-v-69239abb]:hover {\n  text-decoration: underline;\n}\n@media only screen and (max-width: 1024px) {\n.form[data-v-69239abb] {\n    max-width: 100%;\n}\n}\n@media only screen and (max-width: 960px) {\n.form .button[data-v-69239abb] {\n    margin-top: 20px;\n    width: 100%;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form input[data-v-69239abb], .form textarea[data-v-69239abb] {\n    width: 100%;\n    min-width: 100%;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n    display: block;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    width: 100%;\n    padding-right: 0;\n    display: block;\n    margin-bottom: 7px;\n    text-align: left !important;\n    font-size: 0.875em;\n    padding-top: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n    margin-top: 25px;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form.inline-form[data-v-69239abb] {\n    display: block;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n    position: relative;\n    bottom: 0;\n}\n.form .button[data-v-69239abb] {\n    padding: 14px 32px;\n}\n.single-line-form[data-v-69239abb] {\n    display: block;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n    margin-left: 0;\n    margin-top: 20px;\n    width: 100%;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    padding: 14px 20px;\n}\n}\n@media only screen and (max-width: 690px) {\n.form.block-form .wrapper-inline[data-v-69239abb] {\n    display: block;\n}\n}\n@media (prefers-color-scheme: dark) {\n.form .input-help[data-v-69239abb] {\n    color: #7d858c;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    color: #1B2539;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n    color: #1B2539;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    border-color: #f4f5f6;\n    background: #f4f5f6;\n    color: #1B2539;\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]::placeholder,\n  input[type=\"password\"][data-v-69239abb]::placeholder,\n  input[type=\"text\"][data-v-69239abb]::placeholder,\n  input[type=\"number\"][data-v-69239abb]::placeholder,\n  input[type=\"tel\"][data-v-69239abb]::placeholder,\n  input[type=\"email\"][data-v-69239abb]::placeholder {\n    color: #7d858c;\n}\ntextarea[disabled][data-v-69239abb],\n  input[type=\"password\"][disabled][data-v-69239abb],\n  input[type=\"text\"][disabled][data-v-69239abb],\n  input[type=\"number\"][disabled][data-v-69239abb],\n  input[type=\"tel\"][disabled][data-v-69239abb],\n  input[type=\"email\"][disabled][data-v-69239abb] {\n    background: #f4f5f6;\n    color: rgba(125, 133, 140, 0.8);\n    -webkit-text-fill-color: rgba(125, 133, 140, 0.8);\n}\n}\n#profile-wrapper[data-v-69239abb] {\n  height: 100%;\n  width: 100%;\n  display: table;\n}\n.preview[data-v-69239abb], .date-field[data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  text-align: start;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;\n  padding: 14px 20px;\n  border-color: #f4f5f6;\n  background: #f4f5f6;\n  color: #1b2539;\n  height: 52px;\n  cursor: pointer;\n  width: 100%;\n}\n.image.preview[data-v-69239abb] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 300px;\n  cursor: pointer;\n}\n.image.preview img[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.image.preview div[data-v-69239abb] {\n  width: 100%;\n  position: relative;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: 1.5em;\n  color: #1b2539;\n}\n.image.preview div[data-v-69239abb]:before {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-image: url(/assets/images/selfie-ktp.png);\n  background-size: cover;\n  background-repeat: no-repeat;\n  background-position-x: -60px;\n}\n.action_wrapper[data-v-69239abb] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 15px;\n  align-items: center;\n  margin-top: 20px;\n}\n.wrapper[data-v-69239abb] {\n  margin-bottom: 30px;\n}\n.wrapper h1[data-v-69239abb] {\n  font-size: 1.8rem;\n}\nimg[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.text-left[data-v-69239abb] {\n  text-align: left;\n}\n.mt-8[data-v-69239abb] {\n  margin-bottom: 1.25rem;\n}\n.indicator-icon[data-v-69239abb] {\n  height: 20px;\n}\n.block-wrapper[data-v-69239abb] {\n  text-align: left;\n  margin-bottom: 16px;\n}\n.confirm-container .block-wrapper h4[data-v-69239abb] {\n  margin-bottom: 4px;\n}\n.confirm-container .block-wrapper div[data-v-69239abb] {\n  background: #eee;\n  padding: 12px 10px;\n  border-radius: 6px;\n}\n.confirm-container .block-wrapper img[data-v-69239abb] {\n  height: 240px;\n  border-radius: 8px;\n}\n", ""]);
+exports.push([module.i, ".form[data-v-69239abb] {\n  max-width: 700px;\n}\n.form.inline-form[data-v-69239abb] {\n  display: flex;\n  position: relative;\n  justify-content: center;\n  margin: 0 auto;\n}\n.form.inline-form .input-wrapper[data-v-69239abb] {\n  position: relative;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n  position: absolute;\n  left: 0;\n  bottom: -25px;\n}\n.form.block-form .wrapper-inline[data-v-69239abb] {\n  display: flex;\n  margin: 0 -15px;\n}\n.form.block-form .wrapper-inline .block-wrapper[data-v-69239abb] {\n  width: 100%;\n  padding: 0 15px;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n  margin-bottom: 32px;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n  font-size: 0.875em;\n  color: rgba(27, 37, 57, 0.8);\n  font-weight: 700;\n  display: block;\n  margin-bottom: 7px;\n  text-align: left;\n}\n.form.block-form .block-wrapper[data-v-69239abb]:last-child {\n  margin-bottom: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n  margin-top: 50px;\n}\n.form .inline-wrapper[data-v-69239abb] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.form .inline-wrapper .switch-label .input-help[data-v-69239abb] {\n  padding-top: 0;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n  font-weight: 700;\n  color: #1B2539;\n  font-size: 1em;\n  margin-bottom: 5px;\n}\n.form .input-help[data-v-69239abb] {\n  font-size: 0.75em;\n  color: rgba(27, 37, 57, 0.7);\n  line-height: 1.35;\n  padding-top: 10px;\n  display: block;\n}\n.single-line-form[data-v-69239abb] {\n  display: flex;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n  margin-left: 20px;\n}\n.error-message[data-v-69239abb] {\n  font-size: 0.875em;\n  color: #fd397a;\n  padding-top: 5px;\n  display: block;\n  text-align: left;\n}\ntextarea[data-v-69239abb] {\n  width: 100%;\n}\ntextarea[data-v-69239abb],\ninput[type=\"password\"][data-v-69239abb],\ninput[type=\"text\"][data-v-69239abb],\ninput[type=\"tel\"][data-v-69239abb],\ninput[type=\"number\"][data-v-69239abb],\ninput[type=\"email\"][data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);\n}\ntextarea.is-error[data-v-69239abb],\ninput[type=\"password\"].is-error[data-v-69239abb],\ninput[type=\"text\"].is-error[data-v-69239abb],\ninput[type=\"tel\"].is-error[data-v-69239abb],\ninput[type=\"number\"].is-error[data-v-69239abb],\ninput[type=\"email\"].is-error[data-v-69239abb] {\n  border-color: #fd397a;\n  box-shadow: 0 1px 5px rgba(253, 57, 122, 0.3);\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]::placeholder,\ninput[type=\"password\"][data-v-69239abb]::placeholder,\ninput[type=\"text\"][data-v-69239abb]::placeholder,\ninput[type=\"tel\"][data-v-69239abb]::placeholder,\ninput[type=\"number\"][data-v-69239abb]::placeholder,\ninput[type=\"email\"][data-v-69239abb]::placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:focus,\ninput[type=\"password\"][data-v-69239abb]:focus,\ninput[type=\"text\"][data-v-69239abb]:focus,\ninput[type=\"tel\"][data-v-69239abb]:focus,\ninput[type=\"number\"][data-v-69239abb]:focus,\ninput[type=\"email\"][data-v-69239abb]:focus {\n  border-color: #0667B3;\n  box-shadow: 0 1px 5px rgba(6, 103, 179, 0.3);\n}\ntextarea[disabled][data-v-69239abb],\ninput[type=\"password\"][disabled][data-v-69239abb],\ninput[type=\"text\"][disabled][data-v-69239abb],\ninput[type=\"tel\"][disabled][data-v-69239abb],\ninput[type=\"number\"][disabled][data-v-69239abb],\ninput[type=\"email\"][disabled][data-v-69239abb] {\n  background: white;\n  color: rgba(27, 37, 57, 0.8);\n  -webkit-text-fill-color: rgba(27, 37, 57, 0.8);\n  opacity: 1;\n  cursor: not-allowed;\n}\n.additional-link[data-v-69239abb] {\n  font-size: 1em;\n  margin-top: 50px;\n  display: block;\n  color: #1B2539;\n}\n.additional-link b[data-v-69239abb], .additional-link a[data-v-69239abb] {\n  color: #0667B3;\n  cursor: pointer;\n}\n.additional-link b[data-v-69239abb]:hover, .additional-link a[data-v-69239abb]:hover {\n  text-decoration: underline;\n}\n@media only screen and (max-width: 1024px) {\n.form[data-v-69239abb] {\n    max-width: 100%;\n}\n}\n@media only screen and (max-width: 960px) {\n.form .button[data-v-69239abb] {\n    margin-top: 20px;\n    width: 100%;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form input[data-v-69239abb], .form textarea[data-v-69239abb] {\n    width: 100%;\n    min-width: 100%;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n    display: block;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    width: 100%;\n    padding-right: 0;\n    display: block;\n    margin-bottom: 7px;\n    text-align: left !important;\n    font-size: 0.875em;\n    padding-top: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n    margin-top: 25px;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form.inline-form[data-v-69239abb] {\n    display: block;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n    position: relative;\n    bottom: 0;\n}\n.form .button[data-v-69239abb] {\n    padding: 14px 32px;\n}\n.single-line-form[data-v-69239abb] {\n    display: block;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n    margin-left: 0;\n    margin-top: 20px;\n    width: 100%;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    padding: 14px 20px;\n}\n}\n@media only screen and (max-width: 690px) {\n.form.block-form .wrapper-inline[data-v-69239abb] {\n    display: block;\n}\n}\n@media (prefers-color-scheme: dark) {\n.form .input-help[data-v-69239abb] {\n    color: #7d858c;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    color: #1B2539;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n    color: #1B2539;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    border-color: #f4f5f6;\n    background: #f4f5f6;\n    color: #1B2539;\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]::placeholder,\n  input[type=\"password\"][data-v-69239abb]::placeholder,\n  input[type=\"text\"][data-v-69239abb]::placeholder,\n  input[type=\"number\"][data-v-69239abb]::placeholder,\n  input[type=\"tel\"][data-v-69239abb]::placeholder,\n  input[type=\"email\"][data-v-69239abb]::placeholder {\n    color: #7d858c;\n}\ntextarea[disabled][data-v-69239abb],\n  input[type=\"password\"][disabled][data-v-69239abb],\n  input[type=\"text\"][disabled][data-v-69239abb],\n  input[type=\"number\"][disabled][data-v-69239abb],\n  input[type=\"tel\"][disabled][data-v-69239abb],\n  input[type=\"email\"][disabled][data-v-69239abb] {\n    background: #f4f5f6;\n    color: rgba(125, 133, 140, 0.8);\n    -webkit-text-fill-color: rgba(125, 133, 140, 0.8);\n}\n}\n#profile-wrapper[data-v-69239abb] {\n  height: 100%;\n  width: 100%;\n  display: table;\n}\n.preview[data-v-69239abb],\n.date-field[data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  text-align: start;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;\n  padding: 14px 20px;\n  border-color: #f4f5f6;\n  background: #f4f5f6;\n  color: #1b2539;\n  height: 52px;\n  cursor: pointer;\n  width: 100%;\n}\n.image.preview[data-v-69239abb] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 300px;\n  cursor: pointer;\n}\n.image.preview img[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.image.preview div[data-v-69239abb] {\n  width: 100%;\n  position: relative;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: 1.5em;\n  color: #1b2539;\n}\n.image.preview div[data-v-69239abb]:before {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-image: url(/assets/images/selfie-ktp.png);\n  background-size: cover;\n  background-repeat: no-repeat;\n  background-position-x: -60px;\n}\n.action_wrapper[data-v-69239abb] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 15px;\n  align-items: center;\n  margin-top: 20px;\n}\n.wrapper[data-v-69239abb] {\n  margin-bottom: 30px;\n}\n.wrapper h1[data-v-69239abb] {\n  font-size: 1.8rem;\n}\nimg[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.text-left[data-v-69239abb] {\n  text-align: left;\n}\n.mt-8[data-v-69239abb] {\n  margin-bottom: 1.25rem;\n}\n.indicator-icon[data-v-69239abb] {\n  height: 20px;\n}\n.block-wrapper[data-v-69239abb] {\n  text-align: left;\n  margin-bottom: 16px;\n}\n.confirm-container .block-wrapper h4[data-v-69239abb] {\n  margin-bottom: 4px;\n}\n.confirm-container .block-wrapper div[data-v-69239abb] {\n  background: #eee;\n  padding: 12px 10px;\n  border-radius: 6px;\n}\n.confirm-container .block-wrapper img[data-v-69239abb] {\n  height: 240px;\n  border-radius: 8px;\n}\n", ""]);
 
 // exports
 

@@ -345,4 +345,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSettings::class);
     }
+    /**
+     * Get signatures attributes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function signatures()
+    {
+        return $this->hasMany(Signature::class);
+    }
 }
