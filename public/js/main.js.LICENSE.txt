@@ -1,6 +1,7 @@
 /*!
- * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2022 Fonticons, Inc.
  */
 
 /*!
@@ -17,8 +18,8 @@
  */
 
 /*!
- * vue-i18n v8.24.4 
- * (c) 2021 kazuya kawaguchi
+ * vue-i18n v8.27.0 
+ * (c) 2022 kazuya kawaguchi
  * Released under the MIT License.
  */
 
@@ -29,7 +30,7 @@
  */
 
 /**
-  * vee-validate v3.4.9
+  * vee-validate v3.4.14
   * (c) 2021 Abdelrahman Awad
   * @license MIT
   */

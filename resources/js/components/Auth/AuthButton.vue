@@ -1,5 +1,12 @@
 <template>
-    <button class="button outline">
+    <button 
+    v-bind="$attrs" 
+    v-on="$listeners"
+    :class="[
+      'button outline',
+      {ltr: ltr},
+    ]"
+    >
         <span class="text-label">{{ text }}</span>
 
         <span v-if="loading" class="icon">
@@ -15,7 +22,7 @@
 
     export default {
         name: 'AuthContent',
-        props: ['loading', 'icon', 'text'],
+        props: ['loading', 'icon', 'text', 'ltr'],
         data() {
             return {
                 isVisible: false,
@@ -36,12 +43,21 @@
         border-radius: 8px;
         text-decoration: none;
         padding: 12px 32px;
-        display: inline-block;
+        display: flex;
+        align-items: center;
         margin-left: 15px;
         margin-right: 15px;
         white-space: nowrap;
         @include transition(150ms);
         background: transparent;
+        
+        &.ltr {
+            flex-direction: row-reverse;
+
+            .icon {
+                margin-right: 12px;
+            }
+        }
 
         .text-label {
             @include transition(150ms);
