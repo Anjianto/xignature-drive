@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: mariadb:10.4.19
+    volumes:
+      - db_data:/media/ssd-drive/.xignature_drive/data/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: xignature_drive
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password 
+volumes:
+  db_data: 
