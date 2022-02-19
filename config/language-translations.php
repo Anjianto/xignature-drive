@@ -698,5 +698,7 @@ return [
         'sigature_profile.button_selfie'                   => 'Selfie',
         'sigature_profile.button_finish'                   => 'Finish',
         'sigature_profile.save_profile'                    => 'Save Profile',
+        'navigation.next'                                  => 'Next',
+        'navigation.previous'                              => 'Previous',
     ]
 ];

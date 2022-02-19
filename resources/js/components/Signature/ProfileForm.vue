@@ -316,14 +316,14 @@
               icon="chevron-left"
               v-if="progress - 1 >= 0"
               @click="saveFields(progress, previous)"
-              :text="getProfileButtonLabel(progress - 1)"
+              :text="$t('navigation.previous')"
               :ltr="true"
             />
             <AuthButton
               v-if="progress < 3"
               icon="chevron-right"
               @click="saveFields(progress, next)"
-              :text="getProfileButtonLabel(progress)"
+              :text="$t('navigation.next')"
             />
           </div>
         </template>
