@@ -31,6 +31,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -38,17 +40,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FilesView',
+  name: "FilesView",
   components: {
     DesktopSortingAndPreview: _components_FilesView_DesktopSortingAndPreview__WEBPACK_IMPORTED_MODULE_0__["default"],
     DesktopToolbar: _components_FilesView_DesktopToolbar__WEBPACK_IMPORTED_MODULE_1__["default"],
     FileBrowser: _components_FilesView_FileBrowser__WEBPACK_IMPORTED_MODULE_2__["default"],
     ContextMenu: _components_FilesView_ContextMenu__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(['config'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["config"])),
   methods: {
     contextMenu: function contextMenu(event, item) {
-      _bus__WEBPACK_IMPORTED_MODULE_5__["events"].$emit('contextMenu:show', event, item);
+      _bus__WEBPACK_IMPORTED_MODULE_5__["events"].$emit("contextMenu:show", event, item);
     }
   }
 });
@@ -144,7 +146,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "#files-view {\n  font-family: 'Nunito', sans-serif;\n  font-size: 16px;\n  width: 100%;\n  height: 100%;\n  position: relative;\n  min-width: 320px;\n  overflow-x: hidden;\n  padding-left: 15px;\n  padding-right: 15px;\n  overflow-y: hidden;\n}\n@media only screen and (max-width: 690px) {\n#files-view {\n    padding-left: 0;\n    padding-right: 0;\n}\n}\n", ""]);
+exports.push([module.i, "#files-view {\n  font-family: \"Nunito\", sans-serif;\n  font-size: 16px;\n  width: 100%;\n  height: 100%;\n  position: relative;\n  min-width: 320px;\n  overflow-x: hidden;\n  padding-left: 15px;\n  padding-right: 15px;\n  overflow-y: hidden;\n}\n@media only screen and (max-width: 690px) {\n#files-view {\n    padding-left: 0;\n    padding-right: 0;\n}\n}\n", ""]);
 
 // exports
 

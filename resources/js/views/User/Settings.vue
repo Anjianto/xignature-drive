@@ -125,11 +125,6 @@
             />
           </div>
         </div>
-        <div style="display: flex; justify-content: center">
-          <button class="btn btn-primary" @click="() => this.$store.dispatch('genSignToken')">
-            Generate Signature
-          </button>
-        </div>
       </div>
     </PageTabGroup>
 
@@ -306,6 +301,7 @@ import ThemeLabel from "@/components/Others/ThemeLabel";
 import { required } from "vee-validate/dist/rules";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
+import Button from "@/components/Others/Button";	
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
@@ -315,6 +311,7 @@ export default {
   components: {
     ValidationProvider,
     DatePicker,
+    Button,
     ValidationObserver,
     PageTabGroup,
     MobileHeader,

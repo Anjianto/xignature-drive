@@ -60,6 +60,7 @@ class FileAccessController extends Controller
         // Return selfie
         return Storage::download($path, $basename);
     }
+
     /**
      * Get ktp
      *

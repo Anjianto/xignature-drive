@@ -630,7 +630,12 @@ export default {
     },
     singleSignItem() {
       this.$store.dispatch("addFileInfoDetail", this.item);
-      this.$router.push("/sign");
+      const [name, ext] = this.item.basename.split(".");
+      this.$router.push({ name: "Sign", params: {
+        fileId: name,
+      }, query: {
+        type: ext
+      }});
     },
     moveItem() {
       events.$emit("popup:open", { name: "move", item: [this.item] });

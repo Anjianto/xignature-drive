@@ -487,6 +487,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -550,6 +552,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       retries: 0,
       displayConfirm: false,
       loading: false
+    };
+  },
+  setup: function setup() {
+    var user = this.$store.getters.user;
+    this.profile = {
+      name: user.data.attributes.name,
+      email: user.data.attributes.email,
+      phone: user.data.attributes.phone,
+      nik: user.data.attributes.nik,
+      birthplace: user.data.attributes.birth_place,
+      birthdate: user.data.attributes.birth_date,
+      ktp: user.data.attributes.ktp,
+      selfie: user.data.attributes.selfie
     };
   },
   methods: {
@@ -1162,14 +1177,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   _this2.isLoading = false; // Set login state
 
                   _this2.$store.commit("SET_AUTHORIZED", true); // complete the profile
+                  // this.isPreRegister = true;
+                  // this.$router.push({name: 'SignUp', query: {preRegister: true}})
 
-
-                  _this2.isPreRegister = true;
 
                   _this2.$router.push({
-                    name: 'SignUp',
+                    name: 'Profile',
                     query: {
-                      preRegister: true
+                      create_signature: true
                     }
                   });
                 })["catch"](function (error) {
@@ -2249,7 +2264,7 @@ var render = function () {
                                               tag: "div",
                                               mode: "passive",
                                               name: "KTP Picture",
-                                              rules: "ext:jpg,png",
+                                              rules: "ext:jpg,jpeg,png",
                                             },
                                             scopedSlots: _vm._u(
                                               [
@@ -2685,7 +2700,7 @@ var render = function () {
                                             { staticClass: "text-left mt-8" },
                                             [
                                               _vm._v(
-                                                "Upload You Selfie With KTP on camera"
+                                                "\n              Upload Your Selfie With KTP on camera\n            "
                                               ),
                                             ]
                                           ),
@@ -2696,7 +2711,7 @@ var render = function () {
                                               tag: "div",
                                               mode: "passive",
                                               name: "Selfie with KTP",
-                                              rules: "ext:jpg,png",
+                                              rules: "ext:jpg,jpeg,png",
                                             },
                                             scopedSlots: _vm._u(
                                               [
@@ -3754,80 +3769,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProfileForm_vue_vue_type_template_id_69239abb_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/js/http_client/signature_client.js":
-/*!******************************************************!*\
-  !*** ./resources/js/http_client/signature_client.js ***!
-  \******************************************************/
-/*! exports provided: client, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "client", function() { return client; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
-
-
-var client = function client(_ref) {
-  var base_url = _ref.base_url,
-      key = _ref.key;
-  return axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-    baseURL: base_url,
-    headers: {
-      'api-key': key
-    }
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = ({
-  client: client({
-    base_url: "https://sandbox.xignature.co.id/v1/",
-    key: "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B"
-  }),
-  loadDocuments: function loadDocuments(page, limit, doctype, status, search) {
-    return this.client.post('/document/list', {
-      page: page,
-      limit: limit,
-      doctype: doctype,
-      status: status,
-      search: search
-    });
-  },
-  genOTP: function genOTP(data) {
-    // format date
-    var birthdate = data.birthdate ? Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(data.birthdate, 'yyyy-MM-dd') : null;
-    data = {
-      email: data.email,
-      fullname: data.fullname,
-      nik: data.nik,
-      ktp: data.ktp,
-      selfie: data.selfie,
-      phone: data.phone,
-      birthplace: data.birthplace,
-      birthdate: birthdate
-    };
-    return this.client.post('auth/generateToken', data);
-  },
-  genLTC: function genLTC(data, duration) {
-    var birthdate = data.birthdate ? Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(data.birthdate, 'yyyy-MM-dd') : null;
-    var expiredDate = Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["format"])(Object(date_fns__WEBPACK_IMPORTED_MODULE_1__["addDays"])(Date.now(), duration), 'yyyy-MM-dd');
-    data = {
-      expiredToken: expiredDate,
-      email: data.email,
-      fullname: data.fullname,
-      nik: data.nik,
-      ktp: data.ktp,
-      selfie: data.selfie,
-      phone: data.phone,
-      birthplace: data.birthplace,
-      birthdate: birthdate
-    };
-    return this.client.post('auth/generateLtcToken', data);
-  }
-});
 
 /***/ }),
 

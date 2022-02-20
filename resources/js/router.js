@@ -463,7 +463,7 @@ const routesUser = [
   },
   {
     name: "Sign",
-    path: "/sign",
+    path: "/sign/:fileId",
     component: () =>
       import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
     meta: {
