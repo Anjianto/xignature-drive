@@ -49,7 +49,7 @@
           />
         </div>
       </div>
-      <div v-else-if="loading">
+      <div class="loading container" v-else-if="loading">
         <div class="loader"></div>
         <h4>Loading...</h4>
         <p>Please wait while we make your signature.</p>
@@ -242,12 +242,6 @@
                 rules="required"
                 v-slot="{ errors }"
               >
-                <!-- <input
-                  v-model="profile.birthdate"
-                  :placeholder="$t('page_registration.placeholder_birthdate')"
-                  type="text"
-                  :class="{ 'is-error': errors[0] }"
-                /> -->
                 <DatePicker
                   :placeholder="$t('page_registration.placeholder_birthdate')"
                   v-model="profile.birthdate"
@@ -291,7 +285,10 @@
                     :src="profile.selfie"
                     alt="selfie photo"
                   />
-                  <div v-else>click to upload</div>
+                  <div class="placeholder center" v-else>
+                    <h4>No Selfie Taken</h4>
+                    <p>click open Camera</p>
+                  </div>
                 </div>
                 <input
                   ref="selfieUpload"
@@ -545,44 +542,7 @@ export default {
   cursor: pointer;
   width: 100%;
 }
-.image.preview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 300px;
-  cursor: pointer;
 
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  & div {
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url(/assets/images/selfie-ktp.png);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position-x: -60px;
-    }
-    width: 100%;
-    position: relative;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5em;
-    color: #1b2539;
-  }
-}
 .action_wrapper {
   display: flex;
   flex-wrap: wrap;

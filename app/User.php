@@ -88,7 +88,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+        'name', 'email', 'password', 'avatar', 'phone', 'nik', 'birth_date'
+        ,'birth_place', 'ktp', 'selfie'
     ];
 
     /**
@@ -107,6 +108,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth_date' => 'datetime',
     ];
 
     protected $appends = [
@@ -222,6 +224,46 @@ class User extends Authenticatable
         }
 
         return url('/assets/images/' . 'default-avatar.png');
+    }
+
+    /**
+     * Format avatar to full url
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getSelfieAttribute()
+    {
+        // Get selfie from external storage
+        if ($this->attributes['selfie'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
+            return Storage::temporaryUrl($this->attributes['selfie'], now()->addDay());
+        }
+
+        // Get selfie from local storage
+        if ($this->attributes['selfie']) {
+            return url('/' . $this->attributes['selfie']);
+        }
+
+        return url('/assets/images/' . 'default-selfie.png');
+    }
+
+    /**
+     * Format ktp to full url
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getKtpAttribute()
+    {
+        // Get ktp from external storage
+        if ($this->attributes['ktp'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
+            return Storage::temporaryUrl($this->attributes['ktp'], now()->addDay());
+        }
+
+        // Get ktp from local storage
+        if ($this->attributes['ktp']) {
+            return url('/' . $this->attributes['ktp']);
+        }
+
+        return url('/assets/images/' . 'default-ktp.png');
     }
 
     /**

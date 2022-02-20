@@ -487,9 +487,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1278,7 +1275,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form[data-v-69239abb] {\n  max-width: 700px;\n}\n.form.inline-form[data-v-69239abb] {\n  display: flex;\n  position: relative;\n  justify-content: center;\n  margin: 0 auto;\n}\n.form.inline-form .input-wrapper[data-v-69239abb] {\n  position: relative;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n  position: absolute;\n  left: 0;\n  bottom: -25px;\n}\n.form.block-form .wrapper-inline[data-v-69239abb] {\n  display: flex;\n  margin: 0 -15px;\n}\n.form.block-form .wrapper-inline .block-wrapper[data-v-69239abb] {\n  width: 100%;\n  padding: 0 15px;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n  margin-bottom: 32px;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n  font-size: 0.875em;\n  color: rgba(27, 37, 57, 0.8);\n  font-weight: 700;\n  display: block;\n  margin-bottom: 7px;\n  text-align: left;\n}\n.form.block-form .block-wrapper[data-v-69239abb]:last-child {\n  margin-bottom: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n  margin-top: 50px;\n}\n.form .inline-wrapper[data-v-69239abb] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.form .inline-wrapper .switch-label .input-help[data-v-69239abb] {\n  padding-top: 0;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n  font-weight: 700;\n  color: #1B2539;\n  font-size: 1em;\n  margin-bottom: 5px;\n}\n.form .input-help[data-v-69239abb] {\n  font-size: 0.75em;\n  color: rgba(27, 37, 57, 0.7);\n  line-height: 1.35;\n  padding-top: 10px;\n  display: block;\n}\n.single-line-form[data-v-69239abb] {\n  display: flex;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n  margin-left: 20px;\n}\n.error-message[data-v-69239abb] {\n  font-size: 0.875em;\n  color: #fd397a;\n  padding-top: 5px;\n  display: block;\n  text-align: left;\n}\ntextarea[data-v-69239abb] {\n  width: 100%;\n}\ntextarea[data-v-69239abb],\ninput[type=\"password\"][data-v-69239abb],\ninput[type=\"text\"][data-v-69239abb],\ninput[type=\"tel\"][data-v-69239abb],\ninput[type=\"number\"][data-v-69239abb],\ninput[type=\"email\"][data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);\n}\ntextarea.is-error[data-v-69239abb],\ninput[type=\"password\"].is-error[data-v-69239abb],\ninput[type=\"text\"].is-error[data-v-69239abb],\ninput[type=\"tel\"].is-error[data-v-69239abb],\ninput[type=\"number\"].is-error[data-v-69239abb],\ninput[type=\"email\"].is-error[data-v-69239abb] {\n  border-color: #fd397a;\n  box-shadow: 0 1px 5px rgba(253, 57, 122, 0.3);\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]::placeholder,\ninput[type=\"password\"][data-v-69239abb]::placeholder,\ninput[type=\"text\"][data-v-69239abb]::placeholder,\ninput[type=\"tel\"][data-v-69239abb]::placeholder,\ninput[type=\"number\"][data-v-69239abb]::placeholder,\ninput[type=\"email\"][data-v-69239abb]::placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:focus,\ninput[type=\"password\"][data-v-69239abb]:focus,\ninput[type=\"text\"][data-v-69239abb]:focus,\ninput[type=\"tel\"][data-v-69239abb]:focus,\ninput[type=\"number\"][data-v-69239abb]:focus,\ninput[type=\"email\"][data-v-69239abb]:focus {\n  border-color: #0667B3;\n  box-shadow: 0 1px 5px rgba(6, 103, 179, 0.3);\n}\ntextarea[disabled][data-v-69239abb],\ninput[type=\"password\"][disabled][data-v-69239abb],\ninput[type=\"text\"][disabled][data-v-69239abb],\ninput[type=\"tel\"][disabled][data-v-69239abb],\ninput[type=\"number\"][disabled][data-v-69239abb],\ninput[type=\"email\"][disabled][data-v-69239abb] {\n  background: white;\n  color: rgba(27, 37, 57, 0.8);\n  -webkit-text-fill-color: rgba(27, 37, 57, 0.8);\n  opacity: 1;\n  cursor: not-allowed;\n}\n.additional-link[data-v-69239abb] {\n  font-size: 1em;\n  margin-top: 50px;\n  display: block;\n  color: #1B2539;\n}\n.additional-link b[data-v-69239abb], .additional-link a[data-v-69239abb] {\n  color: #0667B3;\n  cursor: pointer;\n}\n.additional-link b[data-v-69239abb]:hover, .additional-link a[data-v-69239abb]:hover {\n  text-decoration: underline;\n}\n@media only screen and (max-width: 1024px) {\n.form[data-v-69239abb] {\n    max-width: 100%;\n}\n}\n@media only screen and (max-width: 960px) {\n.form .button[data-v-69239abb] {\n    margin-top: 20px;\n    width: 100%;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form input[data-v-69239abb], .form textarea[data-v-69239abb] {\n    width: 100%;\n    min-width: 100%;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n    display: block;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    width: 100%;\n    padding-right: 0;\n    display: block;\n    margin-bottom: 7px;\n    text-align: left !important;\n    font-size: 0.875em;\n    padding-top: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n    margin-top: 25px;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form.inline-form[data-v-69239abb] {\n    display: block;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n    position: relative;\n    bottom: 0;\n}\n.form .button[data-v-69239abb] {\n    padding: 14px 32px;\n}\n.single-line-form[data-v-69239abb] {\n    display: block;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n    margin-left: 0;\n    margin-top: 20px;\n    width: 100%;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    padding: 14px 20px;\n}\n}\n@media only screen and (max-width: 690px) {\n.form.block-form .wrapper-inline[data-v-69239abb] {\n    display: block;\n}\n}\n@media (prefers-color-scheme: dark) {\n.form .input-help[data-v-69239abb] {\n    color: #7d858c;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    color: #1B2539;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n    color: #1B2539;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    border-color: #f4f5f6;\n    background: #f4f5f6;\n    color: #1B2539;\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]::placeholder,\n  input[type=\"password\"][data-v-69239abb]::placeholder,\n  input[type=\"text\"][data-v-69239abb]::placeholder,\n  input[type=\"number\"][data-v-69239abb]::placeholder,\n  input[type=\"tel\"][data-v-69239abb]::placeholder,\n  input[type=\"email\"][data-v-69239abb]::placeholder {\n    color: #7d858c;\n}\ntextarea[disabled][data-v-69239abb],\n  input[type=\"password\"][disabled][data-v-69239abb],\n  input[type=\"text\"][disabled][data-v-69239abb],\n  input[type=\"number\"][disabled][data-v-69239abb],\n  input[type=\"tel\"][disabled][data-v-69239abb],\n  input[type=\"email\"][disabled][data-v-69239abb] {\n    background: #f4f5f6;\n    color: rgba(125, 133, 140, 0.8);\n    -webkit-text-fill-color: rgba(125, 133, 140, 0.8);\n}\n}\n#profile-wrapper[data-v-69239abb] {\n  height: 100%;\n  width: 100%;\n  display: table;\n}\n.preview[data-v-69239abb],\n.date-field[data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  text-align: start;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;\n  padding: 14px 20px;\n  border-color: #f4f5f6;\n  background: #f4f5f6;\n  color: #1b2539;\n  height: 52px;\n  cursor: pointer;\n  width: 100%;\n}\n.image.preview[data-v-69239abb] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 300px;\n  cursor: pointer;\n}\n.image.preview img[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.image.preview div[data-v-69239abb] {\n  width: 100%;\n  position: relative;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: 1.5em;\n  color: #1b2539;\n}\n.image.preview div[data-v-69239abb]:before {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-image: url(/assets/images/selfie-ktp.png);\n  background-size: cover;\n  background-repeat: no-repeat;\n  background-position-x: -60px;\n}\n.action_wrapper[data-v-69239abb] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 15px;\n  align-items: center;\n  margin-top: 20px;\n}\n.wrapper[data-v-69239abb] {\n  margin-bottom: 30px;\n}\n.wrapper h1[data-v-69239abb] {\n  font-size: 1.8rem;\n}\nimg[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.text-left[data-v-69239abb] {\n  text-align: left;\n}\n.mt-8[data-v-69239abb] {\n  margin-bottom: 1.25rem;\n}\n.indicator-icon[data-v-69239abb] {\n  height: 20px;\n}\n.block-wrapper[data-v-69239abb] {\n  text-align: left;\n  margin-bottom: 16px;\n}\n.confirm-container .block-wrapper h4[data-v-69239abb] {\n  margin-bottom: 4px;\n}\n.confirm-container .block-wrapper div[data-v-69239abb] {\n  background: #eee;\n  padding: 12px 10px;\n  border-radius: 6px;\n}\n.confirm-container .block-wrapper img[data-v-69239abb] {\n  height: 240px;\n  border-radius: 8px;\n}\n", ""]);
+exports.push([module.i, ".form[data-v-69239abb] {\n  max-width: 700px;\n}\n.form.inline-form[data-v-69239abb] {\n  display: flex;\n  position: relative;\n  justify-content: center;\n  margin: 0 auto;\n}\n.form.inline-form .input-wrapper[data-v-69239abb] {\n  position: relative;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n  position: absolute;\n  left: 0;\n  bottom: -25px;\n}\n.form.block-form .wrapper-inline[data-v-69239abb] {\n  display: flex;\n  margin: 0 -15px;\n}\n.form.block-form .wrapper-inline .block-wrapper[data-v-69239abb] {\n  width: 100%;\n  padding: 0 15px;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n  margin-bottom: 32px;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n  font-size: 0.875em;\n  color: rgba(27, 37, 57, 0.8);\n  font-weight: 700;\n  display: block;\n  margin-bottom: 7px;\n  text-align: left;\n}\n.form.block-form .block-wrapper[data-v-69239abb]:last-child {\n  margin-bottom: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n  margin-top: 50px;\n}\n.form .inline-wrapper[data-v-69239abb] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.form .inline-wrapper .switch-label .input-help[data-v-69239abb] {\n  padding-top: 0;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n  font-weight: 700;\n  color: #1B2539;\n  font-size: 1em;\n  margin-bottom: 5px;\n}\n.form .input-help[data-v-69239abb] {\n  font-size: 0.75em;\n  color: rgba(27, 37, 57, 0.7);\n  line-height: 1.35;\n  padding-top: 10px;\n  display: block;\n}\n.single-line-form[data-v-69239abb] {\n  display: flex;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n  margin-left: 20px;\n}\n.error-message[data-v-69239abb] {\n  font-size: 0.875em;\n  color: #fd397a;\n  padding-top: 5px;\n  display: block;\n  text-align: left;\n}\ntextarea[data-v-69239abb] {\n  width: 100%;\n}\ntextarea[data-v-69239abb],\ninput[type=\"password\"][data-v-69239abb],\ninput[type=\"text\"][data-v-69239abb],\ninput[type=\"tel\"][data-v-69239abb],\ninput[type=\"number\"][data-v-69239abb],\ninput[type=\"email\"][data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);\n}\ntextarea.is-error[data-v-69239abb],\ninput[type=\"password\"].is-error[data-v-69239abb],\ninput[type=\"text\"].is-error[data-v-69239abb],\ninput[type=\"tel\"].is-error[data-v-69239abb],\ninput[type=\"number\"].is-error[data-v-69239abb],\ninput[type=\"email\"].is-error[data-v-69239abb] {\n  border-color: #fd397a;\n  box-shadow: 0 1px 5px rgba(253, 57, 122, 0.3);\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]::placeholder,\ninput[type=\"password\"][data-v-69239abb]::placeholder,\ninput[type=\"text\"][data-v-69239abb]::placeholder,\ninput[type=\"tel\"][data-v-69239abb]::placeholder,\ninput[type=\"number\"][data-v-69239abb]::placeholder,\ninput[type=\"email\"][data-v-69239abb]::placeholder {\n  color: rgba(27, 37, 57, 0.5);\n  font-size: 0.9375em;\n}\ntextarea[data-v-69239abb]:focus,\ninput[type=\"password\"][data-v-69239abb]:focus,\ninput[type=\"text\"][data-v-69239abb]:focus,\ninput[type=\"tel\"][data-v-69239abb]:focus,\ninput[type=\"number\"][data-v-69239abb]:focus,\ninput[type=\"email\"][data-v-69239abb]:focus {\n  border-color: #0667B3;\n  box-shadow: 0 1px 5px rgba(6, 103, 179, 0.3);\n}\ntextarea[disabled][data-v-69239abb],\ninput[type=\"password\"][disabled][data-v-69239abb],\ninput[type=\"text\"][disabled][data-v-69239abb],\ninput[type=\"tel\"][disabled][data-v-69239abb],\ninput[type=\"number\"][disabled][data-v-69239abb],\ninput[type=\"email\"][disabled][data-v-69239abb] {\n  background: white;\n  color: rgba(27, 37, 57, 0.8);\n  -webkit-text-fill-color: rgba(27, 37, 57, 0.8);\n  opacity: 1;\n  cursor: not-allowed;\n}\n.additional-link[data-v-69239abb] {\n  font-size: 1em;\n  margin-top: 50px;\n  display: block;\n  color: #1B2539;\n}\n.additional-link b[data-v-69239abb], .additional-link a[data-v-69239abb] {\n  color: #0667B3;\n  cursor: pointer;\n}\n.additional-link b[data-v-69239abb]:hover, .additional-link a[data-v-69239abb]:hover {\n  text-decoration: underline;\n}\n@media only screen and (max-width: 1024px) {\n.form[data-v-69239abb] {\n    max-width: 100%;\n}\n}\n@media only screen and (max-width: 960px) {\n.form .button[data-v-69239abb] {\n    margin-top: 20px;\n    width: 100%;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form input[data-v-69239abb], .form textarea[data-v-69239abb] {\n    width: 100%;\n    min-width: 100%;\n}\n.form.block-form .block-wrapper[data-v-69239abb] {\n    display: block;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    width: 100%;\n    padding-right: 0;\n    display: block;\n    margin-bottom: 7px;\n    text-align: left !important;\n    font-size: 0.875em;\n    padding-top: 0;\n}\n.form.block-form .button[data-v-69239abb] {\n    margin-top: 25px;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form.inline-form[data-v-69239abb] {\n    display: block;\n}\n.form.inline-form .input-wrapper .error-message[data-v-69239abb] {\n    position: relative;\n    bottom: 0;\n}\n.form .button[data-v-69239abb] {\n    padding: 14px 32px;\n}\n.single-line-form[data-v-69239abb] {\n    display: block;\n}\n.single-line-form .submit-button[data-v-69239abb] {\n    margin-left: 0;\n    margin-top: 20px;\n    width: 100%;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    padding: 14px 20px;\n}\n}\n@media only screen and (max-width: 690px) {\n.form.block-form .wrapper-inline[data-v-69239abb] {\n    display: block;\n}\n}\n@media (prefers-color-scheme: dark) {\n.form .input-help[data-v-69239abb] {\n    color: #7d858c;\n}\n.form.block-form .block-wrapper label[data-v-69239abb] {\n    color: #1B2539;\n}\n.form .inline-wrapper .switch-label .input-label[data-v-69239abb] {\n    color: #1B2539;\n}\ntextarea[data-v-69239abb],\n  input[type=\"password\"][data-v-69239abb],\n  input[type=\"text\"][data-v-69239abb],\n  input[type=\"number\"][data-v-69239abb],\n  input[type=\"tel\"][data-v-69239abb],\n  input[type=\"email\"][data-v-69239abb] {\n    border-color: #f4f5f6;\n    background: #f4f5f6;\n    color: #1B2539;\n}\ntextarea[data-v-69239abb]::-moz-placeholder, input[type=\"password\"][data-v-69239abb]::-moz-placeholder, input[type=\"text\"][data-v-69239abb]::-moz-placeholder, input[type=\"number\"][data-v-69239abb]::-moz-placeholder, input[type=\"tel\"][data-v-69239abb]::-moz-placeholder, input[type=\"email\"][data-v-69239abb]::-moz-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]:-ms-input-placeholder, input[type=\"password\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"text\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"number\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"tel\"][data-v-69239abb]:-ms-input-placeholder, input[type=\"email\"][data-v-69239abb]:-ms-input-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-69239abb]::placeholder,\n  input[type=\"password\"][data-v-69239abb]::placeholder,\n  input[type=\"text\"][data-v-69239abb]::placeholder,\n  input[type=\"number\"][data-v-69239abb]::placeholder,\n  input[type=\"tel\"][data-v-69239abb]::placeholder,\n  input[type=\"email\"][data-v-69239abb]::placeholder {\n    color: #7d858c;\n}\ntextarea[disabled][data-v-69239abb],\n  input[type=\"password\"][disabled][data-v-69239abb],\n  input[type=\"text\"][disabled][data-v-69239abb],\n  input[type=\"number\"][disabled][data-v-69239abb],\n  input[type=\"tel\"][disabled][data-v-69239abb],\n  input[type=\"email\"][disabled][data-v-69239abb] {\n    background: #f4f5f6;\n    color: rgba(125, 133, 140, 0.8);\n    -webkit-text-fill-color: rgba(125, 133, 140, 0.8);\n}\n}\n#profile-wrapper[data-v-69239abb] {\n  height: 100%;\n  width: 100%;\n  display: table;\n}\n.preview[data-v-69239abb],\n.date-field[data-v-69239abb] {\n  border: 1px solid transparent;\n  transition: 150ms all ease;\n  text-align: start;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;\n  padding: 14px 20px;\n  border-color: #f4f5f6;\n  background: #f4f5f6;\n  color: #1b2539;\n  height: 52px;\n  cursor: pointer;\n  width: 100%;\n}\n.action_wrapper[data-v-69239abb] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 15px;\n  align-items: center;\n  margin-top: 20px;\n}\n.wrapper[data-v-69239abb] {\n  margin-bottom: 30px;\n}\n.wrapper h1[data-v-69239abb] {\n  font-size: 1.8rem;\n}\nimg[data-v-69239abb] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.text-left[data-v-69239abb] {\n  text-align: left;\n}\n.mt-8[data-v-69239abb] {\n  margin-bottom: 1.25rem;\n}\n.indicator-icon[data-v-69239abb] {\n  height: 20px;\n}\n.block-wrapper[data-v-69239abb] {\n  text-align: left;\n  margin-bottom: 16px;\n}\n.confirm-container .block-wrapper h4[data-v-69239abb] {\n  margin-bottom: 4px;\n}\n.confirm-container .block-wrapper div[data-v-69239abb] {\n  background: #eee;\n  padding: 12px 10px;\n  border-radius: 6px;\n}\n.confirm-container .block-wrapper img[data-v-69239abb] {\n  height: 240px;\n  border-radius: 8px;\n}\n", ""]);
 
 // exports
 
@@ -1300,6 +1297,159 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 exports.push([module.i, ".form.inline-form[data-v-e1fb3060] {\n  display: flex;\n  position: relative;\n  justify-content: center;\n  margin: 0 auto;\n}\n.form.inline-form .input-wrapper[data-v-e1fb3060] {\n  display: flex;\n  position: relative;\n}\n.form.inline-form .input-wrapper .error-message[data-v-e1fb3060] {\n  position: absolute;\n  left: 0;\n}\n.form.block-form.create-new-password .block-wrapper label[data-v-e1fb3060] {\n  width: 280px;\n}\n.form.block-form .block-wrapper[data-v-e1fb3060] {\n  margin-top: 25px;\n  text-align: start;\n}\n.form.block-form .block-wrapper[data-v-e1fb3060]:first-child {\n  margin-top: 0;\n}\n.form.block-form .block-wrapper label[data-v-e1fb3060] {\n  white-space: nowrap;\n  font-size: 1.125em;\n  font-weight: 700;\n  padding-right: 20px;\n  width: 200px;\n  text-align: right !important;\n  color: #1B2539;\n  text-align: right;\n}\n.form.block-form .button[data-v-e1fb3060] {\n  margin-top: 50px;\n}\n.input-wrapper .error-message[data-v-e1fb3060] {\n  font-size: 0.875em;\n  color: #fd397a;\n  padding-top: 5px;\n  display: block;\n  text-align: left;\n}\ntextarea[data-v-e1fb3060] {\n  width: 100%;\n}\ntextarea[data-v-e1fb3060],\ninput[type=\"password\"][data-v-e1fb3060],\ninput[type=\"text\"][data-v-e1fb3060],\ninput[type=\"email\"][data-v-e1fb3060] {\n  background: #f4f5f6;\n  border: 1px solid transparent;\n  transition: 0.15s all ease;\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 13px 20px;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  font-weight: 700;\n  outline: 0;\n  width: 100%;\n}\ntextarea.is-error[data-v-e1fb3060],\ninput[type=\"password\"].is-error[data-v-e1fb3060],\ninput[type=\"text\"].is-error[data-v-e1fb3060],\ninput[type=\"email\"].is-error[data-v-e1fb3060] {\n  border-color: #fd397a;\n  box-shadow: 0 0 7px rgba(253, 57, 122, 0.3);\n}\ntextarea[data-v-e1fb3060]::-moz-placeholder, input[type=\"password\"][data-v-e1fb3060]::-moz-placeholder, input[type=\"text\"][data-v-e1fb3060]::-moz-placeholder, input[type=\"email\"][data-v-e1fb3060]::-moz-placeholder {\n  color: #A4ADB6;\n  font-size: 1em;\n}\ntextarea[data-v-e1fb3060]:-ms-input-placeholder, input[type=\"password\"][data-v-e1fb3060]:-ms-input-placeholder, input[type=\"text\"][data-v-e1fb3060]:-ms-input-placeholder, input[type=\"email\"][data-v-e1fb3060]:-ms-input-placeholder {\n  color: #A4ADB6;\n  font-size: 1em;\n}\ntextarea[data-v-e1fb3060]::placeholder,\ninput[type=\"password\"][data-v-e1fb3060]::placeholder,\ninput[type=\"text\"][data-v-e1fb3060]::placeholder,\ninput[type=\"email\"][data-v-e1fb3060]::placeholder {\n  color: #A4ADB6;\n  font-size: 1em;\n}\ntextarea[data-v-e1fb3060]:focus,\ninput[type=\"password\"][data-v-e1fb3060]:focus,\ninput[type=\"text\"][data-v-e1fb3060]:focus,\ninput[type=\"email\"][data-v-e1fb3060]:focus {\n  border-color: #0667B3;\n  box-shadow: 0 0 7px rgba(6, 103, 179, 0.3);\n}\ntextarea[disabled][data-v-e1fb3060],\ninput[type=\"password\"][disabled][data-v-e1fb3060],\ninput[type=\"text\"][disabled][data-v-e1fb3060],\ninput[type=\"email\"][disabled][data-v-e1fb3060] {\n  color: #A4ADB6;\n  cursor: not-allowed;\n}\n.additional-link[data-v-e1fb3060] {\n  font-size: 1em;\n  margin-top: 50px;\n  display: block;\n  color: #1B2539;\n}\n.additional-link b[data-v-e1fb3060], .additional-link a[data-v-e1fb3060] {\n  color: #0667B3;\n  cursor: pointer;\n}\n.additional-link b[data-v-e1fb3060]:hover, .additional-link a[data-v-e1fb3060]:hover {\n  text-decoration: underline;\n}\n@media only screen and (max-width: 960px) {\n.form .button[data-v-e1fb3060] {\n    margin-top: 20px;\n    width: 100%;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form input[data-v-e1fb3060], .form textarea[data-v-e1fb3060] {\n    width: 100%;\n    min-width: 100%;\n}\n.form.block-form .block-wrapper[data-v-e1fb3060] {\n    display: block;\n}\n.form.block-form .block-wrapper label[data-v-e1fb3060] {\n    width: 100%;\n    padding-right: 0;\n    display: block;\n    margin-bottom: 7px;\n    text-align: left !important;\n    font-size: 0.875em;\n    padding-top: 0;\n}\n.form.block-form .button[data-v-e1fb3060] {\n    margin-top: 25px;\n    margin-left: 0;\n    margin-right: 0;\n}\n.form.inline-form[data-v-e1fb3060] {\n    display: block;\n}\n.form.inline-form .input-wrapper .error-message[data-v-e1fb3060] {\n    position: relative;\n    bottom: 0;\n}\n.form .button[data-v-e1fb3060] {\n    padding: 14px 32px;\n}\ntextarea[data-v-e1fb3060],\n  input[type=\"password\"][data-v-e1fb3060],\n  input[type=\"text\"][data-v-e1fb3060],\n  input[type=\"email\"][data-v-e1fb3060] {\n    padding: 14px 20px;\n}\n}\n@media (prefers-color-scheme: dark) {\n.form.block-form .block-wrapper label[data-v-e1fb3060] {\n    color: #1B2539;\n}\ntextarea[data-v-e1fb3060],\n  input[type=\"password\"][data-v-e1fb3060],\n  input[type=\"text\"][data-v-e1fb3060],\n  input[type=\"email\"][data-v-e1fb3060] {\n    background: #f4f5f6;\n    color: #1B2539;\n}\ntextarea[data-v-e1fb3060]::-moz-placeholder, input[type=\"password\"][data-v-e1fb3060]::-moz-placeholder, input[type=\"text\"][data-v-e1fb3060]::-moz-placeholder, input[type=\"email\"][data-v-e1fb3060]::-moz-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-e1fb3060]:-ms-input-placeholder, input[type=\"password\"][data-v-e1fb3060]:-ms-input-placeholder, input[type=\"text\"][data-v-e1fb3060]:-ms-input-placeholder, input[type=\"email\"][data-v-e1fb3060]:-ms-input-placeholder {\n    color: #7d858c;\n}\ntextarea[data-v-e1fb3060]::placeholder,\n  input[type=\"password\"][data-v-e1fb3060]::placeholder,\n  input[type=\"text\"][data-v-e1fb3060]::placeholder,\n  input[type=\"email\"][data-v-e1fb3060]::placeholder {\n    color: #7d858c;\n}\ntextarea[disabled][data-v-e1fb3060],\n  input[type=\"password\"][disabled][data-v-e1fb3060],\n  input[type=\"text\"][disabled][data-v-e1fb3060],\n  input[type=\"email\"][disabled][data-v-e1fb3060] {\n    color: #7d858c;\n}\n}\n.auth-logo-text[data-v-e1fb3060] {\n  font-size: 1.375em;\n  font-weight: 800;\n  margin-bottom: 40px;\n  display: block;\n}\n.auth-form[data-v-e1fb3060] {\n  text-align: center;\n  max-width: 600px;\n  padding: 25px 20px;\n  display: table-cell;\n  vertical-align: middle;\n}\n.auth-form input[data-v-e1fb3060] {\n  min-width: 310px;\n}\n.auth-form .additional-link a[data-v-e1fb3060] {\n  font-weight: 700;\n  text-decoration: none;\n}\n.auth-form .user-avatar[data-v-e1fb3060] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-bottom: 20px;\n  border-radius: 8px;\n  box-shadow: 0 10px 30px rgba(25, 54, 60, 0.2);\n}\n.auth-form .logo[data-v-e1fb3060] {\n  width: 120px;\n  margin-bottom: 20px;\n}\n.auth-form h1[data-v-e1fb3060] {\n  font-size: 2.125em;\n  font-weight: 800;\n  line-height: 1.2;\n  margin-bottom: 2px;\n  color: #1B2539;\n}\n.auth-form h2[data-v-e1fb3060] {\n  font-size: 1.4375em;\n  font-weight: 500;\n  margin-bottom: 50px;\n  color: #1B2539;\n}\n.auth-form .block-form[data-v-e1fb3060] {\n  margin-left: auto;\n  margin-right: auto;\n}\n@media only screen and (min-width: 690px) and (max-width: 960px) {\n.auth-form[data-v-e1fb3060] {\n    padding-left: 20%;\n    padding-right: 20%;\n}\n}\n@media only screen and (max-width: 690px) {\n.auth-form[data-v-e1fb3060] {\n    width: 100%;\n}\n.auth-form h1[data-v-e1fb3060] {\n    font-size: 1.875em;\n}\n.auth-form h2[data-v-e1fb3060] {\n    font-size: 1.3125em;\n}\n}\n@media only screen and (max-width: 490px) {\n.auth-form h1[data-v-e1fb3060] {\n    font-size: 1.375em;\n}\n.auth-form h2[data-v-e1fb3060] {\n    font-size: 1.125em;\n}\n.auth-form input[data-v-e1fb3060] {\n    min-width: initial;\n}\n.auth-form .additional-link[data-v-e1fb3060] {\n    font-size: 0.9375em;\n}\n}\n@media (prefers-color-scheme: dark) {\n.auth-form h1[data-v-e1fb3060], .auth-form h2[data-v-e1fb3060], .auth-form .additional-link[data-v-e1fb3060] {\n    color: #1B2539;\n}\n}\n.legal-agreement[data-v-e1fb3060] {\n  font-size: 1em;\n  padding: 55px 0 0;\n  max-width: 400px;\n  font-weight: 700;\n  line-height: 1.6;\n  margin: 0 auto;\n}\n.legal-agreement a[data-v-e1fb3060] {\n  color: #0667B3;\n}\n#content-card[data-v-e1fb3060] {\n  max-width: 454px;\n  margin: 0 auto;\n}\n#content-card > *[data-v-e1fb3060] {\n  border-radius: 20px;\n  --tw-bg-opacity: 1;\n  background-color: white;\n  padding: 2.75rem 1.5rem;\n  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);\n  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);\n}\n", ""]);
 
 // exports
+
+
+/***/ }),
+
+/***/ "./node_modules/js-cookie/dist/js.cookie.js":
+/*!**************************************************!*\
+  !*** ./node_modules/js-cookie/dist/js.cookie.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*! js-cookie v3.0.1 | MIT */
+;
+(function (global, factory) {
+   true ? module.exports = factory() :
+  undefined;
+}(this, (function () { 'use strict';
+
+  /* eslint-disable no-var */
+  function assign (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        target[key] = source[key];
+      }
+    }
+    return target
+  }
+  /* eslint-enable no-var */
+
+  /* eslint-disable no-var */
+  var defaultConverter = {
+    read: function (value) {
+      if (value[0] === '"') {
+        value = value.slice(1, -1);
+      }
+      return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
+    },
+    write: function (value) {
+      return encodeURIComponent(value).replace(
+        /%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g,
+        decodeURIComponent
+      )
+    }
+  };
+  /* eslint-enable no-var */
+
+  /* eslint-disable no-var */
+
+  function init (converter, defaultAttributes) {
+    function set (key, value, attributes) {
+      if (typeof document === 'undefined') {
+        return
+      }
+
+      attributes = assign({}, defaultAttributes, attributes);
+
+      if (typeof attributes.expires === 'number') {
+        attributes.expires = new Date(Date.now() + attributes.expires * 864e5);
+      }
+      if (attributes.expires) {
+        attributes.expires = attributes.expires.toUTCString();
+      }
+
+      key = encodeURIComponent(key)
+        .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
+        .replace(/[()]/g, escape);
+
+      var stringifiedAttributes = '';
+      for (var attributeName in attributes) {
+        if (!attributes[attributeName]) {
+          continue
+        }
+
+        stringifiedAttributes += '; ' + attributeName;
+
+        if (attributes[attributeName] === true) {
+          continue
+        }
+
+        // Considers RFC 6265 section 5.2:
+        // ...
+        // 3.  If the remaining unparsed-attributes contains a %x3B (";")
+        //     character:
+        // Consume the characters of the unparsed-attributes up to,
+        // not including, the first %x3B (";") character.
+        // ...
+        stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
+      }
+
+      return (document.cookie =
+        key + '=' + converter.write(value, key) + stringifiedAttributes)
+    }
+
+    function get (key) {
+      if (typeof document === 'undefined' || (arguments.length && !key)) {
+        return
+      }
+
+      // To prevent the for loop in the first place assign an empty array
+      // in case there are no cookies at all.
+      var cookies = document.cookie ? document.cookie.split('; ') : [];
+      var jar = {};
+      for (var i = 0; i < cookies.length; i++) {
+        var parts = cookies[i].split('=');
+        var value = parts.slice(1).join('=');
+
+        try {
+          var foundKey = decodeURIComponent(parts[0]);
+          jar[foundKey] = converter.read(value, foundKey);
+
+          if (key === foundKey) {
+            break
+          }
+        } catch (e) {}
+      }
+
+      return key ? jar[key] : jar
+    }
+
+    return Object.create(
+      {
+        set: set,
+        get: get,
+        remove: function (key, attributes) {
+          set(
+            key,
+            '',
+            assign({}, attributes, {
+              expires: -1
+            })
+          );
+        },
+        withAttributes: function (attributes) {
+          return init(this.converter, assign({}, this.attributes, attributes))
+        },
+        withConverter: function (converter) {
+          return init(assign({}, this.converter, converter), this.attributes)
+        }
+      },
+      {
+        attributes: { value: Object.freeze(defaultAttributes) },
+        converter: { value: Object.freeze(converter) }
+      }
+    )
+  }
+
+  var api = init(defaultConverter, { path: '/' });
+  /* eslint-enable no-var */
+
+  return api;
+
+})));
 
 
 /***/ }),
@@ -1676,7 +1826,7 @@ var render = function () {
               ),
             ])
           : _vm.loading
-          ? _c("div", [
+          ? _c("div", { staticClass: "loading container" }, [
               _c("div", { staticClass: "loader" }),
               _vm._v(" "),
               _c("h4", [_vm._v("Loading...")]),
@@ -2577,11 +2727,26 @@ var render = function () {
                                                                   alt: "selfie photo",
                                                                 },
                                                               })
-                                                            : _c("div", [
-                                                                _vm._v(
-                                                                  "click to upload"
-                                                                ),
-                                                              ]),
+                                                            : _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "placeholder center",
+                                                                },
+                                                                [
+                                                                  _c("h4", [
+                                                                    _vm._v(
+                                                                      "No Selfie Taken"
+                                                                    ),
+                                                                  ]),
+                                                                  _vm._v(" "),
+                                                                  _c("p", [
+                                                                    _vm._v(
+                                                                      "click open Camera"
+                                                                    ),
+                                                                  ]),
+                                                                ]
+                                                              ),
                                                         ]
                                                       ),
                                                       _vm._v(" "),
@@ -2667,7 +2832,7 @@ var render = function () {
                             ? _c("AuthButton", {
                                 attrs: {
                                   icon: "chevron-left",
-                                  text: _vm.getProfileButtonLabel(progress - 1),
+                                  text: _vm.$t("navigation.previous"),
                                   ltr: true,
                                 },
                                 on: {
@@ -2682,7 +2847,7 @@ var render = function () {
                             ? _c("AuthButton", {
                                 attrs: {
                                   icon: "chevron-right",
-                                  text: _vm.getProfileButtonLabel(progress),
+                                  text: _vm.$t("navigation.next"),
                                 },
                                 on: {
                                   click: function ($event) {

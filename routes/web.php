@@ -22,6 +22,8 @@ Route::get('/translations/{lang}', 'AppFunctionsController@get_translations');
 
 // App public files
 Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
+Route::get('/selfie/{selfie}', 'FileAccessController@get_selfie');
+Route::get('/ktp/{ktp}', 'FileAccessController@get_ktp');
 Route::get('/system/{image}', 'FileAccessController@get_system_image');
 
 // Get public thumbnails and files

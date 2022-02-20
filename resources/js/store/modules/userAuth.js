@@ -22,6 +22,10 @@ const actions = {
                         router.push({ name: 'Files' })
                     // if (router.currentRoute.name === 'SignUp')
                     //     router.push({ name: 'Files' })
+                    // const attrs = response.data.attributes
+                    const attr = response.data.data.attributes
+                    // response.data.attributes.birth_date = new Date(response.data.attributes.birth_date)
+                    attr.birth_date = new Date(attr.birth_date);
                     commit('RETRIEVE_USER', response.data)
 
                 }).catch((error) => {
@@ -136,6 +140,24 @@ const mutations = {
     },
     UPDATE_NAME(state, name) {
         state.user.data.attributes.name = name
+    },
+    UPDATE_PHONE(state, phone) {
+        state.user.data.attributes.phone = phone
+    },
+    UPDATE_NIK(state, nik) {
+        state.user.data.attributes.nik = nik
+    },
+    UPDATE_BIRTHDATE(state, birth_date) {
+        state.user.data.attributes.birth_date = birth_date
+    },
+    UPDATE_BIRTHPLACE(state, birth_place) {
+        state.user.data.attributes.birth_place = birth_place
+    },
+    UPDATE_SELFIE(state, selfie) {
+        state.user.data.attributes.selfie = selfie
+    },
+    UPDATE_KTP(state, ktp) {
+        state.user.data.attributes.ktp = ktp
     },
     UPDATE_AVATAR(state, avatar) {
         state.user.data.attributes.avatar = avatar

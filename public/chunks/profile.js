@@ -9,20 +9,30 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate/dist/vee-validate.full */ "./node_modules/vee-validate/dist/vee-validate.full.js");
-/* harmony import */ var vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Others/Layout/PageTabGroup */ "./resources/js/components/Others/Layout/PageTabGroup.vue");
-/* harmony import */ var _components_Others_Forms_SelectInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Others/Forms/SelectInput */ "./resources/js/components/Others/Forms/SelectInput.vue");
-/* harmony import */ var _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Others/Forms/FormLabel */ "./resources/js/components/Others/Forms/FormLabel.vue");
-/* harmony import */ var _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Mobile/MobileHeader */ "./resources/js/components/Mobile/MobileHeader.vue");
-/* harmony import */ var _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/FilesView/ButtonBase */ "./resources/js/components/FilesView/ButtonBase.vue");
-/* harmony import */ var _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Others/Layout/PageTab */ "./resources/js/components/Others/Layout/PageTab.vue");
-/* harmony import */ var _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Others/PageHeader */ "./resources/js/components/Others/PageHeader.vue");
-/* harmony import */ var _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Others/ThemeLabel */ "./resources/js/components/Others/ThemeLabel.vue");
-/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate/dist/vee-validate.full */ "./node_modules/vee-validate/dist/vee-validate.full.js");
+/* harmony import */ var vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Others/Layout/PageTabGroup */ "./resources/js/components/Others/Layout/PageTabGroup.vue");
+/* harmony import */ var _components_Others_Forms_SelectInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Others/Forms/SelectInput */ "./resources/js/components/Others/Forms/SelectInput.vue");
+/* harmony import */ var _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Others/Forms/FormLabel */ "./resources/js/components/Others/Forms/FormLabel.vue");
+/* harmony import */ var _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Mobile/MobileHeader */ "./resources/js/components/Mobile/MobileHeader.vue");
+/* harmony import */ var _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/FilesView/ButtonBase */ "./resources/js/components/FilesView/ButtonBase.vue");
+/* harmony import */ var _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Others/Layout/PageTab */ "./resources/js/components/Others/Layout/PageTab.vue");
+/* harmony import */ var _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Others/PageHeader */ "./resources/js/components/Others/PageHeader.vue");
+/* harmony import */ var _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Others/ThemeLabel */ "./resources/js/components/Others/ThemeLabel.vue");
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_14__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -156,6 +166,168 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -169,22 +341,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Settings',
-  props: ['user'],
+  name: "Settings",
+  props: ["user"],
   components: {
-    ValidationProvider: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__["ValidationProvider"],
-    ValidationObserver: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_0__["ValidationObserver"],
-    PageTabGroup: _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_1__["default"],
-    MobileHeader: _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_4__["default"],
-    SelectInput: _components_Others_Forms_SelectInput__WEBPACK_IMPORTED_MODULE_2__["default"],
-    PageHeader: _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_7__["default"],
-    ButtonBase: _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ThemeLabel: _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_8__["default"],
-    FormLabel: _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_3__["default"],
-    required: vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_9__["required"],
-    PageTab: _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_6__["default"]
+    ValidationProvider: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__["ValidationProvider"],
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_13__["default"],
+    ValidationObserver: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__["ValidationObserver"],
+    PageTabGroup: _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_2__["default"],
+    MobileHeader: _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_5__["default"],
+    SelectInput: _components_Others_Forms_SelectInput__WEBPACK_IMPORTED_MODULE_3__["default"],
+    PageHeader: _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_8__["default"],
+    ButtonBase: _components_FilesView_ButtonBase__WEBPACK_IMPORTED_MODULE_6__["default"],
+    ThemeLabel: _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_9__["default"],
+    FormLabel: _components_Others_Forms_FormLabel__WEBPACK_IMPORTED_MODULE_4__["default"],
+    required: vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__["required"],
+    PageTab: _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_10__["mapGetters"])(['config', 'countries', 'timezones'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapGetters"])(["config", "countries", "timezones"])),
   data: function data() {
     return {
       userInfo: undefined,
@@ -195,15 +368,131 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     changeUserName: function changeUserName() {
-      this.$store.commit('UPDATE_NAME', this.userInfo.name);
-      this.$updateText('/user/profile', 'name', this.userInfo.name);
+      this.$store.commit("UPDATE_NAME", this.userInfo.name);
+      this.$updateText("/user/profile", "name", this.userInfo.name);
+    },
+    changeUserPhone: function changeUserPhone() {
+      this.$store.commit("UPDATE_PHONE", this.userInfo.phone);
+      this.$updateText("/user/profile", "phone", this.userInfo.phone);
+    },
+    changeUserNik: function changeUserNik() {
+      this.$store.commit("UPDATE_NIK", this.userInfo.nik);
+      this.$updateText("/user/profile", "nik", this.userInfo.nik);
+    },
+    changeUserBirthdate: function changeUserBirthdate() {
+      var date = Object(date_fns__WEBPACK_IMPORTED_MODULE_12__["format"])(this.userInfo.birthdate, "yyyy-MM-dd");
+      this.$store.commit("UPDATE_BIRTHDATE", this.userInfo.birthdate);
+      this.$updateText("/user/profile", "birth_date", date);
+    },
+    changeUserBirthPlace: function changeUserBirthPlace() {
+      this.$store.commit("UPDATE_BIRTHPLACE", this.userInfo.birthplace);
+      this.$updateText("/user/profile", "birth_place", this.userInfo.birthplace);
+    },
+    changeUserKTP: function changeUserKTP(e) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var files, isImage, image;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                files = e.target.files || e.dataTransfer.files;
+                isImage = files[0].type.match(/image.*/);
+
+                if (!(!files.length || !isImage)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 4:
+                _context.next = 6;
+                return _this.createImage(files[0]);
+
+              case 6:
+                image = _context.sent;
+                _this.userInfo.ktp = image;
+
+                _this.$store.commit("UPDATE_KTP", image);
+
+                _this.$updateImage('/user/profile', 'ktp', e.target.files[0]);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    changeUserSelfie: function changeUserSelfie(e) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var files, isImage, image;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                files = e.target.files || e.dataTransfer.files;
+                isImage = files[0].type.match(/image.*/);
+
+                if (!(!files.length || !isImage)) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return");
+
+              case 4:
+                _context2.next = 6;
+                return _this2.createImage(files[0]);
+
+              case 6:
+                image = _context2.sent;
+                _this2.userInfo.selfie = image;
+
+                _this2.$store.commit("UPDATE_SELFIE", image);
+
+                _this2.$updateImage('/user/profile', 'selfie', e.target.files[0]);
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    createImage: function createImage(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          resolve(e.target.result);
+        };
+
+        reader.onerror = function (e) {
+          reject(e);
+        };
+
+        reader.readAsDataURL(file);
+      });
     }
   },
   created: function created() {
     this.userTimezone = this.user.relationships.timezone.data.attributes.timezone;
     this.userInfo = {
       name: this.user.data.attributes.name,
-      email: this.user.data.attributes.email
+      email: this.user.data.attributes.email,
+      phone: this.user.data.attributes.phone,
+      nik: this.user.data.attributes.nik,
+      birthplace: this.user.data.attributes.birth_place,
+      birthdate: this.user.data.attributes.birth_date,
+      ktp: this.user.data.attributes.ktp,
+      selfie: this.user.data.attributes.selfie
     };
     this.billingInfo = {
       billing_name: this.user.relationships.settings.data.attributes.billing_name,
@@ -346,6 +635,263 @@ var render = function () {
                           _vm.$set(_vm.userInfo, "name", $event.target.value)
                         },
                       },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(_vm._s(_vm.$t("page_registration.label_phone"))),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-wrapper" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userInfo.phone,
+                          expression: "userInfo.phone",
+                        },
+                      ],
+                      attrs: {
+                        placeholder: _vm.$t(
+                          "page_registration.placeholder_phone"
+                        ),
+                        type: "text",
+                      },
+                      domProps: { value: _vm.userInfo.phone },
+                      on: {
+                        keyup: _vm.changeUserPhone,
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.userInfo, "phone", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(_vm._s(_vm.$t("page_registration.label_nik"))),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-wrapper" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userInfo.nik,
+                          expression: "userInfo.nik",
+                        },
+                      ],
+                      attrs: {
+                        placeholder: _vm.$t(
+                          "page_registration.placeholder_nik"
+                        ),
+                        minlength: "16",
+                        maxlength: "16",
+                        type: "number",
+                      },
+                      domProps: { value: _vm.userInfo.nik },
+                      on: {
+                        keyup: _vm.changeUserNik,
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.userInfo, "nik", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(
+                      _vm._s(_vm.$t("page_registration.label_birthplace"))
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-wrapper" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userInfo.birthplace,
+                          expression: "userInfo.birthplace",
+                        },
+                      ],
+                      attrs: {
+                        placeholder: _vm.$t(
+                          "page_registration.placeholder_birthplace"
+                        ),
+                        type: "text",
+                      },
+                      domProps: { value: _vm.userInfo.birthplace },
+                      on: {
+                        keyup: _vm.changeUserBirthPlace,
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.userInfo,
+                            "birthplace",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(_vm._s(_vm.$t("page_registration.label_birthdate"))),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-wrapper" },
+                    [
+                      _c("DatePicker", {
+                        attrs: {
+                          placeholder: _vm.$t(
+                            "page_registration.placeholder_birthdate"
+                          ),
+                          format: "YYYY-MM-DD",
+                          "input-attr": {
+                            class: ["mx-input date-field"],
+                          },
+                          type: "date",
+                        },
+                        on: { change: _vm.changeUserBirthdate },
+                        model: {
+                          value: _vm.userInfo.birthdate,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.userInfo, "birthdate", $$v)
+                          },
+                          expression: "userInfo.birthdate",
+                        },
+                      }),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(_vm._s(_vm.$t("page_registration.label_ktp"))),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-wrapper" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "image preview",
+                        on: {
+                          click: function () {
+                            return _vm.$refs.ktpUpload.click()
+                          },
+                        },
+                      },
+                      [
+                        _vm.userInfo.ktp
+                          ? _c("img", {
+                              attrs: {
+                                src: _vm.userInfo.ktp,
+                                alt: "ktp photo",
+                              },
+                            })
+                          : _c(
+                              "div",
+                              { staticClass: "placeholder center" },
+                              [
+                                _c("FontAwesomeIcon", {
+                                  staticClass: "icon",
+                                  attrs: { icon: "camera" },
+                                }),
+                                _vm._v(" "),
+                                _c("h4", [_vm._v("No Image KTP")]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v("click to upload")]),
+                              ],
+                              1
+                            ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      ref: "ktpUpload",
+                      staticStyle: { display: "none" },
+                      attrs: {
+                        accept: "image/jpeg,image/png",
+                        required: "",
+                        type: "file",
+                      },
+                      on: { change: _vm.changeUserKTP },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "block-wrapper" }, [
+                  _c("label", [
+                    _vm._v(_vm._s(_vm.$t("page_registration.label_selfie"))),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-wrapper" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "image preview",
+                        on: {
+                          click: function () {
+                            return _vm.$refs.selfieUpload.click()
+                          },
+                        },
+                      },
+                      [
+                        _vm.userInfo.selfie
+                          ? _c("img", {
+                              attrs: {
+                                src: _vm.userInfo.selfie,
+                                alt: "selfie photo",
+                              },
+                            })
+                          : _c(
+                              "div",
+                              { staticClass: "placeholder center" },
+                              [
+                                _c("FontAwesomeIcon", {
+                                  staticClass: "icon",
+                                  attrs: { icon: "camera" },
+                                }),
+                                _vm._v(" "),
+                                _c("h4", [_vm._v("No Image selfie")]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v("click to upload")]),
+                              ],
+                              1
+                            ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      ref: "selfieUpload",
+                      staticStyle: { display: "none" },
+                      attrs: {
+                        accept: "image/jpeg,image/png",
+                        required: "",
+                        type: "file",
+                      },
+                      on: { change: _vm.changeUserSelfie },
                     }),
                   ]),
                 ]),
@@ -671,7 +1217,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("small", { staticClass: "input-help" }, [
                       _vm._v(
-                        "\n                        State, county, province, or region.\n                    "
+                        "\n            State, county, province, or region.\n          "
                       ),
                     ]),
                   ]),

@@ -427,6 +427,19 @@ function make_single_input($request)
     return $data;
 }
 
+// return image file from base64 string
+// @param  string $url
+// @return \Illuminate\Http\UploadedFile
+function base64_to_image($url) {
+    $image_parts = explode(";base64,", $url);
+    $image_type_aux = explode("image/", $image_parts[0]);
+    $image_type = $image_type_aux[1];
+    $image_base64 = base64_decode($image_parts[1]);
+
+    $image_name = Str::random(8) . '-' . str_replace(' ', '', $image_parts[0]);
+    
+    return new \Illuminate\Http\UploadedFile(storage_path('temp/' . $image_name), $image_name, $image_type, null, true);
+}
 /**
  * Format integer to gigabytes
  *
