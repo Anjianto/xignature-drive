@@ -22,9 +22,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AuthContent',
-  props: ['loading', 'icon', 'text'],
+  props: ['loading', 'icon', 'text', 'ltr'],
   data: function data() {
     return {
       isVisible: false
@@ -589,7 +596,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".button[data-v-03fd7dc6] {\n  cursor: pointer;\n  border-radius: 8px;\n  text-decoration: none;\n  padding: 12px 32px;\n  display: inline-block;\n  margin-left: 15px;\n  margin-right: 15px;\n  white-space: nowrap;\n  transition: 150ms all ease;\n  background: transparent;\n}\n.button .text-label[data-v-03fd7dc6] {\n  transition: 150ms all ease;\n  font-size: 1.0625em;\n  font-weight: 800;\n  line-height: 0;\n}\n.button .icon[data-v-03fd7dc6] {\n  margin-left: 12px;\n  font-size: 1em;\n}\n.button.solid[data-v-03fd7dc6] {\n  background: #0667B3;\n  border: 2px solid #0667B3;\n}\n.button.solid .text-label[data-v-03fd7dc6] {\n  color: white;\n}\n.button.outline[data-v-03fd7dc6] {\n  border: 2px solid #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n  color: #1B2539;\n}\n.button.outline .icon path[data-v-03fd7dc6] {\n  fill: #0667B3;\n}\n.button.outline[data-v-03fd7dc6]:hover {\n  border-color: #0667B3;\n}\n.button.outline:hover .text-label[data-v-03fd7dc6] {\n  color: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button.outline[data-v-03fd7dc6] {\n    background: #f4f5f6;\n    border-color: #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n    color: #1B2539;\n}\n}\n.sync-alt[data-v-03fd7dc6] {\n  -webkit-animation: spin-data-v-03fd7dc6 1s linear infinite;\n          animation: spin-data-v-03fd7dc6 1s linear infinite;\n}\n@-webkit-keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
+exports.push([module.i, ".button[data-v-03fd7dc6] {\n  cursor: pointer;\n  border-radius: 8px;\n  text-decoration: none;\n  padding: 12px 32px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-left: 15px;\n  margin-right: 15px;\n  white-space: nowrap;\n  transition: 150ms all ease;\n  background: transparent;\n}\n.button.ltr[data-v-03fd7dc6] {\n  flex-direction: row-reverse;\n}\n.button.ltr .icon[data-v-03fd7dc6] {\n  margin-right: 12px;\n}\n.button .text-label[data-v-03fd7dc6] {\n  transition: 150ms all ease;\n  font-size: 1.0625em;\n  font-weight: 800;\n  line-height: 0;\n}\n.button .icon[data-v-03fd7dc6] {\n  margin-left: 12px;\n  font-size: 1em;\n}\n.button.solid[data-v-03fd7dc6] {\n  background: #0667B3;\n  border: 2px solid #0667B3;\n}\n.button.solid .text-label[data-v-03fd7dc6] {\n  color: white;\n}\n.button.outline[data-v-03fd7dc6] {\n  border: 2px solid #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n  color: #1B2539;\n}\n.button.outline .icon path[data-v-03fd7dc6] {\n  fill: #0667B3;\n}\n.button.outline[data-v-03fd7dc6]:hover {\n  border-color: #0667B3;\n}\n.button.outline:hover .text-label[data-v-03fd7dc6] {\n  color: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button.outline[data-v-03fd7dc6] {\n    background: #f4f5f6;\n    border-color: #1B2539;\n}\n.button.outline .text-label[data-v-03fd7dc6] {\n    color: #1B2539;\n}\n}\n.sync-alt[data-v-03fd7dc6] {\n  -webkit-animation: spin-data-v-03fd7dc6 1s linear infinite;\n          animation: spin-data-v-03fd7dc6 1s linear infinite;\n}\n@-webkit-keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes spin-data-v-03fd7dc6 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
 
 // exports
 
@@ -1058,32 +1065,44 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("button", { staticClass: "button outline" }, [
-    _c("span", { staticClass: "text-label" }, [_vm._v(_vm._s(_vm.text))]),
-    _vm._v(" "),
-    _vm.loading
-      ? _c(
-          "span",
-          { staticClass: "icon" },
-          [
-            _c("FontAwesomeIcon", {
-              staticClass: "sync-alt",
-              attrs: { icon: "sync-alt" },
-            }),
-          ],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.loading && _vm.icon
-      ? _c(
-          "span",
-          { staticClass: "icon" },
-          [_c("FontAwesomeIcon", { attrs: { icon: _vm.icon } })],
-          1
-        )
-      : _vm._e(),
-  ])
+  return _c(
+    "button",
+    _vm._g(
+      _vm._b(
+        { class: ["button outline", { ltr: _vm.ltr }] },
+        "button",
+        _vm.$attrs,
+        false
+      ),
+      _vm.$listeners
+    ),
+    [
+      _c("span", { staticClass: "text-label" }, [_vm._v(_vm._s(_vm.text))]),
+      _vm._v(" "),
+      _vm.loading
+        ? _c(
+            "span",
+            { staticClass: "icon" },
+            [
+              _c("FontAwesomeIcon", {
+                staticClass: "sync-alt",
+                attrs: { icon: "sync-alt" },
+              }),
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.loading && _vm.icon
+        ? _c(
+            "span",
+            { staticClass: "icon" },
+            [_c("FontAwesomeIcon", { attrs: { icon: _vm.icon } })],
+            1
+          )
+        : _vm._e(),
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

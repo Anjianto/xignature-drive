@@ -39,15 +39,13 @@ export default {
     };
     return this.client.post("auth/generateToken", data);
   },
-  genLTC(data, expired) {
-    // const birthdate = data.birthdate
-    //   ? format(data.birthdate, "yyyy-MM-dd")
-    //   : null;
-    const expiredToken = expired ? format(expired, "yyyy-MM-dd") : null;
+  genLTC(data, duration) {
+    const birthdate = data.birthdate ? format(data.birthdate, 'yyyy-MM-dd') : null;
+        const expiredToken = format(addDays(Date.now(), duration), 'yyyy-MM-dd'); 
     data = {
       ...data,
       expiredToken,
-      // birthdate: birthdate,
+      birthdate
     };
 
     return this.client.post("v1/auth/generateLtcToken", data);

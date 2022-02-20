@@ -1,8 +1,8 @@
-import Vue from "vue";
-import Router from "vue-router";
-
-import AdminMobileMenu from "./views/Mobile/AdminMobileMenu";
-import UserProfileMobileMenu from "./views/Mobile/UserProfileMobileMenu";
+import Vue from 'vue'
+import Router from 'vue-router'
+import auth from  '@/middleware/auth'
+import AdminMobileMenu from './views/Mobile/AdminMobileMenu'
+import UserProfileMobileMenu from './views/Mobile/UserProfileMobileMenu'
 
 Vue.use(Router);
 
@@ -534,8 +534,8 @@ const routesUser = [
             /* webpackChunkName: "chunks/settings-storage" */ "./views/User/Storage"
           ),
         meta: {
-          requiresAuth: true,
-          title: "routes_title.settings_storage",
+            requiresAuth: false,
+            middleware: auth
         },
       },
       {
@@ -816,23 +816,44 @@ const router = new Router({
   },
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
 
-    //if ( ! store.getters.isLogged) {
-    if (false) {
-      next({
-        name: "SignIn",
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next();
+// Creates a `nextMiddleware()` function which not only
+// runs the default `next()` callback but also triggers
+// the subsequent Middleware function.
+function nextFactory(context, middleware, index) {
+    const subsequentMiddleware = middleware[index];
+    // If no subsequent Middleware exists,
+    // the default `next()` callback is returned.
+    if (!subsequentMiddleware) return context.next;
+
+    return (...parameters) => {
+    // Run the default Vue Router `next()` callback first.
+    context.next(...parameters);
+    // Then run the subsequent Middleware with a new
+    // `nextMiddleware()` callback.
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({ ...context, next: nextMiddleware });
+    };
+}
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+        ? to.meta.middleware
+        : [to.meta.middleware];
+
+    const context = {
+        from,
+        next,
+        router,
+        to,
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+
+    return middleware[0]({ ...context, next: nextMiddleware });
     }
-  } else {
-    next(); // make sure to always call next()!
-  }
+
+    return next();
 });
 
 export default router;

@@ -1,6 +1,4 @@
 import axios from 'axios'
-import {events} from '@/bus'
-import i18n from '@/i18n/index.js'
 import router from '@/router'
 import Vue from 'vue'
 
@@ -22,7 +20,8 @@ const actions = {
                     // Redirect user if is logged
                     if (router.currentRoute.name === 'SignIn')
                         router.push({ name: 'Files' })
-
+                    // if (router.currentRoute.name === 'SignUp')
+                    //     router.push({ name: 'Files' })
                     commit('RETRIEVE_USER', response.data)
 
                 }).catch((error) => {

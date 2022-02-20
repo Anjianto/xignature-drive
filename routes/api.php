@@ -73,6 +73,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/contact', 'AppFunctionsController@contact_form');
     Route::get('/page/{slug}', 'AppFunctionsController@get_page');
     Route::get('/content', 'AppFunctionsController@get_settings');
+
+
 });
 
 // User master Routes
@@ -86,6 +88,9 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
+
+    // Signature
+    Route::post('/sign', 'FileSignController@add_sign');
 
     // Payment cards
     Route::delete('/user/payment-cards/{id}', 'User\PaymentMethodsController@delete');
@@ -207,3 +212,6 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     //Get Emojis List
     Route::get('/emojis-list', 'AppFunctionsController@get_emojis_list');
 });
+
+// Route::group(['middleware' => ['auth:api']], function () {
+// });
