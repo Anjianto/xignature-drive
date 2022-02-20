@@ -499,6 +499,7 @@ const routesUser = [
           ),
         meta: {
           requiresAuth: true,
+          middleware: auth,
           title: "routes_title.profile",
         },
       },

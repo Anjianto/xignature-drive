@@ -239,8 +239,9 @@ export default {
           // Set login state
           this.$store.commit("SET_AUTHORIZED", true);
           // complete the profile
-          this.isPreRegister = true;
-          this.$router.push({name: 'SignUp', query: {preRegister: true}})
+          // this.isPreRegister = true;
+          // this.$router.push({name: 'SignUp', query: {preRegister: true}})
+          this.$router.push({name: 'Profile', query: {create_signature: true}})
         })
         .catch((error) => {
           if (error.response.status == 401) {

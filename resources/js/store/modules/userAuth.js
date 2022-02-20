@@ -1,13 +1,30 @@
 import axios from 'axios'
 import router from '@/router'
 import Vue from 'vue'
+import client from '@/http_client/signature_client'
+import { events } from '../../bus'
 
 const defaultState = {
     authorized: undefined,
     permission: 'master', // master | editor | visitor
     user: undefined,
 }
-
+async function getBase64ImageFromUrl(imageUrl) {
+    var res = await fetch(imageUrl);
+    var blob = await res.blob();
+  
+    return new Promise((resolve, reject) => {
+      var reader  = new FileReader();
+      reader.addEventListener("load", function () {
+          resolve(reader.result);
+      }, false);
+  
+      reader.onerror = () => {
+        return reject(this);
+      };
+      reader.readAsDataURL(blob);
+    })
+  }
 const actions = {
     getAppData: ({commit, getters}) => {
 
@@ -25,7 +42,7 @@ const actions = {
                     // const attrs = response.data.attributes
                     const attr = response.data.data.attributes
                     // response.data.attributes.birth_date = new Date(response.data.attributes.birth_date)
-                    attr.birth_date = new Date(attr.birth_date);
+                    attr.birth_date = attr.birth_date ? new Date(attr.birth_date) : null;
                     commit('RETRIEVE_USER', response.data)
 
                 }).catch((error) => {
@@ -58,6 +75,60 @@ const actions = {
 
                 router.push({name: 'SignIn'})
             })
+    },
+    genSignToken: async ({commit, getters, dispatch }, payload) => {
+        const user = getters.user.data.attributes;
+        // download user ktp and selfie from web
+        const ktp = await getBase64ImageFromUrl(user.ktp);
+        const selfie = await getBase64ImageFromUrl(user.selfie);
+
+        return new Promise((resolve, reject) => {
+            client
+                .genLTC({
+                    email: user.email,
+                    fullname: user.name,
+                    nik: user.nik,
+                    phone: user.phone,
+                    birthplace: user.birth_place,
+                    birthdate: user.birth_date,
+                    selfie: selfie,
+                    ktp: ktp,
+                }, 2)
+                .then(async ({data: {data: {token, expiredAt}}}) => {
+                    const { data: result } = await axios.post("/api/sign", {
+                        sign_token: token,
+                    });
+                    if (result.statusCode === 200) {
+                        const expiresDate = new Date(expiredAt);
+                        commit('SET_TOKEN', {
+                            token,
+                            expiresDate,
+                        })
+                      }
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(typeof error);
+                    if(error.response.status === 500) {
+                        dispatch('genAuthToken')
+                    }
+                    else if(error.response.status >= 400) {
+                        events.$emit("alert:open", {
+                            emoji: "🤔",
+                            title: error.response.data.error,
+                            message: error.response.data.message,
+                          });
+                    }
+                    reject(error)
+                })
+        })
+    },
+    useToken: ({commit, getters}, payload) => {
+        const { token, expiresDate } = payload;
+        commit('SET_TOKEN', {
+            token,
+            expiresDate,
+        })
     },
     addToFavourites: (context, folder) => {
         let addFavourites = []
@@ -137,6 +208,12 @@ const mutations = {
             type: item.type,
         })
     })
+    },
+    SET_TOKEN(state, payload) {
+        state.user.data.attributes = {
+            ...state.user.data.attributes,
+            ...payload.token,
+        }
     },
     UPDATE_NAME(state, name) {
         state.user.data.attributes.name = name

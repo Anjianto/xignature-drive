@@ -397,6 +397,19 @@ export default {
       loading: false,
     };
   },
+  setup() {
+    const user = this.$store.getters.user;
+    this.profile = {
+      name: user.data.attributes.name,
+      email: user.data.attributes.email,
+      phone: user.data.attributes.phone,
+      nik: user.data.attributes.nik,
+      birthplace: user.data.attributes.birth_place,
+      birthdate: user.data.attributes.birth_date,
+      ktp: user.data.attributes.ktp,
+      selfie: user.data.attributes.selfie,
+    };
+  },
   methods: {
     async onKTPChanged(e, next) {
       var files = e.target.files || e.dataTransfer.files;
@@ -404,6 +417,7 @@ export default {
       if (!files.length) return;
       this.ktpFileName = files[0].name;
       this.profile.ktp = await this.createImage(files[0]);
+      
     },
     async onSelfieUpload(e, next) {
       var files = e.target.files || e.dataTransfer.files;

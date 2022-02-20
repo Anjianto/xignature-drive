@@ -125,6 +125,11 @@
             />
           </div>
         </div>
+        <div style="display: flex; justify-content: center">
+          <button class="btn btn-primary" @click="() => this.$store.dispatch('genSignToken')">
+            Generate Signature
+          </button>
+        </div>
       </div>
     </PageTabGroup>
 
@@ -365,7 +370,7 @@ export default {
       const image = await this.createImage(files[0]);
       this.userInfo.ktp = image;
       this.$store.commit("UPDATE_KTP", image);
-      this.$updateImage('/user/profile', 'ktp', e.target.files[0])
+      this.$updateImage("/user/profile", "ktp", e.target.files[0]);
     },
     async changeUserSelfie(e) {
       const files = e.target.files || e.dataTransfer.files;
@@ -374,19 +379,19 @@ export default {
       const image = await this.createImage(files[0]);
       this.userInfo.selfie = image;
       this.$store.commit("UPDATE_SELFIE", image);
-      this.$updateImage('/user/profile', 'selfie', e.target.files[0])
+      this.$updateImage("/user/profile", "selfie", e.target.files[0]);
     },
     createImage(file) {
-        return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         var reader = new FileReader();
         reader.onload = (e) => {
-            resolve(e.target.result);
+          resolve(e.target.result);
         };
         reader.onerror = (e) => {
-            reject(e);
+          reject(e);
         };
         reader.readAsDataURL(file);
-        });
+      });
     },
   },
   created() {

@@ -243,7 +243,7 @@ class User extends Authenticatable
             return url('/' . $this->attributes['selfie']);
         }
 
-        return url('/assets/images/' . 'default-selfie.png');
+        return null;
     }
 
     /**
@@ -263,7 +263,7 @@ class User extends Authenticatable
             return url('/' . $this->attributes['ktp']);
         }
 
-        return url('/assets/images/' . 'default-ktp.png');
+        return null;
     }
 
     /**
