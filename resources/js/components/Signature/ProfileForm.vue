@@ -167,7 +167,7 @@
                 mode="passive"
                 class="input-wrapper"
                 name="KTP Picture"
-                rules="ext:jpg,png"
+                rules="ext:jpg,jpeg,png"
                 v-slot="{ validate, errors }"
               >
                 <label>{{ $t("page_registration.label_ktp") }}</label>
@@ -267,13 +267,15 @@
           >
             <div class="block-wrapper">
               <label>{{ $t("page_registration.label_selfie") }}</label>
-              <p class="text-left mt-8">Upload You Selfie With KTP on camera</p>
+              <p class="text-left mt-8">
+                Upload Your Selfie With KTP on camera
+              </p>
               <ValidationProvider
                 tag="div"
                 mode="passive"
                 class="input-wrapper"
                 name="Selfie with KTP"
-                rules="ext:jpg,png"
+                rules="ext:jpg,jpeg,png"
                 v-slot="{ validate, errors }"
               >
                 <div
