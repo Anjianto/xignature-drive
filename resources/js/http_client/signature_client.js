@@ -1,5 +1,5 @@
 import axios from "axios";
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 
 export const client = ({ base_url, key }) =>
   axios.create({
@@ -40,12 +40,14 @@ export default {
     return this.client.post("auth/generateToken", data);
   },
   genLTC(data, duration) {
-    const birthdate = data.birthdate ? format(data.birthdate, 'yyyy-MM-dd') : null;
-        const expiredToken = format(addDays(Date.now(), duration), 'yyyy-MM-dd'); 
+    const birthdate = data.birthdate
+      ? format(data.birthdate, "yyyy-MM-dd")
+      : null;
+    const expiredToken = format(addDays(Date.now(), duration), "yyyy-MM-dd");
     data = {
       ...data,
       expiredToken,
-      birthdate
+      birthdate,
     };
 
     return this.client.post("v1/auth/generateLtcToken", data);
