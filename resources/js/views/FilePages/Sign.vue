@@ -71,7 +71,9 @@ export default {
       return  name + "." + ext;
     },
     fileUrl() {
-      return "http://192.168.1.7:8000/file/" + this.filename;
+      // get host of current website
+      const endpoint = window.location.origin;
+      return endpoint + "/file/" + this.filename;
     },
   },
   methods: {

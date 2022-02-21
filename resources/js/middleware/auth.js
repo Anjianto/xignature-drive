@@ -3,8 +3,9 @@ import { events } from "@/bus";
 
 
 export default function auth({ next, router }) {
-    const preReg = router.query["create_signature"] || false;
-    if (preReg) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const preReg = urlParams.get("create_signature") || false;
+  if (preReg) {
       setTimeout(() => {
         events.$emit("alert:open", {
             emoji: "🤔",

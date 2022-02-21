@@ -89,6 +89,22 @@ class ContentSeeder extends Seeder
                 'name'  => 'footer_content',
                 'value' => '© 2020 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
             ],
+            [
+                'name' => 'storage_default',
+                'value' => '5000'
+            ],
+            [
+                'name' => 'registration',
+                'value' => '1'
+            ],
+            [
+                'name' => 'sign_endpoint',
+                'value' => 'https://sandbox.xignature.co.id/'
+            ],
+            [
+                'name' => 'sign_key',
+                'value' => 'aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B'
+            ]
         ]);
 
         $columns->each(function ($content) {

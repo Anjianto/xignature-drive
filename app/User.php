@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
+use Lcobucci\JWT\Signature;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
@@ -316,6 +317,16 @@ class User extends Authenticatable
         $record->update([
             'upload' => $record->upload + $file_size
         ]);
+    }
+
+    public function unused_signatures_token() {
+        $token = Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first();
+
+        if ($token) {
+            return $token->sign_token;
+        } else {
+            return null;
+        }
     }
 
     /**

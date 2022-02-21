@@ -37,8 +37,8 @@ const actions = {
                     // Redirect user if is logged
                     if (router.currentRoute.name === 'SignIn')
                         router.push({ name: 'Files' })
-                    // if (router.currentRoute.name === 'SignUp')
-                    //     router.push({ name: 'Files' })
+                    if (router.currentRoute.name === 'SignUp')
+                        router.push({ name: 'Files' })
                     // const attrs = response.data.attributes
                     const attr = response.data.data.attributes
                     // response.data.attributes.birth_date = new Date(response.data.attributes.birth_date)
