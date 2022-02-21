@@ -47,7 +47,8 @@ class ShareController extends Controller
             $token = Str::random(16);
 
         } while (Share::where(DB::raw('BINARY `token`'), $token)->exists());
-
+        // is sign share
+        $signShare = $request->sign;
         // Create shared options
         $options = [
             'password'   => $request->has('password') ? Hash::make($request->password) : null,
@@ -67,7 +68,7 @@ class ShareController extends Controller
         if ($request->has('emails')) {
 
             foreach ($request->emails as $email) {
-                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token, $signShare));
             }
         }
 

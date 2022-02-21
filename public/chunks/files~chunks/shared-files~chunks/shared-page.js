@@ -606,6 +606,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return item.type === "folder";
       })) return true;
     },
+    isDoc: function isDoc() {
+      var extesion = this.item.basename.split(".").pop();
+
+      if (extesion === "doc" || extesion === "docx" || extesion === "pdf") {
+        return true;
+      }
+
+      return false;
+    },
     hasFile: function hasFile() {
       // Check if selected items includes some files
       if (this.fileInfoDetail.find(function (item) {
@@ -5120,7 +5129,7 @@ var render = function () {
                         },
                       }),
                       _vm._v(" "),
-                      _vm.item.shared
+                      _vm.item.shared && _vm.isDoc
                         ? _c("Option", {
                             attrs: {
                               title: _vm.$t("Share Xignature"),
@@ -5134,14 +5143,16 @@ var render = function () {
                           })
                         : _vm._e(),
                       _vm._v(" "),
-                      _c("Option", {
-                        attrs: { title: "Sign", icon: "sign" },
-                        nativeOn: {
-                          click: function ($event) {
-                            return _vm.singleSignItem.apply(null, arguments)
-                          },
-                        },
-                      }),
+                      _vm.isDoc
+                        ? _c("Option", {
+                            attrs: { title: "Sign", icon: "sign" },
+                            nativeOn: {
+                              click: function ($event) {
+                                return _vm.singleSignItem.apply(null, arguments)
+                              },
+                            },
+                          })
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("Option", {
                         attrs: {

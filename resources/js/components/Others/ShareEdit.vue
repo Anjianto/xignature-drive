@@ -137,6 +137,14 @@
                 'currentFolder',
                 'user',
             ]),
+            
+            isDoc() {
+                const extesion = this.pickedItem.basename.split('.').pop()
+                if(extesion === 'doc' || extesion === 'docx' || extesion === 'pdf') {
+                    return true
+                }
+                return false
+            },
             isFolder() {
                 return this.pickedItem && this.pickedItem.type === 'folder'
             },
@@ -286,6 +294,7 @@
                         protected: this.shareOptions.isProtected,
                         expiration: this.shareOptions.expiration,
                         password: this.shareOptions.password ? this.shareOptions.password : undefined,
+                        sign: true,
                         _method: 'patch'
                     })
                     .then(response => {

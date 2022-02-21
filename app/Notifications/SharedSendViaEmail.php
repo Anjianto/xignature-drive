@@ -17,9 +17,10 @@ class SharedSendViaEmail extends Notification
      *
      * @param $token
      */
-    public function __construct($token)
+    public function __construct($token, $sign_mode = false)
     {
         $this->token = $token;
+        $this->sign_mode = $sign_mode;
         $this->user = Auth::user();
     }
 
@@ -41,13 +42,24 @@ class SharedSendViaEmail extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {
-        return (new MailMessage)
+    {   
+
+        if($this->sign_mode === false) {
+            return (new MailMessage)
+                ->subject(__t('shared_link_email_subject' , ['user' => $this->user->name]))
+                ->greeting(__t('shared_link_email_greeting'))
+                ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
+                ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))
+                ->salutation(__t('shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
+        } else {
+            return (new MailMessage)
             ->subject(__t('shared_link_email_subject' , ['user' => $this->user->name]))
             ->greeting(__t('shared_link_email_greeting'))
             ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))
+            ->action(__t('shared_link_email_link'), url('/shared/sign/' , ['token' => $this->token]))
             ->salutation(__t('shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'VueFileManager']));
+        }
+
     }
 
     /**

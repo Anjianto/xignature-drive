@@ -303,11 +303,11 @@
         />
         <Option
           @click.native="shareXignature"
-          v-if="item.shared"
+          v-if="item.shared && isDoc"
           :title="$t('Share Xignature')"
           icon="share"
         />
-        <Option @click.native="singleSignItem" title="Sign" icon="sign" />
+        <Option v-if="isDoc" @click.native="singleSignItem" title="Sign" icon="sign" />
         <Option
           @click.native="deleteItem"
           :title="$t('context_menu.delete')"
@@ -533,6 +533,13 @@ export default {
       if (this.fileInfoDetail.find((item) => item.type === "folder"))
         return true;
     },
+    isDoc() {
+      const extesion = this.item.basename.split(".").pop();
+      if (extesion === "doc" || extesion === "docx" || extesion === "pdf") {
+        return true;
+      }
+      return false;
+    },
     hasFile() {
       // Check if selected items includes some files
       if (this.fileInfoDetail.find((item) => item.type !== "folder"))
@@ -631,11 +638,15 @@ export default {
     singleSignItem() {
       this.$store.dispatch("addFileInfoDetail", this.item);
       const [name, ext] = this.item.basename.split(".");
-      this.$router.push({ name: "Sign", params: {
-        fileId: name,
-      }, query: {
-        type: ext
-      }});
+      this.$router.push({
+        name: "Sign",
+        params: {
+          fileId: name,
+        },
+        query: {
+          type: ext,
+        },
+      });
     },
     moveItem() {
       events.$emit("popup:open", { name: "move", item: [this.item] });

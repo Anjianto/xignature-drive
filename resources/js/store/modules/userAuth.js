@@ -158,7 +158,7 @@ const actions = {
                         message: "Please retry later, or wait for a while",    
                         });
                     } 
-                    else if(error.response.statusCode >= 400) {
+                    else if(error.response.status >= 400) {
                         events.$emit("alert:open", {
                             emoji: "🤔",
                             title: error.response.data.error,
