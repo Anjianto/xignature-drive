@@ -36,7 +36,7 @@ class UserResource extends JsonResource
                     'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
                     'avatar'               => $this->avatar,
                     'ktp'                  => $this->ktp,
-                    'token'                => Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first()->sign_token,
+                    'token'                => isset($this->signatures) ? $this->signatures->first()->token : null,
                     'selfie'               => $this->selfie,
                     'role'                 => $this->role,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
