@@ -150,8 +150,7 @@ export default {
         this.$router.push({
           name: "Profile",
           query: {
-            create_signature: true,
-            msg: "Please create a signature",
+            signature: false,
             redirect: window.location.href,
           },
         });

@@ -310,7 +310,14 @@ const getters = {
     isLogged: state => state.authorized,
     user: state => state.user,
     otp: state => state.user ? state.user.data.attributes.otp : '',
-    token: state => state.user ? state.user.data.attributes.token : '',
+    token(state) {
+        const token = state.user ? state.user.data.attributes.token : null;
+
+        if(token) {
+            return token.sign_token;
+        }
+        return undefined;
+    },
 }
 
 export default {

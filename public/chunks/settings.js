@@ -393,7 +393,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -427,7 +426,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     InfoBox: _components_Others_Forms_InfoBox__WEBPACK_IMPORTED_MODULE_5__["default"],
     InboxIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_11__["InboxIcon"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_10__["mapGetters"])(["user", "config"])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_10__["mapGetters"])(["user", "config", "token"])), {}, {
     subscriptionStatus: function subscriptionStatus() {
       return this.user.data.attributes.subscription ? this.$t("global.premium") : this.$t("global.free");
     },
@@ -444,6 +443,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.user.data.attributes.incomplete_payment;
     }
   }),
+  methods: {
+    genToken: function genToken() {
+      this.$store.dispatch("genSignToken");
+    }
+  },
   data: function data() {
     return {
       avatar: undefined,
@@ -909,7 +913,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function () {
-  var this$1 = this
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -1246,25 +1249,28 @@ var render = function () {
                             },
                             [
                               _c(
-                                "Button",
-                                {
-                                  staticClass: "btn btn-primary",
-                                  on: {
-                                    click: function () {
-                                      return this$1.$store.dispatch(
-                                        "genSignToken"
-                                      )
-                                    },
-                                  },
-                                },
+                                "div",
+                                { on: { click: _vm.genToken } },
                                 [
-                                  _vm._v(
-                                    "\n              Make Signature\n            "
+                                  _c(
+                                    "ButtonBase",
+                                    { staticClass: "btn btn-primary" },
+                                    [
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(
+                                            _vm.token
+                                              ? "Recreate Signature"
+                                              : "Generate Signature"
+                                          ) +
+                                          "\n              "
+                                      ),
+                                    ]
                                   ),
-                                ]
+                                ],
+                                1
                               ),
-                            ],
-                            1
+                            ]
                           ),
                         ]),
                         _vm._v(" "),

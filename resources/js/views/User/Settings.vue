@@ -32,7 +32,8 @@
               @keyup="changeUserPhone"
               v-model="userInfo.phone"
               :placeholder="$t('page_registration.placeholder_phone')"
-              type="text"
+              type="number"
+              required
             />
           </div>
         </div>
@@ -46,6 +47,7 @@
               minlength="16"
               maxlength="16"
               type="number"
+              required
             />
           </div>
         </div>
@@ -57,6 +59,7 @@
               v-model="userInfo.birthplace"
               :placeholder="$t('page_registration.placeholder_birthplace')"
               type="text"
+              required
             />
           </div>
         </div>
@@ -299,6 +302,7 @@ import PageTab from "@/components/Others/Layout/PageTab";
 import PageHeader from "@/components/Others/PageHeader";
 import ThemeLabel from "@/components/Others/ThemeLabel";
 import { required } from "vee-validate/dist/rules";
+import { events } from "@/bus";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import Button from "@/components/Others/Button";	
@@ -322,6 +326,19 @@ export default {
     FormLabel,
     required,
     PageTab,
+  },
+  mounted() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const preReg = urlParams.get("create_signature");
+  if (preReg) {
+    events.$emit("alert:open", {
+        emoji: "🤔",
+        title: "Signature Empty",
+        message: "Please fill profile to sign document.",
+        type: "info",
+      });
+    this.$router.push({'name': 'Profile'});
+    }
   },
   computed: {
     ...mapGetters(["config", "countries", "timezones"]),

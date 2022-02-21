@@ -147,12 +147,11 @@
               </router-link>
             </div>
             <div style="display: flex; justify-content: center">
-              <Button
-                class="btn btn-primary"
-                @click="() => this.$store.dispatch('genSignToken')"
-              >
-                Make Signature
-              </Button>
+              <div @click="genToken">
+                <ButtonBase class="btn btn-primary">
+                  {{ token ? "Recreate Signature" : "Generate Signature" }}
+                </ButtonBase>
+              </div>
             </div>
           </div>
 
@@ -198,7 +197,7 @@ import ButtonBase from "@/components/FilesView/ButtonBase";
 import InfoBox from "@/components/Others/Forms/InfoBox";
 import PageHeader from "@/components/Others/PageHeader";
 import ColorLabel from "@/components/Others/ColorLabel";
-import Button from "@/components/Others/Button";	
+import Button from "@/components/Others/Button";
 import Spinner from "@/components/FilesView/Spinner";
 import { mapGetters } from "vuex";
 import {
@@ -233,12 +232,13 @@ export default {
     InboxIcon,
   },
   computed: {
-    ...mapGetters(["user", "config"]),
+    ...mapGetters(["user", "config", "token"]),
     subscriptionStatus() {
       return this.user.data.attributes.subscription
         ? this.$t("global.premium")
         : this.$t("global.free");
     },
+
     subscriptionColor() {
       return this.user.data.attributes.subscription ? "green" : "purple";
     },
@@ -253,6 +253,11 @@ export default {
     },
     canShowIncompletePayment() {
       return this.user.data.attributes.incomplete_payment;
+    },
+  },
+  methods: {
+    genToken() {
+      this.$store.dispatch("genSignToken");
     },
   },
   data() {

@@ -40,7 +40,7 @@ class FileSharingController extends Controller
         if ((int) $shared->protected) {
 
             // Set shared token
-            Cookie::queue('shared_token', $token, 43200);
+            Cookie::queue('Sing', $token, 43200);
         }
 
         $document = FileManagerFile::where('user_id', $shared->user_id)

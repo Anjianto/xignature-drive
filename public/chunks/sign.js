@@ -203,8 +203,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.$router.push({
           name: "Profile",
           query: {
-            create_signature: true,
-            msg: "Please create a signature",
+            signature: false,
             redirect: window.location.href
           }
         });

@@ -68,12 +68,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Others_PageHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Others/PageHeader */ "./resources/js/components/Others/PageHeader.vue");
 /* harmony import */ var _components_Others_ThemeLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Others/ThemeLabel */ "./resources/js/components/Others/ThemeLabel.vue");
 /* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
-/* harmony import */ var _components_Others_Button__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Others/Button */ "./resources/js/components/Others/Button.vue");
-/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
-/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
-/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
+/* harmony import */ var _components_Others_Button__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Others/Button */ "./resources/js/components/Others/Button.vue");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_16__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -373,6 +374,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -393,8 +398,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ["user"],
   components: {
     ValidationProvider: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__["ValidationProvider"],
-    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_14__["default"],
-    Button: _components_Others_Button__WEBPACK_IMPORTED_MODULE_13__["default"],
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_15__["default"],
+    Button: _components_Others_Button__WEBPACK_IMPORTED_MODULE_14__["default"],
     ValidationObserver: vee_validate_dist_vee_validate_full__WEBPACK_IMPORTED_MODULE_1__["ValidationObserver"],
     PageTabGroup: _components_Others_Layout_PageTabGroup__WEBPACK_IMPORTED_MODULE_2__["default"],
     MobileHeader: _components_Mobile_MobileHeader__WEBPACK_IMPORTED_MODULE_5__["default"],
@@ -406,7 +411,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     required: vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_10__["required"],
     PageTab: _components_Others_Layout_PageTab__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_11__["mapGetters"])(["config", "countries", "timezones"])),
+  mounted: function mounted() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var preReg = urlParams.get("create_signature");
+
+    if (preReg) {
+      _bus__WEBPACK_IMPORTED_MODULE_11__["events"].$emit("alert:open", {
+        emoji: "🤔",
+        title: "Signature Empty",
+        message: "Please fill profile to sign document.",
+        type: "info"
+      });
+      this.$router.push({
+        'name': 'Profile'
+      });
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_12__["mapGetters"])(["config", "countries", "timezones"])),
   data: function data() {
     return {
       userInfo: undefined,
@@ -429,7 +450,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$updateText("/user/profile", "nik", this.userInfo.nik);
     },
     changeUserBirthdate: function changeUserBirthdate() {
-      var date = Object(date_fns__WEBPACK_IMPORTED_MODULE_12__["format"])(this.userInfo.birthdate, "yyyy-MM-dd");
+      var date = Object(date_fns__WEBPACK_IMPORTED_MODULE_13__["format"])(this.userInfo.birthdate, "yyyy-MM-dd");
       this.$store.commit("UPDATE_BIRTHDATE", this.userInfo.birthdate);
       this.$updateText("/user/profile", "birth_date", date);
     },
@@ -826,7 +847,8 @@ var render = function () {
                         placeholder: _vm.$t(
                           "page_registration.placeholder_phone"
                         ),
-                        type: "text",
+                        type: "number",
+                        required: "",
                       },
                       domProps: { value: _vm.userInfo.phone },
                       on: {
@@ -864,6 +886,7 @@ var render = function () {
                         minlength: "16",
                         maxlength: "16",
                         type: "number",
+                        required: "",
                       },
                       domProps: { value: _vm.userInfo.nik },
                       on: {
@@ -901,6 +924,7 @@ var render = function () {
                           "page_registration.placeholder_birthplace"
                         ),
                         type: "text",
+                        required: "",
                       },
                       domProps: { value: _vm.userInfo.birthplace },
                       on: {
