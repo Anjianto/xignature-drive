@@ -7,6 +7,7 @@ use App\User;
 use Cartalyst\Stripe\Api\PaymentMethods;
 use Faker\Factory;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Signatures;
 
 class UserResource extends JsonResource
 {
@@ -28,8 +29,15 @@ class UserResource extends JsonResource
                     'incomplete_payment'   => $this->hasIncompletePayment('main') ? route('cashier.payment', $this->subscription('main')->latestPayment()->id) : null,
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
                     'name'                 => $this->name,
+                    'phone'                => $this->phone,
+                    'nik'                  => $this->nik,
+                    'birth_date'             => $this->birth_date,
+                    'birth_place'           => $this->birth_place,
                     'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
                     'avatar'               => $this->avatar,
+                    'ktp'                  => $this->ktp,
+                    'token'                => $this->signatures->whereNull('file_manager_file')->first(),
+                    'selfie'               => $this->selfie,
                     'role'                 => $this->role,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
                     'created_at'           => $this->created_at,

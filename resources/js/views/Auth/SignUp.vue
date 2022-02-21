@@ -144,12 +144,14 @@
                   >{{ privacyPolicy.title }}</router-link
                 >
               </i18n>
-              <AuthButton
-                icon="chevron-right"
-                :text="$t('page_registration.button_create_account')"
-                :loading="isLoading"
-                :disabled="isLoading"
-              />
+              <div class="container center">
+                <AuthButton
+                  icon="chevron-right"
+                  :text="$t('page_registration.button_create_account')"
+                  :loading="isLoading"
+                  :disabled="isLoading"
+                />
+              </div>
               <span class="additional-link"
                 >{{ $t("page_registration.have_an_account") }}
                 <router-link :to="{ name: 'SignIn' }">
@@ -239,8 +241,9 @@ export default {
           // Set login state
           this.$store.commit("SET_AUTHORIZED", true);
           // complete the profile
-          this.isPreRegister = true;
-          this.$router.push({name: 'SignUp', query: {preRegister: true}})
+          // this.isPreRegister = true;
+          // this.$router.push({name: 'SignUp', query: {preRegister: true}})
+          this.$router.push({name: 'Profile', query: {create_signature: true}})
         })
         .catch((error) => {
           if (error.response.status == 401) {
@@ -300,6 +303,12 @@ export default {
 
   a {
     color: $theme;
+  }
+}
+.container {
+  display: flex;
+  &.center {
+    justify-content: center;
   }
 }
 #content-card {

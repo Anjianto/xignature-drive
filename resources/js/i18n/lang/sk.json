@@ -1,16 +1,16 @@
 {
 	"actions": {
+		"close": "Zatvoriť",
 		"create_folder": "Vytvoriť priečinok",
 		"delete": "Vymazať položku",
+		"download": "Stiahnuť položku",
+		"info_panel": "Informačný panel",
 		"move": "Presunúť položku",
 		"preview": "Zmeniť náhľad",
-		"share": "Zdieľať položku",
-		"upload": "Nahrať súbory",
-		"download": "Stiahnuť položku",
 		"print": "Vytlačiť položku",
-		"close": "Zatvoriť",
-		"sorting_view" : "Zoradenie a zobrazenie ",
-		"info_panel" : "Informačný panel"
+		"share": "Zdieľať položku",
+		"sorting_view": "Zoradenie a zobrazenie ",
+		"upload": "Nahrať súbory"
 	},
 	"activation": {
 		"stripe": {
@@ -213,27 +213,27 @@
 			"username_plac": "Zadajte svoje používateľské meno pre poštu"
 		},
 		"others": {
-			"upload_limit": "Limit nahrávania",
-			"upload_limit_plac": "Pridajte veľkosť limitu v MB",
-			"upload_limit_help": "Ak chcete nastaviť limit pre nahrávane jedneho súboru, pridajte veľkosť vášho limitu v MB.",
-			"mimetypes_blacklist": "Čierna listina mimetypov",
-			"mimetypes_blacklist_plac":"Pridajte mimetypy do Čiernej listiny",
-			"mimetypes_blacklist_help" :"Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: x-php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp." ,
-			"section_cache": "Aplikačná pamäť",
-			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
-			"cache_clear": "Vymazať aplikačnú pamäť",
 			"allow_registration": "Povoliť registráciu používateľov",
 			"allow_registration_help": "Môžete zakázať verejnú registráciu nových používateľov. V administračnom paneli stále budete môcť <br/>vytvárať nových používateľov.",
+			"cache_clear": "Vymazať aplikačnú pamäť",
+			"cache_disclaimer": "Zmenili ste niečo v .env súbore alebo ste zmenili Stripe poverenia? Vymažte aplikačnú pamäť.",
 			"contact_email": "Kontaktný email",
 			"contact_email_plac": "Zadajte svoj kontaktný e-mail",
 			"default_storage": "Predvolený úložný priestor pre používateľské účty v GB",
 			"default_storage_plac": "Nastaviť predvolený úložný priestor v GB",
 			"google_analytics": "Kód Google Analytics (voliteľné)",
 			"google_analytics_plac": "Vložte svoj kód Google Analytics",
+			"mimetypes_blacklist": "Čierna listina mimetypov",
+			"mimetypes_blacklist_help": "Ak chcete zakázať nahrávanie niektorých typov súborov, jednoducho ich pridajte na čiernu listinu, príklad: x-php, mp3, jpeg <br/> Medzi mimetypmi použite čiarku. Nevkladajte bodku pred mimetyp.",
+			"mimetypes_blacklist_plac": "Pridajte mimetypy do Čiernej listiny",
+			"section_cache": "Aplikačná pamäť",
 			"section_others": "Ostatné nastavenia",
 			"section_user": "Používatelia a ukladací priestor",
 			"storage_limit": "Obmedzenie priestoru",
-			"storage_limit_help": "Ak je táto hodnota vypnutá, všetci používatelia budú mať nekonečnú kapacitu úložiska a vy nebudete môcť <br/>účtovať svojim používateľom poplatky za plán úložiska."
+			"storage_limit_help": "Ak je táto hodnota vypnutá, všetci používatelia budú mať nekonečnú kapacitu úložiska a vy nebudete môcť <br/>účtovať svojim používateľom poplatky za plán úložiska.",
+			"upload_limit": "Limit nahrávania",
+			"upload_limit_help": "Ak chcete nastaviť limit pre nahrávane jedneho súboru, pridajte veľkosť vášho limitu v MB.",
+			"upload_limit_plac": "Pridajte veľkosť limitu v MB"
 		},
 		"payments": {
 			"allow_payments": "Povoliť platby za plány",
@@ -276,29 +276,17 @@
 		"empty_trash": "Vyprázdniť kôš",
 		"log_out": "Odhlásiť sa",
 		"move": "Presunúť",
+		"no_options": "Nie sú k dispozícii žiadne možnosti",
 		"profile_settings": "Nastavenia profilu",
 		"remove_from_favourites": "Vymazať obľúbené",
 		"rename": "Premenovať",
 		"restore": "Obnoviť",
+		"select": "Výber",
 		"share": "Zdieľať",
 		"share_cancel": "Zrušenie zdieľania",
 		"share_edit": "Upraviť zdieľanie",
 		"upload": "Nahrať",
-		"select": "Výber",
-		"no_options": "Nie sú k dispozícii žiadne možnosti",
 		"zip_folder": "Zazipovať priečinok"
-	},
-	"mobile_selecting": {
-		"select_all": "Vybrať všetko",
-		"deselect_all": "Odznačiť všetko",
-		"done": "Hotovo"
-	},
-	"preview_sorting": {
-		"grid_view": "Mriežka",
-		"list_view": "List",
-		"sort_date": "Zoradiť podľa dátumu",
-		"sort_alphabet": "Zoradiť podľa náyvu",
-		"preview_sorting_button": "Zobrazenie"
 	},
 	"cookie_disclaimer": {
 		"button": "politikou cookies",
@@ -319,36 +307,35 @@
 		"author": "Autor",
 		"author_participant": "Verejný účastník",
 		"created_at": "Vytvorené",
+		"items": "{count} Položky | {count} Položiek",
+		"selected_multiple": "Vybratých viac položiek",
 		"shared": "Zdieľané",
 		"size": "Veľkosť",
-		"where": "Umiestnenie",
-		"selected_multiple": "Vybratých viac položiek",
-		"items": "{count} Položky | {count} Položiek"
+		"where": "Umiestnenie"
 	},
 	"file_detail_meta": {
-		"dimension": "Dimenzie",
-		"resolution": "Rozlíšenie",
-		"color_space": "Farebný priestor",
-		"aperture_value": "Hodnota clony",
-		"meta_data": "Metadata",
-		"author": "Autor",
-		"time_data": "Obsah vytvorený",
-		"make": "Fotoaparát",
-		"model": "Model",
-		"camera_lens": "Objektív fotoaparátu",
 		"aperature": "Clona",
-		"iso": "ISO",
-		"focal": "Ohnisková vzdialenosť",
+		"aperture_value": "Hodnota clony",
+		"author": "Autor",
+		"camera_lens": "Objektív fotoaparátu",
+		"color_space": "Farebný priestor",
+		"dimension": "Dimenzie",
 		"exposure": "Doba expozície",
+		"focal": "Ohnisková vzdialenosť",
+		"iso": "ISO",
+		"latitude": "Zemepisná šírka",
 		"longitude": "Zemepisná dĺžka",
-		"latitude": "Zemepisná šírka"
+		"make": "Fotoaparát",
+		"meta_data": "Metadata",
+		"model": "Model",
+		"resolution": "Rozlíšenie",
+		"time_data": "Obsah vytvorený"
 	},
 	"folder": {
 		"empty": "Prázdne",
 		"item_counts": "{count} Položka | {count} Položky"
 	},
 	"global": {
-		"incomplete": "Incomplete",
 		"active": "Aktívny",
 		"admin": "Admin",
 		"cancel": "Zrušiť",
@@ -357,6 +344,7 @@
 		"default": "Predvolený",
 		"free": "Zadarmo",
 		"get_it": "Získať",
+		"incomplete": "Incomplete",
 		"menu": "Ponuka",
 		"monthly_ac": "Mes.",
 		"or": "alebo",
@@ -365,6 +353,10 @@
 		"subscription": "Predplatné",
 		"total": "Celkom",
 		"upgrade_plan": "Navýšiť úložisko"
+	},
+	"incomplete_payment": {
+		"description": "Vaša posledná platba nie je dokončená. {0}",
+		"href": "Prosím potvrďte Vašu platbu."
 	},
 	"input_image": {
 		"supported": "Podporované formáty sú .png, .jpg, .jpeg.",
@@ -379,11 +371,11 @@
 	},
 	"locations": {
 		"home": "Domov",
-		"shared": "Zdieľané",
-		"trash": "Kôš",
+		"logout": "Odhlásiť sa",
 		"profile": "Profil",
 		"settings": "Nastavenia",
-		"logout": "Odhlásiť sa"
+		"shared": "Zdieľané",
+		"trash": "Kôš"
 	},
 	"menu": {
 		"admin": "Administrácia",
@@ -404,6 +396,11 @@
 		"nothing_from_participants": "Zatiaľ nemáš žiadné súbory od ostatných uživateľov",
 		"nothing_to_preview": "Tu nie je nič pre zobrazenie.",
 		"nothing_was_found": "Nič sa nenašlo."
+	},
+	"mobile_selecting": {
+		"deselect_all": "Odznačiť všetko",
+		"done": "Hotovo",
+		"select_all": "Vybrať všetko"
 	},
 	"notice": {
 		"stripe_activation": "Váš účet Stripe nie je nastavený. Pre spoplatňovanie používateľov prosím {0}.",
@@ -465,8 +462,8 @@
 	"page_pricing_tables": {
 		"description": "Vyberte si plán, ktorý dokonale vyhovuje vašim potrebám. Všetky plány sa fakturujú mesačne automaticky prostredníctvom vašej kreditnej karty.",
 		"storage_capacity": "Kapacita úložiska",
-		"vat_excluded": "Ceny nezahrňajú DPH.",
-		"title": "Vyberte si svoj plán"
+		"title": "Vyberte si svoj plán",
+		"vat_excluded": "Ceny nezahrňajú DPH."
 	},
 	"page_registration": {
 		"agreement": "Kliknutím na tlačidlo Vytvoriť účet súhlasím s {0} a {1}.",
@@ -476,10 +473,12 @@
 		"label_email": "Email:",
 		"label_name": "Celé meno:",
 		"label_pass": "Vytvorte heslo:",
+		"label_phone": "Telefónne číslo:",
 		"placeholder_confirm_pass": "Potvrďte nové heslo",
 		"placeholder_email": "Napíš svoj E-mail",
 		"placeholder_name": "Napíš svoje celé meno",
 		"placeholder_pass": "Vaše nové heslo",
+		"placeholder_phone": "Zadajte číslo svojho mobilného telefónu",
 		"subtitle": "Prosím, vyplňte formulár pre vytvorenie nového účtu:",
 		"title": "Vytvorenie nového účtu"
 	},
@@ -516,31 +515,19 @@
 		"section_card": "Platobná karta",
 		"section_summary": "Zhrnutie objednávky",
 		"summary": {
-			"total_with_vat": "Spolu s DPH",
-			"vat": "DPH",
 			"period": "Účtované mesačne",
 			"submit_button": "Zaplatiť kreditnou kartou",
-			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}."
+			"submit_disclaimer": "Odoslaním formulára súhlasíte s uložením spôsobu platby a fakturačných údajov vo svojom účte {app}.",
+			"total_with_vat": "Spolu s DPH",
+			"vat": "DPH"
 		},
 		"title": "Vyberte si metódu platby"
 	},
-	"popup_upload_limit": {
-		"title": "Je nám to ľúto",
-		"message": "Veľkosť nahravaného súboru prekročila limit pre nahraávane súbory ({uploadLimit})"
-	},
-	"popup_mimetypes_blacklist": {
-		"title": "Ospravedlňujeme sa",
-		"message": "Nieje povolené nahrávať tento typ súboru ({mimetype})."
-	},
-	"popup_zipping": {
-		"title": "Súbory sa zipujú...",
-		"message": "Čakajte prosím, kým súbory sa nezačnú sťahovať."
-	},
 	"popup_create_folder": {
 		"folder_default_name": "Nový priečinok",
-		"title": "Vytvoriť priečinok",
 		"label": "Napíš meno",
-		"placeholder": "Prosím, vložte názov nového priečinka"
+		"placeholder": "Prosím, vložte názov nového priečinka",
+		"title": "Vytvoriť priečinok"
 	},
 	"popup_delete_card": {
 		"message": "Táto udalosť je nezvratná a vaša platobná karta bude navždy odstránená",
@@ -566,6 +553,10 @@
 		"message": "Prosím, kontaktujte administrátora pre navyšenie limitu.",
 		"title": "Ups, presiahli ste limit úložiska"
 	},
+	"popup_mimetypes_blacklist": {
+		"message": "Nieje povolené nahrávať tento typ súboru ({mimetype}).",
+		"title": "Ospravedlňujeme sa"
+	},
 	"popup_move_item": {
 		"cancel": "Zrušiť",
 		"submit": "Presunúť položku",
@@ -584,16 +575,16 @@
 		"title": "Súbor je príliš veľký"
 	},
 	"popup_rename": {
-		"title": "Zmeňte názov {item}",
+		"color_pick_label": "Vyberte si farbu",
+		"emoji_list_not_found": "Nenájdené",
 		"label": "Zmeniť názov",
 		"placeholder": "Napíš názov...",
-		"tab_emoji_title": "Emodži ako ikona",
-		"tab_color_title": "Farba priečinka",
-		"select_emoji_label": "Vyberte emodži ikonu",
-		"color_pick_label": "Vyberte si farbu",
-		"set_emoji_input_placeholder": "Emodži zoznam ...",
 		"search_emoji_input_placeholder": "Vyhľadajte svoje emodži...",
-		"emoji_list_not_found": "Nenájdené"
+		"select_emoji_label": "Vyberte emodži ikonu",
+		"set_emoji_input_placeholder": "Emodži zoznam ...",
+		"tab_color_title": "Farba priečinka",
+		"tab_emoji_title": "Emodži ako ikona",
+		"title": "Zmeňte názov {item}"
 	},
 	"popup_set_card": {
 		"message": "Vaša karta bude nastavená ako predvolená a bude vám z nej vždy stiahnutá čiastka za nasledujúce obdobie fakturácie.",
@@ -605,11 +596,11 @@
 	"popup_share_edit": {
 		"change_pass": "Zmeniť heslo",
 		"confirm": "Potvrdiť",
-		"save": "Uložiť zmeny",
-		"stop": "Zastaviť zdieľanie",
-		"title": "Upraviť nastavenia zdieľania",
 		"go_back": "Spať",
-		"send_to_recipients": "Odoslať príjemcom"
+		"save": "Uložiť zmeny",
+		"send_to_recipients": "Odoslať príjemcom",
+		"stop": "Zastaviť zdieľanie",
+		"title": "Upraviť nastavenia zdieľania"
 	},
 	"popup_signup_error": {
 		"message": "Prosím skontrolujte databázove spojenie, či všetko funguje správne.",
@@ -624,6 +615,21 @@
 		"button": "To je úžasné!",
 		"message": "Váš odber bol znova aktivovaný a budú vám účtované poplatky podľa pôvodného fakturačného cyklu.",
 		"title": "Predplatné bolo obnovené"
+	},
+	"popup_upload_limit": {
+		"message": "Veľkosť nahravaného súboru prekročila limit pre nahraávane súbory ({uploadLimit})",
+		"title": "Je nám to ľúto"
+	},
+	"popup_zipping": {
+		"message": "Čakajte prosím, kým súbory sa nezačnú sťahovať.",
+		"title": "Súbory sa zipujú..."
+	},
+	"preview_sorting": {
+		"grid_view": "Mriežka",
+		"list_view": "List",
+		"preview_sorting_button": "Zobrazenie",
+		"sort_alphabet": "Zoradiť podľa náyvu",
+		"sort_date": "Zoradiť podľa dátumu"
 	},
 	"profile": {
 		"change_pass": "Zmeniť heslo",
@@ -694,24 +700,25 @@
 		"visitor": "Môže len vidieť a sťahovať súbory"
 	},
 	"shared_form": {
-		"button_more_options": "Viac nastavení",
 		"button_close_options": "Zavrieť viac možností",
 		"button_done": "Super, som hotový!",
+		"button_folder_icon_open": "",
 		"button_generate": "Vygenerovať link",
+		"button_more_options": "Viac nastavení",
+		"email_placeholder": "Zadajte e-mailové adresy",
+		"email_successfully_send_message": "Vaša položka bola <b>úspešne odoslaná</b> na e-maily príjemcov.",
+		"expiration_day": "{value}d.",
+		"expiration_hour": "{value}h.",
+		"label_expiration": "Expirácia Linku",
 		"label_password_protection": "Chrániť heslom",
 		"label_permission": "Oprávnenie",
-		"label_shared_url": "Zdieľací odkaz",
-		"label_share_vie_email": "Získajte odkaz",
 		"label_send_to_recipients": "Odoslať príjemcom",
-		"label_expiration": "Expirácia Linku",
-		"expiration_hour": "{value}h.",
-		"expiration_day": "{value}d.",
+		"label_share_vie_email": "Získajte odkaz",
+		"label_shared_url": "Zdieľací odkaz",
 		"placeholder_permission": "Zvoľte oprávnenia",
-		"email_successfully_send_message": "Vaša položka bola <b>úspešne odoslaná</b> na e-maily príjemcov.",
-		"share_by_link": "Zdieľať odkazom",
-		"share_by_email": "Zdieľať e-mailom",
 		"recipients_label": "Príjemcovia",
-		"email_placeholder": "Zadajte e-mailové adresy"
+		"share_by_email": "Zdieľať e-mailom",
+		"share_by_link": "Zdieľať odkazom"
 	},
 	"sidebar": {
 		"favourites": "Obľúbené",
@@ -758,15 +765,11 @@
 		"description": "Takmer ste dosiahli kapacitu úložiska",
 		"title": "Dosiahli ste kapacitu úložiska. Prosím inovujte úložisko."
 	},
-	"incomplete_payment": {
-		"description": "Vaša posledná platba nie je dokončená. {0}",
-		"href": "Prosím potvrďte Vašu platbu."
-	},
 	"uploading": {
 		"cancel": "Zrušiť nahrávanie",
 		"processing_file": "Spracuvávam súbor...",
-		"progress_single_upload": "Nahrávam súbor {progress}%",
-		"progress": "Nahrávam súbory {progress}% - {current}/{total}"
+		"progress": "Nahrávam súbory {progress}% - {current}/{total}",
+		"progress_single_upload": "Nahrávam súbor {progress}%"
 	},
 	"user_add_card": {
 		"default_description": "Vaša karta bude uložená a použitá pre platbu ako prvá.",
@@ -820,10 +823,10 @@
 		"postal_code_plac": "Zadajte svoj fakturačný poštový kód",
 		"state": "Štát",
 		"state_plac": "Zadajte Štát",
-		"title_account": "informácie o účte",
-		"title_billing": "Fakturačné údaje",
 		"timezone": "Časové pásmo",
-		"timezone_plac" : "Vyberte svoje časové pásmo"
+		"timezone_plac": "Vyberte svoje časové pásmo",
+		"title_account": "informácie o účte",
+		"title_billing": "Fakturačné údaje"
 	},
 	"user_subscription": {
 		"billed": "Ůčtované",

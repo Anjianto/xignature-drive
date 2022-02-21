@@ -26,6 +26,33 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Editor
 {
+
+    public static function has_folder($name) {
+        $user_id = Auth::id();
+        $folder = FileManagerFolder::where('user_id', $user_id)
+        ->where('name', $name)
+        ->where('parent_id', 0)
+        ->first();
+        if ($folder) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function get_folder($name, $parent=0) {
+        $user_id = Auth::id();
+        $folder = FileManagerFolder::where('user_id', $user_id)
+        ->where('name', $name)
+        ->where('parent_id', $parent)
+        ->first();
+        if ($folder) {
+            return $folder;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Store folder icon
      *
@@ -431,10 +458,10 @@ class Editor
      * @return FileManagerFile|\Illuminate\Database\Eloquent\Model
      * @throws \Exception
      */
-    public static function upload($request, $shared = null)
+    public static function upload($request, $shared = null, $name='file')
     {
         // Get parent_id from request
-        $file = $request->file('file');
+        $file = $request->file($name);
 
         // Check or create directories
         self::check_directories(['chunks', 'file-manager']);

@@ -1,0 +1,848 @@
+{
+	"actions": {
+		"close": "Dekat",
+		"create_folder": "Membuat folder",
+		"delete": "Hapus item",
+		"download": "Unduh item",
+		"info_panel": "panel informasi",
+		"move": "Pindahkan barang",
+		"preview": "Ubah pratinjau",
+		"print": "Cetak barang",
+		"share": "Bagikan barang",
+		"sorting_view": "Menyortir dan Melihat",
+		"upload": "Unggah data"
+	},
+	"activation": {
+		"stripe": {
+			"button": "",
+			"description": "",
+			"title": ""
+		}
+	},
+	"admin_menu": {
+		"dashboard": "",
+		"invoices": "",
+		"pages": "",
+		"plans": "",
+		"settings": "",
+		"users": ""
+	},
+	"admin_page_dashboard": {
+		"backer_button": "",
+		"license": "",
+		"version": "",
+		"w_latest_users": {
+			"title": ""
+		},
+		"w_total_premium": {
+			"link": "",
+			"title": ""
+		},
+		"w_total_space": {
+			"link": "",
+			"title": ""
+		},
+		"w_total_users": {
+			"link": "",
+			"title": ""
+		}
+	},
+	"admin_page_invoices": {
+		"empty": {
+			"description": "",
+			"title": ""
+		},
+		"table": {
+			"number": "",
+			"payed": "",
+			"plan": "",
+			"total": "",
+			"user": ""
+		}
+	},
+	"admin_page_plans": {
+		"create_plan_button": "",
+		"delete_plan_button": "",
+		"disclaimer_delete_plan": "",
+		"disclaimer_edit_price": "",
+		"empty": {
+			"button": "",
+			"description": "",
+			"title": ""
+		},
+		"form": {
+			"description": "",
+			"description_plac": "",
+			"name": "",
+			"name_delete_plac": "",
+			"name_plac": "",
+			"price": "",
+			"price_plac": "",
+			"status": "",
+			"status_help": "",
+			"storage": "",
+			"storage_helper": "",
+			"storage_plac": "",
+			"title_delete": "",
+			"title_details": "",
+			"title_pricing": ""
+		},
+		"subscribers": {
+			"empty": ""
+		},
+		"table": {
+			"name": "",
+			"price": "",
+			"status": "",
+			"storage_capacity": "",
+			"subscribers": ""
+		},
+		"tabs": {
+			"delete": "",
+			"settings": "",
+			"subscribers": ""
+		}
+	},
+	"admin_page_user": {
+		"change_capacity": "",
+		"create_user": {
+			"avatar": "",
+			"group_details": "",
+			"group_settings": "",
+			"label_conf_pass": "",
+			"label_email": "",
+			"label_name": "",
+			"submit": ""
+		},
+		"delete_user": "",
+		"invoices": {
+			"empty": ""
+		},
+		"label_change_capacity": "",
+		"label_delete_user": "",
+		"label_person_info": "",
+		"placeholder_delete_user": "",
+		"save_role": "",
+		"select_role": "",
+		"send_password_link": "",
+		"subscription": {
+			"empty": "",
+			"interval_mo": ""
+		},
+		"table": {
+			"action": "",
+			"created_at": "",
+			"name": "",
+			"plan": "",
+			"role": "",
+			"storage_capacity": "",
+			"storage_used": ""
+		},
+		"tabs": {
+			"delete": "",
+			"detail": "",
+			"invoices": "",
+			"password": "",
+			"storage": "",
+			"subscription": ""
+		}
+	},
+	"admin_pages": {
+		"form": {
+			"content": "",
+			"content_plac": "",
+			"slug": "",
+			"title": "",
+			"title_plac": "",
+			"visibility": "",
+			"visibility_help": ""
+		},
+		"table": {
+			"page": "",
+			"slug": "",
+			"status": ""
+		}
+	},
+	"admin_settings": {
+		"appearance": {
+			"description": "",
+			"description_plac": "",
+			"favicon": "",
+			"logo": "",
+			"logo_horizontal": "",
+			"section_appearance": "",
+			"section_general": "",
+			"title": "",
+			"title_plac": ""
+		},
+		"billings": {
+			"address": "",
+			"address_plac": "",
+			"city": "",
+			"city_plac": "",
+			"company_name": "",
+			"company_name_plac": "",
+			"country": "",
+			"country_plac": "",
+			"phone_number": "",
+			"phone_number_plac": "",
+			"postal_code": "",
+			"postal_code_plac": "",
+			"section_billing": "",
+			"section_company": "",
+			"state": "",
+			"state_plac": "",
+			"vat": "",
+			"vat_plac": ""
+		},
+		"email": {
+			"driver": "",
+			"driver_plac": "",
+			"email_disclaimer": "",
+			"encryption": "",
+			"encryption_plac": "",
+			"host": "",
+			"host_plac": "",
+			"password": "",
+			"password_plac": "",
+			"port": "",
+			"port_plac": "",
+			"save_button": "",
+			"section_email": "",
+			"username": "",
+			"username_plac": ""
+		},
+		"others": {
+			"allow_registration": "",
+			"allow_registration_help": "",
+			"cache_clear": "",
+			"cache_disclaimer": "",
+			"contact_email": "",
+			"contact_email_plac": "",
+			"default_storage": "",
+			"default_storage_plac": "",
+			"google_analytics": "",
+			"google_analytics_plac": "",
+			"mimetypes_blacklist": "",
+			"mimetypes_blacklist_help": "",
+			"mimetypes_blacklist_plac": "",
+			"section_cache": "",
+			"section_others": "",
+			"section_user": "",
+			"storage_limit": "",
+			"storage_limit_help": "",
+			"upload_limit": "",
+			"upload_limit_help": "",
+			"upload_limit_plac": ""
+		},
+		"payments": {
+			"allow_payments": "",
+			"button_submit": "",
+			"button_testing": "",
+			"credentials_disclaimer": "",
+			"section_payments": "",
+			"stripe_create_acc": "",
+			"stripe_create_webhook": "",
+			"stripe_currency": "",
+			"stripe_currency_plac": "",
+			"stripe_pub_key": "",
+			"stripe_pub_key_plac": "",
+			"stripe_sec_key": "",
+			"stripe_sec_key_plac": "",
+			"stripe_setup": "",
+			"stripe_webhook_key_plac": "",
+			"webhook_url": ""
+		},
+		"tabs": {
+			"appearance": "",
+			"billings": "",
+			"email": "",
+			"others": "",
+			"payments": ""
+		}
+	},
+	"alerts": {
+		"error_confirm": "",
+		"leave_to_sign_in": "",
+		"success_confirm": ""
+	},
+	"context_menu": {
+		"add_folder": "",
+		"add_to_favourites": "",
+		"create_folder": "",
+		"delete": "",
+		"detail": "",
+		"download": "",
+		"empty_trash": "",
+		"log_out": "",
+		"move": "",
+		"no_options": "",
+		"profile_settings": "",
+		"remove_from_favourites": "",
+		"rename": "",
+		"restore": "",
+		"select": "",
+		"share": "",
+		"share_cancel": "",
+		"share_edit": "",
+		"upload": "",
+		"zip_folder": ""
+	},
+	"cookie_disclaimer": {
+		"button": "",
+		"description": ""
+	},
+	"datatable": {
+		"paginate_info": ""
+	},
+	"empty_page": {
+		"call_to_action": "",
+		"description": "",
+		"title": ""
+	},
+	"errors": {
+		"capacity_digit": ""
+	},
+	"file_detail": {
+		"author": "",
+		"author_participant": "",
+		"created_at": "",
+		"items": "",
+		"selected_multiple": "",
+		"shared": "",
+		"size": "",
+		"where": ""
+	},
+	"file_detail_meta": {
+		"aperature": "",
+		"aperture_value": "",
+		"author": "",
+		"camera_lens": "",
+		"color_space": "",
+		"dimension": "",
+		"exposure": "",
+		"focal": "",
+		"iso": "",
+		"latitude": "",
+		"longitude": "",
+		"make": "",
+		"meta_data": "",
+		"model": "",
+		"resolution": "",
+		"time_data": ""
+	},
+	"folder": {
+		"empty": "",
+		"item_counts": ""
+	},
+	"global": {
+		"active": "",
+		"admin": "",
+		"cancel": "",
+		"canceled": "",
+		"confirm_action": "",
+		"default": "",
+		"free": "",
+		"get_it": "",
+		"incomplete": "",
+		"menu": "",
+		"monthly_ac": "",
+		"or": "",
+		"premium": "",
+		"saas": "",
+		"subscription": "",
+		"total": "",
+		"upgrade_plan": ""
+	},
+	"incomplete_payment": {
+		"description": "",
+		"href": ""
+	},
+	"input_image": {
+		"supported": "",
+		"title": ""
+	},
+	"inputs": {
+		"placeholder_search_files": ""
+	},
+	"item_thumbnail": {
+		"deleted_at": "",
+		"original_location": ""
+	},
+	"locations": {
+		"home": "",
+		"logout": "",
+		"profile": "",
+		"settings": "",
+		"shared": "",
+		"trash": ""
+	},
+	"menu": {
+		"admin": "",
+		"files": "",
+		"invoices": "",
+		"latest": "",
+		"logout": "",
+		"password": "",
+		"payment_cards": "",
+		"profile": "",
+		"settings": "",
+		"shared": "",
+		"storage": "",
+		"subscription": "",
+		"trash": ""
+	},
+	"messages": {
+		"nothing_from_participants": "",
+		"nothing_to_preview": "",
+		"nothing_was_found": ""
+	},
+	"mobile_selecting": {
+		"deselect_all": "",
+		"done": "",
+		"select_all": ""
+	},
+	"notice": {
+		"stripe_activation": "",
+		"stripe_activation_button": ""
+	},
+	"page_contact_us": {
+		"description": "",
+		"error_message": "",
+		"form": {
+			"email": "",
+			"email_plac": "",
+			"message": "",
+			"message_plac": "",
+			"submit_button": ""
+		},
+		"success_message": "",
+		"title": ""
+	},
+	"page_create_password": {
+		"button_update": "",
+		"label_confirm_pass": "",
+		"label_email": "",
+		"label_new_pass": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"page_forgotten_password": {
+		"button_get_link": "",
+		"pass_reseted_signin": "",
+		"pass_reseted_subtitle": "",
+		"pass_reseted_title": "",
+		"pass_sennded_subtitle": "",
+		"pass_sennded_title": "",
+		"password_remember_button": "",
+		"password_remember_text": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"page_index": {
+		"get_started_button": "",
+		"menu": {
+			"contact_us": "",
+			"log_in": "",
+			"pricing": "",
+			"sign_in": ""
+		},
+		"sign_feature_1": "",
+		"sign_feature_2": "",
+		"sign_up_button": ""
+	},
+	"page_login": {
+		"button_next": "",
+		"placeholder_email": "",
+		"registration_button": "",
+		"registration_text": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"page_pricing_tables": {
+		"description": "",
+		"storage_capacity": "",
+		"title": "",
+		"vat_excluded": ""
+	},
+	"page_registration": {
+		"agreement": "Dengan mengeklik tombol 'Buat Akun', saya menyetujui {0} dan {1}.",
+		"button_create_account": "Buat Akun",
+		"have_an_account": "Apakah kamu punya akun?",
+		"label_confirm_pass": "Setujui password:",
+		"label_email": "Surel:",
+		"label_name": "Nama lengkap:",
+		"label_pass": "Buat kata sandi:",
+		"label_phone": "Telepon:",
+		"placeholder_confirm_pass": "Konfirmasi kata sandi baru Anda",
+		"placeholder_email": "Ketik Email Anda",
+		"placeholder_name": "Ketik nama lengkap Anda",
+		"placeholder_pass": "kata sandi baru",
+		"placeholder_phone": "Ketik Nomor Ponsel Anda",
+		"subtitle": "Silahkan isi pendaftaran untuk membuat akun:",
+		"title": "Buat akun baru"
+	},
+	"page_shared": {
+		"download_file": "",
+		"placeholder_pass": "",
+		"submit": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"page_shared_404": {
+		"subtitle": "",
+		"title": ""
+	},
+	"page_sign_in": {
+		"button_log_in": "",
+		"password_reset_button": "",
+		"password_reset_text": "",
+		"placeholder_password": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"page_upgrade_account": {
+		"change_payment": {
+			"change_payment": "",
+			"pay_by_new_card": "",
+			"you_can": ""
+		},
+		"desription": "",
+		"errors": {
+			"pay_by_another_card": ""
+		},
+		"section_billing": "",
+		"section_card": "",
+		"section_summary": "",
+		"summary": {
+			"period": "",
+			"submit_button": "",
+			"submit_disclaimer": "",
+			"total_with_vat": "",
+			"vat": ""
+		},
+		"title": ""
+	},
+	"popup_create_folder": {
+		"folder_default_name": "",
+		"label": "",
+		"placeholder": "",
+		"title": ""
+	},
+	"popup_delete_card": {
+		"message": "",
+		"title": ""
+	},
+	"popup_deleted_plan": {
+		"message": "",
+		"title": ""
+	},
+	"popup_deleted_user": {
+		"message": "",
+		"title": ""
+	},
+	"popup_deleted_user_aborted": {
+		"message": "",
+		"title": ""
+	},
+	"popup_error": {
+		"message": "",
+		"title": ""
+	},
+	"popup_exceed_limit": {
+		"message": "",
+		"title": ""
+	},
+	"popup_mimetypes_blacklist": {
+		"message": "",
+		"title": ""
+	},
+	"popup_move_item": {
+		"cancel": "",
+		"submit": "",
+		"title": ""
+	},
+	"popup_pass_changed": {
+		"message": "",
+		"title": ""
+	},
+	"popup_passport_error": {
+		"message": "",
+		"title": ""
+	},
+	"popup_paylod_error": {
+		"message": "",
+		"title": ""
+	},
+	"popup_rename": {
+		"color_pick_label": "",
+		"emoji_list_not_found": "",
+		"label": "",
+		"placeholder": "",
+		"search_emoji_input_placeholder": "",
+		"select_emoji_label": "",
+		"set_emoji_input_placeholder": "",
+		"tab_color_title": "",
+		"tab_emoji_title": "",
+		"title": ""
+	},
+	"popup_set_card": {
+		"message": "",
+		"title": ""
+	},
+	"popup_share_create": {
+		"title": ""
+	},
+	"popup_share_edit": {
+		"change_pass": "",
+		"confirm": "",
+		"go_back": "",
+		"save": "",
+		"send_to_recipients": "",
+		"stop": "",
+		"title": ""
+	},
+	"popup_signup_error": {
+		"message": "",
+		"title": ""
+	},
+	"popup_subscription_cancel": {
+		"button": "",
+		"message": "",
+		"title": ""
+	},
+	"popup_subscription_resumed": {
+		"button": "",
+		"message": "",
+		"title": ""
+	},
+	"popup_upload_limit": {
+		"message": "",
+		"title": ""
+	},
+	"popup_zipping": {
+		"message": "",
+		"title": ""
+	},
+	"preview_sorting": {
+		"grid_view": "",
+		"list_view": "",
+		"preview_sorting_button": "",
+		"sort_alphabet": "",
+		"sort_date": ""
+	},
+	"profile": {
+		"change_pass": "",
+		"profile_info": "",
+		"store_pass": ""
+	},
+	"pronouns": {
+		"of": ""
+	},
+	"roles": {
+		"admin": "",
+		"user": ""
+	},
+	"routes": {
+		"create_new_password": ""
+	},
+	"routes_title": {
+		"appearance": "",
+		"billings": "",
+		"dashboard": "",
+		"email": "",
+		"invoices": "",
+		"others": "",
+		"page_edit": "",
+		"pages": "",
+		"payment_methods": "",
+		"payments": "",
+		"plan": "",
+		"plan_create": "",
+		"plan_delete": "",
+		"plan_settings": "",
+		"pricing_plans": "",
+		"profile": "",
+		"profile_settings": "",
+		"settings": "",
+		"settings_mobile": "",
+		"settings_password": "",
+		"settings_storage": "",
+		"subscribers": "",
+		"subscription": "",
+		"upgrade_billing": "",
+		"upgrade_plan": "",
+		"user_create": "",
+		"users_delete": "",
+		"users_detail": "",
+		"users_list": "",
+		"users_password": "",
+		"users_storage_usage": "",
+		"users_user": ""
+	},
+	"rows": {
+		"card": {
+			"expiration": "",
+			"number": "",
+			"status": ""
+		},
+		"invoice": {
+			"number": "",
+			"payed": "",
+			"plan": "",
+			"total": ""
+		}
+	},
+	"shared": {
+		"can_download": "",
+		"editor": "",
+		"empty_shared": "",
+		"visitor": ""
+	},
+	"shared_form": {
+		"button_close_options": "",
+		"button_done": "",
+		"button_folder_icon_open": "",
+		"button_generate": "",
+		"button_more_options": "",
+		"email_placeholder": "",
+		"email_successfully_send_message": "",
+		"expiration_day": "",
+		"expiration_hour": "",
+		"label_expiration": "",
+		"label_password_protection": "",
+		"label_permission": "",
+		"label_send_to_recipients": "",
+		"label_share_vie_email": "",
+		"label_shared_url": "",
+		"placeholder_permission": "",
+		"recipients_label": "",
+		"share_by_email": "",
+		"share_by_link": ""
+	},
+	"sidebar": {
+		"favourites": "",
+		"favourites_empty": "",
+		"folders_empty": "",
+		"home": "",
+		"latest": "",
+		"locations_title": "",
+		"my_shared": "",
+		"navigator_title": "",
+		"participant_uploads": "",
+		"tools_title": ""
+	},
+	"storage": {
+		"audios": "",
+		"documents": "",
+		"images": "",
+		"others": "",
+		"sec_capacity": "",
+		"sec_details": "",
+		"total_capacity": "",
+		"total_used": "",
+		"videos": ""
+	},
+	"toaster": {
+		"account_upgraded": "",
+		"card_deleted": "",
+		"card_new_add": "",
+		"card_set": "",
+		"changed_capacity": "",
+		"changed_user": "",
+		"created_user": "",
+		"email_set": "",
+		"plan_created": "",
+		"sended_password": "",
+		"stripe_set": ""
+	},
+	"types": {
+		"file": "",
+		"folder": ""
+	},
+	"upgrade_banner": {
+		"button": "",
+		"description": "",
+		"title": ""
+	},
+	"uploading": {
+		"cancel": "",
+		"processing_file": "",
+		"progress": "",
+		"progress_single_upload": ""
+	},
+	"user_add_card": {
+		"default_description": "",
+		"default_title": ""
+	},
+	"user_box_delete": {
+		"description": "",
+		"title": ""
+	},
+	"user_box_password": {
+		"description": "",
+		"title": ""
+	},
+	"user_box_role": {
+		"description": "",
+		"title": ""
+	},
+	"user_box_storage": {
+		"description": "",
+		"title": ""
+	},
+	"user_invoices": {
+		"empty": "",
+		"title": ""
+	},
+	"user_password": {
+		"title": ""
+	},
+	"user_payments": {
+		"add_card": "",
+		"card_field_title": "",
+		"delete_card": "",
+		"empty": "",
+		"field_loading": "",
+		"set_as_default": "",
+		"store_card": "",
+		"title": ""
+	},
+	"user_settings": {
+		"address": "",
+		"address_plac": "",
+		"city": "",
+		"city_plac": "",
+		"country": "",
+		"country_plac": "",
+		"name": "",
+		"name_plac": "",
+		"phone_number": "",
+		"phone_number_plac": "",
+		"postal_code": "",
+		"postal_code_plac": "",
+		"state": "",
+		"state_plac": "",
+		"timezone": "",
+		"timezone_plac": "",
+		"title_account": "",
+		"title_billing": ""
+	},
+	"user_subscription": {
+		"billed": "",
+		"cancel_plan": "",
+		"canceled_at": "",
+		"created_at": "",
+		"empty": "",
+		"ends_at": "",
+		"plan": "",
+		"renews_at": "",
+		"resume_plan": "",
+		"status": "",
+		"title": ""
+	},
+	"validation_errors": {
+		"incorrect_password": "",
+		"wrong_image": ""
+	}
+}

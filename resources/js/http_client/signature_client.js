@@ -11,11 +11,11 @@ export const client = ({ base_url, key }) =>
 
 export default {
   client: client({
-    base_url: process.env.MIX_XIGNATURE_END_POINT,
-    key: process.env.MIX_XIGNATURE_APP_KEY,
+    base_url: "https://sandbox.xignature.co.id/",
+    key: "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B",
   }),
   loadDocuments(page, limit, doctype, status, search) {
-    return this.client.post("/document/list", {
+    return this.client.post("/v1/document/list", {
       page,
       limit,
       doctype,
@@ -37,7 +37,7 @@ export default {
       birthplace: data.birthPlace,
       birthdate: birthdate,
     };
-    return this.client.post("auth/generateToken", data);
+    return this.client.post("/v1/auth/generateToken", data);
   },
   genLTC(data, duration) {
     const birthdate = data.birthdate
@@ -50,7 +50,37 @@ export default {
       birthdate,
     };
 
-    return this.client.post("v1/auth/generateLtcToken", data);
+    return this.client.post("/v1/auth/generateLtcToken", data);
   },
-  sign: (payload) => this.client.post("document/sign", payload),
+  sign({
+    otp,
+    token,
+    title,
+    reason,
+    signPage,
+    signPos: {
+      x, y,
+    },
+    shareToCustomer = true,
+    document
+  }) {
+
+    return this.client.post("/v1/document/sign", 
+      {
+        title,
+        reason,
+        signPage,
+        signPos: {
+          x, y,
+        },
+        shareDocumentToCustomer: shareToCustomer,
+        document
+      }, {
+        headers: {
+          "one-time-token": token,
+          otp: otp,
+        },
+      }
+    )
+  },
 };

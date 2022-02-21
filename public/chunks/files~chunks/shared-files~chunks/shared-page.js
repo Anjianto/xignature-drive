@@ -54,6 +54,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_FilesView_Option__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/FilesView/Option */ "./resources/js/components/FilesView/Option.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
+/* harmony import */ var _OTPModal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./OTPModal.vue */ "./resources/js/components/FilesView/OTPModal.vue");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -248,27 +261,364 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ContextMenu',
+  name: "ContextMenu",
   components: {
     OptionGroup: _components_FilesView_OptionGroup__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Option: _components_FilesView_Option__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Option: _components_FilesView_Option__WEBPACK_IMPORTED_MODULE_1__["default"],
+    OTPModal: _OTPModal_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(['user', 'fileInfoDetail'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["user", "fileInfoDetail"])), {}, {
     hasFolder: function hasFolder() {
       // Check if selected items includes some folder
       if (this.fileInfoDetail.find(function (item) {
-        return item.type === 'folder';
+        return item.type === "folder";
       })) return true;
+    },
+    isDoc: function isDoc() {
+      var extesion = this.item.basename.split(".").pop();
+
+      if (extesion === "doc" || extesion === "docx" || extesion === "pdf") {
+        return true;
+      }
+
+      return false;
     },
     hasFile: function hasFile() {
       // Check if selected items includes some files
       if (this.fileInfoDetail.find(function (item) {
-        return item.type !== 'folder';
+        return item.type !== "folder";
       })) return true;
     },
     multiSelectContextMenu: function multiSelectContextMenu() {
@@ -281,13 +631,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.user.relationships.favourites.data.attributes.folders;
     },
     isFolder: function isFolder() {
-      return this.item && this.item.type === 'folder';
+      return this.item && this.item.type === "folder";
     },
     isFile: function isFile() {
-      return this.item && this.item.type !== 'folder' && this.item && this.item.type !== 'image';
+      return this.item && this.item.type !== "folder" && this.item && this.item.type !== "image";
     },
     isImage: function isImage() {
-      return this.item && this.item.type === 'image';
+      return this.item && this.item.type === "image";
     },
     isInFavourites: function isInFavourites() {
       var _this = this;
@@ -308,50 +658,84 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     downloadFolder: function downloadFolder() {
-      this.$store.dispatch('downloadFolder', this.item);
+      this.$store.dispatch("downloadFolder", this.item);
     },
     emptyTrash: function emptyTrash() {
-      this.$store.dispatch('emptyTrash');
+      this.$store.dispatch("emptyTrash");
     },
     restoreItem: function restoreItem() {
       // If is item not in selected items restore just this single item
-      if (!this.fileInfoDetail.includes(this.item)) this.$store.dispatch('restoreItem', this.item); // If is item in selected items restore all items from fileInfoDetail
+      if (!this.fileInfoDetail.includes(this.item)) this.$store.dispatch("restoreItem", this.item); // If is item in selected items restore all items from fileInfoDetail
 
-      if (this.fileInfoDetail.includes(this.item)) this.$store.dispatch('restoreItem', null);
+      if (this.fileInfoDetail.includes(this.item)) this.$store.dispatch("restoreItem", null);
     },
     shareCancel: function shareCancel() {
-      this.$store.dispatch('shareCancel');
+      this.$store.dispatch("shareCancel");
     },
     renameItem: function renameItem() {
-      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
-        name: 'rename-item',
+      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("popup:open", {
+        name: "rename-item",
         item: this.item
       });
     },
+    signItem: function signItem() {
+      var basenames = this.fileInfoDetail.reduce(function (acc, item) {
+        acc[item.basename] = item.basename;
+        return acc;
+      }, {});
+      this.$store.dispatch("setDocumentSignature", Object.keys(basenames).length > 0 ? basenames : _defineProperty({}, this.item.basename, this.item.basename)); // localStorage.setItem(
+      //   "signItem",
+      //   JSON.stringify(
+      //     Object.keys(basenames).length > 0
+      //       ? basenames
+      //       : { [this.item.basename]: this.item.basename }
+      //   )
+      // );
+
+      this.$store.dispatch("signDocument");
+    },
+    singleSignItem: function singleSignItem() {
+      this.$store.dispatch("addFileInfoDetail", this.item);
+
+      var _this$item$basename$s = this.item.basename.split("."),
+          _this$item$basename$s2 = _slicedToArray(_this$item$basename$s, 2),
+          name = _this$item$basename$s2[0],
+          ext = _this$item$basename$s2[1];
+
+      this.$router.push({
+        name: "Sign",
+        params: {
+          fileId: name
+        },
+        query: {
+          type: ext
+        }
+      });
+    },
     moveItem: function moveItem() {
-      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
-        name: 'move',
+      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("popup:open", {
+        name: "move",
         item: [this.item]
       });
     },
     shareItem: function shareItem() {
       if (this.item.shared) {
         // Open edit share popup
-        _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
-          name: 'share-edit',
+        _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("popup:open", {
+          name: "share-edit",
           item: this.item
         });
       } else {
         // Open create share popup
-        _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('popup:open', {
-          name: 'share-create',
+        _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("popup:open", {
+          name: "share-create",
           item: this.item
         });
       }
     },
     shareXignature: function shareXignature() {
-      // window.location.href = ;    
-      window.open('/pdfViewer.html', '_blank');
+      // window.location.href = ;
+      window.open("/pdfViewer.html", "_blank");
     },
     addToFavourites: function addToFavourites() {
       var _this2 = this;
@@ -362,41 +746,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })) {
         // Add to favourite folder that is not selected
         if (!this.fileInfoDetail.includes(this.item)) {
-          this.$store.dispatch('addToFavourites', this.item);
+          this.$store.dispatch("addToFavourites", this.item);
         } // Add to favourites all selected folders
 
 
         if (this.fileInfoDetail.includes(this.item)) {
-          this.$store.dispatch('addToFavourites', null);
+          this.$store.dispatch("addToFavourites", null);
         }
       } else {
-        this.$store.dispatch('removeFromFavourites', this.item);
+        this.$store.dispatch("removeFromFavourites", this.item);
       }
     },
     downloadItem: function downloadItem() {
-      if (this.fileInfoDetail.length > 1) this.$store.dispatch('downloadFiles');else {
-        this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype);
+      if (this.fileInfoDetail.length > 1) this.$store.dispatch("downloadFiles");else {
+        this.$downloadFile(this.item.file_url, this.item.name + "." + this.item.mimetype);
       }
     },
     ItemDetail: function ItemDetail() {
       // Dispatch load file info detail
-      this.$store.commit('GET_FILEINFO_DETAIL', this.item); // Show panel if is not open
+      this.$store.commit("GET_FILEINFO_DETAIL", this.item); // Show panel if is not open
 
-      this.$store.dispatch('fileInfoToggle', true);
+      this.$store.dispatch("fileInfoToggle", true);
     },
     deleteItem: function deleteItem() {
       // If is context menu open on non selected item delete this single item
       if (!this.fileInfoDetail.includes(this.item)) {
-        this.$store.dispatch('deleteItem', this.item);
+        this.$store.dispatch("deleteItem", this.item);
       } // If is context menu open to multi selected items dele this selected items
 
 
       if (this.fileInfoDetail.includes(this.item)) {
-        this.$store.dispatch('deleteItem');
+        this.$store.dispatch("deleteItem");
       }
     },
     createFolder: function createFolder() {
-      this.$store.dispatch('createFolder', this.$t('popup_create_folder.folder_default_name'));
+      this.$store.dispatch("createFolder", this.$t("popup_create_folder.folder_default_name"));
     },
     closeAndResetContextMenu: function closeAndResetContextMenu() {
       // Close context menu
@@ -405,18 +789,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.item = undefined;
     },
     showFolderActionsMenu: function showFolderActionsMenu() {
-      var container = document.getElementById('folder-actions');
+      var container = document.getElementById("folder-actions");
       this.positionX = container.offsetLeft + 16;
       this.positionY = container.offsetTop + 30; // Show context menu
 
       this.isVisible = true;
     },
     showContextMenu: function showContextMenu(event) {
-      var parent = document.getElementById('menu-list');
-      var nodesSameClass = parent.getElementsByClassName('menu-option');
+      var parent = document.getElementById("menu-list");
+      var nodesSameClass = parent.getElementsByClassName("menu-option");
       var VerticalOffsetArea = nodesSameClass.length * 50;
       var HorizontalOffsetArea = 190;
-      var container = document.getElementById('files-view');
+      var container = document.getElementById("files-view");
       var offset = container.getClientRects()[0];
       var x = event.clientX - offset.left;
       var y = event.clientY - offset.top; // Set position Y
@@ -438,7 +822,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isVisible = true;
     },
     showFilePreviewMenu: function showFilePreviewMenu() {
-      var container = document.getElementById('fast-preview-menu');
+      var container = document.getElementById("fast-preview-menu");
 
       if (container) {
         this.positionX = container.offsetLeft + 16;
@@ -456,14 +840,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this3 = this;
 
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('actualShowingImage:ContextMenu', function (item) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("actualShowingImage:ContextMenu", function (item) {
       _this3.item = item;
     });
   },
   created: function created() {
     var _this4 = this;
 
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('showContextMenuPreview:show', function (item) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("showContextMenuPreview:show", function (item) {
       if (!_this4.showFromPreview) {
         _this4.item = item;
         _this4.showFromPreview = true;
@@ -474,12 +858,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.item = undefined;
       }
     });
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('showContextMenuPreview:hide', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("showContextMenuPreview:hide", function () {
       _this4.isVisible = false;
       _this4.showFromPreview = false;
       _this4.item = undefined;
     });
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('contextMenu:show', function (event, item) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("contextMenu:show", function (event, item) {
       // Store item
       _this4.item = item; // Show context menu
 
@@ -487,10 +871,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return _this4.showContextMenu(event, item);
       }, 10);
     });
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('unClick', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("unClick", function () {
       return _this4.closeAndResetContextMenu();
     });
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('folder:actions', function (folder) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("folder:actions", function (folder) {
       // Store item
       _this4.item = folder;
       if (_this4.isVisible) _this4.isVisible = false;else _this4.showFolderActionsMenu();
@@ -983,6 +1367,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -995,7 +1398,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FilesContainer',
+  name: "FilesContainer",
   components: {
     MobileToolbar: _components_FilesView_MobileToolbar__WEBPACK_IMPORTED_MODULE_0__["default"],
     MobileActions: _components_FilesView_MobileActions__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -1007,12 +1410,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     SearchBar: _components_FilesView_SearchBar__WEBPACK_IMPORTED_MODULE_8__["default"],
     EmptyPage: _components_FilesView_EmptyPage__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_9__["mapGetters"])(['filesInQueueTotal', 'fileInfoVisible', 'fileInfoDetail', 'currentFolder', 'FilePreviewType', 'isSearching', 'isLoading', 'data'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_9__["mapGetters"])(["filesInQueueTotal", "fileInfoVisible", "fileInfoDetail", "currentFolder", "FilePreviewType", "isSearching", "isLoading", "data"])), {}, {
     isGrid: function isGrid() {
-      return this.FilePreviewType === 'grid';
+      return this.FilePreviewType === "grid";
     },
     isList: function isList() {
-      return this.FilePreviewType === 'list';
+      return this.FilePreviewType === "list";
     },
     isEmpty: function isEmpty() {
       return this.data.length == 0;
@@ -1037,8 +1440,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     deleteItems: function deleteItems() {
-      if (this.fileInfoDetail.length > 0 && this.$checkPermission('master') || this.$checkPermission('editor')) {
-        this.$store.dispatch('deleteItem');
+      if (this.fileInfoDetail.length > 0 && this.$checkPermission("master") || this.$checkPermission("editor")) {
+        this.$store.dispatch("deleteItem");
       }
     },
     dropUpload: function dropUpload(event) {
@@ -1053,10 +1456,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isDragging = false;
     },
     dragStart: function dragStart(data) {
-      var img = document.createElement('img');
+      var img = document.createElement("img");
       img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
       event.dataTransfer.setDragImage(img, 0, 0);
-      _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$emit('dragstart', data); // Store dragged folder
+      _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$emit("dragstart", data); // Store dragged folder
 
       this.draggingId = data;
     },
@@ -1065,7 +1468,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (event.dataTransfer.items.length == 0) {
         // Prevent to drop on file or image
-        if (data.type !== 'folder' || this.draggingId === data) return; //Prevent move selected folder to folder if in beteewn selected folders
+        if (data.type !== "folder" || this.draggingId === data) return; //Prevent move selected folder to folder if in beteewn selected folders
 
         if (this.fileInfoDetail.find(function (item) {
           return item === data && _this.fileInfoDetail.length > 1;
@@ -1073,7 +1476,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         //Move item if is not included in selected items
 
         if (!this.fileInfoDetail.includes(this.draggingId)) {
-          this.$store.dispatch('moveItem', {
+          this.$store.dispatch("moveItem", {
             to_item: data,
             noSelectedItem: this.draggingId
           });
@@ -1081,14 +1484,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
         if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.includes(this.draggingId)) {
-          this.$store.dispatch('moveItem', {
+          this.$store.dispatch("moveItem", {
             to_item: data,
             noSelectedItem: null
           });
         }
       } else {
         // Get unique_id of current folder
-        var unique_id = data.type !== 'folder' ? this.currentFolder.unique_id : data.unique_id; // Upload external file
+        var unique_id = data.type !== "folder" ? this.currentFolder.unique_id : data.unique_id; // Upload external file
 
         this.$uploadExternalFiles(event, unique_id);
       }
@@ -1096,34 +1499,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isDragging = false;
     },
     contextMenu: function contextMenu(event, item) {
-      _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$emit('contextMenu:show', event, item);
+      _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$emit("contextMenu:show", event, item);
     },
     filesContainerClick: function filesContainerClick() {
       // Deselect itms clicked by outside
-      this.$store.commit('CLEAR_FILEINFO_DETAIL');
+      this.$store.commit("CLEAR_FILEINFO_DETAIL");
     }
   },
   created: function created() {
     var _this2 = this;
 
-    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on('mobileSelecting:start', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on("mobileSelecting:start", function () {
       _this2.mobileMultiSelect = true;
     });
-    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on('mobileSelecting:stop', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on("mobileSelecting:stop", function () {
       _this2.mobileMultiSelect = false;
     });
-    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on('drop', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on("drop", function () {
       _this2.isDragging = false;
       setTimeout(function () {
         _this2.draggingId = undefined;
       }, 10);
     });
-    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on('fileItem:deselect', function () {
-      return _this2.$store.commit('CLEAR_FILEINFO_DETAIL');
+    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on("fileItem:deselect", function () {
+      return _this2.$store.commit("CLEAR_FILEINFO_DETAIL");
     });
-    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on('scrollTop', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_10__["events"].$on("scrollTop", function () {
       // Scroll top
-      var container = document.getElementsByClassName('files-container')[0];
+      var container = document.getElementsByClassName("files-container")[0];
       if (container) container.scrollTop = 0;
     });
   }
@@ -1730,21 +2133,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FileItemList',
-  props: ['item'],
+  name: "FileItemList",
+  props: ["item"],
   components: {
     UserPlusIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["UserPlusIcon"],
     LinkIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["LinkIcon"],
     FolderIcon: _components_FilesView_FolderIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
     CheckIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["CheckIcon"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['FilePreviewType', 'fileInfoDetail', 'data'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(["FilePreviewType", "fileInfoDetail", "data"])), {}, {
     isClicked: function isClicked() {
       var _this = this;
 
@@ -1753,32 +2208,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     isFolder: function isFolder() {
-      return this.item.type === 'folder';
+      return this.item.type === "folder";
     },
     isFile: function isFile() {
-      return this.item.type !== 'folder' && this.item.type !== 'image';
+      return this.item.type !== "folder" && this.item.type !== "image";
     },
     isImage: function isImage() {
-      return this.item.type === 'image';
+      return this.item.type === "image";
     },
     isPdf: function isPdf() {
-      return this.item.mimetype === 'pdf';
+      return this.item.mimetype === "pdf";
     },
     isVideo: function isVideo() {
-      return this.item.type === 'video';
+      return this.item.type === "video";
     },
     isAudio: function isAudio() {
-      var mimetypes = ['mpeg', 'mp3', 'mp4', 'wan', 'flac'];
-      return mimetypes.includes(this.item.mimetype) && this.item.type === 'audio';
+      var mimetypes = ["mpeg", "mp3", "mp4", "wan", "flac"];
+      return mimetypes.includes(this.item.mimetype) && this.item.type === "audio";
     },
     canEditName: function canEditName() {
-      return !this.$isMobile() && !this.$isThisLocation(['trash', 'trash-root']) && !this.$checkPermission('visitor') && !(this.sharedDetail && this.sharedDetail.type === 'file');
+      return !this.$isMobile() && !this.$isThisLocation(["trash", "trash-root"]) && !this.$checkPermission("visitor") && !(this.sharedDetail && this.sharedDetail.type === "file");
     },
     canDrag: function canDrag() {
-      return !this.isDeleted && this.$checkPermission(['master', 'editor']);
+      return !this.isDeleted && this.$checkPermission(["master", "editor"]);
     },
     timeStamp: function timeStamp() {
-      return this.item.deleted_at ? this.$t('item_thumbnail.deleted_at', {
+      return this.item.deleted_at ? this.$t("item_thumbnail.deleted_at", {
         time: this.item.deleted_at
       }) : this.item.created_at;
     },
@@ -1787,12 +2242,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     isDeleted: function isDeleted() {
       return this.item.deleted_at ? true : false;
+    },
+    otp: function otp() {
+      return this.$store.state.fileFunctions.otp;
     }
   }),
   filters: {
     limitCharacters: function limitCharacters(str) {
       if (str.length > 3) {
-        return str.substring(0, 3) + '...';
+        return str.substring(0, 3) + "...";
       } else {
         return str.substring(0, 3);
       }
@@ -1808,16 +2266,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     drop: function drop() {
       this.area = false;
-      _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit('drop');
+      _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit("drop");
     },
     showItemActions: function showItemActions() {
       // Load file info detail
-      this.$store.commit('CLEAR_FILEINFO_DETAIL');
-      this.$store.commit('GET_FILEINFO_DETAIL', this.item);
-      _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit('mobileMenu:show');
+      this.$store.commit("CLEAR_FILEINFO_DETAIL");
+      this.$store.commit("GET_FILEINFO_DETAIL", this.item);
+      _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit("mobileMenu:show");
     },
     dragEnter: function dragEnter() {
-      if (this.item.type !== 'folder') return;
+      if (this.item.type !== "folder") return;
       this.area = true;
     },
     dragLeave: function dragLeave() {
@@ -1838,9 +2296,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (this.fileInfoDetail.some(function (item) {
             return item.unique_id === _this2.item.unique_id;
           })) {
-            this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item);
+            this.$store.commit("REMOVE_ITEM_FILEINFO_DETAIL", this.item);
           } else {
-            this.$store.commit('GET_FILEINFO_DETAIL', this.item);
+            this.$store.commit("GET_FILEINFO_DETAIL", this.item);
           }
         } else if (e.shiftKey) {
           // Click + Shift
@@ -1848,37 +2306,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var clickedItem = this.data.indexOf(this.item); // If Click + Shift + Ctrl dont remove already selected items
 
           if (!e.ctrlKey && !e.metaKey) {
-            this.$store.commit('CLEAR_FILEINFO_DETAIL');
+            this.$store.commit("CLEAR_FILEINFO_DETAIL");
           } //Shift selecting from top to bottom
 
 
           if (lastItem < clickedItem) {
             for (var i = lastItem; i <= clickedItem; i++) {
-              this.$store.commit('GET_FILEINFO_DETAIL', this.data[i]);
+              this.$store.commit("GET_FILEINFO_DETAIL", this.data[i]);
             } //Shift selecting from bottom to top
 
           } else {
             for (var _i = lastItem; _i >= clickedItem; _i--) {
-              this.$store.commit('GET_FILEINFO_DETAIL', this.data[_i]);
+              this.$store.commit("GET_FILEINFO_DETAIL", this.data[_i]);
             }
           }
         } else {
           // Click
-          this.$store.commit('CLEAR_FILEINFO_DETAIL');
-          this.$store.commit('GET_FILEINFO_DETAIL', this.item);
+          this.$store.commit("CLEAR_FILEINFO_DETAIL");
+          this.$store.commit("GET_FILEINFO_DETAIL", this.item);
         }
       }
 
       if (!this.mobileMultiSelect && this.$isMobile()) {
         if (this.isFolder) {
-          if (this.$isThisLocation('public')) {
-            this.$store.dispatch('browseShared', [{
+          if (this.$isThisLocation("public")) {
+            this.$store.dispatch("browseShared", [{
               folder: this.item,
               back: false,
               init: false
             }]);
           } else {
-            this.$store.dispatch('getFolder', [{
+            this.$store.dispatch("getFolder", [{
               folder: this.item,
               back: false,
               init: false
@@ -1886,8 +2344,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         } else {
           if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-            this.$store.commit('LOAD_FILEINFO_DETAIL', this.item);
-            _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit('fileFullPreview:show');
+            this.$store.commit("LOAD_FILEINFO_DETAIL", this.item);
+            _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit("fileFullPreview:show");
           }
         }
       }
@@ -1896,33 +2354,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (this.fileInfoDetail.some(function (item) {
           return item.unique_id === _this2.item.unique_id;
         })) {
-          this.$store.commit('REMOVE_ITEM_FILEINFO_DETAIL', this.item);
+          this.$store.commit("REMOVE_ITEM_FILEINFO_DETAIL", this.item);
         } else {
-          this.$store.commit('GET_FILEINFO_DETAIL', this.item);
+          this.$store.commit("GET_FILEINFO_DETAIL", this.item);
         }
       } // Get target classname
 
 
       var itemClass = e.target.className;
-      if (['name', 'icon', 'file-link', 'file-icon-text'].includes(itemClass)) return;
+      if (["name", "icon", "file-link", "file-icon-text"].includes(itemClass)) return;
     },
     goToItem: function goToItem() {
       if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-        _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit('fileFullPreview:show');
+        _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$emit("fileFullPreview:show");
       } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage && !this.isPdf) {
-        this.$downloadFile(this.item.file_url, this.item.name + '.' + this.item.mimetype);
+        this.$downloadFile(this.item.file_url, this.item.name + "." + this.item.mimetype);
       } else if (this.isFolder) {
         //Clear selected items after open another folder
-        this.$store.commit('CLEAR_FILEINFO_DETAIL');
+        this.$store.commit("CLEAR_FILEINFO_DETAIL");
 
-        if (this.$isThisLocation('public')) {
-          this.$store.dispatch('browseShared', [{
+        if (this.$isThisLocation("public")) {
+          this.$store.dispatch("browseShared", [{
             folder: this.item,
             back: false,
             init: false
           }]);
         } else {
-          this.$store.dispatch('getFolder', [{
+          this.$store.dispatch("getFolder", [{
             folder: this.item,
             back: false,
             init: false
@@ -1932,38 +2390,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     renameItem: Object(lodash__WEBPACK_IMPORTED_MODULE_2__["debounce"])(function (e) {
       // Prevent submit empty string
-      if (e.target.innerText.trim() === '') return;
-      this.$store.dispatch('renameItem', {
+      if (e.target.innerText.trim() === "") return;
+      this.$store.dispatch("renameItem", {
         unique_id: this.item.unique_id,
         type: this.item.type,
         name: e.target.innerText
       });
     }, 300)
   },
+  watch: {
+    otp: function otp() {
+      var _this3 = this;
+
+      // console.log(this.$store);
+      if (this.$store.state.fileFunctions.otp) {
+        var otp = this.$store.state.fileFunctions.otp;
+        var basenames = this.$store.state.fileFunctions.documentSignature ? this.$store.state.fileFunctions.documentSignature : {};
+
+        if (Object.keys(basenames).includes(this.item.basename)) {
+          // console.log(this.item.file_url);
+          var documentSignature = this.$store.state.fileFunctions.documentSignature;
+
+          var updateDocumentSignature = function updateDocumentSignature() {
+            delete documentSignature[_this3.item.basename];
+
+            _this3.$store.dispatch("setDocumentSignature", documentSignature);
+          };
+
+          fetch(this.item.file_url).then(function (r) {
+            return r.blob();
+          }).then(function (blob) {
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);
+
+            reader.onloadend = function () {
+              var base64data = reader.result; // console.log(base64data);
+
+              updateDocumentSignature();
+            };
+          });
+        }
+      }
+    }
+  },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.itemName = this.item.name;
-    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on('newFolder:focus', function (unique_id) {
-      if (_this3.item.unique_id == unique_id && !_this3.$isMobile()) {
-        _this3.$refs[unique_id].focus();
+    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on("newFolder:focus", function (unique_id) {
+      if (_this4.item.unique_id == unique_id && !_this4.$isMobile()) {
+        _this4.$refs[unique_id].focus();
 
-        document.execCommand('selectAll');
+        document.execCommand("selectAll");
       }
     });
-    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on('mobileSelecting:start', function () {
-      _this3.mobileMultiSelect = true;
+    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on("mobileSelecting:start", function () {
+      _this4.mobileMultiSelect = true;
 
-      _this3.$store.commit('CLEAR_FILEINFO_DETAIL');
+      _this4.$store.commit("CLEAR_FILEINFO_DETAIL");
     });
-    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on('mobileSelecting:stop', function () {
-      _this3.mobileMultiSelect = false;
+    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on("mobileSelecting:stop", function () {
+      _this4.mobileMultiSelect = false;
 
-      _this3.$store.commit('CLEAR_FILEINFO_DETAIL');
+      _this4.$store.commit("CLEAR_FILEINFO_DETAIL");
     }); // Change item name
 
-    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on('change:name', function (item) {
-      if (_this3.item.unique_id == item.unique_id) _this3.itemName = item.name;
+    _bus__WEBPACK_IMPORTED_MODULE_4__["events"].$on("change:name", function (item) {
+      if (_this4.item.unique_id == item.unique_id) _this4.itemName = item.name;
     });
   }
 });
@@ -2573,10 +3066,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Option',
-  props: ['title', 'icon'],
+  name: "Option",
+  props: ["title", "icon"],
   components: {
     CornerDownRightIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["CornerDownRightIcon"],
     DownloadCloudIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["DownloadCloudIcon"],
@@ -2589,7 +3092,8 @@ __webpack_require__.r(__webpack_exports__);
     TrashIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["TrashIcon"],
     LinkIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["LinkIcon"],
     StarIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["StarIcon"],
-    EyeIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["EyeIcon"]
+    EyeIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["EyeIcon"],
+    EditIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["EditIcon"]
   }
 });
 
@@ -2768,8 +3272,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ToolbarButtonUpload',
-  props: ['action'],
+  name: "ToolbarButtonUpload",
+  props: ["action"],
   components: {
     UploadCloudIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["UploadCloudIcon"]
   },
@@ -3031,7 +3535,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".slide-from-left-move[data-v-2cfcc5ab] {\n  transition: transform 300s ease;\n}\n.slide-from-left-enter-active[data-v-2cfcc5ab],\n.slide-from-right-enter-active[data-v-2cfcc5ab],\n.slide-from-left-leave-active[data-v-2cfcc5ab],\n.slide-from-right-leave-active[data-v-2cfcc5ab] {\n  transition: all 300ms;\n}\n.slide-from-left-enter[data-v-2cfcc5ab],\n.slide-from-left-leave-to[data-v-2cfcc5ab] {\n  opacity: 0;\n  transform: translateX(-100%);\n}\n.slide-from-right-enter[data-v-2cfcc5ab],\n.slide-from-right-leave-to[data-v-2cfcc5ab] {\n  opacity: 0;\n  transform: translateX(100%);\n}\n.check-select[data-v-2cfcc5ab] {\n  margin-right: 15px;\n  margin-left: 6px;\n}\n.check-select .select-box[data-v-2cfcc5ab] {\n  width: 20px;\n  height: 20px;\n  background-color: #e6e8eb;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 5px;\n}\n.check-select .select-box-active[data-v-2cfcc5ab] {\n  background-color: #0667B3;\n}\n.check-select .select-box-active .icon[data-v-2cfcc5ab] {\n  stroke: white;\n}\n.file-wrapper[data-v-2cfcc5ab] {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative;\n}\n.file-wrapper[data-v-2cfcc5ab]:hover {\n  border-color: transparent;\n}\n.file-wrapper .actions[data-v-2cfcc5ab] {\n  text-align: right;\n  width: 50px;\n}\n.file-wrapper .actions .show-actions[data-v-2cfcc5ab] {\n  cursor: pointer;\n  padding: 12px 6px 12px;\n}\n.file-wrapper .actions .show-actions .icon-action[data-v-2cfcc5ab] {\n  font-size: 0.875em;\n}\n.file-wrapper .actions .show-actions .icon-action path[data-v-2cfcc5ab] {\n  fill: #0667B3;\n}\n.file-wrapper .item-name[data-v-2cfcc5ab] {\n  display: block;\n  width: 100%;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .item-name .item-info[data-v-2cfcc5ab] {\n  display: block;\n  line-height: 1;\n}\n.file-wrapper .item-name .item-shared[data-v-2cfcc5ab] {\n  display: inline-block;\n}\n.file-wrapper .item-name .item-shared .label[data-v-2cfcc5ab] {\n  font-size: 0.75em;\n  font-weight: 400;\n  color: #0667B3;\n}\n.file-wrapper .item-name .item-shared .shared-icon[data-v-2cfcc5ab] {\n  vertical-align: middle;\n}\n.file-wrapper .item-name .item-shared .shared-icon path[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-shared .shared-icon circle[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-shared .shared-icon line[data-v-2cfcc5ab] {\n  stroke: #0667B3;\n}\n.file-wrapper .item-name .item-size[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-length[data-v-2cfcc5ab] {\n  font-size: 0.6875em;\n  font-weight: 400;\n  color: rgba(27, 37, 57, 0.7);\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n  white-space: nowrap;\n}\n.file-wrapper .item-name .name[contenteditable][data-v-2cfcc5ab] {\n  -webkit-user-select: text;\n  -moz-user-select: text;\n   -ms-user-select: text;\n       user-select: text;\n}\n.file-wrapper .item-name .name[contenteditable='true'][data-v-2cfcc5ab]:hover {\n  text-decoration: underline;\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n  color: #1B2539;\n  font-size: 0.875em;\n  font-weight: 700;\n  max-height: 40px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.file-wrapper .item-name .name.actived[data-v-2cfcc5ab] {\n  max-height: initial;\n}\n.file-wrapper.selected .file-item[data-v-2cfcc5ab] {\n  background: #f4f5f6;\n}\n.file-wrapper .icon-item[data-v-2cfcc5ab] {\n  text-align: center;\n  position: relative;\n  flex: 0 0 50px;\n  line-height: 0;\n  margin-right: 20px;\n}\n.file-wrapper .icon-item .folder[data-v-2cfcc5ab] {\n  width: 52px;\n  height: 52px;\n}\n.file-wrapper .icon-item .folder[data-v-2cfcc5ab] .folder-icon {\n  font-size: 3.25em;\n}\n.file-wrapper .icon-item .file-icon[data-v-2cfcc5ab] {\n  font-size: 2.8125em;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2cfcc5ab] {\n  fill: #fafafc;\n  stroke: #dfe0e8;\n  stroke-width: 1;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2cfcc5ab] {\n  line-height: 1;\n  top: 40%;\n  font-size: 0.6875em;\n  margin: 0 auto;\n  position: absolute;\n  text-align: center;\n  left: 0;\n  right: 0;\n  color: #0667B3;\n  font-weight: 600;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 50px;\n  max-height: 20px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .icon-item .image[data-v-2cfcc5ab] {\n  -o-object-fit: cover;\n     object-fit: cover;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 100%;\n  border-radius: 5px;\n  width: 50px;\n  height: 50px;\n  pointer-events: none;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab] {\n  border: 2px dashed transparent;\n  width: 100%;\n  display: flex;\n  align-items: center;\n  padding: 7px;\n}\n.file-wrapper .file-item.is-dragenter[data-v-2cfcc5ab] {\n  border: 2px dashed #0667B3;\n  border-radius: 8px;\n}\n.file-wrapper .file-item.no-clicked[data-v-2cfcc5ab] {\n  background: white !important;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2cfcc5ab] {\n  color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab]:hover, .file-wrapper .file-item.is-clicked[data-v-2cfcc5ab] {\n  border-radius: 8px;\n  background: #f4f5f6;\n}\n@media (prefers-color-scheme: dark) {\n.check-select .select-box[data-v-2cfcc5ab] {\n    background-color: white;\n}\n.check-select .select-box-active[data-v-2cfcc5ab] {\n    background-color: #0667B3;\n}\n.check-select .select-box-active .icon[data-v-2cfcc5ab] {\n    stroke: white;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6;\n    stroke: #2f3c54;\n}\n.file-wrapper .file-item.no-clicked[data-v-2cfcc5ab] {\n    background: #f4f5f6 !important;\n}\n.file-wrapper .file-item.no-clicked .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6 !important;\n    stroke: #2F3C54;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2cfcc5ab] {\n    color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab]:hover, .file-wrapper .file-item.is-clicked[data-v-2cfcc5ab] {\n    background: #f4f5f6;\n}\n.file-wrapper .file-item:hover .item-name .name[data-v-2cfcc5ab], .file-wrapper .file-item.is-clicked .item-name .name[data-v-2cfcc5ab] {\n    color: #0667B3;\n}\n.file-wrapper .file-item:hover .file-icon path[data-v-2cfcc5ab], .file-wrapper .file-item.is-clicked .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6;\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n    color: #1B2539;\n}\n.file-wrapper .item-name .item-size[data-v-2cfcc5ab],\n  .file-wrapper .item-name .item-length[data-v-2cfcc5ab] {\n    color: #7d858c;\n}\n}\n", ""]);
+exports.push([module.i, ".slide-from-left-move[data-v-2cfcc5ab] {\n  transition: transform 300s ease;\n}\n.slide-from-left-enter-active[data-v-2cfcc5ab],\n.slide-from-right-enter-active[data-v-2cfcc5ab],\n.slide-from-left-leave-active[data-v-2cfcc5ab],\n.slide-from-right-leave-active[data-v-2cfcc5ab] {\n  transition: all 300ms;\n}\n.slide-from-left-enter[data-v-2cfcc5ab],\n.slide-from-left-leave-to[data-v-2cfcc5ab] {\n  opacity: 0;\n  transform: translateX(-100%);\n}\n.slide-from-right-enter[data-v-2cfcc5ab],\n.slide-from-right-leave-to[data-v-2cfcc5ab] {\n  opacity: 0;\n  transform: translateX(100%);\n}\n.check-select[data-v-2cfcc5ab] {\n  margin-right: 15px;\n  margin-left: 6px;\n}\n.check-select .select-box[data-v-2cfcc5ab] {\n  width: 20px;\n  height: 20px;\n  background-color: #e6e8eb;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 5px;\n}\n.check-select .select-box-active[data-v-2cfcc5ab] {\n  background-color: #0667B3;\n}\n.check-select .select-box-active .icon[data-v-2cfcc5ab] {\n  stroke: white;\n}\n.file-wrapper[data-v-2cfcc5ab] {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative;\n}\n.file-wrapper[data-v-2cfcc5ab]:hover {\n  border-color: transparent;\n}\n.file-wrapper .actions[data-v-2cfcc5ab] {\n  text-align: right;\n  width: 50px;\n}\n.file-wrapper .actions .show-actions[data-v-2cfcc5ab] {\n  cursor: pointer;\n  padding: 12px 6px 12px;\n}\n.file-wrapper .actions .show-actions .icon-action[data-v-2cfcc5ab] {\n  font-size: 0.875em;\n}\n.file-wrapper .actions .show-actions .icon-action path[data-v-2cfcc5ab] {\n  fill: #0667B3;\n}\n.file-wrapper .item-name[data-v-2cfcc5ab] {\n  display: block;\n  width: 100%;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .item-name .item-info[data-v-2cfcc5ab] {\n  display: block;\n  line-height: 1;\n}\n.file-wrapper .item-name .item-shared[data-v-2cfcc5ab] {\n  display: inline-block;\n}\n.file-wrapper .item-name .item-shared .label[data-v-2cfcc5ab] {\n  font-size: 0.75em;\n  font-weight: 400;\n  color: #0667B3;\n}\n.file-wrapper .item-name .item-shared .shared-icon[data-v-2cfcc5ab] {\n  vertical-align: middle;\n}\n.file-wrapper .item-name .item-shared .shared-icon path[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-shared .shared-icon circle[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-shared .shared-icon line[data-v-2cfcc5ab] {\n  stroke: #0667B3;\n}\n.file-wrapper .item-name .item-size[data-v-2cfcc5ab],\n.file-wrapper .item-name .item-length[data-v-2cfcc5ab] {\n  font-size: 0.6875em;\n  font-weight: 400;\n  color: rgba(27, 37, 57, 0.7);\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n  white-space: nowrap;\n}\n.file-wrapper .item-name .name[contenteditable][data-v-2cfcc5ab] {\n  -webkit-user-select: text;\n  -moz-user-select: text;\n   -ms-user-select: text;\n       user-select: text;\n}\n.file-wrapper .item-name .name[contenteditable=\"true\"][data-v-2cfcc5ab]:hover {\n  text-decoration: underline;\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n  color: #1B2539;\n  font-size: 0.875em;\n  font-weight: 700;\n  max-height: 40px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.file-wrapper .item-name .name.actived[data-v-2cfcc5ab] {\n  max-height: initial;\n}\n.file-wrapper.selected .file-item[data-v-2cfcc5ab] {\n  background: #f4f5f6;\n}\n.file-wrapper .icon-item[data-v-2cfcc5ab] {\n  text-align: center;\n  position: relative;\n  flex: 0 0 50px;\n  line-height: 0;\n  margin-right: 20px;\n}\n.file-wrapper .icon-item .folder[data-v-2cfcc5ab] {\n  width: 52px;\n  height: 52px;\n}\n.file-wrapper .icon-item .folder[data-v-2cfcc5ab] .folder-icon {\n  font-size: 3.25em;\n}\n.file-wrapper .icon-item .file-icon[data-v-2cfcc5ab] {\n  font-size: 2.8125em;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2cfcc5ab] {\n  fill: #fafafc;\n  stroke: #dfe0e8;\n  stroke-width: 1;\n}\n.file-wrapper .icon-item .file-icon-text[data-v-2cfcc5ab] {\n  line-height: 1;\n  top: 40%;\n  font-size: 0.6875em;\n  margin: 0 auto;\n  position: absolute;\n  text-align: center;\n  left: 0;\n  right: 0;\n  color: #0667B3;\n  font-weight: 600;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 50px;\n  max-height: 20px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.file-wrapper .icon-item .image[data-v-2cfcc5ab] {\n  -o-object-fit: cover;\n     object-fit: cover;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  max-width: 100%;\n  border-radius: 5px;\n  width: 50px;\n  height: 50px;\n  pointer-events: none;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab] {\n  border: 2px dashed transparent;\n  width: 100%;\n  display: flex;\n  align-items: center;\n  padding: 7px;\n}\n.file-wrapper .file-item.is-dragenter[data-v-2cfcc5ab] {\n  border: 2px dashed #0667B3;\n  border-radius: 8px;\n}\n.file-wrapper .file-item.no-clicked[data-v-2cfcc5ab] {\n  background: white !important;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2cfcc5ab] {\n  color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab]:hover, .file-wrapper .file-item.is-clicked[data-v-2cfcc5ab] {\n  border-radius: 8px;\n  background: #f4f5f6;\n}\n@media (prefers-color-scheme: dark) {\n.check-select .select-box[data-v-2cfcc5ab] {\n    background-color: white;\n}\n.check-select .select-box-active[data-v-2cfcc5ab] {\n    background-color: #0667B3;\n}\n.check-select .select-box-active .icon[data-v-2cfcc5ab] {\n    stroke: white;\n}\n.file-wrapper .icon-item .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6;\n    stroke: #2f3c54;\n}\n.file-wrapper .file-item.no-clicked[data-v-2cfcc5ab] {\n    background: #f4f5f6 !important;\n}\n.file-wrapper .file-item.no-clicked .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6 !important;\n    stroke: #2f3c54;\n}\n.file-wrapper .file-item.no-clicked .item-name .name[data-v-2cfcc5ab] {\n    color: #1B2539 !important;\n}\n.file-wrapper .file-item[data-v-2cfcc5ab]:hover, .file-wrapper .file-item.is-clicked[data-v-2cfcc5ab] {\n    background: #f4f5f6;\n}\n.file-wrapper .file-item:hover .item-name .name[data-v-2cfcc5ab], .file-wrapper .file-item.is-clicked .item-name .name[data-v-2cfcc5ab] {\n    color: #0667B3;\n}\n.file-wrapper .file-item:hover .file-icon path[data-v-2cfcc5ab], .file-wrapper .file-item.is-clicked .file-icon path[data-v-2cfcc5ab] {\n    fill: #f4f5f6;\n}\n.file-wrapper .item-name .name[data-v-2cfcc5ab] {\n    color: #1B2539;\n}\n.file-wrapper .item-name .item-size[data-v-2cfcc5ab],\n  .file-wrapper .item-name .item-length[data-v-2cfcc5ab] {\n    color: #7d858c;\n}\n}\n", ""]);
 
 // exports
 
@@ -3259,7 +3763,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".button[data-v-8eb7bbc0] {\n  height: 42px;\n  width: 42px;\n  border-radius: 8px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  text-align: center;\n  cursor: pointer;\n  white-space: nowrap;\n  outline: none;\n  border: none;\n}\n.button[data-v-8eb7bbc0]:hover {\n  background: #f4f5f6;\n}\n.button:hover path[data-v-8eb7bbc0], .button:hover line[data-v-8eb7bbc0], .button:hover polyline[data-v-8eb7bbc0], .button:hover rect[data-v-8eb7bbc0], .button:hover circle[data-v-8eb7bbc0] {\n  transition: 150ms all ease;\n  stroke: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button[data-v-8eb7bbc0] {\n    background: transparent;\n}\n.button[data-v-8eb7bbc0]:hover {\n    background: #f4f5f6;\n}\n.button path[data-v-8eb7bbc0], .button line[data-v-8eb7bbc0], .button polyline[data-v-8eb7bbc0], .button rect[data-v-8eb7bbc0], .button circle[data-v-8eb7bbc0] {\n    stroke: #1B2539;\n}\n}\n", ""]);
+exports.push([module.i, ".button[data-v-8eb7bbc0] {\n  height: 42px;\n  width: 42px;\n  border-radius: 8px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  text-align: center;\n  cursor: pointer;\n  white-space: nowrap;\n  outline: none;\n  border: none;\n}\n.button[data-v-8eb7bbc0]:hover {\n  background: #f4f5f6;\n}\n.button:hover path[data-v-8eb7bbc0],\n.button:hover line[data-v-8eb7bbc0],\n.button:hover polyline[data-v-8eb7bbc0],\n.button:hover rect[data-v-8eb7bbc0],\n.button:hover circle[data-v-8eb7bbc0] {\n  transition: 150ms all ease;\n  stroke: #0667B3;\n}\n@media (prefers-color-scheme: dark) {\n.button[data-v-8eb7bbc0] {\n    background: transparent;\n}\n.button[data-v-8eb7bbc0]:hover {\n    background: #f4f5f6;\n}\n.button path[data-v-8eb7bbc0],\n  .button line[data-v-8eb7bbc0],\n  .button polyline[data-v-8eb7bbc0],\n  .button rect[data-v-8eb7bbc0],\n  .button circle[data-v-8eb7bbc0] {\n    stroke: #1B2539;\n}\n}\n", ""]);
 
 // exports
 
@@ -4625,7 +5129,7 @@ var render = function () {
                         },
                       }),
                       _vm._v(" "),
-                      _vm.item.shared
+                      _vm.item.shared && _vm.isDoc
                         ? _c("Option", {
                             attrs: {
                               title: _vm.$t("Share Xignature"),
@@ -4634,6 +5138,17 @@ var render = function () {
                             nativeOn: {
                               click: function ($event) {
                                 return _vm.shareXignature.apply(null, arguments)
+                              },
+                            },
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.isDoc
+                        ? _c("Option", {
+                            attrs: { title: "Sign", icon: "sign" },
+                            nativeOn: {
+                              click: function ($event) {
+                                return _vm.singleSignItem.apply(null, arguments)
                               },
                             },
                           })
@@ -4748,6 +5263,15 @@ var render = function () {
                             },
                           })
                         : _vm._e(),
+                      _vm._v(" "),
+                      _c("Option", {
+                        attrs: { title: "Sign", icon: "sign" },
+                        nativeOn: {
+                          click: function ($event) {
+                            return _vm.signItem.apply(null, arguments)
+                          },
+                        },
+                      }),
                       _vm._v(" "),
                       _c("Option", {
                         attrs: {
@@ -6183,9 +6707,9 @@ var render = function () {
               _vm.isFile || (_vm.isImage && !_vm.item.thumbnail)
                 ? _c("span", { staticClass: "file-icon-text" }, [
                     _vm._v(
-                      "\n                " +
+                      "\n        " +
                         _vm._s(_vm._f("limitCharacters")(_vm.item.mimetype)) +
-                        "\n            "
+                        "\n      "
                     ),
                   ])
                 : _vm._e(),
@@ -6245,11 +6769,7 @@ var render = function () {
                   },
                 },
               },
-              [
-                _vm._v(
-                  "\n                " + _vm._s(_vm.itemName) + "\n            "
-                ),
-              ]
+              [_vm._v("\n        " + _vm._s(_vm.itemName) + "\n      ")]
             ),
             _vm._v(" "),
             _c("div", { staticClass: "item-info" }, [
@@ -6292,7 +6812,7 @@ var render = function () {
               _vm.isFolder
                 ? _c("span", { staticClass: "item-length" }, [
                     _vm._v(
-                      " " +
+                      "\n          " +
                         _vm._s(
                           _vm.folderItems == 0
                             ? _vm.$t("folder.empty")
@@ -6300,7 +6820,7 @@ var render = function () {
                         ) +
                         ", " +
                         _vm._s(_vm.timeStamp) +
-                        " "
+                        "\n        "
                     ),
                   ])
                 : _vm._e(),
@@ -7228,12 +7748,16 @@ var render = function () {
           _vm.icon === "zip-folder"
             ? _c("paperclip-icon", { attrs: { size: "17" } })
             : _vm._e(),
+          _vm._v(" "),
+          _vm.icon === "sign"
+            ? _c("edit-icon", { attrs: { size: "17" } })
+            : _vm._e(),
         ],
         1
       ),
       _vm._v(" "),
       _c("div", { staticClass: "text-label" }, [
-        _vm._v("\n        " + _vm._s(_vm.title) + "\n    "),
+        _vm._v("\n    " + _vm._s(_vm.title) + "\n  "),
       ]),
     ]
   )

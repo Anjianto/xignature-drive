@@ -22,6 +22,8 @@ Route::get('/translations/{lang}', 'AppFunctionsController@get_translations');
 
 // App public files
 Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar');
+Route::get('/selfie/{selfie}', 'FileAccessController@get_selfie');
+Route::get('/ktp/{ktp}', 'FileAccessController@get_ktp');
 Route::get('/system/{image}', 'FileAccessController@get_system_image');
 
 // Get public thumbnails and files
@@ -34,6 +36,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
     Route::get('/zip/{id}', 'FileAccessController@get_zip')->name('zip');
+    // Route::get('/sign/{filename}', 'FileAccessController@sign_file');
 });
 
 // Get user invoice
@@ -56,4 +59,5 @@ if( Crawler::isCrawler()) {
 } else {
     Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
 }
+Route::get('/shared/sign/{token}', 'Sharing\FileSharingController@sign');
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

@@ -12,6 +12,7 @@ use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Http\Tools\Editor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -90,8 +91,18 @@ class AccountController extends Controller
             // Update data
             $user->update(['avatar' => $avatar]);
 
-        } else {
+        } 
+        else if($request->hasFile('ktp')) {
+            $ktp = store_system_image($request->file('ktp'), 'ktp');
 
+            $user->update(['ktp' => $ktp]);
+        }
+        else if($request->hasFile('selfie')) {
+            $ktp = store_system_image($request->file('selfie'), 'selfie');
+    
+            $user->update(['selfie' => $ktp]);
+        }
+        else {
             // Update text data
             $user->update(make_single_input($request));
         }

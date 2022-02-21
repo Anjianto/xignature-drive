@@ -31,6 +31,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -38,17 +40,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FilesView',
+  name: "FilesView",
   components: {
     DesktopSortingAndPreview: _components_FilesView_DesktopSortingAndPreview__WEBPACK_IMPORTED_MODULE_0__["default"],
     DesktopToolbar: _components_FilesView_DesktopToolbar__WEBPACK_IMPORTED_MODULE_1__["default"],
     FileBrowser: _components_FilesView_FileBrowser__WEBPACK_IMPORTED_MODULE_2__["default"],
     ContextMenu: _components_FilesView_ContextMenu__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(['config'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(["config"])),
   methods: {
     contextMenu: function contextMenu(event, item) {
-      _bus__WEBPACK_IMPORTED_MODULE_5__["events"].$emit('contextMenu:show', event, item);
+      _bus__WEBPACK_IMPORTED_MODULE_5__["events"].$emit("contextMenu:show", event, item);
     }
   }
 });
@@ -127,6 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
 /* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+/* harmony import */ var _components_FilesView_OTPModal_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/FilesView/OTPModal.vue */ "./resources/js/components/FilesView/OTPModal.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -207,6 +210,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -217,7 +272,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FilesView',
+  name: "FilesView",
   components: {
     UpgradeSidebarBanner: _components_Others_UpgradeSidebarBanner__WEBPACK_IMPORTED_MODULE_0__["default"],
     TreeMenuNavigator: _components_Others_TreeMenuNavigator__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -229,9 +284,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     FolderIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["FolderIcon"],
     Trash2Icon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["Trash2Icon"],
     HomeIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["HomeIcon"],
-    XIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["XIcon"]
+    XIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_8__["XIcon"],
+    OTPModal: _components_FilesView_OTPModal_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(['user', 'homeDirectory', 'currentFolder', 'config', 'fileInfoDetail'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_6__["mapGetters"])(["user", "homeDirectory", "currentFolder", "config", "fileInfoDetail"])), {}, {
     favourites: function favourites() {
       return this.user.relationships.favourites.data.attributes.folders;
     },
@@ -250,29 +306,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     getTrash: function getTrash() {
-      this.$store.dispatch('getTrash');
+      this.$store.dispatch("getTrash");
     },
     getLatest: function getLatest() {
-      this.$store.dispatch('getLatest');
+      this.$store.dispatch("getLatest");
     },
     goHome: function goHome() {
-      this.$store.dispatch('getFolder', [{
+      this.$store.dispatch("getFolder", [{
         folder: this.homeDirectory,
         back: false,
         init: true
       }]);
     },
     openFolder: function openFolder(folder) {
-      this.$store.dispatch('getFolder', [{
+      this.$store.dispatch("getFolder", [{
         folder: folder,
         back: false,
         init: false
       }]);
     },
     dragEnter: function dragEnter() {
-      if (this.draggedItem && this.draggedItem.type !== 'folder') return;
+      if (this.draggedItem && this.draggedItem.type !== "folder") return;
       if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(function (item) {
-        return item.type !== 'folder';
+        return item.type !== "folder";
       })) return;
       this.area = true;
     },
@@ -283,30 +339,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.area = false;
-      _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit('drop'); // Check if dragged item is folder
+      _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$emit("drop"); // Check if dragged item is folder
 
-      if (this.draggedItem && this.draggedItem.type !== 'folder') return; // Check if folder exist in favourites
+      if (this.draggedItem && this.draggedItem.type !== "folder") return; // Check if folder exist in favourites
 
       if (this.favourites.find(function (folder) {
         return folder.unique_id == _this.draggedItem.unique_id;
       })) return; // Prevent to move folders to self
 
       if (this.fileInfoDetail.length > 0 && this.fileInfoDetail.find(function (item) {
-        return item.type !== 'folder';
+        return item.type !== "folder";
       })) return; // Store favourites folder
       //Add to favourites non selected folder
 
       if (!this.fileInfoDetail.includes(this.draggedItem)) {
-        this.$store.dispatch('addToFavourites', this.draggedItem);
+        this.$store.dispatch("addToFavourites", this.draggedItem);
       } //Add to favourites selected folders
 
 
       if (this.fileInfoDetail.includes(this.draggedItem)) {
-        this.$store.dispatch('addToFavourites', null);
+        this.$store.dispatch("addToFavourites", null);
       }
     },
     removeFavourite: function removeFavourite(folder) {
-      this.$store.dispatch('removeFromFavourites', folder);
+      this.$store.dispatch("removeFromFavourites", folder);
     }
   },
   created: function created() {
@@ -314,10 +370,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.goHome(); // Listen for dragstart folder items
 
-    _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$on('dragstart', function (item) {
+    _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$on("dragstart", function (item) {
       _this2.draggedItem = item, _this2.dragInProgress = true;
     });
-    _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$on('drop', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_7__["events"].$on("drop", function () {
       _this2.dragInProgress = false;
     });
   }
@@ -337,7 +393,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "#files-view {\n  font-family: 'Nunito', sans-serif;\n  font-size: 16px;\n  width: 100%;\n  height: 100%;\n  position: relative;\n  min-width: 320px;\n  overflow-x: hidden;\n  padding-left: 15px;\n  padding-right: 15px;\n  overflow-y: hidden;\n}\n@media only screen and (max-width: 690px) {\n#files-view {\n    padding-left: 0;\n    padding-right: 0;\n}\n}\n", ""]);
+exports.push([module.i, "#files-view {\n  font-family: \"Nunito\", sans-serif;\n  font-size: 16px;\n  width: 100%;\n  height: 100%;\n  position: relative;\n  min-width: 320px;\n  overflow-x: hidden;\n  padding-left: 15px;\n  padding-right: 15px;\n  overflow-y: hidden;\n}\n@media only screen and (max-width: 690px) {\n#files-view {\n    padding-left: 0;\n    padding-right: 0;\n}\n}\n", ""]);
 
 // exports
 
@@ -638,9 +694,9 @@ var render = function () {
                         _vm._v(" "),
                         _c("div", { staticClass: "label" }, [
                           _vm._v(
-                            "\n                        " +
+                            "\n            " +
                               _vm._s(_vm.$t("sidebar.home")) +
-                              "\n                    "
+                              "\n          "
                           ),
                         ]),
                       ]
@@ -663,9 +719,9 @@ var render = function () {
                         _vm._v(" "),
                         _c("div", { staticClass: "label" }, [
                           _vm._v(
-                            "\n                        " +
+                            "\n            " +
                               _vm._s(_vm.$t("sidebar.latest")) +
-                              "\n                    "
+                              "\n          "
                           ),
                         ]),
                       ]
@@ -693,9 +749,9 @@ var render = function () {
                         _vm._v(" "),
                         _c("div", { staticClass: "label" }, [
                           _vm._v(
-                            "\n                        " +
+                            "\n            " +
                               _vm._s(_vm.$t("locations.trash")) +
-                              "\n                    "
+                              "\n          "
                           ),
                         ]),
                       ]
@@ -718,9 +774,9 @@ var render = function () {
                   _vm.tree.length == 0
                     ? _c("span", { staticClass: "empty-note navigator" }, [
                         _vm._v(
-                          "\n                " +
+                          "\n        " +
                             _vm._s(_vm.$t("sidebar.folders_empty")) +
-                            "\n            "
+                            "\n      "
                         ),
                       ])
                     : _vm._e(),
@@ -779,11 +835,11 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                        " +
+                                    "\n            " +
                                       _vm._s(
                                         _vm.$t("sidebar.favourites_empty")
                                       ) +
-                                      "\n                    "
+                                      "\n          "
                                   ),
                                 ]
                               )
@@ -852,6 +908,8 @@ var render = function () {
           ),
           _vm._v(" "),
           _c("ContentFileView"),
+          _vm._v(" "),
+          _c("OTPModal"),
         ],
         1
       )

@@ -42,6 +42,43 @@ class FileAccessController extends Controller
         // Return avatar
         return Storage::download($path, $basename);
     }
+    /**
+     * Get selfie
+     *
+     * @param $basename
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_selfie($basename)
+    {
+        // Get file path
+        $path = '/selfie/' . $basename;
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        // Return selfie
+        return Storage::download($path, $basename);
+    }
+
+    /**
+     * Get ktp
+     *
+     * @param $basename
+     * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function get_ktp($basename)
+    {
+        // Get file path
+        $path = '/ktp/' . $basename;
+
+        // Check if file exist
+        if (!Storage::exists($path)) abort(404);
+
+        // Return ktp
+        return Storage::download($path, $basename);
+    }
 
     /**
      * Get system image

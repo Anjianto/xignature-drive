@@ -4,32 +4,21 @@
       <router-link to="/files" class="logo">
         <img src="/assets/images/logo.png" alt="Logo  " />
       </router-link>
-      <button class="btn-sign" @click="signDocument">Sign Document</button>
+      <button class="btn-sign" @click="checkSign">Sign Document</button>
     </header>
     <main>
       <div class="file-wrapper-preview">
         <!--Show PDF-->
         <div
-          v-if="isPDF"
+          ref="pdfwrapper"
           id="pdf-wrapper"
           :style="{ width: documentSize + '%' }"
         >
-          <pdf
-            :src="pdfdata"
-            v-for="i in numPages"
-            :key="i"
-            :resize="true"
-            :page="i"
-            scale="page-width"
-            style="width: 100%; margin: 20px auto"
-            id="printable-file"
-          >
-            <template slot="loading">
-              <h1>loading content...</h1>
-            </template>
-          </pdf>
+          <div v-for="(i, k) in numPages" :key="k" style="margin-bottom: 16px">
+            <pdfx :src="pdfdata" :page="i"></pdfx>
+          </div>
           <div class="utilities">
-            <p>Page 1 / {{ numPages }}</p>
+            <p>Page {{ currentIndex + 1 }} / {{ numPages }}</p>
             <div class="zoom">
               <button class="btn-zoom-out" @click="decreaseSizeOfPDF">
                 <minus-icon size="1x"></minus-icon>
@@ -46,97 +35,127 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
+    <OTPModal :open="isOTPModalOpen" @close="signDocument" />
   </div>
 </template>
 
 <script>
 import FilePreviewMedia from "@/components/FilesView/MediaFullPreview";
 import pdf from "pdfvuer";
+import pdfx from "vue-pdf";
 import { mapGetters } from "vuex";
 import { SearchIcon, PlusIcon, MinusIcon } from "vue-feather-icons";
 import { events } from "@/bus";
-import signature_client from "../../http_client/signature_client";
-import { ktpDummyData } from "../../dummyData/ktp";
-import { selfieDummyData } from "../../dummyData/selfie";
+import {
+  createFileBlob,
+  createBlobFromFile,
+  convertDataURIToBinary,
+} from "@/utils";
+import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import OTPModal from "@/components/FilesView/OTPModal.vue";
 
 export default {
   name: "SignView",
   components: {
     FilePreviewMedia,
     pdf,
+    pdfx,
     SearchIcon,
     PlusIcon,
     MinusIcon,
+    OTPModal,
   },
   computed: {
-    ...mapGetters(["fileInfoDetail", "data"]),
-    currentFile() {
-      return this.files[Math.abs(this.currentIndex) % this.files.length];
+    filename() {
+      const name = this.$route.params["fileId"];
+      const ext = this.$route.query["type"];  
+      return  name + "." + ext;
     },
-    isPDF() {
-      return this.fileInfoDetail[0].mimetype === "pdf";
-    },
-  },
-  watch: {
-    files() {
-      if (this.files.length === 0) events.$emit("file-preview:hide");
-    },
-    currentFile() {
-      if (this.fileInfoDetail[0]) {
-        this.$store.commit("CLEAR_FILEINFO_DETAIL");
-        this.$store.commit("GET_FILEINFO_DETAIL", this.currentFile);
-
-        // Init pdf instance
-        if (this.fileInfoDetail[0].mimetype === "pdf") {
-          this.getPdf();
-        }
-      }
-    },
-    fileInfoDetail() {
-      if (!this.fileInfoDetail[0]) {
-        this.currentIndex -= 1;
-
-        this.$store.commit("GET_FILEINFO_DETAIL", this.currentFile);
-
-        this.files = [];
-      }
-    },
-    data(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.files = [];
-      }
+    fileUrl() {
+      // get host of current website
+      const endpoint = window.location.origin;
+      return endpoint + "/file/" + this.filename;
     },
   },
   methods: {
-    signDocument() {
-      const file = this.$store.state.fileBrowser.fileInfoDetail[0];
-
-      const user = this.$store.state.userAuth.user.data.attributes;
-
-      signature_client
-        .genLTC({
-          email: user.email,
-          fullname: user.name,
-          nik: "9070061101119321",
-          phone: "085123456789",
-          birthdate: "1994-08-25",
-          birthplace: "Jakarta",
-          ktp: ktpDummyData,
-          selfie: selfieDummyData,
-        })
-        .then((res) => {
-          console.log(res);
-        });
+    signDocument(otp) {
+      this.isOTPModalOpen = false;
+      this.$store.dispatch("signDocument", {
+        file: this.pdf64,
+        page: this.numPages,
+        otp: otp,
+        title: this.filename,
+        signPos: this.signPos,
+        reason: "Acceptance",
+      });
     },
-    getPdf() {
+    setPageNumber(sum) {
+      if (this.numPages !== 0) {
+        this.numPages = sum;
+      }
+    },
+
+    setSignPosition(pdfDoc) {
+      // Get the last page of the document
+      const pages = pdfDoc.getPages();
+      const firstPage = pages[pages.length - 1];
+
+      // Get the width and height of the first page
+      const { width, height } = firstPage.getSize();
+
+      this.signPos = {
+        x: width * 0.15,
+        y: height * 0.15,
+      };
+    },
+    async getPdf() {
       this.pdfdata = undefined;
       this.numPages = 0;
+      const data = await createBlobFromFile(this.fileUrl);
+      const pdfdata = await createFileBlob(data);
+      const pdfbin = convertDataURIToBinary(pdfdata);
+      const pdfDoc = await PDFDocument.load(pdfbin);
+      this.numPages = pdfDoc.getPages().length;
+      this.raw = pdfDoc;
+      this.pdfbin = pdfbin;
+      this.pdf64 = pdfdata;
+      this.setSignPosition(pdfDoc);
+      this.pdfdata = pdfx.createLoadingTask(pdfbin);
+      setTimeout(() => {
+        this.$refs.pdfwrapper.addEventListener("scroll", (e) => {
+          // get scroll position
+          const scrollTop = e.target.scrollTop;
+          // get height of the scroll
+          const scrollHeight = e.target.scrollHeight;
+          // get percetage scroll
+          const scrollPercent = (scrollTop / scrollHeight) * 100;
 
-      let self = this;
-
-      self.pdfdata = pdf.createLoadingTask(this.currentFile.file_url);
-
-      self.pdfdata.then((pdf) => (self.numPages = pdf.numPages));
+          // get interpolated scroll percentage into range pages
+          const page = Math.round((scrollPercent / 100) * this.numPages);
+          if (page !== this.currentIndex && page <= this.numPages) {
+            this.currentIndex = page;
+          }
+        });
+      }, 1000);
+    },
+    checkSign() {
+      if (this.$store.getters.isLogged === undefined) {
+        this.$router.push({
+          name: "SignUp",
+          query: {
+            ref: this.$route.name,
+          }
+        });
+      } else if (!this.$store.getters.token) {
+        this.$router.push({
+          name: "Profile",
+          query: {
+            signature: false,
+            redirect: window.location.href,
+          },
+        });
+      }
+      this.isOTPModalOpen = true;
     },
     getFilesForView() {
       let requestedFile = this.fileInfoDetail[0];
@@ -165,16 +184,16 @@ export default {
   data() {
     return {
       pdfdata: undefined,
+      pdfbin: undefined,
+      pdf64: undefined,
+      signPos: undefined,
+      isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,
+      raw: undefined,
       files: [],
       documentSize: 50,
     };
-  },
-  mounted() {
-    if (this.$store.state.fileBrowser.fileInfoDetail.length < 1) {
-      this.$router.push("/files");
-    }
   },
   created() {
     // Set zoom size
@@ -191,7 +210,7 @@ export default {
       if (this.documentSize > 40) this.documentSize -= 10;
     });
 
-    this.getFilesForView();
+    this.getPdf();
   },
 };
 </script>

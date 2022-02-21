@@ -48,11 +48,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ContentGroup',
-  props: ['title', 'canCollapse', 'slug'],
+  name: "ContentGroup",
+  props: ["title", "canCollapse", "slug"],
   components: {
     ChevronUpIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_1__["ChevronUpIcon"],
     TextLabel: _components_Others_TextLabel__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -67,12 +69,12 @@ __webpack_require__.r(__webpack_exports__);
     hideGroup: function hideGroup() {
       if (!this.canCollapseWrapper) return;
       this.isVisible = !this.isVisible;
-      localStorage.setItem('panel-group-' + this.slug, this.isVisible);
+      localStorage.setItem("panel-group-" + this.slug, this.isVisible);
     }
   },
   created: function created() {
     if (this.canCollapse) {
-      var savedVisibility = localStorage.getItem('panel-group-' + this.slug);
+      var savedVisibility = localStorage.getItem("panel-group-" + this.slug);
       this.isVisible = savedVisibility ? !!JSON.parse(String(savedVisibility).toLowerCase()) : true;
       this.canCollapseWrapper = true;
     }

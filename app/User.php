@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
+use Lcobucci\JWT\Signature;
 use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
@@ -88,7 +89,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+        'name', 'email', 'password', 'avatar', 'phone', 'nik', 'birth_date'
+        ,'birth_place', 'ktp', 'selfie'
     ];
 
     /**
@@ -107,6 +109,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth_date' => 'datetime',
     ];
 
     protected $appends = [
@@ -225,6 +228,46 @@ class User extends Authenticatable
     }
 
     /**
+     * Format avatar to full url
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getSelfieAttribute()
+    {
+        // Get selfie from external storage
+        if ($this->attributes['selfie'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
+            return Storage::temporaryUrl($this->attributes['selfie'], now()->addDay());
+        }
+
+        // Get selfie from local storage
+        if ($this->attributes['selfie']) {
+            return url('/' . $this->attributes['selfie']);
+        }
+
+        return null;
+    }
+
+    /**
+     * Format ktp to full url
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getKtpAttribute()
+    {
+        // Get ktp from external storage
+        if ($this->attributes['ktp'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
+            return Storage::temporaryUrl($this->attributes['ktp'], now()->addDay());
+        }
+
+        // Get ktp from local storage
+        if ($this->attributes['ktp']) {
+            return url('/' . $this->attributes['ktp']);
+        }
+
+        return null;
+    }
+
+    /**
      * Set user billing info
      *
      * @param $billing
@@ -274,6 +317,16 @@ class User extends Authenticatable
         $record->update([
             'upload' => $record->upload + $file_size
         ]);
+    }
+
+    public function unused_signatures_token() {
+        $token = Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first();
+
+        if ($token) {
+            return $token->sign_token;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -352,6 +405,6 @@ class User extends Authenticatable
      */
     public function signatures()
     {
-        return $this->hasMany(Signature::class);
+        return $this->hasMany(Signatures::class);
     }
 }

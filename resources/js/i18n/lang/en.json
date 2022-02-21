@@ -1,16 +1,16 @@
 {
 	"actions": {
+		"close": "Close",
 		"create_folder": "Create folder",
 		"delete": "Delete item",
+		"download": "Download item",
+		"info_panel": "Info panel",
 		"move": "Move item",
 		"preview": "Change preview",
-		"share": "Share item",
-		"upload": "Upload file",
-		"download": "Download item",
 		"print": "Print item",
-		"close": "Close",
+		"share": "Share item",
 		"sorting_view": "Sorting and View",
-		"info_panel": "Info panel"
+		"upload": "Upload file"
 	},
 	"activation": {
 		"stripe": {
@@ -213,27 +213,27 @@
 			"username_plac": "Type your mail username"
 		},
 		"others": {
-			"upload_limit": "Upload Limit",
-			"upload_limit_plac": "Type your upload limit in MB",
-			"upload_limit_help": "If you want to set max file size limit on single upload, add size of your limit in MB. E.g. 100 means 100 MB and 2 000 means 2 000 MB limit.",
-			"mimetypes_blacklist": "Mimetypes Blacklist",
-			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
-			"mimetypes_blacklist_help" :"If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes." ,
-			"section_cache": "Application Cache",
-			"cache_disclaimer": "Did you change anything in your .env file or change your Stripe credentials? Then clear your cache.",
-			"cache_clear": "Clear Cache",
 			"allow_registration": "Allow User Registration",
 			"allow_registration_help": "You can disable public registration for new users. You will still able to <br/>create new users in administration panel.",
+			"cache_clear": "Clear Cache",
+			"cache_disclaimer": "Did you change anything in your .env file or change your Stripe credentials? Then clear your cache.",
 			"contact_email": "Contact Email",
 			"contact_email_plac": "Type your contact email",
 			"default_storage": "Default Storage Space for User Accounts",
 			"default_storage_plac": "Set default storage space in GB",
 			"google_analytics": "Google Analytics Code (optional)",
 			"google_analytics_plac": "Paste your Google Analytics Code",
+			"mimetypes_blacklist": "Mimetypes Blacklist",
+			"mimetypes_blacklist_help": "If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes.",
+			"mimetypes_blacklist_plac": "Add mimetypes to Blacklist",
+			"section_cache": "Application Cache",
 			"section_others": "Others Settings",
 			"section_user": "Users and Storage",
 			"storage_limit": "Storage Limitation",
-			"storage_limit_help": "If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan."
+			"storage_limit_help": "If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.",
+			"upload_limit": "Upload Limit",
+			"upload_limit_help": "If you want to set max file size limit on single upload, add size of your limit in MB. E.g. 100 means 100 MB and 2 000 means 2 000 MB limit.",
+			"upload_limit_plac": "Type your upload limit in MB"
 		},
 		"payments": {
 			"allow_payments": "Allow Subscription Payments",
@@ -276,29 +276,17 @@
 		"empty_trash": "Empty Trash",
 		"log_out": "Log Out",
 		"move": "Move",
+		"no_options": "No Options Available",
 		"profile_settings": "Profile Settings",
 		"remove_from_favourites": "Remove Favourite",
 		"rename": "Rename",
 		"restore": "Restore",
+		"select": "Select",
 		"share": "Share",
 		"share_cancel": "Cancel Sharing",
 		"share_edit": "Edit Sharing",
 		"upload": "Upload",
-		"select": "Select",
-		"no_options": "No Options Available",
 		"zip_folder": "Zip and Download"
-	},
-	"mobile_selecting": {
-		"select_all": "Select All",
-		"deselect_all": "Deselect All",
-		"done": "Done"
-	},
-	"preview_sorting": {
-		"grid_view": "Grid View",
-		"list_view": "List View",
-		"sort_date": "Sort By Date",
-		"sort_alphabet": "Sort By Aplhabet",
-		"preview_sorting_button": "View"
 	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
@@ -319,36 +307,35 @@
 		"author": "Author",
 		"author_participant": "Public Participant",
 		"created_at": "Created at",
+		"items": "Items",
+		"selected_multiple": "Selected Multiple Items",
 		"shared": "Shared",
 		"size": "Size",
-		"where": "Where",
-		"selected_multiple": "Selected Multiple Items",
-		"items": "Items"
+		"where": "Where"
 	},
 	"file_detail_meta": {
-		"dimension": "Dimensions",
-		"resolution": "Resolution",
-		"color_space": "Color Space",
-		"aperture_value": "Aperture Value",
-		"meta_data": "Metadata",
-		"author": "Author",
-		"time_data": "Content Created",
-		"make": "Camera",
-		"model": "Model",
-		"camera_lens": "Camera Lens",
 		"aperature": "F Number",
-		"iso": "ISO",
-		"focal": "Focal Length",
+		"aperture_value": "Aperture Value",
+		"author": "Author",
+		"camera_lens": "Camera Lens",
+		"color_space": "Color Space",
+		"dimension": "Dimensions",
 		"exposure": "Exposure Time",
+		"focal": "Focal Length",
+		"iso": "ISO",
+		"latitude": "Latitude",
 		"longitude": "Longitude",
-		"latitude": "Latitude"
+		"make": "Camera",
+		"meta_data": "Metadata",
+		"model": "Model",
+		"resolution": "Resolution",
+		"time_data": "Content Created"
 	},
 	"folder": {
 		"empty": "Empty",
 		"item_counts": "{count} Item | {count} Items"
 	},
 	"global": {
-		"incomplete": "Incomplete",
 		"active": "Active",
 		"admin": "Admin",
 		"cancel": "Cancel",
@@ -357,6 +344,7 @@
 		"default": "Default",
 		"free": "Free",
 		"get_it": "Get It",
+		"incomplete": "Incomplete",
 		"menu": "Menu",
 		"monthly_ac": "Mo.",
 		"or": "or",
@@ -365,6 +353,10 @@
 		"subscription": "Subscription",
 		"total": "Total",
 		"upgrade_plan": "Upgrade Plan"
+	},
+	"incomplete_payment": {
+		"description": "Your latest payment is incomplete. {0}",
+		"href": "Please confirm your payment."
 	},
 	"input_image": {
 		"supported": "Supported formats are .png, .jpg, .jpeg.",
@@ -379,11 +371,11 @@
 	},
 	"locations": {
 		"home": "Files",
-		"shared": "Shared",
-		"trash": "Trash",
+		"logout": "Log Out",
 		"profile": "Profile",
 		"settings": "Settings",
-		"logout": "Log Out"
+		"shared": "Shared",
+		"trash": "Trash"
 	},
 	"menu": {
 		"admin": "Administration",
@@ -404,6 +396,11 @@
 		"nothing_from_participants": "You don't have any uploads from other users.",
 		"nothing_to_preview": "There is nothing to preview.",
 		"nothing_was_found": "Nothing was found."
+	},
+	"mobile_selecting": {
+		"deselect_all": "Deselect All",
+		"done": "Done",
+		"select_all": "Select All"
 	},
 	"notice": {
 		"stripe_activation": "Your Stripe account is not set. To charging your users please {0}.",
@@ -465,21 +462,23 @@
 	"page_pricing_tables": {
 		"description": "Choose plan witch perfect fit your needs. All plans is billed monthly automatically via your credit card.",
 		"storage_capacity": "Of Storage Capacity",
-		"vat_excluded": "Price displayed excludes VAT.",
-		"title": "Choose Your Plan"
+		"title": "Choose Your Plan",
+		"vat_excluded": "Price displayed excludes VAT."
 	},
 	"page_registration": {
 		"agreement": "By clicking on 'Create Account' button I agree to the {0} and {1}.",
 		"button_create_account": "Create Account",
 		"have_an_account": "Do you have an account?",
 		"label_confirm_pass": "Confirm password:",
-		"label_email": "Email:",
+		"label_email": "Email@:",
 		"label_name": "Full Name:",
 		"label_pass": "Create password:",
+		"label_phone": "Phone Number:",
 		"placeholder_confirm_pass": "Confirm your new password",
 		"placeholder_email": "Type your E-mail",
 		"placeholder_name": "Type your full name",
 		"placeholder_pass": "New password",
+		"placeholder_phone": "Type your Mobile Phone Number",
 		"subtitle": "Please fill registration to create account:",
 		"title": "Create New Account"
 	},
@@ -516,21 +515,19 @@
 		"section_card": "Payment Card",
 		"section_summary": "Order Summary",
 		"summary": {
-			"total_with_vat": "Total with VAT",
-			"vat": "VAT",
 			"period": "Billed monthly",
 			"submit_button": "Pay with credit card",
-			"submit_disclaimer": "By submit form, you agree to save the payment method and billing information in your {app} account."
+			"submit_disclaimer": "By submit form, you agree to save the payment method and billing information in your {app} account.",
+			"total_with_vat": "Total with VAT",
+			"vat": "VAT"
 		},
 		"title": "Choose Payment Method"
 	},
-	"popup_upload_limit": {
-		"title": "You exceed upload limit on single file",
-		"message": "Size of your uploaded file exceed the upload limit ({uploadLimit})."
-	},
-	"popup_mimetypes_blacklist": {
-		"title": "You are trying to upload unsupported file type",
-		"message": "File of this type ({mimetype}) is not allowed to upload."
+	"popup_create_folder": {
+		"folder_default_name": "New Folder",
+		"label": "Type Name",
+		"placeholder": "Type your name",
+		"title": "Create Folder"
 	},
 	"popup_delete_card": {
 		"message": "This event is irreversible and your payment card will be delete forever",
@@ -556,6 +553,10 @@
 		"message": "Please contact your administrator to change your limit.",
 		"title": "Whooops, you exceed storage limit :("
 	},
+	"popup_mimetypes_blacklist": {
+		"message": "File of this type ({mimetype}) is not allowed to upload.",
+		"title": "You are trying to upload unsupported file type"
+	},
 	"popup_move_item": {
 		"cancel": "Cancel",
 		"submit": "Move Item",
@@ -573,27 +574,17 @@
 		"message": "Sorry, your file is too large and can't be uploaded",
 		"title": "File is too large"
 	},
-	"popup_zipping": {
-		"title": "Zipping Your Files...",
-		"message": "Please wait until your files start downloading."
-	},
 	"popup_rename": {
-		"title": "Rename Your {item}",
+		"color_pick_label": "Pick Your Color",
+		"emoji_list_not_found": "Not Found",
 		"label": "Edit Name",
 		"placeholder": "Type your title",
-		"tab_emoji_title": "Emoji as an Icon",
-		"tab_color_title": "Folder Color",
-		"select_emoji_label": "Pick Your Emoji Icon",
-		"color_pick_label": "Pick Your Color",
-		"set_emoji_input_placeholder": "Emojis List...",
 		"search_emoji_input_placeholder": "Search your emoji...",
-		"emoji_list_not_found": "Not Found"
-	},
-	"popup_create_folder": {
-		"folder_default_name": "New Folder",
-		"title": "Create Folder",
-		"label": "Type Name",
-		"placeholder": "Type your name"
+		"select_emoji_label": "Pick Your Emoji Icon",
+		"set_emoji_input_placeholder": "Emojis List...",
+		"tab_color_title": "Folder Color",
+		"tab_emoji_title": "Emoji as an Icon",
+		"title": "Rename Your {item}"
 	},
 	"popup_set_card": {
 		"message": "Your card will be set as default and will be always charged for the next billings.",
@@ -605,11 +596,11 @@
 	"popup_share_edit": {
 		"change_pass": "Change Password",
 		"confirm": "Confirm",
-		"save": "Save Changes",
-		"stop": "Cancel Sharing",
-		"title": "Update sharing options",
 		"go_back": "Go Back",
-		"send_to_recipients": "Send to Recipients"
+		"save": "Save Changes",
+		"send_to_recipients": "Send to Recipients",
+		"stop": "Cancel Sharing",
+		"title": "Update sharing options"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -624,6 +615,21 @@
 		"button": "That's awesome!",
 		"message": "Your subscription was re-activated, and they will be billed on the original billing cycle.",
 		"title": "Subscription Was Resumed"
+	},
+	"popup_upload_limit": {
+		"message": "Size of your uploaded file exceed the upload limit ({uploadLimit}).",
+		"title": "You exceed upload limit on single file"
+	},
+	"popup_zipping": {
+		"message": "Please wait until your files start downloading.",
+		"title": "Zipping Your Files..."
+	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"preview_sorting_button": "View",
+		"sort_alphabet": "Sort By Aplhabet",
+		"sort_date": "Sort By Date"
 	},
 	"profile": {
 		"change_pass": "Change Password",
@@ -694,25 +700,25 @@
 		"visitor": "Can only view and download"
 	},
 	"shared_form": {
-		"button_more_options": "Set Expiration",
 		"button_close_options": "Close Options",
-		"button_folder_icon_open": "Customize Folder Icon",
 		"button_done": "Awesome, I’m done!",
+		"button_folder_icon_open": "Customize Folder Icon",
 		"button_generate": "Generate Link",
+		"button_more_options": "Set Expiration",
+		"email_placeholder": "Type your emails",
+		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
+		"expiration_day": "{value}d.",
+		"expiration_hour": "{value}h.",
+		"label_expiration": "Link Expiration",
 		"label_password_protection": "Password Protected",
 		"label_permission": "Permission",
-		"label_shared_url": "Share url",
-		"label_share_vie_email": "Get your link",
 		"label_send_to_recipients": "Send to Recipients",
-		"label_expiration": "Link Expiration",
-		"expiration_hour": "{value}h.",
-		"expiration_day": "{value}d.",
+		"label_share_vie_email": "Get your link",
+		"label_shared_url": "Share url",
 		"placeholder_permission": "Select your permission",
-		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
-		"share_by_link": "Share by Link",
-		"share_by_email": "Share by Email",
 		"recipients_label": "Recipients",
-		"email_placeholder": "Type your emails"
+		"share_by_email": "Share by Email",
+		"share_by_link": "Share by Link"
 	},
 	"sidebar": {
 		"favourites": "Favourites",
@@ -759,15 +765,11 @@
 		"description": "You nearly reach your storage capacity.",
 		"title": "You reach your storage capacity. Please upgrade."
 	},
-	"incomplete_payment": {
-		"description": "Your latest payment is incomplete. {0}",
-		"href": "Please confirm your payment."
-	},
 	"uploading": {
 		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
-		"progress_single_upload": "Uploading File {progress}%",
-		"progress": "Uploading File {progress}% - {current}/{total}"
+		"progress": "Uploading File {progress}% - {current}/{total}",
+		"progress_single_upload": "Uploading File {progress}%"
 	},
 	"user_add_card": {
 		"default_description": "Your card will be charged for billing plans as first.",
@@ -821,10 +823,10 @@
 		"postal_code_plac": "Type your billing postal code",
 		"state": "State",
 		"state_plac": "Type your billing state",
-		"title_account": "Account Information",
-		"title_billing": "Billing Information",
 		"timezone": "Timezone",
-		"timezone_plac" : "Select your timezone"
+		"timezone_plac": "Select your timezone",
+		"title_account": "Account Information",
+		"title_billing": "Billing Information"
 	},
 	"user_subscription": {
 		"billed": "Billed",

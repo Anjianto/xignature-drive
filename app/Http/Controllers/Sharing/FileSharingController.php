@@ -24,6 +24,39 @@ use Illuminate\Support\Facades\Storage;
 class FileSharingController extends Controller
 {
 
+    public function sign($token) {
+            // Get shared token
+            $shared = Share::where(\DB::raw('BINARY `token`'), $token)
+            ->first();
+
+        if (! $shared) {
+            return view("index");
+        }
+
+        // Delete old access_token if exist
+        Cookie::queue('shared_access_token', '', -1);
+
+        // Set cookies
+        if ((int) $shared->protected) {
+
+            // Set shared token
+            Cookie::queue('Sing', $token, 43200);
+        }
+
+        $document = FileManagerFile::where('user_id', $shared->user_id)
+        ->where('unique_id', $shared->item_id)
+        ->first();
+
+        // Get all settings
+        $settings = Setting::all();
+        $filename = explode('.', $document->basename);
+        $name = $filename[0];
+        $extension = $filename[1];
+        // Return page index
+        return redirect("/sign/$name?type=$extension")
+            ->with('settings', $settings ? json_decode($settings->pluck('value', 'name')->toJson()) : null);
+    }
+
     /**
      * Show page index and delete access_token & shared_token cookie
      *

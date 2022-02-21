@@ -1,14 +1,16 @@
 {
 	"actions": {
+		"close": "Close",
 		"create_folder": "穿件文件夹",
 		"delete": "删除内容",
+		"download": "",
+		"info_panel": "Info panel",
 		"move": "Move item",
 		"preview": "更改预览",
+		"print": "",
 		"share": "Share item",
-		"upload": "上传文件",
-		"close": "Close",
 		"sorting_view": "Sorting and View",
-		"info_panel": "Info panel"
+		"upload": "上传文件"
 	},
 	"activation": {
 		"stripe": {
@@ -211,27 +213,27 @@
 			"username_plac": "输入您的邮件用户名"
 		},
 		"others": {
-			"upload_limit": "Upload Limit",
-			"upload_limit_plac": "Type your upload limit in MB",
-			"upload_limit_help": "If you want to set max file size limit on single upload, add size of your limit in MB. E.g. 100 means 100 MB and 2 000 means 2 000 MB limit.",
-			"mimetypes_blacklist": "Mimetypes Blacklist",
-			"mimetypes_blacklist_plac":"Add mimetypes to Blacklist" ,
-			"mimetypes_blacklist_help" :"If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes." ,
-			"section_cache": "Application Cache",
-			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
-			"cache_clear": "Clear Cache",
 			"allow_registration": "允许用户注册",
 			"allow_registration_help": "您可以为新用户禁用公共注册。您仍然可以在管理面板中 <br/>创建新用户。",
+			"cache_clear": "Clear Cache",
+			"cache_disclaimer": "Did you change anything in your .env file or change your stripe credentials? Then clear your cache.",
 			"contact_email": "联系电子邮件",
 			"contact_email_plac": "输入您的联系电子邮件",
 			"default_storage": "用户帐户的默认存储空间",
 			"default_storage_plac": "设置默认存储空间（以GB为单位）",
 			"google_analytics": "Google Analytics（分析）代码（可选）",
 			"google_analytics_plac": "粘贴您的Google Analytics（分析）代码",
+			"mimetypes_blacklist": "Mimetypes Blacklist",
+			"mimetypes_blacklist_help": "If you want to prevent upload some type of files, just add them to blacklist like this: x-php,mp3,jpeg <br/> Use a comma between each mimetype. Don't use a dot before mimetypes.",
+			"mimetypes_blacklist_plac": "Add mimetypes to Blacklist",
+			"section_cache": "Application Cache",
 			"section_others": "其他设定",
 			"section_user": "用户和存储",
 			"storage_limit": "储存限制",
-			"storage_limit_help": "如果禁用此值，则所有用户将具有无限存储容量，并且您将无法 <br/>向用户收取存储计划的费用。"
+			"storage_limit_help": "如果禁用此值，则所有用户将具有无限存储容量，并且您将无法 <br/>向用户收取存储计划的费用。",
+			"upload_limit": "Upload Limit",
+			"upload_limit_help": "If you want to set max file size limit on single upload, add size of your limit in MB. E.g. 100 means 100 MB and 2 000 means 2 000 MB limit.",
+			"upload_limit_plac": "Type your upload limit in MB"
 		},
 		"payments": {
 			"allow_payments": "允许订阅付款",
@@ -274,29 +276,17 @@
 		"empty_trash": "清空垃圾箱",
 		"log_out": "注销",
 		"move": "移动",
+		"no_options": "No Options Available",
 		"profile_settings": "个人信息编辑",
 		"remove_from_favourites": "移出收藏",
 		"rename": "重命名",
 		"restore": "恢复文件",
+		"select": "Select",
 		"share": "分享",
 		"share_cancel": "Cancel Sharing",
 		"share_edit": "编辑分享设定",
 		"upload": "上传",
-		"select": "Select",
-		"no_options": "No Options Available",
 		"zip_folder": "Zip and Download"
-	},
-	"mobile_selecting": {
-		"select_all": "Select All",
-		"deselect_all": "Deselect All",
-		"done": "Done"
-	},
-	"preview_sorting": {
-		"grid_view": "Grid View",
-		"list_view": "List View",
-		"sort_date": "Sort By Date",
-		"sort_alphabet": "Sort By Aplhabet",
-		"preview_sorting_button": "View"
 	},
 	"cookie_disclaimer": {
 		"button": "cookies policy",
@@ -317,36 +307,35 @@
 		"author": "作者",
 		"author_participant": "公共参与者",
 		"created_at": "创建于",
+		"items": "Items",
+		"selected_multiple": "Selected Multiple Items",
 		"shared": "分享",
 		"size": "大小",
-		"where": "地址",
-		"selected_multiple": "Selected Multiple Items",
-		"items": "Items"
+		"where": "地址"
 	},
 	"file_detail_meta": {
-		"dimension": "Dimensions",
-		"resolution": "Resolution",
-		"color_space": "Color Space",
-		"aperture_value": "Aperture Value",
-		"meta_data": "Metadata",
-		"author": "Author",
-		"time_data": "Content Created",
-		"make": "Camera",
-		"model": "Model",
-		"camera_lens": "Camera Lens",
 		"aperature": "F Number",
-		"iso": "ISO",
-		"focal": "Focal Length",
+		"aperture_value": "Aperture Value",
+		"author": "Author",
+		"camera_lens": "Camera Lens",
+		"color_space": "Color Space",
+		"dimension": "Dimensions",
 		"exposure": "Exposure Time",
+		"focal": "Focal Length",
+		"iso": "ISO",
+		"latitude": "Latitude",
 		"longitude": "Longitude",
-		"latitude": "Latitude"
+		"make": "Camera",
+		"meta_data": "Metadata",
+		"model": "Model",
+		"resolution": "Resolution",
+		"time_data": "Content Created"
 	},
 	"folder": {
 		"empty": "空的",
 		"item_counts": "{count} 个文件 | {count} 个文件"
 	},
 	"global": {
-		"incomplete": "Incomplete",
 		"active": "活性",
 		"admin": "管理员",
 		"cancel": "取消",
@@ -355,6 +344,7 @@
 		"default": "默认",
 		"free": "自由",
 		"get_it": "莫",
+		"incomplete": "Incomplete",
 		"menu": "菜单",
 		"monthly_ac": "莫",
 		"or": "要么",
@@ -363,6 +353,10 @@
 		"subscription": "订阅",
 		"total": "总",
 		"upgrade_plan": "升级计划"
+	},
+	"incomplete_payment": {
+		"description": "Your latest payment is incomplete. {0}",
+		"href": "Please confirm your payment."
 	},
 	"input_image": {
 		"supported": "Supported formats are .png, .jpg, .jpeg.",
@@ -377,11 +371,11 @@
 	},
 	"locations": {
 		"home": "首页",
-		"shared": "已分享",
-		"trash": "垃圾箱",
+		"logout": "Log Out",
 		"profile": "Profile",
 		"settings": "Settings",
-		"logout": "Log Out"
+		"shared": "已分享",
+		"trash": "垃圾箱"
 	},
 	"menu": {
 		"admin": "Admin",
@@ -402,6 +396,11 @@
 		"nothing_from_participants": "You don't have any uploads from other users.",
 		"nothing_to_preview": "没有任何信息可以预览。",
 		"nothing_was_found": "没找到任何信息。"
+	},
+	"mobile_selecting": {
+		"deselect_all": "Deselect All",
+		"done": "Done",
+		"select_all": "Select All"
 	},
 	"notice": {
 		"stripe_activation": "您的Stripe帐户尚未设置。要向您的用户收费，请 {0}。",
@@ -463,8 +462,8 @@
 	"page_pricing_tables": {
 		"description": "选择计划巫婆完全适合您的需求。所有计划都会通过您的信用卡每月自动结算。",
 		"storage_capacity": "储存容量",
-		"vat_excluded": "Price displayed excludes VAT.",
-		"title": "选择您的计划"
+		"title": "选择您的计划",
+		"vat_excluded": "Price displayed excludes VAT."
 	},
 	"page_registration": {
 		"agreement": "通过单击“创建帐户”按钮，我同意 {0} 和 {1}。",
@@ -474,10 +473,12 @@
 		"label_email": "邮箱：",
 		"label_name": "全名：",
 		"label_pass": "创建密码：",
+		"label_phone": "电话号码：",
 		"placeholder_confirm_pass": "请重复输入一遍密码",
 		"placeholder_email": "键入您的邮箱地址",
 		"placeholder_name": "键入您的全名",
 		"placeholder_pass": "键入新密码",
+		"placeholder_phone": "输入您的手机号码",
 		"subtitle": "填写所有内容进行创建",
 		"title": "创建一个新用户"
 	},
@@ -522,23 +523,11 @@
 		},
 		"title": "选择付款方式"
 	},
-	"popup_upload_limit": {
-		"title": "You exceed upload limit on single file",
-		"message": "Size of your uploaded file exceed the upload limit ({uploadLimit})."
-	},
-	"popup_mimetypes_blacklist": {
-		"title": "You are trying to upload unsupported file type",
-		"message": "File of this type ({mimetype}) is not allowed to upload."
-	},
-	"popup_zipping": {
-		"title": "Zipping Your Files...",
-		"message": "Please wait until your files start downloading."
-	},
 	"popup_create_folder": {
 		"folder_default_name": "New Folder",
-		"title": "Create Folder",
 		"label": "Type Name",
-		"placeholder": "Type your name"
+		"placeholder": "Type your name",
+		"title": "Create Folder"
 	},
 	"popup_delete_card": {
 		"message": "此事件不可逆转，您的付款卡将被永久删除",
@@ -564,6 +553,10 @@
 		"message": "请联系我们来增加您的存储空间。",
 		"title": "wow，您已经超过了存储上线。"
 	},
+	"popup_mimetypes_blacklist": {
+		"message": "File of this type ({mimetype}) is not allowed to upload.",
+		"title": "You are trying to upload unsupported file type"
+	},
 	"popup_move_item": {
 		"cancel": "取消",
 		"submit": "移动文件/夹",
@@ -582,16 +575,16 @@
 		"title": "File is too large"
 	},
 	"popup_rename": {
-		"title": "Rename Your {item}",
+		"color_pick_label": "Pick Your Color",
+		"emoji_list_not_found": "Not Found",
 		"label": "Edit Name",
 		"placeholder": "Type your title",
-		"tab_emoji_title": "Emoji as an Icon",
-		"tab_color_title": "Folder Color",
-		"select_emoji_label": "Pick Your Emoji Icon",
-		"color_pick_label": "Pick Your Color",
-		"set_emoji_input_placeholder": "Emojis List...",
 		"search_emoji_input_placeholder": "Search your emoji...",
-		"emoji_list_not_found": "Not Found"
+		"select_emoji_label": "Pick Your Emoji Icon",
+		"set_emoji_input_placeholder": "Emojis List...",
+		"tab_color_title": "Folder Color",
+		"tab_emoji_title": "Emoji as an Icon",
+		"title": "Rename Your {item}"
 	},
 	"popup_set_card": {
 		"message": "您的卡将被设置为默认卡，并且在以后的结算中始终会收取费用。",
@@ -603,11 +596,11 @@
 	"popup_share_edit": {
 		"change_pass": "更改密码",
 		"confirm": "确认",
-		"save": "保存更改",
-		"stop": "停止风险",
-		"title": "更新分享设定",
 		"go_back": "Go Back",
-		"send_to_recipients": "Send to Recipients"
+		"save": "保存更改",
+		"send_to_recipients": "Send to Recipients",
+		"stop": "停止风险",
+		"title": "更新分享设定"
 	},
 	"popup_signup_error": {
 		"message": "Please check your database connection if everything works correctly.",
@@ -622,6 +615,21 @@
 		"button": "棒极了！",
 		"message": "您的订阅已重新激活，并且将按原始计费周期计费。",
 		"title": "订阅已取消"
+	},
+	"popup_upload_limit": {
+		"message": "Size of your uploaded file exceed the upload limit ({uploadLimit}).",
+		"title": "You exceed upload limit on single file"
+	},
+	"popup_zipping": {
+		"message": "Please wait until your files start downloading.",
+		"title": "Zipping Your Files..."
+	},
+	"preview_sorting": {
+		"grid_view": "Grid View",
+		"list_view": "List View",
+		"preview_sorting_button": "View",
+		"sort_alphabet": "Sort By Aplhabet",
+		"sort_date": "Sort By Date"
 	},
 	"profile": {
 		"change_pass": "修改您的密码",
@@ -692,24 +700,25 @@
 		"visitor": "仅可以查看或下载文件"
 	},
 	"shared_form": {
-		"button_more_options": "More Options",
 		"button_close_options": "Close Options",
 		"button_done": "太好了！",
+		"button_folder_icon_open": "",
 		"button_generate": "生成分享链接",
+		"button_more_options": "More Options",
+		"email_placeholder": "Type your emails",
+		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
+		"expiration_day": "{value}d.",
+		"expiration_hour": "{value}h.",
+		"label_expiration": "Link Expiration",
 		"label_password_protection": "密码保护",
 		"label_permission": "权限",
-		"label_shared_url": "分享链接",
-		"label_share_vie_email": "Get your link",
 		"label_send_to_recipients": "Send to Recipients",
-		"label_expiration": "Link Expiration",
-		"expiration_hour": "{value}h.",
-		"expiration_day": "{value}d.",
+		"label_share_vie_email": "Get your link",
+		"label_shared_url": "分享链接",
 		"placeholder_permission": "请设置权限",
-		"email_successfully_send_message": "Your item was <b>successfully sended</b> to recipients emails.",
-		"share_by_link": "Share by Link",
-		"share_by_email": "Share by Email",
 		"recipients_label": "Recipients",
-		"email_placeholder": "Type your emails"
+		"share_by_email": "Share by Email",
+		"share_by_link": "Share by Link"
 	},
 	"sidebar": {
 		"favourites": "收藏",
@@ -756,15 +765,11 @@
 		"description": "You nearly reach your storage capacity.",
 		"title": "You reach your storage capacity. Please upgrade."
 	},
-	"incomplete_payment": {
-		"description": "Your latest payment is incomplete. {0}",
-		"href": "Please confirm your payment."
-	},
 	"uploading": {
 		"cancel": "Cancel Uploading",
 		"processing_file": "Processing File...",
-		"progress_single_upload": "上传文件 {progress}%",
-		"progress": "上传文件 {progress}% - {current}/{total}"
+		"progress": "上传文件 {progress}% - {current}/{total}",
+		"progress_single_upload": "上传文件 {progress}%"
 	},
 	"user_add_card": {
 		"default_description": "",
@@ -818,10 +823,10 @@
 		"postal_code_plac": "输入您的帐单邮递区号",
 		"state": "州",
 		"state_plac": "输入您的帐单状态",
-		"title_account": "帐户信息",
-		"title_billing": "账单信息",
 		"timezone": "Timezone",
-		"timezone_plac" : "Select your timezone"
+		"timezone_plac": "Select your timezone",
+		"title_account": "帐户信息",
+		"title_billing": "账单信息"
 	},
 	"user_subscription": {
 		"billed": "开票",

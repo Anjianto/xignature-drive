@@ -42,19 +42,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'TreeMenuNavigator',
-  props: ['nodes', 'depth', 'disabled'],
+  name: "TreeMenuNavigator",
+  props: ["nodes", "depth", "disabled"],
   components: {
     TreeMenuNavigator: _components_Others_TreeMenuNavigator__WEBPACK_IMPORTED_MODULE_0__["default"],
     ChevronRightIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_1__["ChevronRightIcon"],
     FolderIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_1__["FolderIcon"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(['fileInfoDetail'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["fileInfoDetail"])), {}, {
     disabledFolder: function disabledFolder() {
       var _this = this;
 
@@ -68,7 +88,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           } //Disable the self folder with all children
 
 
-          if (_this.nodes.unique_id === item.unique_id && item.type === 'folder') {
+          if (_this.nodes.unique_id === item.unique_id && item.type === "folder") {
             disableFolder = true;
             _this.disableChildren = true;
           }
@@ -88,7 +108,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var offset = window.innerWidth <= 1024 ? 17 : 22;
       var value = this.depth == 0 ? offset : offset + this.depth * 20;
       return {
-        paddingLeft: value + 'px'
+        paddingLeft: value + "px"
       };
     }
   }),
@@ -105,7 +125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     dragFinish: function dragFinish() {
       // Move no selected item
       if (!this.fileInfoDetail.includes(this.draggedItem[0])) {
-        this.$store.dispatch('moveItem', {
+        this.$store.dispatch("moveItem", {
           to_item: this.nodes,
           noSelectedItem: this.draggedItem[0]
         });
@@ -113,7 +133,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
       if (this.fileInfoDetail.includes(this.draggedItem[0])) {
-        this.$store.dispatch('moveItem', {
+        this.$store.dispatch("moveItem", {
           to_item: this.nodes,
           noSelectedItem: null
         });
@@ -121,7 +141,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.draggedItem = [];
       this.area = false;
-      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('drop');
+      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("drop");
     },
     dragEnter: function dragEnter() {
       this.area = true;
@@ -130,16 +150,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.area = false;
     },
     getFolder: function getFolder() {
-      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit('show-folder', this.nodes); // Go to folder
+      _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$emit("show-folder", this.nodes); // Go to folder
 
-      if (this.$isThisLocation('public')) {
-        this.$store.dispatch('browseShared', [{
+      if (this.$isThisLocation("public")) {
+        this.$store.dispatch("browseShared", [{
           folder: this.nodes,
           back: false,
           init: false
         }]);
       } else {
-        this.$store.dispatch('getFolder', [{
+        this.$store.dispatch("getFolder", [{
           folder: this.nodes,
           back: false,
           init: false
@@ -153,11 +173,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     var _this2 = this;
 
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('drop', function () {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("drop", function () {
       _this2.draggedItem = [];
     }); //Get dragged item
 
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('dragstart', function (data) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("dragstart", function (data) {
       //If is dragged item not selected
       if (!_this2.fileInfoDetail.includes(data)) {
         _this2.draggedItem = [data];
@@ -169,7 +189,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }); // Select clicked folder
 
-    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on('show-folder', function (node) {
+    _bus__WEBPACK_IMPORTED_MODULE_3__["events"].$on("show-folder", function (node) {
       _this2.isSelected = false;
       if (_this2.nodes.unique_id == node.unique_id) _this2.isSelected = true;
     });
@@ -190,7 +210,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".is-inactive[data-v-38f20d4e] {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.is-dragenter[data-v-38f20d4e] {\n  border: 2px dashed #0667B3 !important;\n  border-radius: 8px;\n}\n.folder-item[data-v-38f20d4e] {\n  display: block;\n  padding: 8px 0;\n  transition: 150ms all ease;\n  cursor: pointer;\n  position: relative;\n  white-space: nowrap;\n  width: 100%;\n  border: 2px dashed transparent;\n}\n.folder-item .icon[data-v-38f20d4e] {\n  line-height: 0;\n  width: 15px;\n  margin-right: 9px;\n  vertical-align: middle;\n  margin-top: -1px;\n}\n.folder-item .icon path[data-v-38f20d4e], .folder-item .icon line[data-v-38f20d4e], .folder-item .icon polyline[data-v-38f20d4e], .folder-item .icon rect[data-v-38f20d4e], .folder-item .icon circle[data-v-38f20d4e] {\n  transition: 150ms all ease;\n}\n.folder-item .icon-arrow[data-v-38f20d4e] {\n  transition: 300ms all ease;\n  margin-right: 4px;\n  vertical-align: middle;\n  opacity: 0;\n}\n.folder-item .icon-arrow.is-visible[data-v-38f20d4e] {\n  opacity: 1;\n}\n.folder-item .icon-arrow.is-opened[data-v-38f20d4e] {\n  transform: rotate(90deg);\n}\n.folder-item .label[data-v-38f20d4e] {\n  transition: 150ms all ease;\n  font-size: 0.8125em;\n  font-weight: 700;\n  vertical-align: middle;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: inline-block;\n  color: #1B2539;\n  max-width: 130px;\n}\n.folder-item:hover .icon path[data-v-38f20d4e], .folder-item:hover .icon line[data-v-38f20d4e], .folder-item:hover .icon polyline[data-v-38f20d4e], .folder-item:hover .icon rect[data-v-38f20d4e], .folder-item:hover .icon circle[data-v-38f20d4e], .folder-item.is-selected .icon path[data-v-38f20d4e], .folder-item.is-selected .icon line[data-v-38f20d4e], .folder-item.is-selected .icon polyline[data-v-38f20d4e], .folder-item.is-selected .icon rect[data-v-38f20d4e], .folder-item.is-selected .icon circle[data-v-38f20d4e] {\n  stroke: #0667B3;\n}\n.folder-item:hover .label[data-v-38f20d4e], .folder-item.is-selected .label[data-v-38f20d4e] {\n  color: #0667B3;\n}\n@media only screen and (max-width: 1024px) {\n.folder-item[data-v-38f20d4e] {\n    padding: 8px 0;\n}\n}\n@media (prefers-color-scheme: dark) {\n.folder-item .label[data-v-38f20d4e] {\n    color: #1B2539;\n}\n.folder-item[data-v-38f20d4e]:hover {\n    background: rgba(6, 103, 179, 0.1);\n}\n.folder-item.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n}\n@media (prefers-color-scheme: dark) and (max-width: 690px) {\n.folder-item[data-v-38f20d4e]:hover, .folder-item.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n}\n", ""]);
+exports.push([module.i, ".is-inactive[data-v-38f20d4e] {\n  opacity: 0.5;\n  pointer-events: none;\n}\n.is-dragenter[data-v-38f20d4e] {\n  border: 2px dashed #0667B3 !important;\n  border-radius: 8px;\n}\n.folder-item[data-v-38f20d4e] {\n  display: block;\n  padding: 8px 0;\n  transition: 150ms all ease;\n  cursor: pointer;\n  position: relative;\n  white-space: nowrap;\n  width: 100%;\n  border: 2px dashed transparent;\n}\n.folder-item .icon[data-v-38f20d4e] {\n  line-height: 0;\n  width: 15px;\n  margin-right: 9px;\n  vertical-align: middle;\n  margin-top: -1px;\n}\n.folder-item .icon path[data-v-38f20d4e],\n.folder-item .icon line[data-v-38f20d4e],\n.folder-item .icon polyline[data-v-38f20d4e],\n.folder-item .icon rect[data-v-38f20d4e],\n.folder-item .icon circle[data-v-38f20d4e] {\n  transition: 150ms all ease;\n}\n.folder-item .icon-arrow[data-v-38f20d4e] {\n  transition: 300ms all ease;\n  margin-right: 4px;\n  vertical-align: middle;\n  opacity: 0;\n}\n.folder-item .icon-arrow.is-visible[data-v-38f20d4e] {\n  opacity: 1;\n}\n.folder-item .icon-arrow.is-opened[data-v-38f20d4e] {\n  transform: rotate(90deg);\n}\n.folder-item .label[data-v-38f20d4e] {\n  transition: 150ms all ease;\n  font-size: 0.8125em;\n  font-weight: 700;\n  vertical-align: middle;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: inline-block;\n  color: #1B2539;\n  max-width: 130px;\n}\n.folder-item:hover .icon path[data-v-38f20d4e],\n.folder-item:hover .icon line[data-v-38f20d4e],\n.folder-item:hover .icon polyline[data-v-38f20d4e],\n.folder-item:hover .icon rect[data-v-38f20d4e],\n.folder-item:hover .icon circle[data-v-38f20d4e], .folder-item.is-selected .icon path[data-v-38f20d4e],\n.folder-item.is-selected .icon line[data-v-38f20d4e],\n.folder-item.is-selected .icon polyline[data-v-38f20d4e],\n.folder-item.is-selected .icon rect[data-v-38f20d4e],\n.folder-item.is-selected .icon circle[data-v-38f20d4e] {\n  stroke: #0667B3;\n}\n.folder-item:hover .label[data-v-38f20d4e], .folder-item.is-selected .label[data-v-38f20d4e] {\n  color: #0667B3;\n}\n@media only screen and (max-width: 1024px) {\n.folder-item[data-v-38f20d4e] {\n    padding: 8px 0;\n}\n}\n@media (prefers-color-scheme: dark) {\n.folder-item .label[data-v-38f20d4e] {\n    color: #1B2539;\n}\n.folder-item[data-v-38f20d4e]:hover {\n    background: rgba(6, 103, 179, 0.1);\n}\n.folder-item.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n}\n@media (prefers-color-scheme: dark) and (max-width: 690px) {\n.folder-item[data-v-38f20d4e]:hover, .folder-item.is-selected[data-v-38f20d4e] {\n    background: rgba(6, 103, 179, 0.1);\n}\n}\n", ""]);
 
 // exports
 

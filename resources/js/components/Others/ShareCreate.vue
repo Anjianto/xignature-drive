@@ -30,7 +30,7 @@
                     </TabOption>
 
                     <!-- share xiganture -->
-                    <TabOption :title="$t('Xignature')" icon="link">
+                    <TabOption v-if="isDoc" :title="$t('Xignature')" icon="link">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                             <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
                         </ValidationProvider>
@@ -41,7 +41,7 @@
                 <TabWrapper v-if="pickedItem.shared">
 
                     <!-- share xiganture -->
-                    <TabOption :selected="true" :title="$t('Xignature')" icon="link">
+                    <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link">
                         <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                             <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
                         </ValidationProvider>
@@ -155,6 +155,13 @@ export default {
             'permissionOptions',
             'expirationList'
         ]),
+        isDoc() {
+            const extesion = this.pickedItem.basename.split('.').pop()
+            if(extesion === 'doc' || extesion === 'docx' || extesion === 'pdf') {
+                return true
+            }
+            return false
+        },
         itemTypeTitle() {
             return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
         },
