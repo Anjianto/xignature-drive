@@ -52,5 +52,35 @@ export default {
 
     return this.client.post("/v1/auth/generateLtcToken", data);
   },
-  sign: (payload) => this.client.post("/v1/document/sign", payload),
+  sign({
+    otp,
+    token,
+    title,
+    reason,
+    signPage,
+    signPos: {
+      x, y,
+    },
+    shareToCustomer = true,
+    document
+  }) {
+
+    return this.client.post("/v1/document/sign", 
+      {
+        title,
+        reason,
+        signPage,
+        signPos: {
+          x, y,
+        },
+        shareDocumentToCustomer: shareToCustomer,
+        document
+      }, {
+        headers: {
+          "one-time-token": token,
+          otp: otp,
+        },
+      }
+    )
+  },
 };

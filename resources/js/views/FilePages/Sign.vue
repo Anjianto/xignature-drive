@@ -4,7 +4,7 @@
       <router-link to="/files" class="logo">
         <img src="/assets/images/logo.png" alt="Logo  " />
       </router-link>
-      <button class="btn-sign" @click="signDocument">Sign Document</button>
+      <button class="btn-sign" @click="checkSign">Sign Document</button>
     </header>
     <main>
       <div class="file-wrapper-preview">
@@ -35,6 +35,7 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
+    <OTPModal :open="isOTPModalOpen" @close="signDocument" />
   </div>
 </template>
 
@@ -51,7 +52,7 @@ import {
   convertDataURIToBinary,
 } from "@/utils";
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
-
+import OTPModal from "@/components/FilesView/OTPModal.vue";
 export default {
   name: "SignView",
   components: {
@@ -61,22 +62,48 @@ export default {
     SearchIcon,
     PlusIcon,
     MinusIcon,
+    OTPModal,
   },
   computed: {
-    fileUrl() {
+    filename() {
       const name = this.$route.params["fileId"];
-      const ext = this.$route.query["type"];
-      return "http://192.168.1.7:8000/file/" + name + "." + ext;
+      const ext = this.$route.query["type"];  
+      return  name + "." + ext;
+    },
+    fileUrl() {
+      return "http://192.168.1.7:8000/file/" + this.filename;
     },
   },
   methods: {
-    signDocument() {
-      // this.pdf64
+    signDocument(otp) {
+      this.isOTPModalOpen = false;
+      this.$store.dispatch("signDocument", {
+        file: this.pdf64,
+        page: this.numPages,
+        otp: otp,
+        title: this.filename,
+        signPos: this.signPos,
+        reason: "Acceptance",
+      });
     },
     setPageNumber(sum) {
       if (this.numPages !== 0) {
         this.numPages = sum;
       }
+    },
+
+    setSignPosition(pdfDoc) {
+      // Get the last page of the document
+      const pages = pdfDoc.getPages();
+      const firstPage = pages[pages.length - 1];
+
+      // Get the width and height of the first page
+      const { width, height } = firstPage.getSize();
+
+      this.signPos = {
+        x: width * 0.15,
+        y: height * 0.15,
+      };
     },
     async getPdf() {
       this.pdfdata = undefined;
@@ -89,6 +116,7 @@ export default {
       this.raw = pdfDoc;
       this.pdfbin = pdfbin;
       this.pdf64 = pdfdata;
+      this.setSignPosition(pdfDoc);
       this.pdfdata = pdfx.createLoadingTask(pdfbin);
       setTimeout(() => {
         this.$refs.pdfwrapper.addEventListener("scroll", (e) => {
@@ -101,11 +129,26 @@ export default {
 
           // get interpolated scroll percentage into range pages
           const page = Math.round((scrollPercent / 100) * this.numPages);
-          if(page !== this.currentIndex) {
+          if (page !== this.currentIndex && page <= this.numPages) {
             this.currentIndex = page;
           }
         });
       }, 1000);
+    },
+    checkSign() {
+      if (this.$store.getters.isLogged == false) {
+        this.$router.push("/login");
+      } else if (!this.$store.getters.token) {
+        this.$router.push({
+          name: "Profile",
+          query: {
+            create_signature: true,
+            msg: "Please create a signature",
+            redirect: this.$route.fullPath,
+          },
+        });
+      }
+      this.isOTPModalOpen = true;
     },
     getFilesForView() {
       let requestedFile = this.fileInfoDetail[0];
@@ -136,6 +179,8 @@ export default {
       pdfdata: undefined,
       pdfbin: undefined,
       pdf64: undefined,
+      signPos: undefined,
+      isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,
       raw: undefined,

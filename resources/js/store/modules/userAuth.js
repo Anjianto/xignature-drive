@@ -104,13 +104,20 @@ const actions = {
                             token,
                             expiresDate,
                         })
+                        events.$emit('toaster', {
+                            type: 'success',
+                            message: 'signature has been generated',
+                        })
                       }
                     resolve(response)
                 })
                 .catch((error) => {
-                    console.log(typeof error);
-                    if(error.response.status === 500) {
-                        dispatch('genAuthToken')
+                    if(error.response.status >= 500) {
+                        events.$emit("alert:open", {
+                            emoji: "🤔",
+                            title: "Server Error",
+                            message: "Please retry later, or wait for a while",
+                          });
                     }
                     else if(error.response.status >= 400) {
                         events.$emit("alert:open", {
@@ -122,6 +129,45 @@ const actions = {
                     reject(error)
                 })
         })
+    },
+    signDocument({commit, getters, dispatch}, { title, signPos, reason, file, page, otp }) {
+        
+        return new Promise((resolve, reject) => {
+            client
+                .sign({
+                    otp,
+                    title,
+                    reason,
+                    signPage: page,
+                    signPos: signPos,
+                    document: file,
+                    token: getters.token,
+                }).then(({data}) => {
+                    if(data.statusCode === 201) {
+                        events.$emit('toaster', {
+                            type: 'success',
+                            message: 'signature has been generated',
+                        });
+                        commit("SET_DOCUMENT", data.data)
+                        resolve(data)
+                    }
+                }).catch((error) => {
+                    if(error.response.status >= 500) {
+                        events.$emit("alert:open", {
+                        title: "Server Error",
+                        message: "Please retry later, or wait for a while",    
+                        });
+                    } 
+                    else if(error.response.statusCode >= 400) {
+                        events.$emit("alert:open", {
+                            emoji: "🤔",
+                            title: error.response.data.error,
+                            message: error.response.data.message,
+                            });
+                    }
+                    reject(error)
+                });
+        });
     },
     useToken: ({commit, getters}, payload) => {
         const { token, expiresDate } = payload;
@@ -209,11 +255,20 @@ const mutations = {
         })
     })
     },
+    SET_DOCUMENT(state, payload) {
+        state.user.document = payload
+    },
     SET_TOKEN(state, payload) {
         state.user.data.attributes = {
             ...state.user.data.attributes,
             ...payload.token,
         }
+    },
+    SET_OTP(state, {otp}) {
+        state.user.data.attributes.otp = otp
+    },
+    CLEAN_OTP(state) {
+        state.user.data.attributes.otp = ''
     },
     UPDATE_NAME(state, name) {
         state.user.data.attributes.name = name
@@ -254,6 +309,8 @@ const getters = {
     isGuest: state => ! state.authorized,
     isLogged: state => state.authorized,
     user: state => state.user,
+    otp: state => state.user ? state.user.data.attributes.otp : '',
+    token: state => state.user ? state.user.data.attributes.token : '',
 }
 
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <div class="otp-modal" v-if="isOTP">
+  <div class="otp-modal" v-if="open">
     <div class="otp-overlay"></div>
 
     <div class="otp">
@@ -49,7 +49,7 @@ import ButtonBase from "@/components/FilesView/ButtonBase";
 export default {
   name: "OTPModal",
   props: {
-    isOO: {
+    open: {
       type: Boolean,
       default: false,
     },
@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      otp: null,
+      otp: "",
     };
   },
   computed: {
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     closeOTP() {
-      console.log("close");
+      this.$emit("close", this.otp);
       this.$store.dispatch("closeOTP");
     },
     onSubmit() {

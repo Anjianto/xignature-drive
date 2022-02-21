@@ -20,6 +20,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/bus */ "./resources/js/bus.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/utils */ "./resources/js/utils.js");
 /* harmony import */ var pdf_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! pdf-lib */ "./node_modules/pdf-lib/es/index.js");
+/* harmony import */ var _components_FilesView_OTPModal_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/FilesView/OTPModal.vue */ "./resources/js/components/FilesView/OTPModal.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -66,6 +67,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+
 
 
 
@@ -82,22 +85,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     pdfx: vue_pdf__WEBPACK_IMPORTED_MODULE_3__["default"],
     SearchIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["SearchIcon"],
     PlusIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["PlusIcon"],
-    MinusIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["MinusIcon"]
+    MinusIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_5__["MinusIcon"],
+    OTPModal: _components_FilesView_OTPModal_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   computed: {
-    fileUrl: function fileUrl() {
+    filename: function filename() {
       var name = this.$route.params["fileId"];
       var ext = this.$route.query["type"];
-      return "http://192.168.1.7:8000/file/" + name + "." + ext;
+      return name + "." + ext;
+    },
+    fileUrl: function fileUrl() {
+      return "http://192.168.1.7:8000/file/" + this.filename;
     }
   },
   methods: {
-    signDocument: function signDocument() {// this.pdf64
+    signDocument: function signDocument(otp) {
+      this.isOTPModalOpen = false;
+      this.$store.dispatch("signDocument", {
+        file: this.pdf64,
+        page: this.numPages,
+        otp: otp,
+        title: this.filename,
+        signPos: this.signPos,
+        reason: "Acceptance"
+      });
     },
     setPageNumber: function setPageNumber(sum) {
       if (this.numPages !== 0) {
         this.numPages = sum;
       }
+    },
+    setSignPosition: function setSignPosition(pdfDoc) {
+      // Get the last page of the document
+      var pages = pdfDoc.getPages();
+      var firstPage = pages[pages.length - 1]; // Get the width and height of the first page
+
+      var _firstPage$getSize = firstPage.getSize(),
+          width = _firstPage$getSize.width,
+          height = _firstPage$getSize.height;
+
+      this.signPos = {
+        x: width * 0.15,
+        y: height * 0.15
+      };
     },
     getPdf: function getPdf() {
       var _this = this;
@@ -130,6 +160,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.raw = pdfDoc;
                 _this.pdfbin = pdfbin;
                 _this.pdf64 = pdfdata;
+
+                _this.setSignPosition(pdfDoc);
+
                 _this.pdfdata = vue_pdf__WEBPACK_IMPORTED_MODULE_3__["default"].createLoadingTask(pdfbin);
                 setTimeout(function () {
                   _this.$refs.pdfwrapper.addEventListener("scroll", function (e) {
@@ -142,19 +175,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     var page = Math.round(scrollPercent / 100 * _this.numPages);
 
-                    if (page !== _this.currentIndex) {
+                    if (page !== _this.currentIndex && page <= _this.numPages) {
                       _this.currentIndex = page;
                     }
                   });
                 }, 1000);
 
-              case 18:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    checkSign: function checkSign() {
+      if (this.$store.getters.isLogged == false) {
+        this.$router.push("/login");
+      } else if (!this.$store.getters.token) {
+        this.$router.push({
+          name: "Profile",
+          query: {
+            create_signature: true,
+            msg: "Please create a signature",
+            redirect: this.$route.fullPath
+          }
+        });
+      }
+
+      this.isOTPModalOpen = true;
     },
     getFilesForView: function getFilesForView() {
       var _this2 = this;
@@ -185,6 +234,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       pdfdata: undefined,
       pdfbin: undefined,
       pdf64: undefined,
+      signPos: undefined,
+      isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,
       raw: undefined,
@@ -279,92 +330,102 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "sign-wrapper" }, [
-    _c(
-      "header",
-      { staticClass: "header" },
-      [
-        _c("router-link", { staticClass: "logo", attrs: { to: "/files" } }, [
-          _c("img", {
-            attrs: { src: "/assets/images/logo.png", alt: "Logo  " },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn-sign", on: { click: _vm.signDocument } },
-          [_vm._v("Sign Document")]
-        ),
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("main", [
-      _c("div", { staticClass: "file-wrapper-preview" }, [
-        _c(
-          "div",
-          {
-            ref: "pdfwrapper",
-            style: { width: _vm.documentSize + "%" },
-            attrs: { id: "pdf-wrapper" },
-          },
-          [
-            _vm._l(_vm.numPages, function (i, k) {
-              return _c(
-                "div",
-                { key: k, staticStyle: { "margin-bottom": "16px" } },
-                [_c("pdfx", { attrs: { src: _vm.pdfdata, page: i } })],
-                1
-              )
+  return _c(
+    "div",
+    { staticClass: "sign-wrapper" },
+    [
+      _c(
+        "header",
+        { staticClass: "header" },
+        [
+          _c("router-link", { staticClass: "logo", attrs: { to: "/files" } }, [
+            _c("img", {
+              attrs: { src: "/assets/images/logo.png", alt: "Logo  " },
             }),
-            _vm._v(" "),
-            _c("div", { staticClass: "utilities" }, [
-              _c("p", [
-                _vm._v(
-                  "Page " +
-                    _vm._s(_vm.currentIndex + 1) +
-                    " / " +
-                    _vm._s(_vm.numPages)
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn-sign", on: { click: _vm.checkSign } },
+            [_vm._v("Sign Document")]
+          ),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("main", [
+        _c("div", { staticClass: "file-wrapper-preview" }, [
+          _c(
+            "div",
+            {
+              ref: "pdfwrapper",
+              style: { width: _vm.documentSize + "%" },
+              attrs: { id: "pdf-wrapper" },
+            },
+            [
+              _vm._l(_vm.numPages, function (i, k) {
+                return _c(
+                  "div",
+                  { key: k, staticStyle: { "margin-bottom": "16px" } },
+                  [_c("pdfx", { attrs: { src: _vm.pdfdata, page: i } })],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "utilities" }, [
+                _c("p", [
+                  _vm._v(
+                    "Page " +
+                      _vm._s(_vm.currentIndex + 1) +
+                      " / " +
+                      _vm._s(_vm.numPages)
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "zoom" },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-zoom-out",
+                        on: { click: _vm.decreaseSizeOfPDF },
+                      },
+                      [_c("minus-icon", { attrs: { size: "1x" } })],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("search-icon", { attrs: { size: "1.2x" } }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-zoom-in",
+                        on: { click: _vm.increaseSizeOfPDF },
+                      },
+                      [_c("plus-icon", { attrs: { size: "1x" } })],
+                      1
+                    ),
+                  ],
+                  1
                 ),
               ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "zoom" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn-zoom-out",
-                      on: { click: _vm.decreaseSizeOfPDF },
-                    },
-                    [_c("minus-icon", { attrs: { size: "1x" } })],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("search-icon", { attrs: { size: "1.2x" } }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn-zoom-in",
-                      on: { click: _vm.increaseSizeOfPDF },
-                    },
-                    [_c("plus-icon", { attrs: { size: "1x" } })],
-                    1
-                  ),
-                ],
-                1
-              ),
-            ]),
-          ],
-          2
-        ),
+            ],
+            2
+          ),
+        ]),
       ]),
-    ]),
-    _vm._v(" "),
-    _vm._m(0),
-  ])
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("OTPModal", {
+        attrs: { open: _vm.isOTPModalOpen },
+        on: { close: _vm.signDocument },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function () {
