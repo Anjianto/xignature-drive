@@ -405,6 +405,6 @@ class User extends Authenticatable
      */
     public function signatures()
     {
-        return $this->hasMany(Signature::class);
+        return $this->hasMany(Signatures::class);
     }
 }
