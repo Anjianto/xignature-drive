@@ -9,7 +9,10 @@
         v-if="icon === 'download'"
         size="17"
       ></download-cloud-icon>
-      <edit2-icon v-if="icon === 'rename'" size="17"></edit2-icon>
+      <edit2-icon
+        v-if="icon === 'rename' || icon === 'edit'"
+        size="17"
+      ></edit2-icon>
       <corner-down-right-icon
         v-if="icon === 'move-item'"
         size="17"

@@ -58,29 +58,29 @@ export default {
     title,
     reason,
     signPage,
-    signPos: {
-      x, y,
-    },
+    signPos: { x, y },
     shareToCustomer = true,
-    document
+    document,
   }) {
-
-    return this.client.post("/v1/document/sign", 
+    return this.client.post(
+      "/v1/document/sign",
       {
         title,
         reason,
         signPage,
         signPos: {
-          x, y,
+          x,
+          y,
         },
         shareDocumentToCustomer: shareToCustomer,
-        document
-      }, {
+        document,
+      },
+      {
         headers: {
           "one-time-token": token,
           otp: otp,
         },
       }
-    )
+    );
   },
 };

@@ -73,7 +73,7 @@ export default {
       this.$store.dispatch("closeOTP");
     },
     onSubmit() {
-      this.$store.dispatch("setOTP", this.otp);
+      this.$store.dispatch("setOTP", parseInt(this.otp));
       this.closeOTP();
     },
   },

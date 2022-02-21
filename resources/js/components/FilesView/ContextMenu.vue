@@ -85,6 +85,7 @@
           :title="$t('context_menu.detail')"
           icon="detail"
         />
+        <Option @click.native="fileEditor" title="Edit" icon="edit" />
         <Option
           @click.native="downloadItem"
           v-if="!isFolder"
@@ -182,6 +183,7 @@
           :title="$t('context_menu.detail')"
           icon="detail"
         />
+        <Option @click.native="fileEditor" title="Edit" icon="edit" />
         <Option
           @click.native="downloadItem"
           v-if="!isFolder"
@@ -321,6 +323,7 @@
           :title="$t('context_menu.detail')"
           icon="detail"
         />
+        <Option @click.native="fileEditor" title="Edit" icon="edit" />
         <Option
           @click.native="downloadItem"
           v-if="!isFolder"
@@ -424,6 +427,7 @@
           :title="$t('context_menu.detail')"
           icon="detail"
         />
+        <Option @click.native="fileEditor" title="Edit" icon="edit" />
         <Option
           @click.native="downloadItem"
           v-if="!isFolder"
@@ -479,6 +483,7 @@
           :title="$t('context_menu.detail')"
           icon="detail"
         />
+        <Option @click.native="fileEditor" title="Edit" icon="edit" />
         <Option
           @click.native="downloadItem"
           v-if="!isFolder"
@@ -592,6 +597,12 @@ export default {
   },
 
   methods: {
+    fileEditor() {
+      if (this.item.mimetype === "pdf") {
+        this.$store.dispatch("addFileInfoDetail", this.item);
+        events.$emit("filePDFEditor:show", true);
+      }
+    },
     downloadFolder() {
       this.$store.dispatch("downloadFolder", this.item);
     },

@@ -68,8 +68,8 @@ export default {
   computed: {
     filename() {
       const name = this.$route.params["fileId"];
-      const ext = this.$route.query["type"];  
-      return  name + "." + ext;
+      const ext = this.$route.query["type"];
+      return name + "." + ext;
     },
     fileUrl() {
       // get host of current website
@@ -144,7 +144,7 @@ export default {
           name: "SignUp",
           query: {
             ref: this.$route.name,
-          }
+          },
         });
       } else if (!this.$store.getters.token) {
         this.$router.push({

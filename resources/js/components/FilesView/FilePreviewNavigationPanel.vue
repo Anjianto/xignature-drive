@@ -48,12 +48,6 @@
         </div>
         <div class="navigation-tool-wrapper">
           <ToolbarButton
-            @click.native="signItem"
-            class="mobile-hide btn-sign"
-            source="sign"
-            :action="$t('actions.sign')"
-          />
-          <ToolbarButton
             @click.native="downloadItem"
             class="mobile-hide"
             source="download"
