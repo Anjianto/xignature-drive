@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/thumbnail/{name}', 'FileAccessController@get_thumbnail')->name('thumbnail');
     Route::get('/file/{name}', 'FileAccessController@get_file')->name('file');
     Route::get('/zip/{id}', 'FileAccessController@get_zip')->name('zip');
-    Route::get('sign/{filename}', 'FileAccessController@sign_file');
+    // Route::get('/sign/{filename}', 'FileAccessController@sign_file');
 });
 
 // Get user invoice
@@ -59,4 +59,5 @@ if( Crawler::isCrawler()) {
 } else {
     Route::get('/shared/{token}', 'Sharing\FileSharingController@index');
 }
+Route::get('/shared/sign/{token}', 'Sharing\FileSharingController@sign');
 Route::get('/{any?}', 'AppFunctionsController@index')->where('any', '.*');

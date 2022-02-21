@@ -192,15 +192,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     checkSign: function checkSign() {
-      if (this.$store.getters.isLogged == false) {
-        this.$router.push("/login");
+      if (this.$store.getters.isLogged === undefined) {
+        this.$router.push({
+          name: "SignUp",
+          query: {
+            ref: this.$route.name
+          }
+        });
       } else if (!this.$store.getters.token) {
         this.$router.push({
           name: "Profile",
           query: {
             create_signature: true,
             msg: "Please create a signature",
-            redirect: this.$route.fullPath
+            redirect: window.location.href
           }
         });
       }

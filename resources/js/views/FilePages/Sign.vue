@@ -53,6 +53,7 @@ import {
 } from "@/utils";
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import OTPModal from "@/components/FilesView/OTPModal.vue";
+
 export default {
   name: "SignView",
   components: {
@@ -138,15 +139,20 @@ export default {
       }, 1000);
     },
     checkSign() {
-      if (this.$store.getters.isLogged == false) {
-        this.$router.push("/login");
+      if (this.$store.getters.isLogged === undefined) {
+        this.$router.push({
+          name: "SignUp",
+          query: {
+            ref: this.$route.name,
+          }
+        });
       } else if (!this.$store.getters.token) {
         this.$router.push({
           name: "Profile",
           query: {
             create_signature: true,
             msg: "Please create a signature",
-            redirect: this.$route.fullPath,
+            redirect: window.location.href,
           },
         });
       }
