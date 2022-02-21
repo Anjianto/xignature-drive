@@ -6,21 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="description" content="{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
 
-    <title>{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}</title>
+    <title>{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}</title>
 
     {{--StyleSheet--}}
     <link href="{{ asset('css/app.css') }}?v={{ get_version() }}" rel="stylesheet">
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
+    <meta property="og:title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }} | {{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
     <meta property="og:description" content="{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : __t('app_description') }}">
     <meta property="og:image" content="{{ asset('assets/images/xignature-screenshot-light.png') }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <meta name="apple-mobile-web-app-title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
+    <meta name="apple-mobile-web-app-title" content="{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}">
 
     {{--Icons--}}
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('assets/images/app-icon.png') }}">
@@ -41,7 +41,7 @@
             locale: '{{ app()->getLocale() }}',
 			language: '{{ isset($settings->language) && $settings->language ? $settings->language : 'en' }}',
 
-			app_name: '{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}',
+			app_name: '{{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}',
             app_description: '{{ isset($settings->app_description) && $settings->app_description ? $settings->app_description : 'Your self-hosted storage cloud software powered by Laravel and Vue' }}',
             app_footer: '{!! isset($settings->footer_content) && $settings->footer_content ? $settings->footer_content : null !!}',
 
