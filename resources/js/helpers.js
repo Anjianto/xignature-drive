@@ -4,6 +4,7 @@ import { debounce, includes, isArray } from "lodash";
 import { events } from "./bus";
 import axios from "axios";
 import router from "@/router";
+import { ALLOWED_EXTENSIONS } from "./variables";
 
 const Helpers = {
   install(Vue) {
@@ -125,13 +126,21 @@ const Helpers = {
       // Prevent submit empty files
       if (event.dataTransfer.items.length === 0) return;
 
+      let allowed_file = true;
+
       // Push items to file queue
       [...event.dataTransfer.items].map((item) => {
+        if (!Object.values(ALLOWED_EXTENSIONS).includes(item.type)) {
+          allowed_file = false;
+          return;
+        }
         this.$store.commit("ADD_FILES_TO_QUEUE", {
           parent_id: parent_id,
           file: item.getAsFile(),
         });
       });
+
+      if (!allowed_file) return;
 
       // Start uploading if uploading process isn't running
       if (this.$store.getters.filesInQueueTotal == 0)

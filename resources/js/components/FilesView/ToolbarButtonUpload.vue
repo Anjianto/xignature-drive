@@ -8,16 +8,23 @@
       type="file"
       name="files[]"
       multiple
+      :accept="Object.values(ALLOWED_EXTENSIONS).join(', ')"
     />
   </label>
 </template>
 
 <script>
 import { UploadCloudIcon } from "vue-feather-icons";
+import { ALLOWED_EXTENSIONS } from "@/variables";
 
 export default {
   name: "ToolbarButtonUpload",
   props: ["action"],
+  data() {
+    return {
+      ALLOWED_EXTENSIONS,
+    };
+  },
   components: {
     UploadCloudIcon,
   },

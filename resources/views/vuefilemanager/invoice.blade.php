@@ -36,9 +36,9 @@
         <div class="logo">
             @if(isset($settings->app_logo_horizontal))
                 <img src="{{ url($settings->app_logo_horizontal) }}"
-                     alt="{{ $settings->app_title ?? 'VueFileManager' }}">
+                     alt="{{ $settings->app_title ?? 'Xignature Drive' }}">
             @else
-                <h1>{{ $settings->app_title ?? 'VueFileManager' }}</h1>
+                <h1>{{ $settings->app_title ?? 'Xignature Drive' }}</h1>
             @endif
         </div>
         <div class="title">

@@ -565,7 +565,7 @@ class SetupWizardController extends Controller
         // Create Password grant client
         Artisan::call('passport:client', [
             '--password' => true,
-            '--name'     => 'vuefilemanager',
+            '--name'     => 'Xignature Drive',
         ]);
 
         // Create Personal access client
@@ -575,7 +575,7 @@ class SetupWizardController extends Controller
         ]);
 
         // Get generated client
-        $client = \DB::table('oauth_clients')->where('name', '=', 'vuefilemanager')->first();
+        $client = \DB::table('oauth_clients')->where('name', '=', 'Xignature Drive')->first();
 
         // Set passport client to .env
         setEnvironmentValue([

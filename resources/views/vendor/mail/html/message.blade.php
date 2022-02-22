@@ -3,7 +3,7 @@
 {{-- Header --}}
 @slot('header')
 @component('mail::header', ['url' => url('/')])
-{{ get_setting('app_title') ?? 'VueFileManager' }}
+{{ get_setting('app_title') ?? 'Xignature Drive' }}
 @endcomponent
 @endslot
 
@@ -22,7 +22,7 @@
 {{-- Footer --}}
 @slot('footer')
 @component('mail::footer')
-© {{ date('Y') }} {{ get_setting('app_title') ?? 'VueFileManager' }}. @lang('All rights reserved.')
+© {{ date('Y') }} {{ get_setting('app_title') ?? 'Xignature Drive' }}. @lang('All rights reserved.')
 @endcomponent
 @endslot
 @endcomponent
