@@ -128,6 +128,12 @@
             />
           </div>
         </div>
+
+        <div style="display: flex; justify-content: center">
+          <div>
+            <ButtonBase class="btn btn-primary"> Complete Profile </ButtonBase>
+          </div>
+        </div>
       </div>
     </PageTabGroup>
 
@@ -305,7 +311,7 @@ import { required } from "vee-validate/dist/rules";
 import { events } from "@/bus";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
-import Button from "@/components/Others/Button";	
+import Button from "@/components/Others/Button";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
@@ -328,16 +334,16 @@ export default {
     PageTab,
   },
   mounted() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const preReg = urlParams.get("create_signature");
-  if (preReg) {
-    events.$emit("alert:open", {
+    const urlParams = new URLSearchParams(window.location.search);
+    const preReg = urlParams.get("create_signature");
+    if (preReg) {
+      events.$emit("alert:open", {
         emoji: "🤔",
         title: "Signature Empty",
         message: "Please fill profile to sign document.",
         type: "info",
       });
-    this.$router.push({'name': 'Profile'});
+      this.$router.push({ name: "Profile" });
     }
   },
   computed: {

@@ -97,11 +97,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     filename: function filename() {
       var name = this.$route.params["fileId"];
-      var ext = this.$route.query["type"];
-      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set('fileName', name, {
+      var ext = this.$route.query["type"] || this.$route.query["ext"];
+      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set("fileName", name, {
         expires: 1
       });
-      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set('fileExt', ext, {
+      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set("fileExt", ext, {
         expires: 1
       });
       return name + "." + ext;
@@ -204,14 +204,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     checkSign: function checkSign() {
-      if (Object(lodash__WEBPACK_IMPORTED_MODULE_11__["isUndefined"])(this.$store.getters.token)) {
+      if (Object(lodash__WEBPACK_IMPORTED_MODULE_11__["isUndefined"])(this.$store.getters.isLogged === false)) {
+        _bus__WEBPACK_IMPORTED_MODULE_6__["events"].$emit("toaster", {
+          type: "danger",
+          message: "create an account to sign documents"
+        });
         this.$router.push({
           name: "SignUp",
           query: {
             ref: this.$route.name
           }
         });
-      } else if (!this.$store.getters.token) {
+      } else if (!this.$store.getters.isProfileFilled) {
+        _bus__WEBPACK_IMPORTED_MODULE_6__["events"].$emit("toaster", {
+          type: "danger",
+          message: "please fill your profile first"
+        });
         this.$router.push({
           name: "Profile",
           query: {
@@ -219,8 +227,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             redirect: window.location.href
           }
         });
-      }
+      } // send otp token
 
+
+      this.$store.dispatch("genSignToken");
       this.isOTPModalOpen = true;
     },
     getFilesForView: function getFilesForView() {

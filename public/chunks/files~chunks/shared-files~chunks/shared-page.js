@@ -9,6 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _variables__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/variables */ "./resources/js/variables/index.js");
 //
 //
 //
@@ -24,12 +25,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ButtonBase',
-  props: ['buttonStyle'],
+  name: "ButtonBase",
+  props: ["buttonStyle"],
   data: function data() {
     return {
-      files: undefined
+      files: undefined,
+      ALLOWED_EXTENSIONS: _variables__WEBPACK_IMPORTED_MODULE_0__["ALLOWED_EXTENSIONS"]
     };
   },
   methods: {
@@ -3257,6 +3264,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-feather-icons */ "./node_modules/vue-feather-icons/dist/vue-feather-icons.es.js");
+/* harmony import */ var _variables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/variables */ "./resources/js/variables/index.js");
+//
 //
 //
 //
@@ -3272,9 +3281,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ToolbarButtonUpload",
   props: ["action"],
+  data: function data() {
+    return {
+      ALLOWED_EXTENSIONS: _variables__WEBPACK_IMPORTED_MODULE_1__["ALLOWED_EXTENSIONS"]
+    };
+  },
   components: {
     UploadCloudIcon: vue_feather_icons__WEBPACK_IMPORTED_MODULE_0__["UploadCloudIcon"]
   },
@@ -4515,11 +4530,11 @@ var render = function () {
           },
         ],
         attrs: {
-          accept: "*",
           id: "file",
           type: "file",
           name: "files[]",
           multiple: "",
+          accept: Object.values(_vm.ALLOWED_EXTENSIONS).join(", "),
         },
         on: { change: _vm.emmitFiles },
       }),
@@ -7918,7 +7933,13 @@ var render = function () {
             expression: "false",
           },
         ],
-        attrs: { id: "file", type: "file", name: "files[]", multiple: "" },
+        attrs: {
+          id: "file",
+          type: "file",
+          name: "files[]",
+          multiple: "",
+          accept: Object.values(_vm.ALLOWED_EXTENSIONS).join(", "),
+        },
         on: { change: _vm.emmitFiles },
       }),
     ],

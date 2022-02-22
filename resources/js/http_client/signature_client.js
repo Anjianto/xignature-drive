@@ -9,10 +9,13 @@ export const client = ({ base_url, key }) =>
     },
   });
 
+const baseUrl = "https://sandbox.xignature.co.id/";  
+const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
+
 export default {
   client: client({
-    base_url: "https://sandbox.xignature.co.id/",
-    key: "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B",
+    base_url: baseUrl,
+    key: key,
   }),
   loadDocuments(page, limit, doctype, status, search) {
     return this.client.post("/v1/document/list", {
@@ -29,13 +32,9 @@ export default {
       ? format(data.birthdate, "yyyy-MM-dd")
       : null;
     data = {
-      email: data.email,
-      fullname: data.fullname,
-      nik: data.nik,
-      selfie: data.selfie,
-      phone: data.phone,
-      birthplace: data.birthPlace,
-      birthdate: birthdate,
+      ...data,
+      birthdate,
+
     };
     return this.client.post("/v1/auth/generateToken", data);
   },
@@ -52,6 +51,9 @@ export default {
 
     return this.client.post("/v1/auth/generateLtcToken", data);
   },
+  getDoucmentURL(id) {
+    return `${baseUrl}/v1/document/download/${id}`;
+  },
   sign({
     otp,
     token,
@@ -64,7 +66,8 @@ export default {
     shareToCustomer = true,
     document
   }) {
-
+    const signType = "data:application/pdf;base64,";
+    const docData = document.slice(signType.length)
     return this.client.post("/v1/document/sign", 
       {
         title,
@@ -74,7 +77,7 @@ export default {
           x, y,
         },
         shareDocumentToCustomer: shareToCustomer,
-        document
+        document: docData,
       }, {
         headers: {
           "one-time-token": token,

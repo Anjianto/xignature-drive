@@ -9,6 +9,7 @@ const defaultState = {
     authorized: undefined,
     permission: 'master', // master | editor | visitor
     user: undefined,
+    token: undefined,
 }
 async function getBase64ImageFromUrl(imageUrl) {
     var res = await fetch(imageUrl);
@@ -30,6 +31,11 @@ const actions = {
     getAppData: ({commit, getters}) => {
 
         return new Promise((resolve, reject) => {
+            const token = Cookies.get('otp_token')
+            if(!!token) {
+                console.log('token', token)
+                commit('SET_TOKEN', {token})
+            }
             axios
                 .get(getters.api + '/user' + getters.sorting.URI)
                 .then((response) => {
@@ -85,7 +91,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             client
-                .genLTC({
+                .genOTP({
                     email: user.email,
                     fullname: user.name,
                     nik: user.nik,
@@ -157,7 +163,7 @@ const actions = {
                     if(data.statusCode === 201) {
                         events.$emit('toaster', {
                             type: 'success',
-                            message: 'signature has been generated',
+                            message: data.message,
                         });
                         commit("SET_DOCUMENT", data.data)
                         resolve(data)
@@ -266,14 +272,20 @@ const mutations = {
         })
     })
     },
-    SET_DOCUMENT(state, payload) {
-        state.user.document = payload
-    },
-    SET_TOKEN(state, payload) {
-        state.user.data.attributes = {
-            ...state.user.data.attributes,
-            ...payload.token,
+    SET_DOCUMENT(state, {
+        id,
+        title,
+        filename,
+        user: {
+          email,
+          fullname
         }
+    }) {
+        state.user.document = client.getDoucmentURL(id);
+    },
+    SET_TOKEN(state, {token, expiresDate}) {
+        Cookies.set('otp_token', token, { expires: 1 });
+        state.token = token
     },
     SET_OTP(state, {otp}) {
         state.user.data.attributes.otp = otp
@@ -318,17 +330,20 @@ const mutations = {
 const getters = {
     permission: state => state.permission,
     isGuest: state => ! state.authorized,
-    isLogged: state => state.authorized,
+    isLogged: state => !!state.user.data.id,
     user: state => state.user,
-    otp: state => state.user ? state.user.data.attributes.otp : '',
-    token(state) {
-        const token = state.user ? state.user.data.attributes.token : null;
-
-        if(token) {
-            return token.sign_token;
-        }
-        return undefined;
+    isProfileFilled: state => {
+        const data = ['ktp', 'selfie', 'birth_date', 'birth_place', 'nik', 'name', 'phone'];
+        let isFilled = true;
+        data.forEach(item => {
+            if(!state.user.data.attributes[item]) {
+                isFilled = false
+            }
+        })
+        return isFilled
     },
+    otp: state => state.user ? state.user.data.attributes.otp : '',
+    token: state => state.token,
 }
 
 export default {

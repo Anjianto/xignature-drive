@@ -386,13 +386,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1238,40 +1231,6 @@ var render = function () {
                                 1
                               )
                             : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticStyle: {
-                                display: "flex",
-                                "justify-content": "center",
-                              },
-                            },
-                            [
-                              _c(
-                                "div",
-                                { on: { click: _vm.genToken } },
-                                [
-                                  _c(
-                                    "ButtonBase",
-                                    { staticClass: "btn btn-primary" },
-                                    [
-                                      _vm._v(
-                                        "\n                " +
-                                          _vm._s(
-                                            _vm.token
-                                              ? "Recreate Signature"
-                                              : "Generate Signature"
-                                          ) +
-                                          "\n              "
-                                      ),
-                                    ]
-                                  ),
-                                ],
-                                1
-                              ),
-                            ]
-                          ),
                         ]),
                         _vm._v(" "),
                         _vm.canShowIncompletePayment

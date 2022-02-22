@@ -377,6 +377,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -423,7 +429,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: "info"
       });
       this.$router.push({
-        'name': 'Profile'
+        name: "Profile"
       });
     }
   },
@@ -1087,6 +1093,27 @@ var render = function () {
                     }),
                   ]),
                 ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      display: "flex",
+                      "justify-content": "center",
+                    },
+                  },
+                  [
+                    _c(
+                      "div",
+                      [
+                        _c("ButtonBase", { staticClass: "btn btn-primary" }, [
+                          _vm._v(" Complete Profile "),
+                        ]),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
               ],
               1
             ),

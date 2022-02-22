@@ -53,8 +53,8 @@ import {
 } from "@/utils";
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import OTPModal from "@/components/FilesView/OTPModal.vue";
-import Cookies from 'js-cookie'
-import {isUndefined} from 'lodash'
+import Cookies from "js-cookie";
+import { isUndefined } from "lodash";
 
 export default {
   name: "SignView",
@@ -70,10 +70,10 @@ export default {
   computed: {
     filename() {
       const name = this.$route.params["fileId"];
-      const ext = this.$route.query["type"];  
-      Cookies.set('fileName', name, { expires: 1 });
-      Cookies.set('fileExt', ext, { expires: 1 });
-      return  name + "." + ext;
+      const ext = this.$route.query["type"] || this.$route.query["ext"];
+      Cookies.set("fileName", name, { expires: 1 });
+      Cookies.set("fileExt", ext, { expires: 1 });
+      return name + "." + ext;
     },
     fileUrl() {
       // get host of current website
@@ -143,14 +143,22 @@ export default {
       }, 1000);
     },
     checkSign() {
-      if (isUndefined(this.$store.getters.token)) {
+      if (isUndefined(this.$store.getters.isLogged === false)) {
+        events.$emit("toaster", {
+          type: "danger",
+          message: "create an account to sign documents",
+        });
         this.$router.push({
           name: "SignUp",
           query: {
             ref: this.$route.name,
-          }
+          },
         });
-      } else if (!this.$store.getters.token) {
+      } else if (!this.$store.getters.isProfileFilled) {
+        events.$emit("toaster", {
+          type: "danger",
+          message: "please fill your profile first",
+        });
         this.$router.push({
           name: "Profile",
           query: {
@@ -159,6 +167,8 @@ export default {
           },
         });
       }
+      // send otp token
+      this.$store.dispatch("genSignToken");
       this.isOTPModalOpen = true;
     },
     getFilesForView() {
