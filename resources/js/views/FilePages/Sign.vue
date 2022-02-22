@@ -53,6 +53,8 @@ import {
 } from "@/utils";
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import OTPModal from "@/components/FilesView/OTPModal.vue";
+import Cookies from 'js-cookie'
+import {isUndefined} from 'lodash'
 
 export default {
   name: "SignView",
@@ -69,6 +71,8 @@ export default {
     filename() {
       const name = this.$route.params["fileId"];
       const ext = this.$route.query["type"];  
+      Cookies.set('fileName', name, { expires: 1 });
+      Cookies.set('fileExt', ext, { expires: 1 });
       return  name + "." + ext;
     },
     fileUrl() {
@@ -139,7 +143,7 @@ export default {
       }, 1000);
     },
     checkSign() {
-      if (this.$store.getters.isLogged === undefined) {
+      if (isUndefined(this.$store.getters.token)) {
         this.$router.push({
           name: "SignUp",
           query: {

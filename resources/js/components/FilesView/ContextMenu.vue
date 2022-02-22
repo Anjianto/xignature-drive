@@ -637,7 +637,7 @@ export default {
     },
     singleSignItem() {
       this.$store.dispatch("addFileInfoDetail", this.item);
-      const [name, ext] = this.item.basename.split(".");
+      const [_, name, ext] = new RegExp(/(^.*)\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/).exec(this.item.basename);
       this.$router.push({
         name: "Sign",
         params: {

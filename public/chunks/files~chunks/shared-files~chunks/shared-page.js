@@ -697,10 +697,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     singleSignItem: function singleSignItem() {
       this.$store.dispatch("addFileInfoDetail", this.item);
 
-      var _this$item$basename$s = this.item.basename.split("."),
-          _this$item$basename$s2 = _slicedToArray(_this$item$basename$s, 2),
-          name = _this$item$basename$s2[0],
-          ext = _this$item$basename$s2[1];
+      var _RegExp$exec = new RegExp(/(^.*)\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/).exec(this.item.basename),
+          _RegExp$exec2 = _slicedToArray(_RegExp$exec, 3),
+          _ = _RegExp$exec2[0],
+          name = _RegExp$exec2[1],
+          ext = _RegExp$exec2[2];
 
       this.$router.push({
         name: "Sign",

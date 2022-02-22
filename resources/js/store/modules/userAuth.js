@@ -3,6 +3,7 @@ import router from '@/router'
 import Vue from 'vue'
 import client from '@/http_client/signature_client'
 import { events } from '../../bus'
+import Cookies from "js-cookie";
 
 const defaultState = {
     authorized: undefined,
@@ -104,6 +105,16 @@ const actions = {
                             token,
                             expiresDate,
                         })
+                        await dispatch('getAppData');
+                        const fileName = Cookies.get('fileName');
+                        const fileExt = Cookies.get('fileExt');
+                        if (fileName && fileExt) {
+                            Cookies.remove('fileName');
+                            Cookies.remove('fileExt');
+                            router.push({ name: "Sign", params: { fileId: fileName }, query: { ext: fileExt } });
+                        } else {
+                            router.push({name: 'Files'});
+                        }
                         events.$emit('toaster', {
                             type: 'success',
                             message: 'signature has been generated',

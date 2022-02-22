@@ -21,6 +21,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/utils */ "./resources/js/utils.js");
 /* harmony import */ var pdf_lib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! pdf-lib */ "./node_modules/pdf-lib/es/index.js");
 /* harmony import */ var _components_FilesView_OTPModal_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/FilesView/OTPModal.vue */ "./resources/js/components/FilesView/OTPModal.vue");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/dist/js.cookie.js");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -77,6 +81,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SignView",
   components: {
@@ -92,6 +98,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     filename: function filename() {
       var name = this.$route.params["fileId"];
       var ext = this.$route.query["type"];
+      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set('fileName', name, {
+        expires: 1
+      });
+      js_cookie__WEBPACK_IMPORTED_MODULE_10___default.a.set('fileExt', ext, {
+        expires: 1
+      });
       return name + "." + ext;
     },
     fileUrl: function fileUrl() {
@@ -192,7 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     checkSign: function checkSign() {
-      if (this.$store.getters.isLogged === undefined) {
+      if (Object(lodash__WEBPACK_IMPORTED_MODULE_11__["isUndefined"])(this.$store.getters.token)) {
         this.$router.push({
           name: "SignUp",
           query: {
