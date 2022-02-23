@@ -17,7 +17,7 @@ class AdminCheck
     public function handle($request, Closure $next)
     {
         // Check if user have access to administration settings
-        if ( ! Gate::allows('admin-settings')) {
+        if (! Gate::allows('admin-settings')) {
             abort(403, 'You don\'t have access for this operation!');
         }
 

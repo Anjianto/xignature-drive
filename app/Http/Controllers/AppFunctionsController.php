@@ -84,7 +84,7 @@ class AppFunctionsController extends Controller
             // Get connection string
             if ($upgraded && $upgraded->value !== '1.7') {
                 $connection = 'quiet-update';
-            } else if (!$upgraded) {
+            } elseif (!$upgraded) {
                 $connection = 'quiet-update';
             } else {
                 $connection = $this->get_setup_status();
@@ -96,7 +96,6 @@ class AppFunctionsController extends Controller
             // Get legal pages
             $legal = Page::whereIn('slug', ['terms-of-service', 'privacy-policy', 'cookie-policy'])
                 ->get(['visibility', 'title', 'slug']);
-
         } catch (PDOException $e) {
             $connection = 'setup-database';
             $settings = null;
@@ -225,17 +224,20 @@ class AppFunctionsController extends Controller
         $column = $request->get('column');
 
         if (strpos($column, '|') !== false) {
-
             $columns = collect(explode('|', $column));
 
             $columns->each(function ($column) {
-                if (!in_array($column, $this->whitelist)) abort(401);
+                if (!in_array($column, $this->whitelist)) {
+                    abort(401);
+                }
             });
 
             return Setting::whereIn('name', $columns)->pluck('value', 'name');
         }
 
-        if (!in_array($column, $this->whitelist)) abort(401);
+        if (!in_array($column, $this->whitelist)) {
+            abort(401);
+        }
 
         return Setting::where('name', $column)->pluck('value', 'name');
     }
@@ -292,9 +294,7 @@ class AppFunctionsController extends Controller
             return $translations
                 ? map_language_translations($translations)
                 : get_default_language_translations();
-
         } catch (PDOException $e) {
-
             return get_default_language_translations();
         }
     }

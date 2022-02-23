@@ -5,16 +5,29 @@ namespace App\Http\Controllers;
 use App\Services\StripeService;
 use App\Setting;
 use App\User;
-use Illuminate\Http\Request;
 
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
+/**
+ * @group Webhook
+ *
+ * Class WebhookController
+ * @package App\Http\Controllers
+ */
 class WebhookController extends CashierController
 {
+    /**
+     * @var StripeService
+     */
     private $stripe;
 
+    /**
+     * WebhookController constructor.
+     * @param StripeService $stripe
+     */
     public function __construct(StripeService $stripe)
     {
+        parent::__construct();
         $this->stripe = $stripe;
     }
 

@@ -73,8 +73,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/contact', 'AppFunctionsController@contact_form');
     Route::get('/page/{slug}', 'AppFunctionsController@get_page');
     Route::get('/content', 'AppFunctionsController@get_settings');
-
-
 });
 
 // User master Routes

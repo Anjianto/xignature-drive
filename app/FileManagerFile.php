@@ -102,14 +102,16 @@ class FileManagerFile extends Model
     /**
      * @return false|string
      */
-    public function getNameAttribute() {
+    public function getNameAttribute()
+    {
         return utf8_encode($this->attributes['name']);
     }
 
     /**
      * @return false|string
      */
-    public function getBasenameAttribute() {
+    public function getBasenameAttribute()
+    {
         return utf8_encode($this->attributes['basename']);
     }
 
@@ -138,7 +140,9 @@ class FileManagerFile extends Model
      */
     public function getDeletedAtAttribute()
     {
-        if (!$this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) {
+            return null;
+        }
 
         return utf8_encode(
             format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'))
@@ -174,7 +178,6 @@ class FileManagerFile extends Model
     {
         // Get thumbnail from external storage
         if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-
             return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
         }
 
@@ -203,7 +206,6 @@ class FileManagerFile extends Model
     {
         // Get file from external storage
         if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-
             $file_pretty_name = is_storage_driver('backblaze')
                 ? Str::snake(mb_strtolower($this->attributes['name']))
                 : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);

@@ -21,7 +21,7 @@ class FavouriteController extends Controller
      * Add folder to user favourites
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return FileManagerFolder[]|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -31,24 +31,27 @@ class FavouriteController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
-
-        foreach($request->input('folders') as $item) {
-
-        // Get user & folder
-        $user = Auth::user();
-        $folder = FileManagerFolder::where('unique_id', $item['unique_id'])->first();
-
-        if (is_demo($user->id)) {
-            return Demo::favourites($user);
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
         }
 
-        // Check ownership
-        if ($folder->user_id !== $user->id) abort(403);
+        foreach ($request->input('folders') as $item) {
 
-        // Add folder to user favourites
-        $user->favourite_folders()->syncWithoutDetaching($item['unique_id']);
+        // Get user & folder
+            $user = Auth::user();
+            $folder = FileManagerFolder::where('unique_id', $item['unique_id'])->first();
 
+            if (is_demo($user->id)) {
+                return Demo::favourites($user);
+            }
+
+            // Check ownership
+            if ($folder->user_id !== $user->id) {
+                abort(403);
+            }
+
+            // Add folder to user favourites
+            $user->favourite_folders()->syncWithoutDetaching($item['unique_id']);
         }
         // Return updated favourites
         return $user->favourite_folders;
@@ -58,7 +61,7 @@ class FavouriteController extends Controller
      * Remove folder from user favourites
      *
      * @param $unique_id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return FileManagerFolder[]|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function destroy($unique_id)
     {

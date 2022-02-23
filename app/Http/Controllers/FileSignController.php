@@ -26,7 +26,8 @@ class FileSignController extends Controller
      */
     public function add_sign(Request $request)
     {
-        $user =  Auth::user();;
+        $user =  Auth::user();
+        ;
         $sign_token = $request->sign_token;
         $file_manager_file = $request->file_id;
 
@@ -54,7 +55,7 @@ class FileSignController extends Controller
         $token = $request->sign_token;
         $document_id = $request->document_id;
         $document = FileManagerFile::where('uid', $fileId)->first();
-        if(!$document) {
+        if (!$document) {
             return response()->json([
                 'statusCode' => 404,
                 'message' => 'Document not found.'
@@ -62,7 +63,7 @@ class FileSignController extends Controller
         }
         $signature = $document->signatures()->where('sign_token', $token)->where('user_id', $user)->first();
 
-        if(!$signature) {
+        if (!$signature) {
             return response()->json([
                 'statusCode' => 404,
                 'message' => 'Signature not found.'
@@ -70,8 +71,7 @@ class FileSignController extends Controller
         }
 
 
-        if($signature->document_id != null)
-        {
+        if ($signature->document_id != null) {
             return response()->json([
                 'statusCode' => 200,
                 'message' => 'Document Already Signed.',

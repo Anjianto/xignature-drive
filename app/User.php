@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Notifications\ResetPassword;
-use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,8 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
-use Lcobucci\JWT\Signature;
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
  * App\User
@@ -174,7 +171,6 @@ class User extends Authenticatable
 
         // Get user storage usage
         if (!$is_storage_limit) {
-
             return [
                 'used'           => $this->used_capacity,
                 'used_formatted' => Metric::bytes($this->used_capacity)->format(),
@@ -334,7 +330,8 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|null
      */
-    public function unused_signatures_token() {
+    public function unused_signatures_token()
+    {
         $token = Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first();
 
         if ($token) {

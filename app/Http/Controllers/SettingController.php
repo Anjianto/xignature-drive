@@ -29,7 +29,6 @@ class SettingController extends Controller
         $column = $request->get('column');
 
         if (strpos($column, '|') !== false) {
-
             $columns = explode('|', $column);
 
             return Setting::whereIn('name', $columns)->pluck('value', 'name');
@@ -109,7 +108,9 @@ class SettingController extends Controller
         $is_stripe = get_setting('payments_configured');
 
         // Check setup status
-        if ($is_stripe) abort(401, 'Gone');
+        if ($is_stripe) {
+            abort(401, 'Gone');
+        }
 
         // Create stripe instance
         $stripe = Stripe::make($request->secret, '2020-03-02');

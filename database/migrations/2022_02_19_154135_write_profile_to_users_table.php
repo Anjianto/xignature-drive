@@ -20,7 +20,6 @@ class WriteProfileToUsersTable extends Migration
             $table->string('birth_place', 50)->nullable();
             $table->string('ktp', 191)->nullable();
             $table->string('selfie', 191)->nullable();
-
         });
     }
 

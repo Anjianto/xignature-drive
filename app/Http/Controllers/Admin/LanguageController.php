@@ -31,7 +31,8 @@ class LanguageController extends Controller
     public function get_languages()
     {
         return response(
-            new LanguageCollection(Language::sortable(['created_at', 'DESC'])->get()), 200
+            new LanguageCollection(Language::sortable(['created_at', 'DESC'])->get()),
+            200
         );
     }
 
@@ -43,7 +44,8 @@ class LanguageController extends Controller
     public function get_language(Language $language)
     {
         return response(
-            new LanguageResource($language), 200
+            new LanguageResource($language),
+            200
         );
     }
 
@@ -92,7 +94,8 @@ class LanguageController extends Controller
         }
 
         return response(
-            new LanguageResource($language), 201
+            new LanguageResource($language),
+            201
         );
     }
 
@@ -110,7 +113,8 @@ class LanguageController extends Controller
         $language->update(make_single_input($request));
 
         return response(
-            new LanguageResource($language), 201
+            new LanguageResource($language),
+            201
         );
     }
 
@@ -136,7 +140,8 @@ class LanguageController extends Controller
         cache()->forget("language-translations-{$language->locale}");
 
         return response(
-            'Done', 204
+            'Done',
+            204
         );
     }
 
@@ -165,7 +170,8 @@ class LanguageController extends Controller
         $language->delete();
 
         return response(
-            'Done', 204
+            'Done',
+            204
         );
     }
 }

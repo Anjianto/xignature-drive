@@ -24,6 +24,7 @@ class AccountController extends Controller
     /**
      * Get all user data to frontend
      *
+     * @
      * @return UserResource
      */
     public function user()
@@ -50,7 +51,8 @@ class AccountController extends Controller
      *
      * @return InvoiceCollection
      */
-    public function invoices() {
+    public function invoices()
+    {
         return new InvoiceCollection(
             Auth::user()->invoices()
         );
@@ -72,7 +74,9 @@ class AccountController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user
         $user = Auth::user();
@@ -90,19 +94,15 @@ class AccountController extends Controller
 
             // Update data
             $user->update(['avatar' => $avatar]);
-
-        } 
-        else if($request->hasFile('ktp')) {
+        } elseif ($request->hasFile('ktp')) {
             $ktp = store_system_image($request->file('ktp'), 'ktp');
 
             $user->update(['ktp' => $ktp]);
-        }
-        else if($request->hasFile('selfie')) {
+        } elseif ($request->hasFile('selfie')) {
             $ktp = store_system_image($request->file('selfie'), 'selfie');
     
             $user->update(['selfie' => $ktp]);
-        }
-        else {
+        } else {
             // Update text data
             $user->update(make_single_input($request));
         }
@@ -125,7 +125,9 @@ class AccountController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user
         $user = Auth::user();

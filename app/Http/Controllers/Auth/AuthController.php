@@ -32,10 +32,12 @@ class AuthController extends Controller
         $user = User::where('email', $request->input('email'))->select(['name', 'avatar'])->first();
 
         // Return user info
-        if ($user) return [
+        if ($user) {
+            return [
             'name'   => $user->name,
             'avatar' => $user->avatar,
         ];
+        }
 
         // Abort with 404, user not found
         return abort('404', __t('user_not_fount'));
@@ -52,7 +54,6 @@ class AuthController extends Controller
         $response = Route::dispatch(self::make_login_request($request));
 
         if ($response->isSuccessful()) {
-
             $data = json_decode($response->content(), true);
 
             return response('Login Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
@@ -72,13 +73,20 @@ class AuthController extends Controller
         $settings = Setting::whereIn('name', ['storage_default', 'registration'])->pluck('value', 'name');
 
         // Check if account registration is enabled
-        if (! intval($settings['registration'])) abort(401);
+        if (! intval($settings['registration'])) {
+            abort(401);
+        }
 
         // Validate request
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phone' => ['required', 'string'],
+            'nik' => ['numeric'],
+            'ktp' => ['required', 'image'],
+            'selfie' => ['required', 'image'],
+            'birth_date' => ['required', 'date']
         ]);
 
         // Create user
@@ -97,7 +105,6 @@ class AuthController extends Controller
         $response = Route::dispatch(self::make_login_request($request));
 
         if ($response->isSuccessful()) {
-
             $data = json_decode($response->content(), true);
 
             return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);

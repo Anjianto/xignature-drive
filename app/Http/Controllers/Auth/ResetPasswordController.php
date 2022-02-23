@@ -46,7 +46,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-
         return response(['message' => Lang::get($response)]);
     }
 
@@ -59,7 +58,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-
         return response(['error' => Lang::get($response)], 422);
     }
 }

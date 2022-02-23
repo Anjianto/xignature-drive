@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageCollection;
 use App\Http\Resources\PageResource;
-use App\Http\Tools\Demo;
 use App\Page;
 use Illuminate\Http\Request;
 

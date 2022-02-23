@@ -17,11 +17,9 @@ class SharedAuth
     {
         if (!$request->bearerToken()) {
             if ($request->hasCookie('shared_access_token')) {
-
                 $shared_access_token = $request->cookie('shared_access_token');
 
                 $request->headers->add(['Authorization' => 'Bearer ' . $shared_access_token]);
-
             }
         }
         return $next($request);

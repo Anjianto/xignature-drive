@@ -80,7 +80,6 @@ class PlanController extends Controller
     {
         // Check if is demo
         if (env('APP_DEMO')) {
-
             if (Cache::has('plan-starter-pack')) {
                 $plan = Cache::get('plan-starter-pack');
             } else {

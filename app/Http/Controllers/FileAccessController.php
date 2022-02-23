@@ -30,7 +30,9 @@ class FileAccessController extends Controller
         $path = '/avatars/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return avatar
         return Storage::download($path, $basename);
@@ -48,7 +50,9 @@ class FileAccessController extends Controller
         $path = '/selfie/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return selfie
         return Storage::download($path, $basename);
@@ -66,7 +70,9 @@ class FileAccessController extends Controller
         $path = '/ktp/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return ktp
         return Storage::download($path, $basename);
@@ -84,7 +90,9 @@ class FileAccessController extends Controller
         $path = '/system/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return avatar
         return Storage::download($path, $basename);
@@ -276,7 +284,9 @@ class FileAccessController extends Controller
 
         // Check by single file permission
         if ($shared->type === 'file') {
-            if ($shared->item_id !== $file->unique_id) abort(403);
+            if ($shared->item_id !== $file->unique_id) {
+                abort(403);
+            }
         }
     }
 
@@ -294,7 +304,9 @@ class FileAccessController extends Controller
         $path = '/file-manager/' . $file->basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         $headers = [
             "Accept-Ranges"       => "bytes",
@@ -317,7 +329,9 @@ class FileAccessController extends Controller
         $path = '/file-manager/' . $file->getRawOriginal('thumbnail');
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return image thumbnail
         return Storage::download($path, $file->getRawOriginal('thumbnail'));

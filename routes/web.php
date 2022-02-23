@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:m
 });
 
 // Get og site for web crawlers
-if( Crawler::isCrawler()) {
+if (Crawler::isCrawler()) {
     Route::get('/shared/{token}', 'AppFunctionsController@og_site');
 } else {
     Route::get('/shared/{token}', 'Sharing\FileSharingController@index');

@@ -49,7 +49,9 @@ class PricingResource extends JsonResource
         foreach ($rates as $rate) {
 
             // Continue when is not active
-            if (!$rate['active']) continue;
+            if (!$rate['active']) {
+                continue;
+            }
 
             // Calculate tax
             $tax = $this['plan']['amount'] * ($rate['percentage'] / 100);

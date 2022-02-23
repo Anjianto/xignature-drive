@@ -20,12 +20,9 @@ use App\Share;
 use App\User;
 use App\UserSettings;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Storage;
 
 /**
@@ -237,7 +234,9 @@ class UserController extends Controller
         }
 
         // Validate user name
-        if ($user->name !== $request->input('data.name')) abort(403);
+        if ($user->name !== $request->input('data.name')) {
+            abort(403);
+        }
 
         $shares = Share::where('user_id', $user->id)->get();
 

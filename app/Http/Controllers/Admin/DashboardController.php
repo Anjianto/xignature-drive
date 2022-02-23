@@ -9,7 +9,6 @@ use App\Services\StripeService;
 use App\Setting;
 use App\User;
 use ByteUnits\Metric;
-use Illuminate\Http\Request;
 use Laravel\Cashier\Subscription;
 
 /**

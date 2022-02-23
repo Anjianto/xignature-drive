@@ -6,15 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Subscription\StoreUpgradeAccountRequest;
 use App\Http\Resources\UserSubscription;
 use App\Http\Tools\Demo;
-use App\Invoice;
 use App\Services\StripeService;
 use Auth;
-use Cartalyst\Stripe\Exception\CardErrorException;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Laravel\Cashier\Exceptions\IncompletePayment;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * @group Subscription

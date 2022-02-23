@@ -4,7 +4,6 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminCheck;
 use App\Http\Middleware\CookieAuth;
-use App\Http\Middleware\LastCheck;
 use App\Http\Middleware\SharedAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 

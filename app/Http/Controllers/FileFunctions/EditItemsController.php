@@ -19,7 +19,6 @@ use App\FileManagerFolder;
 use App\FileManagerFile;
 use Exception;
 
-
 /**
  * @group Edit Items
  *
@@ -46,7 +45,9 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -77,7 +78,9 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (!is_editor($shared)) {
+            abort(403);
+        }
 
         // Check access to requested directory
         Guardian::check_item_access($request->parent_id, $shared);
@@ -105,7 +108,9 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -123,7 +128,6 @@ class EditItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('folder_icon')) {
-            
             Editor::set_folder_icon($request->folder_icon, $unique_id);
         }
 
@@ -151,7 +155,9 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (!is_editor($shared)) {
+            abort(403);
+        }
 
         // Get file|folder item
         $item = get_item($request->type, $unique_id, $shared->user_id);
@@ -165,7 +171,6 @@ class EditItemsController extends Controller
 
         // If request have a change folder icon values set the folder icon
         if ($request->type === 'folder' && $request->filled('folder_icon')) {
-
             Editor::set_folder_icon($request->folder_icon, $unique_id, $shared);
         }
 
@@ -198,14 +203,18 @@ class EditItemsController extends Controller
         foreach ($request->input('data') as $file) {
             $unique_id = $file['unique_id'];
 
-            // Check permission to delete item for authenticated editor 
+            // Check permission to delete item for authenticated editor
             if ($request->user()->tokenCan('editor')) {
 
                 // Prevent force delete for non-master users
-                if ($file['force_delete']) abort('401');
+                if ($file['force_delete']) {
+                    abort('401');
+                }
 
                 // check if shared_token cookie exist
-                if (!$request->hasCookie('shared_token')) abort('401');
+                if (!$request->hasCookie('shared_token')) {
+                    abort('401');
+                }
 
                 // Get shared token
                 $shared = get_shared($request->cookie('shared_token'));
@@ -248,7 +257,9 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (!is_editor($shared)) {
+            abort(403);
+        }
 
         foreach ($request->input('data') as $file) {
             $unique_id = $file['unique_id'];
@@ -288,7 +299,9 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -320,7 +333,9 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (!is_editor($shared)) {
+            abort(403);
+        }
 
         // Check access to requested directory
         Guardian::check_item_access($request->parent_id, $shared);
@@ -335,13 +350,13 @@ class EditItemsController extends Controller
     }
 
     
-/**
-     * User download folder via zip
-     *
-     * @param $unique_id
-     * @return string
-     */
-    public function user_zip_folder(Request $request,$unique_id)
+    /**
+         * User download folder via zip
+         *
+         * @param $unique_id
+         * @return string
+         */
+    public function user_zip_folder(Request $request, $unique_id)
     {
         // Get user id
         $user_id = Auth::id();
@@ -350,7 +365,9 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -425,7 +442,9 @@ class EditItemsController extends Controller
         if ($request->user()->tokenCan('editor')) {
 
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -511,7 +530,9 @@ class EditItemsController extends Controller
         // Check permission to upload for authenticated editor
         if ($request->user()->tokenCan('editor')) {
             // check if shared_token cookie exist
-            if (!$request->hasCookie('shared_token')) abort('401');
+            if (!$request->hasCookie('shared_token')) {
+                abort('401');
+            }
 
             // Get shared token
             $shared = get_shared($request->cookie('shared_token'));
@@ -548,10 +569,11 @@ class EditItemsController extends Controller
         }
 
         // Check shared permission
-        if (!is_editor($shared)) abort(403);
+        if (!is_editor($shared)) {
+            abort(403);
+        }
 
         foreach ($request->input('items') as $item) {
-
             $unique_id = $item['unique_id'];
             $moving_unique_id = $unique_id;
 

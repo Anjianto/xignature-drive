@@ -99,7 +99,8 @@ class FileManagerFolder extends Model
     /**
      * @return false|string
      */
-    public function getNameAttribute() {
+    public function getNameAttribute()
+    {
         return utf8_encode($this->attributes['name']);
     }
 
@@ -128,7 +129,9 @@ class FileManagerFolder extends Model
      */
     public function getDeletedAtAttribute()
     {
-        if (!$this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) {
+            return null;
+        }
 
         return utf8_encode(
             format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'))
@@ -213,7 +216,6 @@ class FileManagerFolder extends Model
      */
     public function trashed_files()
     {
-
         return $this->hasMany('App\FileManagerFile', 'folder_id', 'unique_id')->withTrashed();
     }
 
@@ -277,20 +279,16 @@ class FileManagerFolder extends Model
         parent::boot();
 
         static::deleting(function ($item) {
-
-            if ( $item->isForceDeleting() ) {
-
-                $item->trashed_children()->each(function($folder) {
+            if ($item->isForceDeleting()) {
+                $item->trashed_children()->each(function ($folder) {
                     $folder->forceDelete();
                 });
-
             } else {
-
-                $item->children()->each(function($folder) {
+                $item->children()->each(function ($folder) {
                     $folder->delete();
                 });
 
-                $item->files()->each(function($file) {
+                $item->files()->each(function ($file) {
                     $file->delete();
                 });
             }
@@ -299,12 +297,12 @@ class FileManagerFolder extends Model
         static::restoring(function ($item) {
 
             // Restore children folders
-            $item->trashed_children()->each(function($folder) {
+            $item->trashed_children()->each(function ($folder) {
                 $folder->restore();
             });
 
             // Restore children files
-            $item->trashed_files()->each(function($files) {
+            $item->trashed_files()->each(function ($files) {
                 $files->restore();
             });
         });

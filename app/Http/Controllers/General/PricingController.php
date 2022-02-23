@@ -5,7 +5,6 @@ namespace App\Http\Controllers\General;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PricingCollection;
 use App\Services\StripeService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 /**

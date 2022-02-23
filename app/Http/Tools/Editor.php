@@ -23,11 +23,19 @@ use League\Flysystem\FileNotFoundException;
 use Madnest\Madzipper\Facades\Madzipper;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-
+/**
+ * Class Editor
+ * @package App\Http\Tools
+ */
 class Editor
 {
 
-    public static function has_folder($name) {
+    /**
+     * @param $name
+     * @return bool
+     */
+    public static function has_folder($name)
+    {
         $user_id = Auth::id();
         $folder = FileManagerFolder::where('user_id', $user_id)
         ->where('name', $name)
@@ -40,7 +48,13 @@ class Editor
         }
     }
 
-    public static function get_folder($name, $parent=0) {
+    /**
+     * @param $name
+     * @param int $parent
+     * @return FileManagerFolder|false|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
+     */
+    public static function get_folder($name, $parent=0)
+    {
         $user_id = Auth::id();
         $folder = FileManagerFolder::where('user_id', $user_id)
         ->where('name', $name)
@@ -89,7 +103,6 @@ class Editor
 
         // Save changes
         $folder->save();
-
     }
 
     /**
@@ -156,7 +169,6 @@ class Editor
 
         // Delete temporary files
         if (!is_storage_driver('local')) {
-
             foreach ($files as $file) {
                 $disk_local->delete('temp/' . $file['basename']);
             }
@@ -225,7 +237,6 @@ class Editor
 
         // Delete temporary files
         if (!is_storage_driver('local')) {
-
             $files->each(function ($file) use ($disk_local) {
                 $disk_local->delete('temp/' . $file['basename']);
             });
@@ -347,7 +358,9 @@ class Editor
                     Storage::delete('/file-manager/' . $file->basename);
 
                     // Delete thumbnail if exist
-                    if (!is_null($file->thumbnail)) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+                    if (!is_null($file->thumbnail)) {
+                        Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+                    }
 
                     // Delete file permanently
                     $file->forceDelete();
@@ -395,7 +408,9 @@ class Editor
                 Storage::delete('/file-manager/' . $item->basename);
 
                 // Delete thumbnail if exist
-                if ($item->thumbnail) Storage::delete('/file-manager/' . $item->getRawOriginal('thumbnail'));
+                if ($item->thumbnail) {
+                    Storage::delete('/file-manager/' . $item->getRawOriginal('thumbnail'));
+                }
 
                 // Delete file permanently
                 $item->forceDelete();
@@ -435,7 +450,6 @@ class Editor
                 $item->update([
                     'parent_id' => $to_unique_id
                 ]);
-
             } else {
 
                 // Move file under new folder
@@ -484,11 +498,12 @@ class Editor
         $limit = get_setting('upload_limit');
 
         // File size handling
-        if ($limit && $file_size > format_bytes($limit)) abort(413);
+        if ($limit && $file_size > format_bytes($limit)) {
+            abort(413);
+        }
 
         // If last then process file
         if ($request->boolean('is_last')) {
-
             $metadata = get_image_meta_data($file);
 
             $disk_local = Storage::disk('local');
@@ -541,12 +556,10 @@ class Editor
 
                 // If upload a loged user
                 $request->user()->record_upload($file_size);
-
             } else {
 
                 // If upload guest
                 User::find($shared->user_id)->record_upload($file_size);
-
             }
 
             // Return new file
@@ -577,7 +590,6 @@ class Editor
 
             // Delete if file is in local storage more than 24 hours
             if ($diff > 24) {
-
                 Log::info('Failed file or chunk ' . $file . ' deleted.');
 
                 // Delete file from local storage
@@ -599,7 +611,9 @@ class Editor
         foreach ([$filename, $thumbnail] as $file) {
 
             // Check if file exist
-            if (!$file) continue;
+            if (!$file) {
+                continue;
+            }
 
             // Get file size
             $filesize = $disk_local->size('file-manager/' . $file);
@@ -626,7 +640,6 @@ class Editor
 
                     // Upload content
                     $uploader->upload();
-
                 } catch (MultipartUploadException $e) {
 
                     // Write error log
@@ -637,7 +650,6 @@ class Editor
 
                     throw new HttpException(409, $e->getMessage());
                 }
-
             } else {
 
                 // Stream file object to s3
@@ -657,7 +669,6 @@ class Editor
     private static function check_directories($directories): void
     {
         foreach ($directories as $directory) {
-
             if (!Storage::disk('local')->exists($directory)) {
                 Storage::disk('local')->makeDirectory($directory);
             }
@@ -702,7 +713,6 @@ class Editor
 
         // Return thumbnail as svg file
         if ($local_disk->mimeType($file_path) === 'image/svg+xml') {
-
             $thumbnail = $filename;
         }
 
