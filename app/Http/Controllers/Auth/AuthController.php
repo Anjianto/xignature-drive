@@ -6,10 +6,12 @@ use App\Http\Requests\Auth\CheckAccountRequest;
 use App\Setting;
 use App\User;
 use App\UserSettings;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @group Auth
@@ -35,9 +37,9 @@ class AuthController extends Controller
         // Return user info
         if ($user) {
             return [
-            'name'   => $user->name,
-            'avatar' => $user->avatar,
-        ];
+                'name' => $user->name,
+                'avatar' => $user->avatar,
+            ];
         }
 
         // Abort with 404, user not found
@@ -84,47 +86,92 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $settings = Setting::whereIn('name', ['storage_default', 'registration'])->pluck('value', 'name');
+        $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
 
         // Check if account registration is enabled
-        if (! intval($settings['registration'])) {
+        if (!intval($settings['registration'])) {
             abort(401);
         }
 
+//        $request->validate([
+//            'title' => 'required|max:255',
+//            'body' => 'required',
+////            'publish_at' => 'nullable|date',
+//        ]);
+
+//        dd($request->input());
+
+
+
         // Validate request
         $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'phone' => ['required', 'string'],
-            'nik' => ['numeric'],
-            'ktp' => ['required', 'image'],
-            'selfie' => ['required', 'image'],
-            'birth_date' => ['required', 'date']
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required|string|min:12',
+            'nik' => 'numeric',
+            'ktp' => 'required|image',
+            'selfie' => 'required|image',
+            'birth_date' => 'required|date',
+            'birth_place' => 'required|string'
         ]);
+//        dd($request->all());
 
-        // Create user
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $ktp = base64_encode(file_get_contents($request->file('ktp')));
+        $selfie = base64_encode(file_get_contents($request->file('selfie')));
+//        dd($request->file('ktp')->store('ktp'));
 
-        // Create settings
-        UserSettings::forceCreate([
-            'user_id'          => $user->id,
-            'storage_capacity' => $settings['storage_default'],
-        ]);
+        $apiResponse = Http::withHeaders([
+            'api-key' => $settings['api_key'],
+            'Content-Type' => 'application/json'
+        ])->post(config('app.api') . 'v1/auth/generateLtcToken', [
+            "email" => $request->input('email'),
+            "fullname" => $request->input('name'),
+            "nik" => $request->input('nik'),
+            "phone" => $request->input('phone'),
+            "birthdate" => $request->input('birth_date'),
+            "birthplace" => $request->input('birth_place'),
+            "selfie" => $selfie,
+            "ktp" => $ktp
+        ])->object();
 
-        $response = Route::dispatch(self::make_login_request($request));
 
-        if ($response->isSuccessful()) {
-            $data = json_decode($response->content(), true);
 
-            return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
+
+        if ($apiResponse->statusCode == '200') {
+            // Create user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                "nik" => $request->input('nik'),
+                "phone" => $request->input('phone'),
+                "birth_date" => $request->input('birth_date'),
+                "birth_place" => $request->input('birth_place'),
+                "selfie" => $request->file('selfie')->store('selfie'),
+                "ktp" => $request->file('ktp')->store('ktp'),
+                'signature_token' => $apiResponse->data->token
+            ]);
+
+            // Create settings
+            UserSettings::forceCreate([
+                'user_id' => $user->id,
+                'storage_capacity' => $settings['storage_default'],
+            ]);
+
+
+            $response = Route::dispatch(self::make_login_request($request));
+
+            if ($response->isSuccessful()) {
+                $data = json_decode($response->content(), true);
+
+                return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
+            }
+
+            return $response;
         }
 
-        return $response;
+        return response($apiResponse->message, $apiResponse->statusCode);
     }
 
     /**
@@ -155,12 +202,12 @@ class AuthController extends Controller
     private static function make_login_request($request)
     {
         $request->request->add([
-            'grant_type'    => 'password',
-            'client_id'     => config('services.passport.client_id'),
+            'grant_type' => 'password',
+            'client_id' => config('services.passport.client_id'),
             'client_secret' => config('services.passport.client_secret'),
-            'username'      => $request->email,
-            'password'      => $request->password,
-            'scope'         => 'master',
+            'username' => $request->email,
+            'password' => $request->password,
+            'scope' => 'master',
         ]);
 
         return Request::create(url('/oauth/token'), 'POST', $request->all());

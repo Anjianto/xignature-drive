@@ -34,7 +34,7 @@ class Editor
      * @param $name
      * @return bool
      */
-    public static function has_folder($name)
+    public static function has_folder($name): bool
     {
         $user_id = Auth::id();
         $folder = FileManagerFolder::where('user_id', $user_id)
@@ -308,7 +308,7 @@ class Editor
     /**
      * Delete file or folder
      *
-     * @param $request
+     * @param $file
      * @param $unique_id
      * @param null $shared
      * @throws \Exception
@@ -429,7 +429,7 @@ class Editor
      * Move folder or file to new location
      *
      * @param $request
-     * @param $unique_id
+     * @param $to_unique_id
      * @param null $shared
      */
     public static function move($request, $to_unique_id, $shared = null)
