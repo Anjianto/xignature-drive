@@ -34,8 +34,12 @@
               :placeholder="$t('page_registration.placeholder_phone')"
               type="number"
               required
+              class="reset-input-number"
             />
           </div>
+          <p v-if="errors.phone" class="input-error">
+            {{ errors.phone }}
+          </p>
         </div>
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_nik") }}</label>
@@ -48,8 +52,12 @@
               maxlength="16"
               type="number"
               required
+              class="reset-input-number"
             />
           </div>
+          <p v-if="errors.nik" class="input-error">
+            {{ errors.nik }}
+          </p>
         </div>
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_birthplace") }}</label>
@@ -62,6 +70,9 @@
               required
             />
           </div>
+          <p v-if="errors.birthplace" class="input-error">
+            {{ errors.birthplace }}
+          </p>
         </div>
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_birthdate") }}</label>
@@ -78,6 +89,9 @@
             >
             </DatePicker>
           </div>
+          <p v-if="errors.birthdate" class="input-error">
+            {{ errors.birthdate }}
+          </p>
         </div>
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_ktp") }}</label>
@@ -99,6 +113,9 @@
               type="file"
             />
           </div>
+          <p v-if="errors.ktp" class="input-error">
+            {{ errors.ktp }}
+          </p>
         </div>
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_selfie") }}</label>
@@ -127,6 +144,9 @@
               type="file"
             />
           </div>
+          <p v-if="errors.selfie" class="input-error">
+            {{ errors.selfie }}
+          </p>
         </div>
       </div>
     </PageTabGroup>
@@ -305,7 +325,7 @@ import { required } from "vee-validate/dist/rules";
 import { events } from "@/bus";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
-import Button from "@/components/Others/Button";	
+import Button from "@/components/Others/Button";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
@@ -328,16 +348,16 @@ export default {
     PageTab,
   },
   mounted() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const preReg = urlParams.get("create_signature");
-  if (preReg) {
-    events.$emit("alert:open", {
+    const urlParams = new URLSearchParams(window.location.search);
+    const preReg = urlParams.get("create_signature");
+    if (preReg) {
+      events.$emit("alert:open", {
         emoji: "🤔",
         title: "Signature Empty",
         message: "Please fill profile to sign document.",
         type: "info",
       });
-    this.$router.push({'name': 'Profile'});
+      this.$router.push({ name: "Profile" });
     }
   },
   computed: {
@@ -349,6 +369,7 @@ export default {
       billingInfo: undefined,
       userTimezone: undefined,
       isLoading: false,
+      errors: {},
     };
   },
   methods: {
@@ -357,19 +378,59 @@ export default {
       this.$updateText("/user/profile", "name", this.userInfo.name);
     },
     changeUserPhone() {
+      if (
+        `${this.userInfo.phone}`.length < 10 ||
+        `${this.userInfo.phone}`.length > 13
+      ) {
+        this.errors = {
+          ...this.errors,
+          phone: "Phone is invalid!",
+        };
+        return;
+      }
+      this.errors.phone = "";
+
       this.$store.commit("UPDATE_PHONE", this.userInfo.phone);
       this.$updateText("/user/profile", "phone", this.userInfo.phone);
     },
     changeUserNik() {
+      if (
+        `${this.userInfo.nik}`.length < 16 ||
+        `${this.userInfo.nik}`.length > 16
+      ) {
+        this.errors = {
+          ...this.errors,
+          nik: "NIK must be 16 digits",
+        };
+        return;
+      }
+      this.errors.nik = "";
+
       this.$store.commit("UPDATE_NIK", this.userInfo.nik);
       this.$updateText("/user/profile", "nik", this.userInfo.nik);
     },
     changeUserBirthdate() {
+      if (!this.userInfo.birthdate) {
+        this.errors = {
+          ...this.errors,
+          birthdate: "Birthday is required!",
+        };
+        return;
+      }
+      this.errors.nik = "";
       const date = format(this.userInfo.birthdate, "yyyy-MM-dd");
       this.$store.commit("UPDATE_BIRTHDATE", this.userInfo.birthdate);
       this.$updateText("/user/profile", "birth_date", date);
     },
     changeUserBirthPlace() {
+      if (!this.userInfo.birthplace) {
+        this.errors = {
+          ...this.errors,
+          birthplace: "Birthplace is required!",
+        };
+        return;
+      }
+      this.errors.birthplace = "";
       this.$store.commit("UPDATE_BIRTHPLACE", this.userInfo.birthplace);
       this.$updateText(
         "/user/profile",
@@ -385,6 +446,7 @@ export default {
       this.userInfo.ktp = image;
       this.$store.commit("UPDATE_KTP", image);
       this.$updateImage("/user/profile", "ktp", e.target.files[0]);
+      this.errors.ktp = "";
     },
     async changeUserSelfie(e) {
       const files = e.target.files || e.dataTransfer.files;
@@ -394,6 +456,7 @@ export default {
       this.userInfo.selfie = image;
       this.$store.commit("UPDATE_SELFIE", image);
       this.$updateImage("/user/profile", "selfie", e.target.files[0]);
+      this.errors.selfie = "";
     },
     createImage(file) {
       return new Promise((resolve, reject) => {
@@ -407,6 +470,44 @@ export default {
         reader.readAsDataURL(file);
       });
     },
+  },
+  mounted() {
+    if (!this.userInfo.phone) {
+      this.errors = {
+        ...this.errors,
+        phone: "Phone is required!",
+      };
+    }
+    if (!this.userInfo.nik) {
+      this.errors = {
+        ...this.errors,
+        nik: "NIK is required!",
+      };
+    }
+    if (!this.userInfo.birthplace) {
+      this.errors = {
+        ...this.errors,
+        birthplace: "Birthplace is required!",
+      };
+    }
+    if (!this.userInfo.birthdate) {
+      this.errors = {
+        ...this.errors,
+        birthdate: "Birthday is required!",
+      };
+    }
+    if (!this.userInfo.ktp) {
+      this.errors = {
+        ...this.errors,
+        ktp: "KTP is required!",
+      };
+    }
+    if (!this.userInfo.selfie) {
+      this.errors = {
+        ...this.errors,
+        selfie: "Selfie With Ktp is required!",
+      };
+    }
   },
   created() {
     this.userTimezone =
@@ -450,5 +551,23 @@ export default {
 
 .block-form {
   max-width: 100%;
+}
+
+.input-error {
+  margin-top: 0.3rem;
+  @include font-size(12);
+  color: red;
+  font-weight: 700;
+}
+
+.reset-input-number::-webkit-outer-spin-button,
+.reset-input-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.reset-input-number[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>
