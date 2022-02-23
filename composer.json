@@ -33,6 +33,7 @@
         "barryvdh/laravel-ide-helper": "^2.8.2",
         "facade/ignition": "^2.9",
         "fzaninotto/faker": "^1.9.2",
+        "knuckleswtf/scribe": "^3.24",
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^4.3",
         "phpunit/phpunit": "^8.5.15"

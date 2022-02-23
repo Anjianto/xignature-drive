@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @group Deploy
+ *
+ * Class DeployController
+ * @package App\Http\Controllers
+ */
 class DeployController extends Controller
 {
     /**

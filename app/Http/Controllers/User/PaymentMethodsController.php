@@ -14,10 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\PaymentMethod;
 
+/**
+ * @group Payment Method
+ *
+ * Class PaymentMethodsController
+ * @package App\Http\Controllers\User
+ */
 class PaymentMethodsController extends Controller
 {
     /**
      * PaymentMethodsController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

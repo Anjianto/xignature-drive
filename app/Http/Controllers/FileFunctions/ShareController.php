@@ -18,6 +18,12 @@ use Illuminate\Support\Str;
 use App\Share;
 use Validator;
 
+/**
+ * @group Share
+ *
+ * Class ShareController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class ShareController extends Controller
 {
     /**

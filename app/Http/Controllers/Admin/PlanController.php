@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PlanCollection;
 use App\Http\Resources\PlanResource;
-use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
 use App\Http\Tools\Demo;
-use App\Plan;
 use App\Services\StripeService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Subscription;
-use Rinvex\Subscriptions\Models\PlanFeature;
 
+/**
+ * @group Plan
+ *
+ * Class PlanController
+ * @package App\Http\Controllers\Admin
+ */
 class PlanController extends Controller
 {
     /**

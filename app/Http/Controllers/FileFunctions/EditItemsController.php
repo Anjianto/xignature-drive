@@ -20,6 +20,12 @@ use App\FileManagerFile;
 use Exception;
 
 
+/**
+ * @group Edit Items
+ *
+ * Class EditItemsController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class EditItemsController extends Controller
 {
     /**

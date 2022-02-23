@@ -12,10 +12,19 @@ use ByteUnits\Metric;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Subscription;
 
+/**
+ * Dashboard
+ *
+ * Class DashboardController
+ * @package App\Http\Controllers\Admin
+ */
 class DashboardController extends Controller
 {
+    private $stripe;
+
     /**
      * DashboardController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

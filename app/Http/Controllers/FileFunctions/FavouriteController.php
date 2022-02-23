@@ -9,6 +9,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @group Favorite
+ *
+ * Class FavouriteController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class FavouriteController extends Controller
 {
     /**

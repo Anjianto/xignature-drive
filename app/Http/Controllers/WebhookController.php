@@ -11,6 +11,8 @@ use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
 class WebhookController extends CashierController
 {
+    private $stripe;
+
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;

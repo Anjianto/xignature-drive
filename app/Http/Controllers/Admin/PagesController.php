@@ -9,6 +9,12 @@ use App\Http\Tools\Demo;
 use App\Page;
 use Illuminate\Http\Request;
 
+/**
+ * @group Page
+ *
+ * Class PagesController
+ * @package App\Http\Controllers\Admin
+ */
 class PagesController extends Controller
 {
     /**

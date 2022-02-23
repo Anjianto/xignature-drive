@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Content;
 use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\PublicPages\SendMessageRequest;
@@ -18,7 +17,6 @@ use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Schema;
 

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Schema;
 
+/**
+ * @group Upgrade App
+ *
+ * Class UpgradeAppController
+ * @package App\Http\Controllers\General
+ */
 class UpgradeAppController extends Controller
 {
 
@@ -39,6 +45,9 @@ class UpgradeAppController extends Controller
         }
     }
 
+    /**
+     *
+     */
     public function translations_fix()
     {
         if (!Schema::hasTable('languages') && !Schema::hasTable('language_translations')) {

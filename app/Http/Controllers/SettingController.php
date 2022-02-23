@@ -10,6 +10,12 @@ use Cartalyst\Stripe\Exception\UnauthorizedException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @group Settings
+ *
+ * Class SettingController
+ * @package App\Http\Controllers
+ */
 class SettingController extends Controller
 {
     /**
@@ -40,10 +46,6 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
-        }
 
         // Store image if exist
         if ($request->hasFile($request->name)) {

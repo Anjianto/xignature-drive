@@ -29,10 +29,17 @@ use Schema;
 use Stripe;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @group Setup Wizard
+ *
+ * Class SetupWizardController
+ * @package App\Http\Controllers\General
+ */
 class SetupWizardController extends Controller
 {
     /**
      * Inject Stripe Service
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

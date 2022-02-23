@@ -12,6 +12,7 @@ class PricingController extends Controller
 {
     /**
      * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

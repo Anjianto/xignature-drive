@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\User;
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
 use App\Http\Resources\InvoiceCollection;
-use App\Http\Resources\StorageDetailResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use App\Http\Tools\Editor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use ByteUnits\Metric;
-use App\User;
 
+/**
+ * @group Account
+ *
+ * Class AccountController
+ * @package App\Http\Controllers\User
+ */
 class AccountController extends Controller
 {
     /**

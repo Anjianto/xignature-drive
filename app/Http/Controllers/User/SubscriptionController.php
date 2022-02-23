@@ -16,13 +16,22 @@ use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @group Subscription
+ *
+ * Class SubscriptionController
+ * @package App\Http\Controllers\User
+ */
 class SubscriptionController extends Controller
 {
+    /**
+     * @var StripeService
+     */
     private $stripe;
 
     /**
      * SubscriptionController constructor.
-     * @param $payment
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

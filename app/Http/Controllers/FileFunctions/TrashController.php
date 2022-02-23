@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 use App\FileManagerFolder;
 use App\FileManagerFile;
 
+/**
+ * @group Trash
+ *
+ * Class TrashController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class TrashController extends Controller
 {
     /**

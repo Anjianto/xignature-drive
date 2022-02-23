@@ -15,6 +15,12 @@ use App\Http\Requests\Languages\CreateLanguageRequest;
 use App\Http\Requests\Languages\UpdateLanguageRequest;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group Language
+ *
+ * Class LanguageController
+ * @package App\Http\Controllers\Admin
+ */
 class LanguageController extends Controller
 {
     /**

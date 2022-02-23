@@ -13,6 +13,12 @@ use App\FileManagerFolder;
 use App\FileManagerFile;
 use App\Share;
 
+/**
+ * @group Browse
+ *
+ * Class BrowseController
+ * @package App\Http\Controllers\FileBrowser
+ */
 class BrowseController extends Controller
 {
 

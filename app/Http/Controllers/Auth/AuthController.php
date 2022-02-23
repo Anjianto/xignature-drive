@@ -8,7 +8,6 @@ use App\User;
 use App\UserSettings;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +17,7 @@ class AuthController extends Controller
     /**
      * Check if user account exist
      *
-     * @param Request $request
+     * @param CheckAccountRequest $request
      * @return mixed
      */
     public function check_account(CheckAccountRequest $request)
@@ -104,16 +103,10 @@ class AuthController extends Controller
     /**
      * Logout user entity
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function logout()
     {
-        // Demo preview
-        if (is_demo(Auth::id())) {
-            return response('Logout successfull', 204)
-                ->cookie('access_token', '', -1);
-        }
-
         // Get user tokens and remove it
         auth()->user()->tokens()->each(function ($token) {
 

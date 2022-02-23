@@ -28,8 +28,18 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Storage;
 
+/**
+ * @group User
+ *
+ * Class UserController
+ * @package App\Http\Controllers\Admin
+ */
 class UserController extends Controller
 {
+    /**
+     * UserController constructor.
+     * @param StripeService $stripe
+     */
     public function __construct(StripeService $stripe)
     {
         $this->stripe = $stripe;

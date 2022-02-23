@@ -7,6 +7,12 @@ use App\Signatures;
 use Auth;
 use App\FileManagerFile;
 
+/**
+ * @group File Sign
+ *
+ * Class FileSignController
+ * @package App\Http\Controllers
+ */
 class FileSignController extends Controller
 {
     // public function __construct()
@@ -14,6 +20,10 @@ class FileSignController extends Controller
     //     $this->middleware('auth');
     // }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add_sign(Request $request)
     {
         $user =  Auth::user();;
@@ -33,6 +43,11 @@ class FileSignController extends Controller
         ]);
     }
 
+    /**
+     * @param string $fileId
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sign_document(string $fileId, $request)
     {
         $user = Auth::user()->id;

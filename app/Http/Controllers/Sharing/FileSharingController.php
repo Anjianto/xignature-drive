@@ -7,7 +7,6 @@ use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
 use App\Http\Tools\Guardian;
 use App\Setting;
-use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +20,19 @@ use App\User;
 use App\Share;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group File Sharing
+ *
+ * Class FileSharingController
+ * @package App\Http\Controllers\Sharing
+ */
 class FileSharingController extends Controller
 {
 
+    /**
+     * @param $token
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function sign($token) {
             // Get shared token
             $shared = Share::where(\DB::raw('BINARY `token`'), $token)
