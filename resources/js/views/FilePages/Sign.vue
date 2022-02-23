@@ -81,7 +81,7 @@ export default {
     signDocument(otp) {
       this.isOTPModalOpen = false;
       this.$store.dispatch("signDocument", {
-        file: this.pdf64,
+        file: this.pdf64.split(",")[1],
         page: this.numPages,
         otp: otp,
         title: this.filename,
