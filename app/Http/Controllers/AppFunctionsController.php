@@ -20,6 +20,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Schema;
 
+/**
+ * @group App Function
+ *
+ * Class AppFunctionsController
+ * @package App\Http\Controllers
+ */
 class AppFunctionsController extends Controller
 {
     /**

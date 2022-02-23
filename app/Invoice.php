@@ -43,10 +43,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Invoice extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $guarded = [
         'id'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'seller' => 'array',
         'client' => 'array',

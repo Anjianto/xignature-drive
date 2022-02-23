@@ -21,8 +21,10 @@ use Laravel\Cashier\Subscription;
  */
 class PlanController extends Controller
 {
+    private $stripe;
     /**
      * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

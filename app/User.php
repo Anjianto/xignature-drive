@@ -76,11 +76,20 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User sortable($defaultParameters = null)
+ * @property string|null $signature_token
+ * @property-read \Illuminate\Contracts\Routing\UrlGenerator|string $ktp
+ * @property-read \Illuminate\Contracts\Routing\UrlGenerator|string $selfie
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Signatures[] $signatures
+ * @property-read int|null $signatures_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSignatureToken($value)
  */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, Billable, Sortable;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = ['id', 'role'];
 
     /**
@@ -112,6 +121,9 @@ class User extends Authenticatable
         'birth_date' => 'datetime',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'used_capacity', 'storage'
     ];
@@ -319,6 +331,9 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|null
+     */
     public function unused_signatures_token() {
         $token = Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first();
 

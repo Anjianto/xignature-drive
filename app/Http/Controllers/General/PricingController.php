@@ -8,6 +8,12 @@ use App\Services\StripeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @group Pricing
+ *
+ * Class PricingController
+ * @package App\Http\Controllers\General
+ */
 class PricingController extends Controller
 {
     /**

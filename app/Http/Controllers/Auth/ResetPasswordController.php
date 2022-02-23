@@ -8,6 +8,12 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
+/**
+ * @group Reset Password
+ *
+ * Class ResetPasswordController
+ * @package App\Http\Controllers\Auth
+ */
 class ResetPasswordController extends Controller
 {
     /*

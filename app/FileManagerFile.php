@@ -56,21 +56,35 @@ use Kyslik\ColumnSortable\Sortable;
  * @property array|null $metadata
  * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile sortable($defaultParameters = null)
  * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile whereMetadata($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Signatures[] $signs
+ * @property-read int|null $signs_count
  */
 class FileManagerFile extends Model
 {
     use Searchable, SoftDeletes , Sortable;
 
+    /**
+     * @var null
+     */
     public $public_access = null;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [
         'id'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'file_url'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'metadata' => 'array',
     ];
@@ -85,14 +99,23 @@ class FileManagerFile extends Model
         'created_at',
     ];
 
+    /**
+     * @return false|string
+     */
     public function getNameAttribute() {
         return utf8_encode($this->attributes['name']);
     }
 
+    /**
+     * @return false|string
+     */
     public function getBasenameAttribute() {
         return utf8_encode($this->attributes['basename']);
     }
 
+    /**
+     * @return false|string
+     */
     public function getCreatedAtAttribute()
     {
         return utf8_encode(
@@ -100,6 +123,9 @@ class FileManagerFile extends Model
         );
     }
 
+    /**
+     * @return false|string
+     */
     public function getUpdatedAtAttribute()
     {
         return utf8_encode(
@@ -107,6 +133,9 @@ class FileManagerFile extends Model
         );
     }
 
+    /**
+     * @return false|string|null
+     */
     public function getDeletedAtAttribute()
     {
         if (!$this->attributes['deleted_at']) return null;
