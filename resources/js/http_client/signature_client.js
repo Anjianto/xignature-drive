@@ -9,10 +9,13 @@ export const client = ({ base_url, key }) =>
     },
   });
 
+const baseUrl = "https://sandbox.xignature.co.id/";
+const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
+
 export default {
   client: client({
-    base_url: "https://sandbox.xignature.co.id/",
-    key: "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B",
+    base_url: baseUrl,
+    key: key,
   }),
   loadDocuments(page, limit, doctype, status, search) {
     return this.client.post("/v1/document/list", {
@@ -29,13 +32,8 @@ export default {
       ? format(data.birthdate, "yyyy-MM-dd")
       : null;
     data = {
-      email: data.email,
-      fullname: data.fullname,
-      nik: data.nik,
-      selfie: data.selfie,
-      phone: data.phone,
-      birthplace: data.birthPlace,
-      birthdate: birthdate,
+      ...data,
+      birthdate,
     };
     return this.client.post("/v1/auth/generateToken", data);
   },
@@ -51,6 +49,11 @@ export default {
     };
 
     return this.client.post("/v1/auth/generateLtcToken", data);
+  },
+  async getDoucment(id) {
+    const { data } = await this.client.get(`/v1/document/${id}`);
+    console.log(data);
+    return data;
   },
   sign({
     otp,

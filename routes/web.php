@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     // Route::get('/sign/{filename}', 'FileAccessController@sign_file');
 });
 
+
 // Get user invoice
 Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], function () {
     Route::get('/invoice/{customer}/{token}', 'Admin\InvoiceController@show');

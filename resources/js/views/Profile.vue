@@ -146,13 +146,6 @@
                 </ButtonBase>
               </router-link>
             </div>
-            <div style="display: flex; justify-content: center">
-              <div @click="genToken">
-                <ButtonBase class="btn btn-primary">
-                  {{ token ? "Recreate Signature" : "Generate Signature" }}
-                </ButtonBase>
-              </div>
-            </div>
           </div>
 
           <!--Incomplete Payment Warning-->

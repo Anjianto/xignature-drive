@@ -15,8 +15,8 @@
 
     {{--Show protected og metadata--}}
     @if($metadata['is_protected'])
-        <meta property="og:title" content="{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
-        <title>{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}</title>
+        <meta property="og:title" content="{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}">
+        <title>{{ __t('protected_file') }} | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}</title>
     @endif
 
     {{--Show public og metadata--}}
@@ -26,8 +26,8 @@
             <meta property="og:image" content="{{ $metadata['thumbnail'] }}">
         @endif
 
-        <meta property="og:title" content="{{ $metadata['name'] }} ({{ $metadata['size'] }}) | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}">
-        <title>{{ $metadata['name'] }} ({{ $metadata['size'] }}) | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'VueFileManager' }}</title>
+        <meta property="og:title" content="{{ $metadata['name'] }} ({{ $metadata['size'] }}) | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}">
+        <title>{{ $metadata['name'] }} ({{ $metadata['size'] }}) | {{ isset($settings->app_title) && $settings->app_title ? $settings->app_title : 'Xignature Drive' }}</title>
     @endif
 
 </head>

@@ -44,6 +44,6 @@
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
-{{ get_setting('app_title') ?? 'VueFileManager' }}
+{{ get_setting('app_title') ?? 'Xignature Drive' }}
 @endif
 @endcomponent

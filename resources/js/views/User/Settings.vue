@@ -148,6 +148,12 @@
             {{ errors.selfie }}
           </p>
         </div>
+
+        <div style="display: flex; justify-content: center">
+          <div>
+            <ButtonBase class="btn btn-primary"> Complete Profile </ButtonBase>
+          </div>
+        </div>
       </div>
     </PageTabGroup>
 

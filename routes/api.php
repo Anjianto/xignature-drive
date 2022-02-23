@@ -89,9 +89,6 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
 
-    // Signature
-    Route::post('/sign', 'FileSignController@add_sign');
-
     // Payment cards
     Route::delete('/user/payment-cards/{id}', 'User\PaymentMethodsController@delete');
     Route::patch('/user/payment-cards/{id}', 'User\PaymentMethodsController@update');
@@ -195,6 +192,9 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
     Route::get('/navigation/private', 'Sharing\FileSharingController@get_private_navigation_tree');
     Route::get('/search/private', 'Sharing\FileSharingController@search_private');
     Route::get('/files/private', 'Sharing\FileSharingController@file_private');
+    // Signature
+    Route::post('/sign', 'FileSignController@add_sign');
+    Route::post('/doc/{fileId}/sign', 'FileSignController@sign_document');
 });
 
 // User master,editor routes

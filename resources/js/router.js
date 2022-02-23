@@ -467,7 +467,7 @@ const routesUser = [
     component: () =>
       import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
     },
   },
   {
