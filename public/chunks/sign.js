@@ -230,7 +230,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } // send otp token
 
 
-      this.$store.dispatch("genSignToken");
+      var fileid = this.$route.query["id"];
+      this.$store.dispatch("genSignToken", {
+        fileid: fileid
+      });
       this.isOTPModalOpen = true;
     },
     getFilesForView: function getFilesForView() {

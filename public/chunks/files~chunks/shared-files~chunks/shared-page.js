@@ -716,7 +716,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           fileId: name
         },
         query: {
-          type: ext
+          type: ext,
+          id: this.item.unique_id,
+          scope: this.item.user_scope,
+          user: this.item.user_id
         }
       });
     },

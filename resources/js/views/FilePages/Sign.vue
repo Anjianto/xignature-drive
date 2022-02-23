@@ -168,7 +168,10 @@ export default {
         });
       }
       // send otp token
-      this.$store.dispatch("genSignToken");
+      const fileid = this.$route.query["id"];
+      this.$store.dispatch("genSignToken", {
+        fileid,
+      });
       this.isOTPModalOpen = true;
     },
     getFilesForView() {

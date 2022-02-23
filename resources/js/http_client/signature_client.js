@@ -51,8 +51,10 @@ export default {
 
     return this.client.post("/v1/auth/generateLtcToken", data);
   },
-  getDoucmentURL(id) {
-    return `${baseUrl}/v1/document/download/${id}`;
+  async getDoucment(id) {
+    const { data } = await this.client.get(`/v1/document/${id}`);
+    console.log(data);
+    return data;
   },
   sign({
     otp,
