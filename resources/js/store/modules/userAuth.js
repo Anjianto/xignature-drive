@@ -13,6 +13,7 @@ const defaultState = {
 };
 async function getBase64ImageFromUrl(imageUrl) {
   var res = await fetch(imageUrl);
+  console.log(res);
   var blob = await res.blob();
 
   return new Promise((resolve, reject) => {
