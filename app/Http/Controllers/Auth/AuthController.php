@@ -26,6 +26,11 @@ class AuthController extends Controller
      * Check if user account exist
      *
      * unauthenticated
+     * @response 404 {"We can't find a user with that e-mail address."}
+     * @response 200 {
+     * "name": "Nur Wachid",
+     * "avatar": "https://drive.xignature.co.id/assets/images/default-avatar.png"
+     * }
      * @param CheckAccountRequest $request
      * @return mixed
      */
@@ -52,6 +57,7 @@ class AuthController extends Controller
      * @unauthenticated
      * @bodyParam email string  required The email of the user. Example: nur.wachid@example.com
      * @bodyParam password string required  The password of the user. Example: Pas$word
+     * @response {"Login Successfull!"}
      * @param Request $request
      * @return mixed
      */
@@ -133,9 +139,9 @@ class AuthController extends Controller
         if ($apiResponse->statusCode == '200') {
             // Create user
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
                 "nik" => $request->input('nik'),
                 "phone" => $request->input('phone'),
                 "birth_date" => $request->input('birth_date'),
@@ -170,6 +176,7 @@ class AuthController extends Controller
      * Logout user entity
      *
      * @authenticated
+     * @response {"Logout successful"}
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function logout()

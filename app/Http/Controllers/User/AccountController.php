@@ -6,7 +6,10 @@ use App\Http\Resources\InvoiceCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
+use App\Setting;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -168,5 +171,27 @@ class AccountController extends Controller
         $user->save();
 
         return response('Changed!', 204);
+    }
+
+    public function generate_token()
+    {
+        $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
+        $user = Auth::user();
+
+        $apiResponse = Http::withHeaders([
+            'api-key' => $settings['api_key'],
+            'Content-Type' => 'application/json'
+        ])->post(config('app.api') . 'v1/auth/generateLtcToken', [
+            "email" => $user->email,
+            "fullname" => $user->name,
+            "nik" => $user->nik,
+            "phone" => $user->phone,
+            "birthdate" =>$user->birth_date,
+            "birthplace" => $user->birth_place,
+            "selfie" => base64_encode(file_get_contents($user->selfie)),
+            "ktp" => base64_encode(file_get_contents($user->ktp))
+        ])->object();
+
+        return response()->json($apiResponse->data);
     }
 }
