@@ -81,6 +81,8 @@ class AuthController extends Controller
      * @bodyParam selfie file  required The self photo of the user.
      * @bodyParam birth_place string  required The birth place of the user. Example: Jakarta
      * @bodyParam birth_date string  required The birth date of the user. Example: 2000-12-12
+     * @response 201 {"Register Successfull!"}
+     * @response 400 {"NIK sudah terdaftar pada email pandu.septian@xignature.co.id dan no handphone 085774719951"}
      * @param Request $request
      * @return mixed
      */
@@ -92,16 +94,6 @@ class AuthController extends Controller
         if (!intval($settings['registration'])) {
             abort(401);
         }
-
-//        $request->validate([
-//            'title' => 'required|max:255',
-//            'body' => 'required',
-////            'publish_at' => 'nullable|date',
-//        ]);
-
-//        dd($request->input());
-
-
 
         // Validate request
         $request->validate([
