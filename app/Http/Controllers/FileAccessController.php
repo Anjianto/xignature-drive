@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Tools\Guardian;
 use App\User;
 use App\Zip;
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\FileManagerFile;
@@ -129,6 +131,8 @@ class FileAccessController extends Controller
 
         // Store user download size
         $request->user()->record_download((int)$file->getRawOriginal('filesize'));
+
+//        return $file->file_url;
 
         return $this->download_file($file);
     }
@@ -315,6 +319,12 @@ class FileAccessController extends Controller
             "Content-Range"       => "bytes 0-600/" . Storage::size($path),
             "Content-Disposition" => "attachment; filename=" . $file_pretty_name,
         ];
+
+        if (config('filesystems.default') == 's3') {
+            return Storage::download('file-manager/' . $file->basename, $file_pretty_name, $headers);
+//            return Storage::temporaryUrl('file-manager/' . $file->basename, Carbon::now()->addHour());
+//            return response()->download(Storage::temporaryUrl('file-manager/' . $file->basename, Carbon::now()->addHour()));
+        }
 
         return response()->download(config('filesystems.disks.local.root') . '/file-manager/' . $file->basename, $file_pretty_name, $headers);
     }
