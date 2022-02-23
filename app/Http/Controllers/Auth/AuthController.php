@@ -23,6 +23,7 @@ class AuthController extends Controller
     /**
      * Check if user account exist
      *
+     * unauthenticated
      * @param CheckAccountRequest $request
      * @return mixed
      */
@@ -46,6 +47,9 @@ class AuthController extends Controller
     /**
      * Login user
      *
+     * @unauthenticated
+     * @bodyParam email string  required The email of the user. Example: nur.wachid@example.com
+     * @bodyParam password string required  The password of the user. Example: Pas$word
      * @param Request $request
      * @return mixed
      */
@@ -65,6 +69,16 @@ class AuthController extends Controller
     /**
      * Register user
      *
+     * @unauthenticated
+     * @bodyParam name string  required The name of the user. Example: Nur Wachid
+     * @bodyParam email string  required The email of the user. Example: nur.wachid@example.com
+     * @bodyParam password string  required The password of the user. Example: Pa$$word
+     * @bodyParam phone string  required The phone of the user. Example: 085225440120
+     * @bodyParam nik string  required The nik of the user. Example: 82328323823232
+     * @bodyParam ktp file  required The ktp of the user.
+     * @bodyParam selfie file  required The self photo of the user.
+     * @bodyParam birth_place string  required The birth place of the user. Example: Jakarta
+     * @bodyParam birth_date string  required The birth date of the user. Example: 2000-12-12
      * @param Request $request
      * @return mixed
      */
@@ -116,6 +130,7 @@ class AuthController extends Controller
     /**
      * Logout user entity
      *
+     * @authenticated
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function logout()

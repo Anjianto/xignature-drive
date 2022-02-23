@@ -25,6 +25,7 @@ class BrowseController extends Controller
      * Get trashed files
      *
      *
+     * @authenticated
      * @return Collection
      */
     public function trash()
@@ -60,6 +61,7 @@ class BrowseController extends Controller
     /**
      * Get user shared items
      *
+     * @authenticated
      * @return Collection
      */
     public function shared()
@@ -96,6 +98,7 @@ class BrowseController extends Controller
     /**
      * Get latest user uploads
      *
+     * @authenticated
      * @return mixed
      */
     public function latest()
@@ -114,6 +117,7 @@ class BrowseController extends Controller
     /**
      * Get participant uploads
      *
+     * @authenticated
      * @return mixed
      */
     public function participant_uploads()
@@ -132,6 +136,7 @@ class BrowseController extends Controller
     /**
      * Get directory with files
      *
+     * @authenticated
      * @param Request $request
      * @param $unique_id
      * @return Collection
@@ -183,6 +188,7 @@ class BrowseController extends Controller
     /**
      * Get user folder tree
      *
+     * @authenticated
      * @return array
      */
     public function navigation_tree()
@@ -206,6 +212,7 @@ class BrowseController extends Controller
     /**
      * Search files
      *
+     * @authenticated
      * @param SearchRequest $request
      * @return Collection
      */
