@@ -179,7 +179,7 @@ export default {
       this.pdf64 = pdfdata;
       this.setSignPosition(pdfDoc);
       this.pdfdata = pdfx.createLoadingTask(
-        !!this.signedId !== undefined
+        !!this.signedId === true
           ? {
               url: client.getDocUrl(this.signedId),
               httpHeaders: { "api-key": client.key },
