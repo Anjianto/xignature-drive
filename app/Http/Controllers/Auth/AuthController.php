@@ -81,6 +81,7 @@ class AuthController extends Controller
      * @bodyParam name string  required The name of the user. Example: Nur Wachid
      * @bodyParam email string  required The email of the user. Example: nur.wachid@example.com
      * @bodyParam password string  required The password of the user. Example: Pa$$word
+     * @bodyParam password_confirmation string  required The password of the user. Example: Pa$$word
      * @bodyParam phone string  required The phone of the user. Example: 085225440120
      * @bodyParam nik string  required The nik of the user. Example: 82328323823232
      * @bodyParam ktp file  required The ktp of the user.
