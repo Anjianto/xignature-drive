@@ -100,7 +100,12 @@ class AuthController extends Controller
         if (!intval($settings['registration'])) {
             abort(401);
         }
+        // $ktp = store_system_image($request->file('ktp'), 'ktp');
+        // $selfie = store_system_image($request->file('selfie'), 'selfie');
 
+        // if(!$ktp || !$selfie) {
+        //     abort(400, __t('upload_failed'));
+        // }
         // Validate request
         $request->validate([
             'name' => 'required|string|max:255',

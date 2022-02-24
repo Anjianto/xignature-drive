@@ -63,6 +63,7 @@ import axios from "axios";
 import { events } from "@/bus";
 import signatureClient from "@/http_client/signature_client";
 import { format } from "date-fns";
+import { createFileBlob } from "@/utils";
 
 export default {
   name: "Step2",
@@ -82,6 +83,7 @@ export default {
       isLoaded: false,
       isFinish: false,
       isCapture: false,
+      imageBlob: undefined,
       isLoading: false,
     };
   },
@@ -124,118 +126,99 @@ export default {
 
       this.isLoading = true;
 
-      signatureClient
-        .genLTC(
-          {
-            ...this.registerData,
-            fullname: this.registerData.name,
+      const dataRegister = new FormData();
+      dataRegister.append("name", this.registerData.name);
+      dataRegister.append("email", this.registerData.email);
+      dataRegister.append("password", this.registerData.password);
+      dataRegister.append(
+        "password_confirmation",
+        this.registerData.password_confirmation
+      );
+      dataRegister.append("phone", this.registerData.phone);
+      dataRegister.append("nik", this.registerData.nik);
+      // convert base64 to file byte
+      const ktp = this.dataURItoBlob(this.registerData.ktp);
+      const ktpFile = this.registerData.ktp;
+      dataRegister.append("ktp", ktpFile);
+      // convert blob to file
+      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
+        type: "image/jpeg",
+      });
+      console.log("selfie", selfieFile);
+      dataRegister.append("selfie", selfieFile);
+      const birthdate = this.registerData.birthdate;
+      const birthday = format(birthdate, "yyyy-MM-dd");
+      dataRegister.append("birth_date", birthday);
+      dataRegister.append("birth_place", this.registerData.birthplace);
+      console.log(dataRegister, "dataRegister");
+      axios
+        .post("/api/user/register", dataRegister, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-          1
-        )
-        .then((data) => {
-          const dataRegister = new FormData();
-          dataRegister.append("name", this.registerData.name);
-          dataRegister.append("email", this.registerData.email);
-          dataRegister.append("password", this.registerData.password);
-          dataRegister.append("password_confirmation", this.registerData.password_confirmation);
-          dataRegister.append("phone", this.registerData.phone);
-          dataRegister.append("nik", this.registerData.nik);
-          // convert base64 to file byte
-          const ktp = this.dataURItoBlob(this.registerData.ktp);
-          const ktpFile = new File([ktp], "ktp.jpg", {
-            type: "image/jpeg",
+        })
+        // })
+        .then(() => {
+          this.isLoading = false;
+          this.$store.commit("SET_AUTHORIZED", true);
+          console.log("success");
+          this.$router.push({
+            name: "Files",
+            query: { create_signature: true },
           });
-          dataRegister.append("ktp", ktpFile);
-          // convert blob to file
-          const selfie = this.blobPart(this.registerData.selfie);
-          const selfieFile = new File([selfie], "selfie.jpg", {
-            type: "image/jpeg",
-          });
-          console.log("selfie", selfieFile);
-          dataRegister.append("selfie", selfieFile);
-          const birthdate = this.registerData.birthdate;
-          const birthday = format(birthdate, "yyyy-MM-dd");
-          dataRegister.append("birth_date", birthday);
-          dataRegister.append("birth_place", this.registerData.birthplace);
-          console.log(dataRegister, "dataRegister");
-          axios
-            .post("/api/user/register", dataRegister, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-          // })
-            .then(() => {
-              this.isLoading = false;
-              this.$store.commit("SET_AUTHORIZED", true);
-              console.log("success");
-              this.$router.push({
-                name: "Files",
-                query: { create_signature: true },
-              });
-            })
-            .catch((error) => {
-              if (!error.response) return;
-              if (error.response.status == 401) {
-                if (error.response.data.error === "invalid_client") {
-                  events.$emit("alert:open", {
-                    emoji: "🤔",
-                    title: this.$t("popup_passport_error.title"),
-                    message: this.$t("popup_passport_error.message"),
-                  });
-                }
-              }
-              if (error.response.status == 500) {
-                events.$emit("alert:open", {
-                  emoji: "🤔",
-                  title: this.$t("popup_signup_error.title"),
-                  message: this.$t("popup_signup_error.message"),
-                });
-              }
-              if (error.response.status == 422) {
-                if (error.response.data.errors["email"]) {
-                  this.$refs.sign_up.setErrors({
-                    "E-Mail": error.response.data.errors["email"],
-                  });
-                }
-                if (error.response.data.errors["password"]) {
-                  this.$refs.sign_up.setErrors({
-                    "Your New Password": error.response.data.errors["password"],
-                  });
-                }
-              }
-
-              if (Object.keys(error.response.data.errors).length > 0) {
-                const firstKey = Object.keys(error.response.data.errors)[0];
-                events.$emit("alert:open", {
-                  emoji: "🤔",
-                  title: firstKey,
-                  message: error.response.data.errors[firstKey][0],
-                });
-              }
-
-              this.isLoading = false;
-            });
         })
         .catch((error) => {
-          console.log(error.response);
-          // if(error.response.status)
-          //   events.$emit("alert:open", {
-          //   emoji: "🤔",
-          //   title: `Error in ${Object.keys}`,
-          //   message: this.$t("popup_passport_error.message"),
-          // });
+          if (!error.response) return;
+          if (error.response.status == 401) {
+            if (error.response.data.error === "invalid_client") {
+              events.$emit("alert:open", {
+                emoji: "🤔",
+                title: this.$t("popup_passport_error.title"),
+                message: this.$t("popup_passport_error.message"),
+              });
+            }
+          }
+          if (error.response.status == 500) {
+            events.$emit("alert:open", {
+              emoji: "🤔",
+              title: this.$t("popup_signup_error.title"),
+              message: this.$t("popup_signup_error.message"),
+            });
+          }
+          if (error.response.status == 422) {
+            if (error.response.data.errors["email"]) {
+              this.$refs.sign_up.setErrors({
+                "E-Mail": error.response.data.errors["email"],
+              });
+            }
+            if (error.response.data.errors["password"]) {
+              this.$refs.sign_up.setErrors({
+                "Your New Password": error.response.data.errors["password"],
+              });
+            }
+          }
+
+          if (Object.keys(error.response.data.errors).length > 0) {
+            const firstKey = Object.keys(error.response.data.errors)[0];
+            events.$emit("alert:open", {
+              emoji: "🤔",
+              title: firstKey,
+              message: error.response.data.errors[firstKey][0],
+            });
+          }
+
+          this.isLoading = false;
         });
     },
   },
-  mounted() {
+  async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
     const video = document.getElementById("video");
     const capture = document.getElementById("capture");
     const canvas = document.getElementById("canvas");
     const capturedImg = document.getElementById("capturedImg");
 
-    navigator.mediaDevices
+    const stream = await navigator.mediaDevices
       .getUserMedia({
         audio: false,
         video: {
@@ -254,6 +237,8 @@ export default {
         } else {
           video.play();
         }
+
+        return stream;
       })
       .catch(console.error);
 
@@ -262,8 +247,12 @@ export default {
       this.isFinish = false;
     };
 
-    capture.onclick = () => {
+    capture.onclick = async () => {
       this.isCapture = true;
+      const track = stream.getVideoTracks()[0];
+      let imageCapture = new ImageCapture(track);
+      let image = await imageCapture.takePhoto();
+      let imgUrl = await createFileBlob(image);
       video.pause();
       const context = canvas.getContext("2d");
 
@@ -271,10 +260,17 @@ export default {
       canvas.height = selfieWrapper.clientHeight;
 
       context.drawImage(video, 0, 0, canvas.clientWidth, canvas.clientHeight);
-      this.$store.dispatch("set_register_data", {
-        selfie: canvas.toDataURL().split(",")[1],
+      console.log(canvas.toDataURL());
+      // this.$store.dispatch("set_register_data", {
+      //   selfie: canvas.toDataURL().split(",")[1],
+      // });
+      this.imageBlob = image;
+      capturedImg.src = imgUrl;
+      this.isFinish = true;
+      // stop camera running in background
+      video.srcObject.getTracks().forEach((track) => {
+        track.stop();
       });
-      capturedImg.src = canvas.toDataURL();
     };
   },
 };

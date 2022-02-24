@@ -99,7 +99,7 @@ export default {
       // this.userInfo.selfie = image;
       this.ktp = image;
       this.$store.dispatch("set_register_data", {
-        ktp: image,
+        ktp: files[0],
       });
       // this.$updateImage("/user/profile", "selfie", e.target.files[0]);
       // this.errors.selfie = "";
