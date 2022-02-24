@@ -168,7 +168,7 @@ export default {
       this.$store.dispatch("signDocument");
     },
     closeOTP() {
-      console.log("close");
+      // console.log("close");
       this.$store.dispatch("closeOTP");
     },
     isOTPOpen() {

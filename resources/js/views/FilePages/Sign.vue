@@ -35,7 +35,12 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
-    <OTPModal :open="isOTPModalOpen" @close="signDocument" />
+    <OTPModal
+      :step="step"
+      :open="isOTPModalOpen"
+      @submit="handleSubmit"
+      @close="isOTPModalOpen = checkModal"
+    />
   </div>
 </template>
 
@@ -55,6 +60,8 @@ import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import OTPModal from "@/components/FilesView/OTPModal.vue";
 import Cookies from "js-cookie";
 import { isUndefined } from "lodash";
+import client from "@/http_client/signature_client";
+import pdfjs from "pdfjs";
 
 export default {
   name: "SignView",
@@ -67,7 +74,20 @@ export default {
     MinusIcon,
     OTPModal,
   },
+  async mounted() {
+    const id = this.$route.query["id"];
+    if (id) {
+      Cookies.set("last_sign_file", id);
+    }
+
+    events.$on("toaster:close", async (res) => {
+      if(res.code === 221) {
+        this.getPdf();
+      }
+    });
+  },
   computed: {
+    ...mapGetters(["signDoc"]),
     filename() {
       const name = this.$route.params["fileId"];
       const ext = this.$route.query["type"] || this.$route.query["ext"];
@@ -82,8 +102,29 @@ export default {
     },
   },
   methods: {
+    async loadDoc(id) {
+      const fileId = Cookies.get("last_sign_file") || id;
+      const { data } = await axios.get(`/api/doc/${fileId}`);
+      this.signedId = data.data.document_id;
+      console.log(this.signedId);
+    },
+    handleSubmit(otp) {
+      if (this.step == 1) {
+        this.signDocument(otp);
+      }
+
+      if (this.step == 0) {
+        this.sendOtp();
+      }
+    },
+    checkModal(step) {
+      // resend otp
+      if (this.step === 1) {
+        this.sendOtp();
+      }
+    },
     signDocument(otp) {
-      this.isOTPModalOpen = false;
+      const fileId = this.$route.query["id"];
       this.$store.dispatch("signDocument", {
         file: this.pdf64.split(",")[1],
         page: this.numPages,
@@ -91,7 +132,18 @@ export default {
         title: this.filename,
         signPos: this.signPos,
         reason: "Acceptance",
+        fileId,
       });
+
+      this.isOTPModalOpen = false;
+    },
+    async sendOtp() {
+      // send otp token
+      const fileid = this.$route.query["id"];
+      this.$store.dispatch("genSignToken", {
+        fileid,
+      });
+      this.step = 1;
     },
     setPageNumber(sum) {
       if (this.numPages !== 0) {
@@ -115,6 +167,8 @@ export default {
     async getPdf() {
       this.pdfdata = undefined;
       this.numPages = 0;
+      const id = this.$route.query["id"];
+      await this.loadDoc(id);
       const data = await createBlobFromFile(this.fileUrl);
       const pdfdata = await createFileBlob(data);
       const pdfbin = convertDataURIToBinary(pdfdata);
@@ -124,7 +178,15 @@ export default {
       this.pdfbin = pdfbin;
       this.pdf64 = pdfdata;
       this.setSignPosition(pdfDoc);
-      this.pdfdata = pdfx.createLoadingTask(pdfbin);
+      this.pdfdata = pdfx.createLoadingTask(
+        !!this.signedId !== undefined
+          ? {
+              url: client.getDocUrl(this.signedId),
+              httpHeaders: { "api-key": client.key },
+              withCredentials: true,
+            }
+          : pdfbin
+      );
       setTimeout(() => {
         this.$refs.pdfwrapper.addEventListener("scroll", (e) => {
           // get scroll position
@@ -167,11 +229,7 @@ export default {
           },
         });
       }
-      // send otp token
-      const fileid = this.$route.query["id"];
-      this.$store.dispatch("genSignToken", {
-        fileid,
-      });
+
       this.isOTPModalOpen = true;
     },
     getFilesForView() {
@@ -204,6 +262,8 @@ export default {
       pdfbin: undefined,
       pdf64: undefined,
       signPos: undefined,
+      step: 0,
+      signedId: undefined,
       isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,

@@ -29,19 +29,25 @@
                         </ValidationProvider>
                     </TabOption>
 
+                    <!-- share xiganture -->
+                    <!-- <TabOption v-if="isDoc" :title="$t('Xignature')" icon="link">
+                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
+                        </ValidationProvider>
+                    </TabOption> -->
 
                 </TabWrapper>
 
-                <!-- <TabWrapper v-if="pickedItem.shared"> -->
+                <TabWrapper v-if="pickedItem.shared">
 
                     <!-- share xiganture -->
-                    <!-- <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link"> -->
-                        <!-- <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }"> -->
-                            <!-- <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/> -->
-                        <!-- </ValidationProvider> -->
-                    <!-- </TabOption> -->
+                    <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link">
+                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
+                        </ValidationProvider>
+                    </TabOption>
 
-                <!-- </TabWrapper> -->
+                </TabWrapper>
 
                 <!--Permision Select-->
                 <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
@@ -120,7 +126,7 @@ import { events } from '@/bus'
 import axios from 'axios'
 
 export default {
-    name: 'ShareCreate',
+    name: 'SignRequest',
     components: {
         ValidationProvider,
         ValidationObserver,

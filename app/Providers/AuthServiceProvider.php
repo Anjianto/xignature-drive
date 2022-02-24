@@ -37,12 +37,14 @@ class AuthServiceProvider extends ServiceProvider
             'master'  => 'Master',
             'editor'  => 'Editor',
             'visitor' => 'Visitor',
+            'signer'  => 'Signer',
         ]);
 
         Passport::setDefaultScope([
             'master',
             'editor',
             'visitor',
+            'signer',
         ]);
     }
 }

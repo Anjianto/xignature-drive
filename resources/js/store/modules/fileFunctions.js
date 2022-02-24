@@ -478,7 +478,7 @@ const getters = {
   isProcessingFile: (state) => state.isProcessingFile,
   processingPopup: (state) => state.processingPopup,
   fileQueue: (state) => state.fileQueue,
-  otp: (state) => state.otp,
+  // otp: (state) => state.otp,
 };
 
 export default {

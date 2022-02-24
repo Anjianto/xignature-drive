@@ -705,5 +705,6 @@ return [
         'sigature_profile.save_profile'                    => 'Save Profile',
         'navigation.next'                                  => 'Next',
         'navigation.previous'                              => 'Previous',
+        'popup_share_xignature.title'                      => 'Request Xignature',
     ]
 ];

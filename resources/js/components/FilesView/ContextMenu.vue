@@ -164,12 +164,12 @@
           "
           icon="share"
         />
-        <Option
+        <!-- <Option
           @click.native="shareXignature"
           v-if="item.shared"
           :title="$t('Share Xignature')"
           icon="share"
-        />
+        /> -->
         <Option
           @click.native="deleteItem"
           :title="$t('context_menu.delete')"
@@ -303,13 +303,8 @@
           "
           icon="share"
         />
-        <Option
-          @click.native="shareXignature"
-          v-if="item.shared && isDoc"
-          :title="$t('Share Xignature')"
-          icon="share"
-        />
-        <Option v-if="isDoc" @click.native="singleSignItem" title="Sign" icon="sign" />
+        <Option v-if="isDoc" @click.native="requestSign" title="Request Sign" icon="sign" />
+        <Option v-if="isDoc" @click.native="singleSignItem" title="Sign Doc" icon="sign" />
         <Option
           @click.native="deleteItem"
           :title="$t('context_menu.delete')"
@@ -656,7 +651,7 @@ export default {
         },
         query: {
           type: ext,
-          id: this.item.unique_id,
+          id: this.item.id,
           scope: this.item.user_scope,
           user: this.item.user_id,
         },
@@ -664,6 +659,15 @@ export default {
     },
     moveItem() {
       events.$emit("popup:open", { name: "move", item: [this.item] });
+    },
+    requestSign() {
+      if (this.item.shared) {
+        // Open edit share popup
+        events.$emit("popup:open", { name: "share-xignature", item: this.item });
+      } else {
+        // Open create share popup
+        events.$emit("popup:open", { name: "share-xignature", item: this.item });
+      }
     },
     shareItem() {
       if (this.item.shared) {

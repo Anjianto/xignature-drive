@@ -25,6 +25,7 @@ Route::get('/avatars/{avatar}', 'FileAccessController@get_avatar')->name('avatar
 Route::get('/selfie/{selfie}', 'FileAccessController@get_selfie');
 Route::get('/ktp/{ktp}', 'FileAccessController@get_ktp');
 Route::get('/system/{image}', 'FileAccessController@get_system_image');
+Route::get('/invitation/{code}', 'FileAccessController@get_invitation_code');
 
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/public/{token}', 'FileAccessController@get_thumbnail_public');

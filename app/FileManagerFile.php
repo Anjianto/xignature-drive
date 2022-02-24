@@ -115,6 +115,11 @@ class FileManagerFile extends Model
         return utf8_encode($this->attributes['basename']);
     }
 
+    public function baseFilename()
+    {
+        return pathinfo($this->basename, PATHINFO_FILENAME);
+    }
+
     /**
      * @return false|string
      */
@@ -248,6 +253,10 @@ class FileManagerFile extends Model
         ];
     }
 
+    public function sign_info() {
+        return $this->signatures()->get();
+    }
+
     /**
      * Get parent
      *
@@ -282,8 +291,8 @@ class FileManagerFile extends Model
      * Get sharing attributes
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function signs()
+    public function signatures()
     {
-        return $this->hasMany('App\Signatures', 'file_manager_file', 'unique_id');
+        return $this->hasMany('App\Signatures', 'file_manager_file', 'id');
     }
 }

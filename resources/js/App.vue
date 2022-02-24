@@ -10,6 +10,9 @@
       <!-- Full File Preview -->
       <FileFullPreview />
 
+      <!-- File PDF Editor -->
+      <!-- <FilePDFEditor /> -->
+
       <!--Mobile Navigation-->
       <MobileNavigation />
 
@@ -23,6 +26,10 @@
       <ShareCreate />
       <ShareEdit />
 
+      <!--Share Item setup-->
+      <SignRequest />
+
+      <ShareXignature />
       <!--Rename folder or file item-->
       <RenameItem />
 
@@ -84,9 +91,12 @@ import Vignette from "@/components/Others/Vignette";
 import DragUI from "@/components/FilesView/DragUI";
 import MenuBar from "@/components/Sidebar/MenuBar";
 import Alert from "@/components/FilesView/Alert";
+import SignRequest from "@/components/Others/SignRequest";
+import ShareXignature from "@/components/Others/ShareXignature";
 import { includes } from "lodash";
 import { mapGetters } from "vuex";
 import { events } from "./bus";
+// import FilePDFEditor from "@/components/FilesView/FilePDFEditor.vue";
 
 export default {
   name: "app",
@@ -106,10 +116,13 @@ export default {
     ShareEdit,
     MoveItem,
     Vignette,
+    ShareXignature,
     Confirm,
+    SignRequest,
     MenuBar,
     DragUI,
     Alert,
+    // FilePDFEditor,
   },
   computed: {
     ...mapGetters(["isLogged", "isGuest", "config", "fileQueue"]),

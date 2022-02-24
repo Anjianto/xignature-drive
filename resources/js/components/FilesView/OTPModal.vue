@@ -2,7 +2,7 @@
   <div class="otp-modal" v-if="open">
     <div class="otp-overlay"></div>
 
-    <div class="otp">
+    <div :class="['otp', { first: step == 0}]">
       <div class="icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -18,24 +18,42 @@
           />
         </svg>
       </div>
-      <div class="right">
+      <div :class="[{right: step == 1}]">
         <h4 class="title">OTP Diperlukan</h4>
-        <p class="description">
+
+        <p v-if="step == 1" class="description">
           Masukan 6 digit token yang diperlukan dari aplikasi
           <span>Authenticator</span>
         </p>
+        <p v-else class="description">
+          Send OTP to email to your email address
+        </p>
 
         <form @submit.prevent="onSubmit">
-          <input type="number" v-model="otp" class="otp-input" />
+          <input v-if="step == 1" type="number" v-model="otp" class="otp-input" />
 
           <div class="button-wrapper">
             <ButtonBase
+              v-if="step == 0"
               type="button"
               button-style="secondary"
               @click.native="closeOTP"
-              >Cancel</ButtonBase
+              >Batal</ButtonBase
             >
-            <ButtonBase type="submit" button-style="theme">Submit</ButtonBase>
+
+            <ButtonBase
+              v-else
+              type="button"
+              button-style="secondary"
+              @click.native="closeOTP"
+              >Kirim Ulang</ButtonBase
+            >
+            <ButtonBase v-if="step == 0" type="submit" button-style="theme">
+              Kirim OTP
+            </ButtonBase>
+            <ButtonBase v-else type="submit" button-style="theme">
+              Tanda Tangani
+            </ButtonBase>
           </div>
         </form>
       </div>
@@ -53,6 +71,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    step: {
+      type: Number,
+      default: 0,
+    },
   },
   components: {
     ButtonBase,
@@ -62,19 +84,15 @@ export default {
       otp: "",
     };
   },
-  computed: {
-    isOTP() {
-      return this.$store.state.fileFunctions.isOTPOpen;
-    },
-  },
   methods: {
     closeOTP() {
-      this.$emit("close", this.otp);
-      this.$store.dispatch("closeOTP");
+      this.$emit("close");
+      // this.$store.dispatch("closeOTP");
     },
     onSubmit() {
-      this.$store.dispatch("setOTP", parseInt(this.otp));
-      this.closeOTP();
+      this.$emit("submit", this.otp);
+      // this.$store.dispatch("setOTP", parseInt(this.otp));
+      // this.closeOTP(this.step);
     },
   },
 };
@@ -109,7 +127,9 @@ export default {
     border-radius: 0.75rem;
     display: flex;
     padding: 1.5rem;
-
+    &.first {
+      flex-direction: column;
+    }
     .icon {
       height: 2.5rem;
       width: 2.5rem;

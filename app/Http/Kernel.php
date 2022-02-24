@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\AdminCheck;
 use App\Http\Middleware\CookieAuth;
 use App\Http\Middleware\SharedAuth;
+use App\Http\Middleware\SignerAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,6 +60,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth.master'      => CookieAuth::class,
         'auth.shared'      => SharedAuth::class,
+        'auth.singer'      => SignerAuth::class,
         'auth.admin'       => AdminCheck::class,
         'auth'             => \App\Http\Middleware\Authenticate::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
