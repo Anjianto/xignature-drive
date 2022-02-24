@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\FileManagerFolder;
-use App\Http\Tools\Editor;
 use App\Http\Tools\Guardian;
-use App\Share;
 use App\User;
 use App\Zip;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\FileManagerFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Madnest\Madzipper\Facades\Madzipper;
-use Response;
-use League\Flysystem\FileNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @group File Access
+ *
+ * Class FileAccessController
+ * @package App\Http\Controllers
+ */
 class FileAccessController extends Controller
 {
     /**
@@ -30,7 +25,6 @@ class FileAccessController extends Controller
      *
      * @param $basename
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_avatar($basename)
     {
@@ -38,17 +32,19 @@ class FileAccessController extends Controller
         $path = '/avatars/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return avatar
         return Storage::download($path, $basename);
     }
+
     /**
      * Get selfie
      *
      * @param $basename
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_selfie($basename)
     {
@@ -56,7 +52,9 @@ class FileAccessController extends Controller
         $path = '/selfie/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return selfie
         return Storage::download($path, $basename);
@@ -67,7 +65,6 @@ class FileAccessController extends Controller
      *
      * @param $basename
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_ktp($basename)
     {
@@ -75,7 +72,9 @@ class FileAccessController extends Controller
         $path = '/ktp/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return ktp
         return Storage::download($path, $basename);
@@ -86,7 +85,6 @@ class FileAccessController extends Controller
      *
      * @param $basename
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get_system_image($basename)
     {
@@ -94,7 +92,9 @@ class FileAccessController extends Controller
         $path = '/system/' . $basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return avatar
         return Storage::download($path, $basename);
@@ -288,7 +288,9 @@ class FileAccessController extends Controller
 
         // Check by single file permission
         if ($shared->type === 'file') {
-            if ($shared->item_id !== $file->unique_id) abort(403);
+            if ($shared->item_id !== $file->unique_id) {
+                abort(403);
+            }
         }
     }
 
@@ -297,7 +299,6 @@ class FileAccessController extends Controller
      *
      * @param $file
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     private function download_file($file)
     {
@@ -307,7 +308,9 @@ class FileAccessController extends Controller
         $path = '/file-manager/' . $file->basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         $headers = [
             "Accept-Ranges"       => "bytes",
@@ -329,7 +332,6 @@ class FileAccessController extends Controller
     /**
      * @param $file
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     private function thumbnail_file($file)
     {
@@ -337,7 +339,9 @@ class FileAccessController extends Controller
         $path = '/file-manager/' . $file->getRawOriginal('thumbnail');
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         // Return image thumbnail
         return Storage::download($path, $file->getRawOriginal('thumbnail'));

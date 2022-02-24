@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -42,24 +41,22 @@ class SharedSendViaEmail extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {   
-
-        if($this->sign_mode === false) {
+    {
+        if ($this->sign_mode === false) {
             return (new MailMessage)
-                ->subject(__t('shared_link_email_subject' , ['user' => $this->user->name]))
+                ->subject(__t('shared_link_email_subject', ['user' => $this->user->name]))
                 ->greeting(__t('shared_link_email_greeting'))
                 ->line(__t('shared_link_email_user', ['user' => $this->user->name, 'email' => $this->user->email]))
                 ->action(__t('shared_link_email_link'), url('/shared', ['token' => $this->token]))
                 ->salutation(__t('shared_link_email_salutation', ['app_name' => get_setting('app_title') ?? 'Xignature Drive']));
         } else {
             return (new MailMessage)
-            ->subject(__t('shared_link_email_sign_subject' , ['user' => $this->user->name]))
+            ->subject(__t('shared_link_email_sign_subject', ['user' => $this->user->name]))
             ->greeting(__t('shared_link_email_sign_greeting'))
             ->line(__t('shared_link_email_sign_user', ['user' => $this->user->name, 'email' => $this->user->email]))
-            ->action(__t('shared_link_email_sign_link'), url('/shared/sign' , ['token' => $this->token]))
+            ->action(__t('shared_link_email_sign_link'), url('/shared/sign', ['token' => $this->token]))
             ->salutation(__t('shared_link_email_sign_salutation', ['app_name' => get_setting('app_title') ?? 'Xignature Drive']));
         }
-
     }
 
     /**

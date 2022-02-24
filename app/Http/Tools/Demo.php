@@ -2,8 +2,6 @@
 
 namespace App\Http\Tools;
 
-use App;
-use App\Share;
 use App\FileManagerFile;
 use App\FileManagerFolder;
 use App\Http\Requests\FileFunctions\RenameItemRequest;
@@ -11,12 +9,7 @@ use App\User;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as Image;
-
 
 class Demo
 {
@@ -58,13 +51,10 @@ class Demo
     {
         // Get item
         if ($request->type === 'folder') {
-
             $item = FileManagerFolder::where('unique_id', $unique_id)
                 ->where('user_id', 1)
                 ->first();
-
         } else {
-
             $item = FileManagerFile::where('unique_id', $unique_id)
                 ->where('user_id', 1)
                 ->first();
@@ -76,9 +66,7 @@ class Demo
             $item->icon_color = $request->folder_icon['color'] ?? null;
 
             return $item;
-
         } else {
-
             return [
                 'unique_id'  => $request->unique_id,
                 'name'       => $request->name,
@@ -130,7 +118,6 @@ class Demo
      */
     public static function response_204()
     {
-
         return response('Done!', 204);
     }
 
@@ -141,7 +128,6 @@ class Demo
      */
     public static function favourites($user)
     {
-
         return $user->favourite_folders->makeHidden(['pivot']);
     }
 }

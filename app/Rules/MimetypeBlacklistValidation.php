@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Rules;
+
 use Illuminate\Contracts\Validation\Rule;
 
 class MimetypeBlacklistValidation implements Rule
@@ -24,10 +25,10 @@ class MimetypeBlacklistValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-        $mimetype_blacklist = explode(',' ,get_setting('mimetypes_blacklist'));
-        $file_mimetype = explode('/' ,$value->getMimeType());
+        $mimetype_blacklist = explode(',', get_setting('mimetypes_blacklist'));
+        $file_mimetype = explode('/', $value->getMimeType());
         
-        return !array_intersect($file_mimetype , $mimetype_blacklist);
+        return !array_intersect($file_mimetype, $mimetype_blacklist);
     }
 
     /**
@@ -37,6 +38,6 @@ class MimetypeBlacklistValidation implements Rule
      */
     public function message()
     {
-       abort (415,'Type of this mime type is not allowed.');
+        abort(415, 'Type of this mime type is not allowed.');
     }
 }

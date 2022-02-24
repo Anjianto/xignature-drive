@@ -5,9 +5,6 @@ namespace App\Console;
 use App\Console\Commands\Deploy;
 
 // use App\Console\Commands\SetupDevelopmentEnvironment;
-use App\Console\Commands\SetupDevEnvironment;
-use App\Console\Commands\SetupProductionEnvironment;
-use App\Console\Commands\UpgradeApp;
 use App\Share;
 use App\Zip;
 use Carbon\Carbon;

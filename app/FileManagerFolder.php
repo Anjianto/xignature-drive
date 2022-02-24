@@ -56,19 +56,32 @@ use Kyslik\ColumnSortable\Sortable;
  * @method static \Illuminate\Database\Query\Builder|\App\FileManagerFolder withoutTrashed()
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder sortable($defaultParameters = null)
+ * @property string|null $icon_color
+ * @property object|null $icon_emoji
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder whereIconColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFolder whereIconEmoji($value)
  */
 class FileManagerFolder extends Model
 {
     use Searchable, SoftDeletes , Sortable;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [
         'id'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'items', 'trashed_items'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'icon_emoji' => 'object',
     ];
@@ -83,10 +96,17 @@ class FileManagerFolder extends Model
         'created_at',
     ];
 
-    public function getNameAttribute() {
+    /**
+     * @return false|string
+     */
+    public function getNameAttribute()
+    {
         return utf8_encode($this->attributes['name']);
     }
 
+    /**
+     * @return false|string
+     */
     public function getCreatedAtAttribute()
     {
         return utf8_encode(
@@ -94,6 +114,9 @@ class FileManagerFolder extends Model
         );
     }
 
+    /**
+     * @return false|string
+     */
     public function getUpdatedAtAttribute()
     {
         return utf8_encode(
@@ -101,9 +124,14 @@ class FileManagerFolder extends Model
         );
     }
 
+    /**
+     * @return false|string|null
+     */
     public function getDeletedAtAttribute()
     {
-        if (!$this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) {
+            return null;
+        }
 
         return utf8_encode(
             format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'))
@@ -163,6 +191,9 @@ class FileManagerFolder extends Model
         return $this->belongsTo('App\FileManagerFolder', 'parent_id', 'unique_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function folderIds()
     {
         return $this->children()->with('folderIds')->select(['unique_id', 'parent_id']);
@@ -185,7 +216,6 @@ class FileManagerFolder extends Model
      */
     public function trashed_files()
     {
-
         return $this->hasMany('App\FileManagerFile', 'folder_id', 'unique_id')->withTrashed();
     }
 
@@ -240,25 +270,25 @@ class FileManagerFolder extends Model
     }
 
     // Delete all folder childrens
+
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();
 
         static::deleting(function ($item) {
-
-            if ( $item->isForceDeleting() ) {
-
-                $item->trashed_children()->each(function($folder) {
+            if ($item->isForceDeleting()) {
+                $item->trashed_children()->each(function ($folder) {
                     $folder->forceDelete();
                 });
-
             } else {
-
-                $item->children()->each(function($folder) {
+                $item->children()->each(function ($folder) {
                     $folder->delete();
                 });
 
-                $item->files()->each(function($file) {
+                $item->files()->each(function ($file) {
                     $file->delete();
                 });
             }
@@ -267,12 +297,12 @@ class FileManagerFolder extends Model
         static::restoring(function ($item) {
 
             // Restore children folders
-            $item->trashed_children()->each(function($folder) {
+            $item->trashed_children()->each(function ($folder) {
                 $folder->restore();
             });
 
             // Restore children files
-            $item->trashed_files()->each(function($files) {
+            $item->trashed_files()->each(function ($files) {
                 $files->restore();
             });
         });

@@ -29,10 +29,17 @@ use Schema;
 use Stripe;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * @group Setup Wizard
+ *
+ * Class SetupWizardController
+ * @package App\Http\Controllers\General
+ */
 class SetupWizardController extends Controller
 {
     /**
      * Inject Stripe Service
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {
@@ -48,7 +55,9 @@ class SetupWizardController extends Controller
     public function verify_purchase_code(Request $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         // Verify purchase code
         $response = Http::get('https://verify.vuefilemanager.com/api/verify-code/' . $request->purchaseCode);
@@ -69,7 +78,9 @@ class SetupWizardController extends Controller
     public function setup_database(StoreDatabaseCredentialsRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         try {
             // Set temporary database connection
@@ -82,7 +93,6 @@ class SetupWizardController extends Controller
 
             // Test connection
             \DB::connection('test')->getPdo();
-
         } catch (PDOException $e) {
             throw new HttpException(500, $e->getMessage());
         }
@@ -120,7 +130,9 @@ class SetupWizardController extends Controller
     public function store_stripe_credentials(StoreStripeCredentialsRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         // Create stripe instance
         $stripe = Stripe::make($request->secret, '2020-03-02');
@@ -176,7 +188,9 @@ class SetupWizardController extends Controller
     public function store_stripe_billings(StoreStripeBillingRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         // Get options
         $settings = collect([
@@ -233,7 +247,9 @@ class SetupWizardController extends Controller
     public function store_stripe_plans(StoreStripePlansRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         foreach ($request->input('plans') as $plan) {
             $this->stripe->createPlan($plan);
@@ -249,19 +265,19 @@ class SetupWizardController extends Controller
     public function store_environment_setup(StoreEnvironmentSetupRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         $storage_driver = $request->input('storage.driver');
 
         if ($storage_driver === 'local') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER' => 'local',
             ]);
         }
 
         if ($storage_driver === 's3') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER'     => $request->input('storage.driver'),
                 'AWS_ACCESS_KEY_ID'     => $request->input('storage.key'),
@@ -272,7 +288,6 @@ class SetupWizardController extends Controller
         }
 
         if ($storage_driver === 'spaces') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
                 'DO_SPACES_KEY'      => $request->input('storage.key'),
@@ -284,7 +299,6 @@ class SetupWizardController extends Controller
         }
 
         if ($storage_driver === 'wasabi') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER' => $request->input('storage.driver'),
                 'WASABI_KEY'        => $request->input('storage.key'),
@@ -296,7 +310,6 @@ class SetupWizardController extends Controller
         }
 
         if ($storage_driver === 'backblaze') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER'  => $request->input('storage.driver'),
                 'BACKBLAZE_KEY'      => $request->input('storage.key'),
@@ -308,7 +321,6 @@ class SetupWizardController extends Controller
         }
 
         if ($storage_driver === 'oss') {
-
             setEnvironmentValue([
                 'FILESYSTEM_DRIVER'     => $request->input('storage.driver'),
                 'OSS_ACCESS_KEY_ID'     => $request->input('storage.key'),
@@ -342,7 +354,9 @@ class SetupWizardController extends Controller
     public function store_app_settings(StoreAppSetupRequest $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         // Store Logo
         if ($request->hasFile('logo')) {
@@ -424,7 +438,9 @@ class SetupWizardController extends Controller
     public function create_admin_account(Request $request)
     {
         // Check setup status
-        if ($this->get_setup_status()) abort(410, 'Gone');
+        if ($this->get_setup_status()) {
+            abort(410, 'Gone');
+        }
 
         // Validate request
         $request->validate([
@@ -533,7 +549,6 @@ class SetupWizardController extends Controller
 
         // Send access token to user if request is successful
         if ($response->isSuccessful()) {
-
             $data = json_decode($response->content(), true);
 
             return response('Admin was created', 200)->cookie('access_token', $data['access_token'], 43200);
@@ -617,9 +632,7 @@ class SetupWizardController extends Controller
 
             // Get setup_wizard status
             return Schema::hasTable('settings') ? Setting::where('name', 'setup_wizard_success')->first() : false;
-
         } catch (PDOException $e) {
-
             return false;
         }
     }

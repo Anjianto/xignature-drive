@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Language;
 use App\LanguageTranslation;
 use DB;
@@ -14,7 +13,7 @@ class LanguageService
      * @param $license
      * @param $locale
      */
-    function create_default_language_translations($license, $locale)
+    public function create_default_language_translations($license, $locale)
     {
         $translations = [
             'extended' => collect([
@@ -49,7 +48,7 @@ class LanguageService
      * Find newly added translations in default language
      * translations file and insert it into database
      */
-    function upgrade_language_translations()
+    public function upgrade_language_translations()
     {
         // Get all app locales
         $locales = Language::all()
@@ -79,7 +78,6 @@ class LanguageService
 
         // Store new translations for every language
         $locales->each(function ($locale) use ($newbies) {
-
             $translations = $newbies
                 ->map(function ($value, $key) use ($locale) {
                     return [

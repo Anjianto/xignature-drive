@@ -8,8 +8,13 @@ use App\Http\Resources\InvoiceResource;
 use App\Invoice;
 use App\Services\StripeService;
 use App\Setting;
-use Illuminate\Http\Request;
 
+/**
+ * @group Invoice
+ *
+ * Class InvoiceController
+ * @package App\Http\Controllers\Admin
+ */
 class InvoiceController extends Controller
 {
     /**

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\FileBrowser;
 
 use App\Http\Requests\FileBrowser\SearchRequest;
 use App\User;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
@@ -13,12 +12,20 @@ use App\FileManagerFolder;
 use App\FileManagerFile;
 use App\Share;
 
+/**
+ * @group Browse
+ *
+ * Class BrowseController
+ * @package App\Http\Controllers\FileBrowser
+ */
 class BrowseController extends Controller
 {
 
     /**
      * Get trashed files
      *
+     *
+     * @authenticated
      * @return Collection
      */
     public function trash()
@@ -54,6 +61,7 @@ class BrowseController extends Controller
     /**
      * Get user shared items
      *
+     * @authenticated
      * @return Collection
      */
     public function shared()
@@ -90,13 +98,15 @@ class BrowseController extends Controller
     /**
      * Get latest user uploads
      *
+     * @authenticated
      * @return mixed
      */
-    public function latest() {
+    public function latest()
+    {
 
         // Get User
-        $user = User::with(['latest_uploads' => function($query) {
-            $query->sortable(['created_at' => 'desc']); 
+        $user = User::with(['latest_uploads' => function ($query) {
+            $query->sortable(['created_at' => 'desc']);
         }])
             ->where('id', Auth::id())
             ->first();
@@ -107,9 +117,11 @@ class BrowseController extends Controller
     /**
      * Get participant uploads
      *
+     * @authenticated
      * @return mixed
      */
-    public function participant_uploads() {
+    public function participant_uploads()
+    {
 
         // Get User
         $uploads = FileManagerFile::with(['parent'])
@@ -124,6 +136,7 @@ class BrowseController extends Controller
     /**
      * Get directory with files
      *
+     * @authenticated
      * @param Request $request
      * @param $unique_id
      * @return Collection
@@ -175,10 +188,11 @@ class BrowseController extends Controller
     /**
      * Get user folder tree
      *
+     * @authenticated
      * @return array
      */
-    public function navigation_tree() {
-
+    public function navigation_tree()
+    {
         $folders = FileManagerFolder::with('folders:id,parent_id,unique_id,name')
             ->where('parent_id', 0)
             ->where('user_id', Auth::id())
@@ -198,8 +212,9 @@ class BrowseController extends Controller
     /**
      * Search files
      *
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @authenticated
+     * @param SearchRequest $request
+     * @return Collection
      */
     public function search(SearchRequest $request)
     {

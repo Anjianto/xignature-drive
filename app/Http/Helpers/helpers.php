@@ -35,12 +35,12 @@ function __t($key, $values = null)
 
     // Get language strings
     $strings = cache()->rememberForever("language-translations-$locale", function () use ($locale) {
-            try {
-                return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
-            } catch (QueryException | ModelNotFoundException $e) {
-                return null;
-            }
-        }) ?? get_default_language_translations();
+        try {
+            return Language::whereLocale($locale)->firstOrFail()->languageTranslations;
+        } catch (QueryException | ModelNotFoundException $e) {
+            return null;
+        }
+    }) ?? get_default_language_translations();
 
     // Find the string by key
     $string = $strings->firstWhere('key', $key)->value ?? $strings->get($key);
@@ -69,7 +69,9 @@ function replace_occurrence($string, $values)
     });
 
     return str_ireplace(
-        $occurrences->pluck('key')->toArray(), $occurrences->pluck('message')->toArray(), $string
+        $occurrences->pluck('key')->toArray(),
+        $occurrences->pluck('message')->toArray(),
+        $string
     );
 }
 
@@ -135,17 +137,19 @@ function get_setting($setting)
 function add_paragraphs($str)
 {
     // Trim whitespace
-    if (($str = trim($str)) === '') return '';
+    if (($str = trim($str)) === '') {
+        return '';
+    }
 
     // Standardize newlines
-    $str = str_replace(array("\r\n", "\r"), "\n", $str);
+    $str = str_replace(["\r\n", "\r"], "\n", $str);
 
     // Trim whitespace on each line
     $str = preg_replace('~^[ \t]+~m', '', $str);
     $str = preg_replace('~[ \t]+$~m', '', $str);
 
     // The following regexes only need to be executed if the string contains html
-    if ($html_found = (strpos($str, '<') !== FALSE)) {
+    if ($html_found = (strpos($str, '<') !== false)) {
         // Elements that should not be surrounded by p tags
         $no_p = '(?:p|div|article|header|aside|hgroup|canvas|output|progress|section|figcaption|audio|video|nav|figure|footer|video|details|main|menu|summary|h[1-6r]|ul|ol|li|blockquote|d[dlt]|pre|t[dhr]|t(?:able|body|foot|head)|c(?:aption|olgroup)|form|s(?:elect|tyle)|a(?:ddress|rea)|ma(?:p|th))';
 
@@ -159,7 +163,7 @@ function add_paragraphs($str)
     $str = preg_replace('~\n{2,}~', "</p>\n\n<p>", $str);
 
     // The following regexes only need to be executed if the string contains html
-    if ($html_found !== FALSE) {
+    if ($html_found !== false) {
         // Remove p tags around $no_p elements
         $str = preg_replace('~<p>(?=</?' . $no_p . '[^>]*+>)~i', '', $str);
         $str = preg_replace('~(</?' . $no_p . '[^>]*+>)</p>~i', '$1', $str);
@@ -185,7 +189,6 @@ function setEnvironmentValue(array $values)
 
     if (count($values) > 0) {
         foreach ($values as $envKey => $envValue) {
-
             $str .= "\n"; // In case the searched variable is in the last line without \n
             $keyPosition = strpos($str, "{$envKey}=");
             $endOfLinePosition = strpos($str, "\n", $keyPosition);
@@ -197,9 +200,10 @@ function setEnvironmentValue(array $values)
     }
 
     $str = substr($str, 0, -1);
-    if (!file_put_contents($envFile, $str)) return false;
+    if (!file_put_contents($envFile, $str)) {
+        return false;
+    }
     return true;
-
 }
 
 /**
@@ -283,7 +287,6 @@ function is_demo($user_id)
  */
 function get_item($type, $unique_id, $user_id)
 {
-
     if ($type === 'folder') {
 
         // Return folder item
@@ -306,7 +309,6 @@ function get_item($type, $unique_id, $user_id)
  */
 function get_shared($token)
 {
-
     return Share::where(DB::raw('BINARY `token`'), $token)
         ->firstOrFail();
 }
@@ -319,7 +321,6 @@ function get_shared($token)
  */
 function is_editor($shared)
 {
-
     return $shared->permission === 'editor';
 }
 
@@ -430,7 +431,8 @@ function make_single_input($request)
 // return image file from base64 string
 // @param  string $url
 // @return \Illuminate\Http\UploadedFile
-function base64_to_image($url) {
+function base64_to_image($url)
+{
     $image_parts = explode(";base64,", $url);
     $image_type_aux = explode("image/", $image_parts[0]);
     $image_type = $image_type_aux[1];
@@ -533,7 +535,7 @@ function recursiveFind(array $array, $needle)
 {
     $iterator = new RecursiveArrayIterator($array);
     $recursive = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
-    $aHitList = array();
+    $aHitList = [];
     foreach ($recursive as $key => $value) {
         if ($key === $needle) {
             array_push($aHitList, $value);
@@ -554,7 +556,6 @@ function appeared_once($arr)
     $single_time_comming_values_array = [];
 
     foreach ($array_count_values as $key => $val) {
-
         if ($val == 1) {
             $single_time_comming_values_array[] = $key;
         }
@@ -658,16 +659,12 @@ function get_pretty_name($basename, $name, $mimetype)
 function get_image_meta_data($file)
 {
     if (get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
-
         try {
 
             // Try to get the exif data
-            return mb_convert_encoding(Image::make($file->getRealPath())->exif(),'UTF8');
-
-        } catch ( \Exception $e) {
-            
-          return null;
-
+            return mb_convert_encoding(Image::make($file->getRealPath())->exif(), 'UTF8');
+        } catch (\Exception $e) {
+            return null;
         }
     }
 }
@@ -691,16 +688,31 @@ function seems_utf8($str)
     $length = strlen($str);
     for ($i=0; $i < $length; $i++) {
         $c = ord($str[$i]);
-        if ($c < 0x80) $n = 0; # 0bbbbbbb
-        elseif (($c & 0xE0) == 0xC0) $n=1; # 110bbbbb
-        elseif (($c & 0xF0) == 0xE0) $n=2; # 1110bbbb
-        elseif (($c & 0xF8) == 0xF0) $n=3; # 11110bbb
-        elseif (($c & 0xFC) == 0xF8) $n=4; # 111110bb
-        elseif (($c & 0xFE) == 0xFC) $n=5; # 1111110b
-        else return false; # Does not match any model
+        if ($c < 0x80) {
+            $n = 0;
+        } # 0bbbbbbb
+        elseif (($c & 0xE0) == 0xC0) {
+            $n=1;
+        } # 110bbbbb
+        elseif (($c & 0xF0) == 0xE0) {
+            $n=2;
+        } # 1110bbbb
+        elseif (($c & 0xF8) == 0xF0) {
+            $n=3;
+        } # 11110bbb
+        elseif (($c & 0xFC) == 0xF8) {
+            $n=4;
+        } # 111110bb
+        elseif (($c & 0xFE) == 0xFC) {
+            $n=5;
+        } # 1111110b
+        else {
+            return false;
+        } # Does not match any model
         for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
-            if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80))
+            if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80)) {
                 return false;
+            }
         }
     }
     return true;
@@ -714,12 +726,14 @@ function seems_utf8($str)
  * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
  */
-function remove_accents($string) {
-    if ( !preg_match('/[\x80-\xff]/', $string) )
+function remove_accents($string)
+{
+    if (!preg_match('/[\x80-\xff]/', $string)) {
         return $string;
+    }
 
     if (seems_utf8($string)) {
-        $chars = array(
+        $chars = [
             // Decompositions for Latin-1 Supplement
             chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
             chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
@@ -817,7 +831,7 @@ function remove_accents($string) {
             // Euro Sign
             chr(226).chr(130).chr(172) => 'E',
             // GBP (Pound) Sign
-            chr(194).chr(163) => '');
+            chr(194).chr(163) => ''];
 
         $string = strtr($string, $chars);
     } else {
@@ -836,8 +850,8 @@ function remove_accents($string) {
         $chars['out'] = "EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy";
 
         $string = strtr($string, $chars['in'], $chars['out']);
-        $double_chars['in'] = array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254));
-        $double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
+        $double_chars['in'] = [chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254)];
+        $double_chars['out'] = ['OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th'];
         $string = str_replace($double_chars['in'], $double_chars['out'], $string);
     }
 
@@ -881,7 +895,7 @@ function get_files_for_zip($folders, $files, $path = [])
 }
 
 /**
- * Set time by user timezone GMT 
+ * Set time by user timezone GMT
  *
  * @param $time
  * @return int
@@ -890,7 +904,7 @@ function set_time_by_user_timezone($time)
 {
     $user = Auth::user();
 
-    if($user) {
+    if ($user) {
 
         // Get the value of timezone if user have some
         $time_zone = intval($user->settings->timezone * 60 ?? null);
@@ -899,5 +913,4 @@ function set_time_by_user_timezone($time)
     }
 
     return Carbon::parse($time);
-    
 }

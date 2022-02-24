@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://drive.xignature.co.id'),
+    'api' => env('APP_API', null),
 
     'asset_url' => env('ASSET_URL', null),
 

@@ -43,10 +43,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Invoice extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $guarded = [
         'id'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'seller' => 'array',
         'client' => 'array',
@@ -58,7 +64,8 @@ class Invoice extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

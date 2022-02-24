@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * @group Deploy
+ *
+ * Class DeployController
+ * @package App\Http\Controllers
+ */
 class DeployController extends Controller
 {
     /**
@@ -16,8 +22,8 @@ class DeployController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function github(Request $request)   {
-
+    public function github(Request $request)
+    {
         if (($signature = $request->headers->get('X-Hub-Signature')) == null) {
             throw new BadRequestHttpException('Header not set');
         }

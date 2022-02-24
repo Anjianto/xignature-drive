@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Schema;
 
+/**
+ * @group Upgrade App
+ *
+ * Class UpgradeAppController
+ * @package App\Http\Controllers\General
+ */
 class UpgradeAppController extends Controller
 {
 
@@ -39,6 +45,9 @@ class UpgradeAppController extends Controller
         }
     }
 
+    /**
+     *
+     */
     public function translations_fix()
     {
         if (!Schema::hasTable('languages') && !Schema::hasTable('language_translations')) {
@@ -113,7 +122,6 @@ class UpgradeAppController extends Controller
          * @since v1.8.3
         */
         if (!Schema::hasTable('languages') && !Schema::hasTable('language_translations')) {
-
             $this->upgrade_database();
 
             Setting::create([
@@ -167,12 +175,10 @@ class UpgradeAppController extends Controller
          * @since v1.8.1
         */
         if (!Schema::hasColumn('user_settings', 'timezone') && !Schema::hasColumn('file_manager_folders', 'icon_color')) {
-
             $this->upgrade_database();
 
             // Create legal pages and index content for regular license
             if (get_setting('license') === 'Regular') {
-
                 $pages = collect(config('content.pages'));
                 $content = collect(config('content.content_regular'));
 
@@ -192,7 +198,6 @@ class UpgradeAppController extends Controller
          * @since v1.8
         */
         if (!Schema::hasTable('traffic') && !Schema::hasTable('zips') && !Schema::hasTable('jobs')) {
-
             $this->upgrade_database();
         }
         /*
@@ -201,7 +206,6 @@ class UpgradeAppController extends Controller
          * @since v1.8
         */
         if (!Schema::hasTable('traffic') && !Schema::hasTable('zips') && !Schema::hasTable('jobs')) {
-
             $this->upgrade_database();
         }
 
@@ -211,7 +215,6 @@ class UpgradeAppController extends Controller
          * @since v1.7.9
         */
         if (!Schema::hasColumn('shares', 'expire_in')) {
-
             $this->upgrade_database();
         }
 
@@ -221,7 +224,6 @@ class UpgradeAppController extends Controller
          * @since v1.7.11
         */
         if (!Schema::hasColumn('file_manager_files', 'metadata')) {
-
             $this->upgrade_database();
         }
     }

@@ -5,13 +5,19 @@ namespace App\Http\Controllers\General;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PricingCollection;
 use App\Services\StripeService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @group Pricing
+ *
+ * Class PricingController
+ * @package App\Http\Controllers\General
+ */
 class PricingController extends Controller
 {
     /**
      * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

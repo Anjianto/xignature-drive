@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|UserSettings whereStorageCapacity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserSettings whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $timezone
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSettings whereTimezone($value)
  */
 class UserSettings extends Model
 {

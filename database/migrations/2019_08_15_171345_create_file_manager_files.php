@@ -14,7 +14,6 @@ class CreateFileManagerFiles extends Migration
     public function up()
     {
         Schema::create('file_manager_files', function (Blueprint $table) {
-
             $table->bigIncrements('id');
             $table->integer('unique_id');
             $table->integer('folder_id')->default(0);

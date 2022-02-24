@@ -35,15 +35,15 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'header_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
+                'value' => 'Your private cloud storage. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'features_title',
-                'value' => 'The Fastest Growing <span style="color: #41B883">File Manager</span> on the CodeCanyon Market',
+                'value' => 'The Fastest Growing <span style="color: #41B883">WebDrive</span>',
             ],
             [
                 'name'  => 'features_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
+                'value' => 'Your private cloud storage. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'feature_title_1',
@@ -51,7 +51,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'feature_description_1',
-                'value' => 'You have full control over VueFileManager, no third authorities will control your service or usage, only you.',
+                'value' => 'You have full control over Webdrive, no third authorities will control your service or usage, only you.',
             ],
             [
                 'name'  => 'feature_title_2',
@@ -59,7 +59,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'feature_description_2',
-                'value' => 'VueFileManager is cloud storage software. You have to install and running application on your own server hosting.',
+                'value' => 'Webdrive is cloud storage software. You have to install and running application on your own server hosting.',
             ],
             [
                 'name'  => 'feature_title_3',
@@ -67,7 +67,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'feature_description_3',
-                'value' => 'When you running VueFileManager on your own server hosting, anybody can\'t control your content or resell your user data. Your data is safe.',
+                'value' => 'When you running Webdrive on your own server hosting, anybody can\'t control your content or resell your user data. Your data is safe.',
             ],
             [
                 'name'  => 'pricing_title',
@@ -75,7 +75,7 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'pricing_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
+                'value' => 'Your private cloud storage. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'get_started_title',
@@ -83,11 +83,11 @@ class ContentSeeder extends Seeder
             ],
             [
                 'name'  => 'get_started_description',
-                'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
+                'value' => 'Your private cloud storage. No limits & no monthly fees. Truly freedom.',
             ],
             [
                 'name'  => 'footer_content',
-                'value' => '© 2020 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank">Hi5Ve.Digital</a>',
+                'value' => '© 2022 Simple & Powerful Personal Cloud Storage',
             ],
             [
                 'name' => 'storage_default',

@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PageCollection;
 use App\Http\Resources\PageResource;
-use App\Http\Tools\Demo;
 use App\Page;
 use Illuminate\Http\Request;
 
+/**
+ * @group Page
+ *
+ * Class PagesController
+ * @package App\Http\Controllers\Admin
+ */
 class PagesController extends Controller
 {
     /**
@@ -45,11 +50,6 @@ class PagesController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        // Check if is demo
-        if (env('APP_DEMO')) {
-            return Demo::response_204();
-        }
-
         // Get page
         $page = Page::where('slug', $slug)->first();
 

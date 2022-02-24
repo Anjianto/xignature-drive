@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TestMail;
-use App\Notifications\ResetPassword;
-use App\Notifications\ResetUserPasswordNotification;
-use App\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
+/**
+ * @group Forgot Password
+ *
+ * Class ForgotPasswordController
+ * @package App\Http\Controllers\Auth
+ */
 class ForgotPasswordController extends Controller
 {
     /*
@@ -33,7 +33,7 @@ class ForgotPasswordController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     protected function sendResetLinkResponse(Request $request, $response)
     {
@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {

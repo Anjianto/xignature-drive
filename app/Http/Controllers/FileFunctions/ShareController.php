@@ -18,6 +18,12 @@ use Illuminate\Support\Str;
 use App\Share;
 use Validator;
 
+/**
+ * @group Share
+ *
+ * Class ShareController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class ShareController extends Controller
 {
     /**
@@ -45,7 +51,6 @@ class ShareController extends Controller
         do {
             // Generate unique token
             $token = Str::random(16);
-
         } while (Share::where(DB::raw('BINARY `token`'), $token)->exists());
         // is sign share
         $signShare = $request->sign;
@@ -66,7 +71,6 @@ class ShareController extends Controller
 
         // Send shared link via email
         if ($request->has('emails')) {
-
             foreach ($request->emails as $email) {
                 Notification::route('mail', $email)->notify(new SharedSendViaEmail($token, $signShare));
             }
@@ -104,7 +108,7 @@ class ShareController extends Controller
     /**
      * Delete sharing item
      *
-     * @param $token
+     * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
      * @throws \Exception
      */
@@ -137,6 +141,7 @@ class ShareController extends Controller
      *
      * @param $token
      * @param $request
+     * @return \Illuminate\Contracts\Foundation\Application|ResponseFactory|\Illuminate\Http\Response
      */
     public function shared_send_via_email(Request $request, $token)
     {
@@ -146,10 +151,12 @@ class ShareController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad email input');
+        if ($validator->fails()) {
+            abort(400, 'Bad email input');
+        }
 
         // Send shared link via email
-        if($request->has('emails')) {
+        if ($request->has('emails')) {
             foreach ($request->emails as $email) {
                 Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
             }

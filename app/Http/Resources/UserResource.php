@@ -2,12 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Services\StripeService;
-use App\User;
-use Cartalyst\Stripe\Api\PaymentMethods;
-use Faker\Factory;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Signatures;
 
 class UserResource extends JsonResource
 {

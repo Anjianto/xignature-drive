@@ -2,28 +2,44 @@
 
 namespace App\Http\Controllers\User;
 
-use App\FileManagerFile;
-use App\FileManagerFolder;
 use App\Http\Resources\InvoiceCollection;
-use App\Http\Resources\StorageDetailResource;
+use App\Http\Resources\ListUserResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
+use App\Setting;
+use App\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-use App\Http\Tools\Editor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use ByteUnits\Metric;
-use App\User;
 
+/**
+ * @group Account
+ *
+ * Class AccountController
+ * @package App\Http\Controllers\User
+ */
 class AccountController extends Controller
 {
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function list_users()
+    {
+
+        return ListUserResource::collection(User::all(['email']));
+
+    }
     /**
      * Get all user data to frontend
      *
+     * @
      * @return UserResource
      */
     public function user()
@@ -50,7 +66,8 @@ class AccountController extends Controller
      *
      * @return InvoiceCollection
      */
-    public function invoices() {
+    public function invoices()
+    {
         return new InvoiceCollection(
             Auth::user()->invoices()
         );
@@ -72,7 +89,9 @@ class AccountController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user
         $user = Auth::user();
@@ -90,19 +109,15 @@ class AccountController extends Controller
 
             // Update data
             $user->update(['avatar' => $avatar]);
-
-        } 
-        else if($request->hasFile('ktp')) {
+        } elseif ($request->hasFile('ktp')) {
             $ktp = store_system_image($request->file('ktp'), 'ktp');
 
             $user->update(['ktp' => $ktp]);
-        }
-        else if($request->hasFile('selfie')) {
+        } elseif ($request->hasFile('selfie')) {
             $ktp = store_system_image($request->file('selfie'), 'selfie');
     
             $user->update(['selfie' => $ktp]);
-        }
-        else {
+        } else {
             // Update text data
             $user->update(make_single_input($request));
         }
@@ -125,7 +140,9 @@ class AccountController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user
         $user = Auth::user();
@@ -166,5 +183,33 @@ class AccountController extends Controller
         $user->save();
 
         return response('Changed!', 204);
+    }
+
+    /**
+     * Get Token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generate_token()
+    {
+        $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
+        $user = Auth::user();
+
+        $apiResponse = Http::withHeaders([
+            'api-key' => $settings['api_key'],
+            'Content-Type' => 'application/json'
+        ])->post(config('app.api') . 'v1/auth/generateLtcToken', [
+            "email" => $user->email,
+            "fullname" => $user->name,
+            "nik" => $user->nik,
+            "phone" => $user->phone,
+            "birthdate" =>$user->birth_date,
+            "birthplace" => $user->birth_place,
+            "selfie" => base64_encode(file_get_contents($user->selfie)),
+            "ktp" => base64_encode(file_get_contents($user->ktp))
+        ])->object();
+
+
+        return response()->json($apiResponse->data);
     }
 }

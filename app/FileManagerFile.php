@@ -56,21 +56,35 @@ use Kyslik\ColumnSortable\Sortable;
  * @property array|null $metadata
  * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile sortable($defaultParameters = null)
  * @method static \Illuminate\Database\Eloquent\Builder|FileManagerFile whereMetadata($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Signatures[] $signs
+ * @property-read int|null $signs_count
  */
 class FileManagerFile extends Model
 {
     use Searchable, SoftDeletes , Sortable;
 
+    /**
+     * @var null
+     */
     public $public_access = null;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [
         'id'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'file_url'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'metadata' => 'array',
     ];
@@ -85,14 +99,25 @@ class FileManagerFile extends Model
         'created_at',
     ];
 
-    public function getNameAttribute() {
+    /**
+     * @return false|string
+     */
+    public function getNameAttribute()
+    {
         return utf8_encode($this->attributes['name']);
     }
 
-    public function getBasenameAttribute() {
+    /**
+     * @return false|string
+     */
+    public function getBasenameAttribute()
+    {
         return utf8_encode($this->attributes['basename']);
     }
 
+    /**
+     * @return false|string
+     */
     public function getCreatedAtAttribute()
     {
         return utf8_encode(
@@ -100,6 +125,9 @@ class FileManagerFile extends Model
         );
     }
 
+    /**
+     * @return false|string
+     */
     public function getUpdatedAtAttribute()
     {
         return utf8_encode(
@@ -107,9 +135,14 @@ class FileManagerFile extends Model
         );
     }
 
+    /**
+     * @return false|string|null
+     */
     public function getDeletedAtAttribute()
     {
-        if (!$this->attributes['deleted_at']) return null;
+        if (!$this->attributes['deleted_at']) {
+            return null;
+        }
 
         return utf8_encode(
             format_date(set_time_by_user_timezone($this->attributes['deleted_at']), __t('time'))
@@ -145,7 +178,6 @@ class FileManagerFile extends Model
     {
         // Get thumbnail from external storage
         if ($this->attributes['thumbnail'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-
             return Storage::temporaryUrl('file-manager/' . $this->attributes['thumbnail'], now()->addHour());
         }
 
@@ -174,7 +206,6 @@ class FileManagerFile extends Model
     {
         // Get file from external storage
         if (is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-
             $file_pretty_name = is_storage_driver('backblaze')
                 ? Str::snake(mb_strtolower($this->attributes['name']))
                 : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);

@@ -14,10 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\PaymentMethod;
 
+/**
+ * @group Payment Method
+ *
+ * Class PaymentMethodsController
+ * @package App\Http\Controllers\User
+ */
 class PaymentMethodsController extends Controller
 {
     /**
      * PaymentMethodsController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {
@@ -41,15 +48,12 @@ class PaymentMethodsController extends Controller
         $slug_default_payment_method = 'default-payment-methods-user-' . $user->id;
 
         if (Cache::has($slug_payment_methods) && Cache::has($slug_default_payment_method)) {
-
             $defaultPaymentMethod = Cache::get($slug_default_payment_method);
             $paymentMethodsMapped = Cache::get($slug_payment_methods);
-
         } else {
 
             // Get default payment method
             $defaultPaymentMethod = Cache::rememberForever($slug_default_payment_method, function () use ($user) {
-
                 $defaultPaymentMethodObject = $user->defaultPaymentMethod();
 
                 return $defaultPaymentMethodObject instanceof PaymentMethod
@@ -59,7 +63,6 @@ class PaymentMethodsController extends Controller
 
             // filter payment methods without default payment
             $paymentMethodsMapped = Cache::rememberForever($slug_payment_methods, function () use ($defaultPaymentMethod, $user) {
-
                 $paymentMethods = $user->paymentMethods()->filter(function ($paymentMethod) use ($defaultPaymentMethod) {
                     return $paymentMethod->id !== $defaultPaymentMethod->id;
                 });

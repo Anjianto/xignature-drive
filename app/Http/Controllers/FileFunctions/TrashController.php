@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 use App\FileManagerFolder;
 use App\FileManagerFile;
 
+/**
+ * @group Trash
+ *
+ * Class TrashController
+ * @package App\Http\Controllers\FileFunctions
+ */
 class TrashController extends Controller
 {
     /**
@@ -42,7 +48,9 @@ class TrashController extends Controller
             Storage::delete('/file-manager/' . $file->basename);
 
             // Delete thumbnail if exist
-            if ($file->thumbnail) Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+            if ($file->thumbnail) {
+                Storage::delete('/file-manager/' . $file->getRawOriginal('thumbnail'));
+            }
 
             // Delete file permanently
             $file->forceDelete();
@@ -68,7 +76,9 @@ class TrashController extends Controller
         ]);
 
         // Return error
-        if ($validator->fails()) abort(400, 'Bad input');
+        if ($validator->fails()) {
+            abort(400, 'Bad input');
+        }
 
         // Get user id
         $user_id = Auth::id();
@@ -77,7 +87,7 @@ class TrashController extends Controller
             return Demo::response_204();
         }
 
-        foreach($request->input('data') as $restore_item) {
+        foreach ($request->input('data') as $restore_item) {
     
             // Get folder
             if ($restore_item['type'] === 'folder') {

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\FileFunctions;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class MoveItemRequest extends FormRequest
 {

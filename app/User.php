@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Notifications\ResetPassword;
-use App\Notifications\ResetUserPasswordNotification;
 use ByteUnits\Metric;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,8 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
-use Lcobucci\JWT\Signature;
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
 
 /**
  * App\User
@@ -76,11 +73,20 @@ use Rinvex\Subscriptions\Traits\HasSubscriptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User sortable($defaultParameters = null)
+ * @property string|null $signature_token
+ * @property-read \Illuminate\Contracts\Routing\UrlGenerator|string $ktp
+ * @property-read \Illuminate\Contracts\Routing\UrlGenerator|string $selfie
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Signatures[] $signatures
+ * @property-read int|null $signatures_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSignatureToken($value)
  */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, Billable, Sortable;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = ['id', 'role'];
 
     /**
@@ -90,7 +96,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'avatar', 'phone', 'nik', 'birth_date'
-        ,'birth_place', 'ktp', 'selfie'
+        ,'birth_place', 'ktp', 'selfie', 'signature_token', 'expired_at'
     ];
 
     /**
@@ -112,6 +118,9 @@ class User extends Authenticatable
         'birth_date' => 'datetime',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'used_capacity', 'storage'
     ];
@@ -162,7 +171,6 @@ class User extends Authenticatable
 
         // Get user storage usage
         if (!$is_storage_limit) {
-
             return [
                 'used'           => $this->used_capacity,
                 'used_formatted' => Metric::bytes($this->used_capacity)->format(),
@@ -188,7 +196,7 @@ class User extends Authenticatable
             return $item->getRawOriginal();
         })->sum('filesize');
 
-        return $user_capacity;
+        return $user_capacity ?: 0;
     }
 
     /**
@@ -319,7 +327,11 @@ class User extends Authenticatable
         ]);
     }
 
-    public function unused_signatures_token() {
+    /**
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|null
+     */
+    public function unused_signatures_token()
+    {
         $token = Signatures::where('user_id', $this->id)->whereNull('file_manager_file')->first();
 
         if ($token) {

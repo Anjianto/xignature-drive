@@ -2,10 +2,8 @@
 
 namespace App\Http\Tools;
 
-use App;
 use App\FileManagerFolder;
 use Illuminate\Support\Arr;
-
 
 class Guardian
 {
@@ -27,16 +25,18 @@ class Guardian
         $accessible_folder_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
         // Check user access
-        if ( is_array($requested_id) ) {
+        if (is_array($requested_id)) {
             foreach ($requested_id as $id) {
-                if (!in_array($id, $accessible_folder_ids))
+                if (!in_array($id, $accessible_folder_ids)) {
                     abort(403);
+                }
             }
         }
 
         if (! is_array($requested_id)) {
-            if (! in_array($requested_id, $accessible_folder_ids))
+            if (! in_array($requested_id, $accessible_folder_ids)) {
                 abort(403);
+            }
         }
     }
 }

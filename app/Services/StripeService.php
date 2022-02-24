@@ -4,7 +4,6 @@
 namespace App\Services;
 
 use App\User;
-use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Exceptions\IncompletePayment;
@@ -86,14 +85,11 @@ class StripeService
 
             // Set new payment
             return $user->addPaymentMethod($request->input('payment.meta.pm'))->paymentMethod;
-
-        } else if ($request->has('payment.meta.pm') && !$user->hasDefaultPaymentMethod()) {
+        } elseif ($request->has('payment.meta.pm') && !$user->hasDefaultPaymentMethod()) {
 
             // Set new payment
             return $user->updateDefaultPaymentMethod($request->input('payment.meta.pm'))->paymentMethod;
-
         } else {
-
             throw new HttpException(400, 'Something went wrong.');
         }
     }
@@ -142,24 +138,19 @@ class StripeService
 
                 // Change subscription plan
                 $user->subscription('main')->skipTrial()->swap($request->input('plan.data.id'));
-
             } else {
 
                 // Create subscription
                 $user->newSubscription('main', $request->input('plan.data.id'))->create($paymentMethod);
             }
-
         } catch (IncompletePayment $exception) {
-
             if ($exception instanceof PaymentActionRequired) {
-
                 $cashier_route = route('cashier.payment', [$exception->payment->id, 'redirect' => url('/settings/subscription')]);
 
                 throw new HttpException(402, $cashier_route);
             } else {
                 throw new HttpException(400, $exception->getMessage());
             }
-
         }
     }
 
@@ -231,7 +222,6 @@ class StripeService
         $plans = [];
 
         foreach ($stripe_plans['data'] as $plan) {
-
             if ($plan['active']) {
 
                 // Get stripe product
@@ -322,7 +312,6 @@ class StripeService
 
         // Update product
         if (in_array($request->name, $product_colls)) {
-
             if ($request->name === 'capacity') {
                 $this->stripe->products()->update($plan['product'], ['metadata' => ['capacity' => $request->value]]);
             }
@@ -336,7 +325,6 @@ class StripeService
 
         // Update plan
         if (in_array($request->name, $plan_colls)) {
-
             if ($request->name === 'is_active') {
                 $this->stripe->plans()->update($id, ['active' => $request->value]);
             }

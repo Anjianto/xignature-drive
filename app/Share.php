@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Notifications\SharedSendViaEmail;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -36,6 +35,8 @@ use Illuminate\Notifications\Notifiable;
  * @mixin \Eloquent
  * @property int|null $expire_in
  * @method static \Illuminate\Database\Eloquent\Builder|Share whereExpireIn($value)
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
  */
 class Share extends Model
 {

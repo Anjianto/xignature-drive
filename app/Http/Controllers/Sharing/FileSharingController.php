@@ -7,7 +7,6 @@ use App\Http\Requests\Share\AuthenticateShareRequest;
 use App\Http\Resources\ShareResource;
 use App\Http\Tools\Guardian;
 use App\Setting;
-use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +20,23 @@ use App\User;
 use App\Share;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group File Sharing
+ *
+ * Class FileSharingController
+ * @package App\Http\Controllers\Sharing
+ */
 class FileSharingController extends Controller
 {
 
-    public function sign($token) {
-            // Get shared token
-            $shared = Share::where(\DB::raw('BINARY `token`'), $token)
+    /**
+     * @param $token
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
+    public function sign($token)
+    {
+        // Get shared token
+        $shared = Share::where(\DB::raw('BINARY `token`'), $token)
             ->first();
 
         if (! $shared) {
@@ -84,7 +94,6 @@ class FileSharingController extends Controller
 
         // Check if shared is image file and then show it
         if ($shared->type === 'file' && ! (int) $shared->protected) {
-
             $image = FileManagerFile::where('user_id', $shared->user_id)
                 ->where('type', 'image')
                 ->where('unique_id', $shared->item_id)
@@ -122,7 +131,9 @@ class FileSharingController extends Controller
         $path = '/file-manager/' . $file->basename;
 
         // Check if file exist
-        if (!Storage::exists($path)) abort(404);
+        if (!Storage::exists($path)) {
+            abort(404);
+        }
 
         $header = [
             "Content-Type"   => Storage::mimeType($path),
@@ -140,7 +151,7 @@ class FileSharingController extends Controller
      *
      * @param AuthenticateShareRequest $request
      * @param $token
-     * @return array
+     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function authenticate(AuthenticateShareRequest $request, $token)
     {
@@ -149,7 +160,6 @@ class FileSharingController extends Controller
 
         // Check password
         if (!Hash::check($request->password, $shared->password)) {
-
             abort(401, __t('incorrect_password'));
         }
 
