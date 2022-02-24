@@ -53,7 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://drive.xignature.co.id'),
-    'api' => env('APP_API', null),
+    'api' => env('XSIGNATURE_END_POINT', 'https://sandbox.xignature.co.id/'),
 
     'asset_url' => env('ASSET_URL', null),
 

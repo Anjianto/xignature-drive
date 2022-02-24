@@ -100,29 +100,23 @@ class AuthController extends Controller
         if (!intval($settings['registration'])) {
             abort(401);
         }
-        // $ktp = store_system_image($request->file('ktp'), 'ktp');
-        // $selfie = store_system_image($request->file('selfie'), 'selfie');
 
-        // if(!$ktp || !$selfie) {
-        //     abort(400, __t('upload_failed'));
-        // }
-        // Validate request
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|min:12',
             'nik' => 'numeric',
-            'ktp' => 'required|image',
-            'selfie' => 'required|image',
+            'ktp' => 'required',
+            'selfie' => 'required',
             'birth_date' => 'required|date',
             'birth_place' => 'required|string'
         ]);
-//        dd($request->all());
-
+        // dd($request->all());
+        
         $ktp = base64_encode(file_get_contents($request->file('ktp')));
         $selfie = base64_encode(file_get_contents($request->file('selfie')));
-//        dd($request->file('ktp')->store('ktp'));
+        // dd($request->file('ktp')->store('ktp'));
 
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
@@ -153,7 +147,6 @@ class AuthController extends Controller
                 "birth_place" => $request->input('birth_place'),
                 "selfie" => $request->file('selfie')->store('selfie'),
                 "ktp" => $request->file('ktp')->store('ktp'),
-                'signature_token' => $apiResponse->data->token
             ]);
 
             // Create settings

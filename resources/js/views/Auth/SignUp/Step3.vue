@@ -2,8 +2,7 @@
   <div id="content-card">
     <ValidationObserver
       @submit.prevent="saveRegister"
-      ref="sign_up"
-      v-slot="{ invalid }"
+      ref="form"
       tag="form"
       class="form block-form"
     >
@@ -14,11 +13,11 @@
           mode="passive"
           class="input-wrapper"
           name="KTP"
-          rules="required"
+          rules="required|min:16|max:16"
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.nik"
+            v-model="value.nik"
             :placeholder="$t('page_registration.placeholder_nik')"
             type="number"
             class="reset-input-number"
@@ -38,11 +37,11 @@
           mode="passive"
           class="input-wrapper"
           name="Phone"
-          rules="required"
+          rules="required|min:12|max:12"
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.phone"
+            v-model="value.phone"
             :placeholder="$t('page_registration.placeholder_phone')"
             type="number"
             class="reset-input-number"
@@ -66,7 +65,7 @@
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.birthplace"
+            v-model="value.birthplace"
             :placeholder="$t('page_registration.label_birthplace')"
             type="text"
             :class="{ 'is-error': errors[0] }"
@@ -81,17 +80,26 @@
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_birthdate") }}</label>
         <div class="input-wrapper">
-          <DatePicker
-            @change="changeUserBirthdate"
-            :placeholder="$t('page_registration.placeholder_birthdate')"
-            v-model="registerData.birthdate"
-            format="YYYY-MM-DD"
-            :input-attr="{
-              class: ['mx-input date-field'],
-            }"
-            type="date"
+          <ValidationProvider
+            tag="div"
+            mode="passive"
+            class="input-wrapper"
+            name="Birthdate"
+            rules="required"
+            v-slot="{ errors }"
           >
-          </DatePicker>
+            <DatePicker
+              :placeholder="$t('page_registration.placeholder_birthdate')"
+              v-model="value.birthdate"
+              format="YYYY-MM-DD"
+              :input-attr="{
+                class: ['mx-input date-field'],
+              }"
+              type="date"
+            >
+            </DatePicker>
+            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          </ValidationProvider>
         </div>
         <p v-if="registerErrors.birthday" class="input-error">
           {{ registerErrors.birthday }}
@@ -103,12 +111,6 @@
           <AuthButton
             icon="chevron-right"
             text="Continue"
-            :disabled="
-              !registerData.nik &&
-              !registerData.phone &&
-              !registerData.birthplace &&
-              !registerData.birthday
-            "
           />
         </div>
       </div>
@@ -127,7 +129,7 @@ import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import { format } from "date-fns";
+import { required, ext, digits, min, max } from "vee-validate/dist/rules";
 
 export default {
   name: "Step3",
@@ -138,58 +140,23 @@ export default {
     AuthContent,
     AuthButton,
     ProfileForm,
+    required,
+    ext,
+    digits,
+    min,
+    max,
   },
+  props: ["value"],
   computed: {
-    ...mapGetters(["config", "registerData", "registerErrors"]),
+    ...mapGetters(["config", "registerErrors"]),
   },
   methods: {
-    saveRegister() {
-      if (!this.registerData.nik) {
-        this.$store.dispatch("set_register_error", {
-          nik: "NIK is required!",
-        });
-        return;
-      }
-      if (
-        `${this.registerData.nik}`.length < 16 ||
-        `${this.registerData.nik}`.length > 16
-      ) {
-        this.$store.dispatch("set_register_error", {
-          nik: "NIK must be 16 digits!",
-        });
-        return;
-      }
-      if (
-        `${this.registerData.phone}`.length < 12 ||
-        `${this.registerData.phone}`.length > 12
-      ) {
-        this.$store.dispatch("set_register_error", {
-          phone: "Phone must be 12 digits!",
-        });
-        return;
-      }
-      if (!this.registerData.birthplace) {
-        this.$store.dispatch("set_register_error", {
-          birthplace: "Birthplace is required!",
-        });
-        return;
-      }
-      if (!this.registerData.birthday) {
-        this.$store.dispatch("set_register_error", {
-          birthday: "Birthday is required!",
-        });
-        return;
-      }
+    async saveRegister() {
+      const isValid = await this.$refs.form.validate();
+      if (!isValid) return;
 
-      this.$store.dispatch("set_steps", 4);
-    },
-    changeUserBirthdate() {
-      const date = format(this.registerData.birthdate, "yyyy-MM-dd");
-      this.$store.dispatch("set_register_data", {
-        birthday: date,
-      });
-      // this.$store.commit("UPDATE_BIRTHDATE", this.registerData.birthdate);
-      // this.$updateText("/user/profile", "birth_date", date);
+      console.log("goto step 4");
+      this.$emit("step", 4);
     },
   },
 };
