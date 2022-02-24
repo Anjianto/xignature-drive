@@ -27,7 +27,7 @@ class FileSignController extends Controller
     public function add_sign(Request $request)
     {
         $user =  Auth::user();
-        ;
+
         $sign_token = $request->sign_token;
         $file_manager_file = $request->file_id;
 

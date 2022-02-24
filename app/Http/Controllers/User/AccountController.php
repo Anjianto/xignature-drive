@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Resources\InvoiceCollection;
+use App\Http\Resources\ListUserResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserStorageResource;
 use App\Http\Tools\Demo;
 use App\Setting;
+use App\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -24,6 +26,16 @@ use Illuminate\Http\Request;
  */
 class AccountController extends Controller
 {
+
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function list_users()
+    {
+
+        return ListUserResource::collection(User::all(['email']));
+
+    }
     /**
      * Get all user data to frontend
      *
@@ -173,6 +185,11 @@ class AccountController extends Controller
         return response('Changed!', 204);
     }
 
+    /**
+     * Get Token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function generate_token()
     {
         $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
@@ -191,6 +208,7 @@ class AccountController extends Controller
             "selfie" => base64_encode(file_get_contents($user->selfie)),
             "ktp" => base64_encode(file_get_contents($user->ktp))
         ])->object();
+
 
         return response()->json($apiResponse->data);
     }

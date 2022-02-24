@@ -96,7 +96,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'avatar', 'phone', 'nik', 'birth_date'
-        ,'birth_place', 'ktp', 'selfie', 'signature_token'
+        ,'birth_place', 'ktp', 'selfie', 'signature_token', 'expired_at'
     ];
 
     /**
@@ -196,7 +196,7 @@ class User extends Authenticatable
             return $item->getRawOriginal();
         })->sum('filesize');
 
-        return $user_capacity;
+        return $user_capacity ?: 0;
     }
 
     /**
