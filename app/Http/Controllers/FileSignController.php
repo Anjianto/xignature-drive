@@ -23,13 +23,23 @@ class FileSignController extends Controller
     //     $this->middleware('auth');
     // }
 
+    public function sign(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string',
+            'reason' => 'required|string',
+            'signPage' => 'required|string',
+            'one-time-token' => 'required|string'
+        ]);
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function add_sign(Request $request)
     {
-        $user =  Auth::user();
+        $user = Auth::user();
 
         $sign_token = $request->sign_token;
         $file_manager_file = $request->file_id;
@@ -37,7 +47,7 @@ class FileSignController extends Controller
         $signature = new Signatures();
         $signature->user_id = $user->id;
         $signature->sign_token = $sign_token;
-        $signature->file_manager_file = $file_manager_file;
+//        $signature->file_manager_file = $file_manager_file;
         $signature->save();
 
         return response()->json([
