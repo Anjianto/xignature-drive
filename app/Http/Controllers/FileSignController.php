@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Signatures;
 use Auth;
 use App\FileManagerFile;
+use App\Notifications\SignDocuInvitation;
 use App\User;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * @group File Sign
@@ -92,6 +94,8 @@ class FileSignController extends Controller
         ]);
     }
 
+
+
     public function find_document(string $fileId)
     {
         $user = Auth::user()->id;
@@ -118,10 +122,25 @@ class FileSignController extends Controller
         ]);
     }
 
-    function allow_signature(string $fileId, string $email) {
-
+    function allow_signature(string $fileId, Request $request) {
+        $email = $request->email;
         $user = User::whereEmail($email)->first();
         $document = FileManagerFile::where('id', $fileId)->first();
+
+        if (!$user) {
+            // send sign document email
+            // hash filed id
+            $file_hash = md5($fileId);
+            $filename = $document->baseFilename();
+            Notification::route('mail', $email)->notify(new SignDocuInvitation($file_hash, $filename));
+            
+            return response()->json([
+                'statusCode' => 201,
+                'message' => 'Mail send to user.'
+            ]);
+            
+        }
+
         if (!$document) {
             return response()->json([
                 'statusCode' => 404,
@@ -145,6 +164,5 @@ class FileSignController extends Controller
                 'message' => 'Internal Server Error.'
             ]);
         }
-
     }
 }

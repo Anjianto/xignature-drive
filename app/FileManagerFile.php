@@ -115,6 +115,11 @@ class FileManagerFile extends Model
         return utf8_encode($this->attributes['basename']);
     }
 
+    public function baseFilename()
+    {
+        return pathinfo($this->basename, PATHINFO_FILENAME);
+    }
+
     /**
      * @return false|string
      */
