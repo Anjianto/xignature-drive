@@ -80,7 +80,11 @@ export default {
       Cookies.set("last_sign_file", id);
     }
 
-    await this.loadDoc(id);
+    events.$on("toaster:close", async (res) => {
+      if(res.code === 221) {
+        this.getPdf();
+      }
+    });
   },
   computed: {
     ...mapGetters(["signDoc"]),
@@ -160,14 +164,11 @@ export default {
         y: height * 0.15,
       };
     },
-    async loadPdfHeader() {
-      var loadingTask = pdfjs.getDocument();
-
-      return;
-    },
     async getPdf() {
       this.pdfdata = undefined;
       this.numPages = 0;
+      const id = this.$route.query["id"];
+      await this.loadDoc(id);
       const data = await createBlobFromFile(this.fileUrl);
       const pdfdata = await createFileBlob(data);
       const pdfbin = convertDataURIToBinary(pdfdata);
@@ -178,7 +179,7 @@ export default {
       this.pdf64 = pdfdata;
       this.setSignPosition(pdfDoc);
       this.pdfdata = pdfx.createLoadingTask(
-        !!this.signedId
+        !!this.signedId !== undefined
           ? {
               url: client.getDocUrl(this.signedId),
               httpHeaders: { "api-key": client.key },

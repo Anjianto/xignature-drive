@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Signatures;
 use Auth;
 use App\FileManagerFile;
+use App\User;
 
 /**
  * @group File Sign
@@ -115,5 +116,35 @@ class FileSignController extends Controller
             'message' => 'Document Found.',
             'data' => $signature
         ]);
+    }
+
+    function allow_signature(string $fileId, string $email) {
+
+        $user = User::whereEmail($email)->first();
+        $document = FileManagerFile::where('id', $fileId)->first();
+        if (!$document) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Document not found.'
+            ]);
+        }
+        $signature = new Signatures();
+        try {
+            //code...
+            $signature->user_id = $user->id;
+            $signature->file_manager_file = $fileId;
+            $signature->save();
+            return response()->json([
+                'statusCode' => 200,
+                'message' => 'Document Signed Successfully.',
+                'data' => $signature
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'statusCode' => 500,
+                'message' => 'Internal Server Error.'
+            ]);
+        }
+
     }
 }

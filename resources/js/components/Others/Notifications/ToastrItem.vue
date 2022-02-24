@@ -19,6 +19,7 @@
 
 <script>
     import {XIcon, CheckIcon} from 'vue-feather-icons'
+    import {events} from "@/bus";
 
     export default {
         components: {
@@ -34,7 +35,10 @@
         created() {
             this.isActive = 1
 
-            setTimeout(() => (this.isActive = 0), 5000)
+            setTimeout(() => {
+                this.isActive = 0
+                events.$emit('toaster:close', this.item)
+            }, 5000)
         }
     }
 </script>

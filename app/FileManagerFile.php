@@ -248,6 +248,10 @@ class FileManagerFile extends Model
         ];
     }
 
+    public function sign_info() {
+        return $this->signatures()->get();
+    }
+
     /**
      * Get parent
      *

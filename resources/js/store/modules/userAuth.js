@@ -188,13 +188,14 @@ const actions = {
               sign_token: getters.token,
               document_id: data.data.id,
             })
-            dispatch("loadDocument", data.data);
-            if(notif) {
-              events.$emit("toaster", {
-                type: "success",
-                message: data.message,
-              });
-            }
+            commit("SET_DOCUMENT", { document: data.data.id });
+
+            events.$emit("toaster", {
+              type: "success",
+              code: 221,
+              message: data.message,
+            });
+
             resolve(data);
           }
         })
@@ -214,12 +215,6 @@ const actions = {
           reject(error);
         });
     });
-  },
-  async loadDocument(
-    { commit, getters },
-    { id, title, filename, user: { email, fullname } }
-  ) {
-    commit("SET_DOCUMENT", { document: id });
   },
   useToken: ({ commit, getters }, payload) => {
     const { token, expiresDate } = payload;

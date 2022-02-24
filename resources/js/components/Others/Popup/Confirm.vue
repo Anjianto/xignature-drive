@@ -79,6 +79,14 @@
                     this.buttonColor = args.buttonColor
                 }
             })
+
+            events.$on('confirm:close', () => {
+                this.title = undefined
+                this.message = undefined
+                this.emoji = undefined
+                this.confirmationData = []
+                this.buttonColor = undefined
+            })
         }
     }
 </script>

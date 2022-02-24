@@ -180,9 +180,22 @@ class BrowseController extends Controller
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();
+        // map files to array
+        $result = $files->map(function ($file) {
+            $file['signer'] = $file->signatures()->get()->map(
+                function ($signature) {
+                    return [
+                        "user" => $signature->user->email,
+                        "signature" => $signature->document_id,
+                    ];
+                }
+            )->toArray();
+
+            return $file->toArray();
+        });
 
         // Collect folders and files to single array
-        return collect([$folders, $files])->collapse();
+        return collect([$folders, $result])->collapse();
     }
 
     /**

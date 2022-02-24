@@ -92,7 +92,7 @@
           >
             <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
           </div>
-
+      
           <!--Filesize and timestamp-->
           <span v-if="!isFolder" class="item-size"
             >{{ item.filesize }}, {{ timeStamp }}</span
@@ -105,6 +105,10 @@
                 ? $t("folder.empty")
                 : $tc("folder.item_counts", folderItems)
             }}, {{ timeStamp }}
+          </span>
+          <span v-if="item.signer.length > 0" class="item-length">
+            sign by {{
+              item.signer[0].user}}{{ item.signer.length - 1 > 0 ? `, and ${item.signer.length - 1} other` : ''}}
           </span>
         </div>
       </div>
