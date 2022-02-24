@@ -192,11 +192,12 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
     Route::get('/navigation/private', 'Sharing\FileSharingController@get_private_navigation_tree');
     Route::get('/search/private', 'Sharing\FileSharingController@search_private');
     Route::get('/files/private', 'Sharing\FileSharingController@file_private');
+});
+Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master' , 'scope:master,visitor,editor']], function () {
     // Signature
     Route::post('/sign', 'FileSignController@add_sign');
     Route::post('/doc/{fileId}/sign', 'FileSignController@sign_document');
 });
-
 // User master,editor routes
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor']], function () {
 
