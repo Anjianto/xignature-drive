@@ -282,8 +282,8 @@ class FileManagerFile extends Model
      * Get sharing attributes
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function signs()
+    public function signatures()
     {
-        return $this->hasMany('App\Signatures', 'file_manager_file', 'unique_id');
+        return $this->hasMany('App\Signatures', 'file_manager_file', 'id');
     }
 }

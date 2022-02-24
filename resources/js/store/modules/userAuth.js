@@ -11,6 +11,7 @@ const defaultState = {
   permission: "master", // master | editor | visitor
   user: undefined,
   token: undefined,
+  doc: undefined,
 };
 async function getBase64ImageFromUrl(imageUrl) {
   var res = await fetch(imageUrl);
@@ -218,8 +219,7 @@ const actions = {
     { commit, getters },
     { id, title, filename, user: { email, fullname } }
   ) {
-    const url = client.getDocUrl(id);
-    commit("SET_DOCUMENT", { document: url });
+    commit("SET_DOCUMENT", { document: id });
   },
   useToken: ({ commit, getters }, payload) => {
     const { token, expiresDate } = payload;
@@ -314,10 +314,10 @@ const mutations = {
     });
   },
   SET_DOCUMENT(state, { document }) {
-    state.user.document = document;
+    state.doc = document;
   },
   CLEAN_DOCUMENT(state) {
-    state.user.document = undefined;
+    state.doc = undefined;
   },
   SET_TOKEN(state, { token, expiresDate }) {
     Cookies.set("otp_token", token, { expires: 1 });
@@ -394,6 +394,7 @@ const getters = {
   },
   otp: (state) => (state.user ? !state.user.data ? "" : state.user.data.attributes.otp : ""),
   token: (state) => state.token,
+  signDoc: (state) => state.doc,
 };
 
 export default {

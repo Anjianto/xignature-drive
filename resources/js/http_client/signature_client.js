@@ -9,7 +9,7 @@ export const client = ({ base_url, key }) =>
     },
   });
 
-const baseUrl = "https://sandbox.xignature.co.id/";
+export const baseUrl = "https://sandbox.xignature.co.id/";
 export const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
 
 export default {
@@ -17,6 +17,7 @@ export default {
     base_url: baseUrl,
     key: key,
   }),
+  key,
   loadDocuments(page, limit, doctype, status, search) {
     return this.client.post("/v1/document/list", {
       page,
@@ -52,7 +53,6 @@ export default {
   },
   async getDoucment(id) {
     const { data } = await this.client.get(`/v1/document/${id}`);
-    console.log(data);
     return data;
   },
   getDocUrl(id) {
@@ -61,11 +61,16 @@ export default {
   async downloadDocument(id) {
     const resp = await this.client.get(`/v1/document/download/${id}`, {
       headers: {
-        accept: "application/pdf",
+        accept: "blob",
       }
     })
-    console.log(resp)
-    return resp.data;
+    var ia = new Uint8Array(resp.data.length);
+    for (var i = 0; i < resp.data.length; i++) {
+      ia[i] = resp.data.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: "application/pdf", name: "selfie.pdf" });
+    // return resp.data;
   },
   sign({
     otp,

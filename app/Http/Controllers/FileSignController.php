@@ -49,12 +49,12 @@ class FileSignController extends Controller
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sign_document(string $fileId, $request)
+    public function sign_document(string $fileId, Request $request)
     {
         $user = Auth::user()->id;
         $token = $request->sign_token;
         $document_id = $request->document_id;
-        $document = FileManagerFile::where('uid', $fileId)->first();
+        $document = FileManagerFile::where('id', $fileId)->first();
         if (!$document) {
             return response()->json([
                 'statusCode' => 404,
@@ -87,6 +87,32 @@ class FileSignController extends Controller
         return response()->json([
             'statusCode' => 200,
             'message' => 'Document Signed Successfully.',
+            'data' => $signature
+        ]);
+    }
+
+    public function find_document(string $fileId)
+    {
+        $user = Auth::user()->id;
+        $document = FileManagerFile::where('id', $fileId)->first();
+        if (!$document) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Document not found.'
+            ]);
+        }
+        $signature = $document->signatures()->where('user_id', $user)->first();
+
+        if (!$signature) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Signature not found.'
+            ]);
+        }
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => 'Document Found.',
             'data' => $signature
         ]);
     }

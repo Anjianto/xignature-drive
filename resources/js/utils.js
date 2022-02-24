@@ -1,3 +1,7 @@
+import client from "@/http_client/signature_client";
+
+
+
 export function createFileBlob(file) {
   return new Promise((resolve, reject) => {
     var reader = new FileReader();
@@ -15,6 +19,7 @@ export function createBlobFromFile(url) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
+        xhr.setRequestHeader('x-api-key', "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B");
         xhr.responseType = 'blob';
         xhr.onload = function () {
         if (this.status === 200) {
