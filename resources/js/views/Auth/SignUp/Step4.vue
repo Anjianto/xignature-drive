@@ -63,6 +63,7 @@ import axios from "axios";
 import { events } from "@/bus";
 import signatureClient from "@/http_client/signature_client";
 import { format } from "date-fns";
+import { createFileBlob } from "@/utils";
 
 export default {
   name: "Step2",
@@ -82,6 +83,7 @@ export default {
       isLoaded: false,
       isFinish: false,
       isCapture: false,
+      imageBlob: undefined,
       isLoading: false,
     };
   },
@@ -207,14 +209,14 @@ export default {
         });
     },
   },
-  mounted() {
+  async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
     const video = document.getElementById("video");
     const capture = document.getElementById("capture");
     const canvas = document.getElementById("canvas");
     const capturedImg = document.getElementById("capturedImg");
 
-    navigator.mediaDevices
+    const stream = await navigator.mediaDevices
       .getUserMedia({
         audio: false,
         video: {
@@ -233,6 +235,8 @@ export default {
         } else {
           video.play();
         }
+
+        return stream;
       })
       .catch(console.error);
 
@@ -241,8 +245,12 @@ export default {
       this.isFinish = false;
     };
 
-    capture.onclick = () => {
+    capture.onclick = async () => {
       this.isCapture = true;
+      const track = stream.getVideoTracks()[0];
+      let imageCapture = new ImageCapture(track);
+      let image = await imageCapture.takePhoto();
+      let imgUrl = await createFileBlob(image);
       video.pause();
       const context = canvas.getContext("2d");
 
@@ -253,7 +261,6 @@ export default {
       this.$store.dispatch("set_register_data", {
         selfie: canvas.toDataURL(),
       });
-      capturedImg.src = canvas.toDataURL();
     };
   },
 };
