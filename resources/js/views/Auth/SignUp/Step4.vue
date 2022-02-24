@@ -148,7 +148,7 @@ export default {
           dataRegister.append("ktp", ktpFile);
           // convert blob to file
           const selfie = this.blobPart(this.registerData.selfie);
-          const selfieFile = new File([selfie], "ktp.jpg", {
+          const selfieFile = new File([selfie], "selfie.jpg", {
             type: "image/jpeg",
           });
           console.log("selfie", selfieFile);
