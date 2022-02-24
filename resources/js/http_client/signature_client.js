@@ -10,7 +10,7 @@ export const client = ({ base_url, key }) =>
   });
 
 const baseUrl = "https://sandbox.xignature.co.id/";
-const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
+export const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
 
 export default {
   client: client({
@@ -54,6 +54,18 @@ export default {
     const { data } = await this.client.get(`/v1/document/${id}`);
     console.log(data);
     return data;
+  },
+  getDocUrl(id) {
+    return `${baseUrl}v1/document/download/${id}`;
+  },
+  async downloadDocument(id) {
+    const resp = await this.client.get(`/v1/document/download/${id}`, {
+      headers: {
+        accept: "application/pdf",
+      }
+    })
+    console.log(resp)
+    return resp.data;
   },
   sign({
     otp,

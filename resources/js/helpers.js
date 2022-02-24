@@ -232,7 +232,7 @@ const Helpers = {
       anchor.download = filename;
 
       document.body.appendChild(anchor);
-      console.log(url, filename);
+      // console.log(url, filename);
 
       anchor.click();
     };

@@ -10,6 +10,9 @@
       <!-- Full File Preview -->
       <FileFullPreview />
 
+      <!-- File PDF Editor -->
+      <!-- <FilePDFEditor /> -->
+
       <!--Mobile Navigation-->
       <MobileNavigation />
 
@@ -87,6 +90,7 @@ import Alert from "@/components/FilesView/Alert";
 import { includes } from "lodash";
 import { mapGetters } from "vuex";
 import { events } from "./bus";
+// import FilePDFEditor from "@/components/FilesView/FilePDFEditor.vue";
 
 export default {
   name: "app",
@@ -110,6 +114,7 @@ export default {
     MenuBar,
     DragUI,
     Alert,
+    // FilePDFEditor,
   },
   computed: {
     ...mapGetters(["isLogged", "isGuest", "config", "fileQueue"]),

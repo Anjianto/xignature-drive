@@ -35,7 +35,7 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
-    <OTPModal :open="isOTPModalOpen" @close="signDocument" />
+    <OTPModal :step="step" :open="isOTPModalOpen" @submit="handleSubmit" @close="isOTPModalOpen = checkModal" />
   </div>
 </template>
 
@@ -67,6 +67,12 @@ export default {
     MinusIcon,
     OTPModal,
   },
+  mounted() {
+    const id = this.$route.query["id"];
+    if(id) {
+      Cookies.set("last_sign_file", id);
+    }
+  },
   computed: {
     filename() {
       const name = this.$route.params["fileId"];
@@ -82,8 +88,24 @@ export default {
     },
   },
   methods: {
-    signDocument(otp) {
-      this.isOTPModalOpen = false;
+    handleSubmit(otp) {
+      if (this.step == 1) {
+        this.signDocument(otp);
+      }
+      
+      if(this.step == 0) {
+        this.sendOtp();
+      } 
+      
+    },
+    checkModal(step) {
+      // resend otp
+      if(this.step === 1) {
+        this.sendOtp();
+      } 
+    },
+    signDocument(otp) {  
+      const fileId = this.$route.query["id"];
       this.$store.dispatch("signDocument", {
         file: this.pdf64.split(",")[1],
         page: this.numPages,
@@ -91,7 +113,20 @@ export default {
         title: this.filename,
         signPos: this.signPos,
         reason: "Acceptance",
+        fileId,
       });
+      
+      this.isOTPModalOpen = false;
+      
+    },
+    async sendOtp() {
+      // send otp token
+      const fileid = this.$route.query["id"];
+      this.$store.dispatch("genSignToken", {
+        fileid,
+      });
+      this.step = 1;
+
     },
     setPageNumber(sum) {
       if (this.numPages !== 0) {
@@ -167,11 +202,7 @@ export default {
           },
         });
       }
-      // send otp token
-      const fileid = this.$route.query["id"];
-      this.$store.dispatch("genSignToken", {
-        fileid,
-      });
+
       this.isOTPModalOpen = true;
     },
     getFilesForView() {
@@ -204,6 +235,7 @@ export default {
       pdfbin: undefined,
       pdf64: undefined,
       signPos: undefined,
+      step: 0,
       isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,

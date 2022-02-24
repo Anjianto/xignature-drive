@@ -33274,7 +33274,7 @@ if ( process.env.VUE_ENV !== 'server' ) {
 
 	if ( typeof window !== 'undefined' && 'Worker' in window && navigator.appVersion.indexOf('MSIE 10') === -1 ) {
 
-		var PdfjsWorker = __webpack_require__(/*! worker-loader!pdfjs-dist/es5/build/pdf.worker.js */ "./node_modules/vue-pdf/node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js");
+		var PdfjsWorker = __webpack_require__(/*! worker-loader!pdfjs-dist/es5/build/pdf.worker.js */ "./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js");
 		PDFJS.GlobalWorkerOptions.workerPort = new PdfjsWorker();
 	}
 
@@ -67984,19 +67984,6 @@ exports.PDFViewer = PDFViewer;
 
 /***/ }),
 
-/***/ "./node_modules/vue-pdf/node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js":
-/*!********************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-pdf/node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js ***!
-  \********************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = function() {
-  return new Worker(__webpack_require__.p + "303528f7caf08da71607.worker.js");
-};
-
-/***/ }),
-
 /***/ "./node_modules/vue-pdf/src/annotationLayer.css?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************!*\
   !*** ./node_modules/vue-pdf/src/annotationLayer.css?vue&type=style&index=0&lang=css& ***!
@@ -68661,6 +68648,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_resize_sensor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_resize_sensor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_resize_sensor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_resize_sensor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
+
+/***/ }),
+
+/***/ "./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js":
+/*!***********************************************************************************************************************!*\
+  !*** ./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = function() {
+  return new Worker(__webpack_require__.p + "303528f7caf08da71607.worker.js");
+};
 
 /***/ })
 

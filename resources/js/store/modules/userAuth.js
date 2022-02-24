@@ -4,6 +4,7 @@ import Vue from "vue";
 import client from "@/http_client/signature_client";
 import { events } from "../../bus";
 import Cookies from "js-cookie";
+import { convertBinaryToDataURI } from "@/utils"
 
 const defaultState = {
   authorized: undefined,
@@ -13,7 +14,7 @@ const defaultState = {
 };
 async function getBase64ImageFromUrl(imageUrl) {
   var res = await fetch(imageUrl);
-  console.log(res);
+  // console.log(res);
   var blob = await res.blob();
 
   return new Promise((resolve, reject) => {
@@ -37,7 +38,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       const token = Cookies.get("otp_token");
       if (!!token) {
-        console.log("token", token);
+        // console.log("token", token);
         commit("SET_TOKEN", { token });
       }
       axios
@@ -82,12 +83,15 @@ const actions = {
       router.push({ name: "SignIn" });
     });
   },
-  genSignToken: async ({ commit, getters, dispatch }, {fileid}) => {
+  genSignToken: async (
+    { commit, getters, dispatch },
+    { notif = true }
+  ) => {
     const user = getters.user.data.attributes;
     // download user ktp and selfie from web
-    const ktp = await getBase64ImageFromUrl(user.ktp);
-    const selfie = await getBase64ImageFromUrl(user.selfie);
-
+    // const ktp = await getBase64ImageFromUrl(user.ktp);
+    // const selfie = await getBase64ImageFromUrl(user.selfie);
+    const fileid = Cookies.get("last_sign_file");
     return new Promise((resolve, reject) => {
       client
         .genOTP(
@@ -98,8 +102,8 @@ const actions = {
             phone: user.phone,
             birthplace: user.birth_place,
             birthdate: user.birth_date,
-            selfie: selfie,
-            ktp: ktp,
+            selfie: user.selfie,
+            ktp: user.ktp,
           },
           2
         )
@@ -133,22 +137,24 @@ const actions = {
               } else {
                 router.push({ name: "Files" });
               }
-              events.$emit("toaster", {
-                type: "success",
-                message: "signature has been generated",
-              });
+              if (notif) {
+                events.$emit("toaster", {
+                  type: "success",
+                  message: "signature has been generated",
+                });
+              }
             }
             resolve(response);
           }
         )
         .catch((error) => {
-          if (error.response.status >= 500) {
+          if (notif && error.response && error.response.status >= 500) {
             events.$emit("alert:open", {
               emoji: "🤔",
               title: "Server Error",
               message: "Please retry later, or wait for a while",
             });
-          } else if (error.response.status >= 400) {
+          } else if (notif && error.response && error.response.status >= 400) {
             events.$emit("alert:open", {
               emoji: "🤔",
               title: error.response.data.error,
@@ -161,7 +167,7 @@ const actions = {
   },
   signDocument(
     { commit, getters, dispatch },
-    { title, signPos, reason, file, page, otp }
+    { title, signPos, reason, file, page, otp, fileId, notif=false }
   ) {
     return new Promise((resolve, reject) => {
       client
@@ -176,21 +182,28 @@ const actions = {
         })
         .then(({ data }) => {
           if (data.statusCode === 201) {
-            events.$emit("toaster", {
-              type: "success",
-              message: data.message,
-            });
-            dispatch("loadDocument", { ...data.data });
+            fileId = Cookies.get("last_sign_file");
+            axios.post(`/api/doc/${fileId}/sign`, {
+              sign_token: getters.token,
+              document_id: data.data.id,
+            })
+            dispatch("loadDocument", data.data);
+            if(notif) {
+              events.$emit("toaster", {
+                type: "success",
+                message: data.message,
+              });
+            }
             resolve(data);
           }
         })
         .catch((error) => {
-          if (error.response.status >= 500) {
+          if (notif && error.response && error.response.status >= 500) {
             events.$emit("alert:open", {
               title: "Server Error",
               message: "Please retry later, or wait for a while",
             });
-          } else if (error.response.status >= 400) {
+          } else if (notif && error.response && error.response.status >= 400) {
             events.$emit("alert:open", {
               emoji: "🤔",
               title: error.response.data.error,
@@ -205,8 +218,8 @@ const actions = {
     { commit, getters },
     { id, title, filename, user: { email, fullname } }
   ) {
-    const document = await client.getDoucment(id);
-    commit("SET_DOCUMENT", { document });
+    const url = client.getDocUrl(id);
+    commit("SET_DOCUMENT", { document: url });
   },
   useToken: ({ commit, getters }, payload) => {
     const { token, expiresDate } = payload;
@@ -361,6 +374,7 @@ const getters = {
   isLogged: (state) => !!state.user.data.id,
   user: (state) => state.user,
   isProfileFilled: (state) => {
+    if(!state.user.data) return false;
     const data = [
       "ktp",
       "selfie",
@@ -378,7 +392,7 @@ const getters = {
     });
     return isFilled;
   },
-  otp: (state) => (state.user ? state.user.data.attributes.otp : ""),
+  otp: (state) => (state.user ? !state.user.data ? "" : state.user.data.attributes.otp : ""),
   token: (state) => state.token,
 };
 

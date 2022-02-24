@@ -322,7 +322,7 @@ export default {
                     footer_content: response.data.footer_content
                 }
 
-                console.log(this.app);
+                // console.log(this.app);
             })
             .finally(() => {
                 this.isLoading = false

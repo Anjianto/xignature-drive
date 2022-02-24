@@ -656,7 +656,7 @@ export default {
         },
         query: {
           type: ext,
-          id: this.item.unique_id,
+          id: this.item.id,
           scope: this.item.user_scope,
           user: this.item.user_id,
         },
