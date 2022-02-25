@@ -47,7 +47,7 @@ class FileSignController extends Controller
         $signature = new Signatures();
         $signature->user_id = $user->id;
         $signature->sign_token = $sign_token;
-//        $signature->file_manager_file = $file_manager_file;
+        $signature->file_manager_file = $file_manager_file;
         $signature->save();
 
         return response()->json([
@@ -93,6 +93,7 @@ class FileSignController extends Controller
         }
 
         $signature->document_id = $document_id;
+        $signature->file_manager_file = $fileId;
         $signature->save();
 
         //TODO: Send email to owner of document
@@ -141,7 +142,7 @@ class FileSignController extends Controller
             // send sign document email
             // hash filed id
             $file_hash = md5($fileId);
-            $filename = $document->baseFilename();
+            $filename = $document->basename;
             Notification::route('mail', $email)->notify(new SignDocuInvitation($file_hash, $filename));
             
             return response()->json([
@@ -172,6 +173,28 @@ class FileSignController extends Controller
             return response()->json([
                 'statusCode' => 500,
                 'message' => 'Internal Server Error.'
+            ]);
+        }
+    }
+
+    public function get_file_by_hash(string $hash, Request $request) {
+        $base_name = $request->filename;
+        $files = FileManagerFile::where('basename', $base_name)->get();
+
+        for ($i=0; $i < count($files); $i++) { 
+            if($hash == md5($files[$i]->id)) {
+                return response()->json([
+                    'statusCode' => 200,
+                    'message' => 'File founded.',
+                    'file' => $files[$i]
+                ]);
+            }
+        }
+
+        if (!count($files)) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'File not found.'
             ]);
         }
     }

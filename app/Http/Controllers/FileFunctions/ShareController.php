@@ -72,7 +72,7 @@ class ShareController extends Controller
         // Send shared link via email
         if ($request->has('emails')) {
             foreach ($request->emails as $email) {
-                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token, $signShare));
+                Notification::route('mail', $email)->notify(new SharedSendViaEmail($token));
             }
         }
 

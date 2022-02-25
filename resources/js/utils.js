@@ -47,6 +47,19 @@ export function convertDataURIToBinary(dataURI) {
   return array;
 }
 
+export function convertBlobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    var reader = new FileReader();
+    reader.onload = function() {
+      resolve(reader.result);
+    };
+    reader.onerror = function(error) {
+      reject(error);
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
 export function convertBinaryToDataURI(buffer) {
   var binary = '';
   var bytes = new Uint8Array( buffer );

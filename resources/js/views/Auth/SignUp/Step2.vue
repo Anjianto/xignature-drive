@@ -2,49 +2,36 @@
   <div id="content-card">
     <ValidationObserver
       @submit.prevent="saveRegister"
-      ref="sign_up"
-      v-slot="{ invalid }"
+      ref="form"
       tag="form"
       class="form block-form"
     >
+      <span></span>
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_ktp") }}</label>
-        <ValidationProvider
-          tag="div"
-          mode="passive"
-          class="input-wrapper"
-          name="ktp"
-          rules="required"
-          v-slot="{ errors }"
-        >
-          <div class="input-wrapper">
-            <div class="image preview" @click="() => $refs.ktpUpload.click()">
-              <img v-if="ktp" :src="ktp" alt="ktp photo" />
-              <div class="placeholder center" v-else>
-                <FontAwesomeIcon class="icon" icon="camera" />
-                <h4>No Image KTP</h4>
-                <p>click to upload</p>
-              </div>
+        <div class="input-wrapper">
+          <div class="image preview" @click="() => $refs.ktpUpload.click()">
+            <img v-if="value" :src="ktp" alt="ktp photo" />
+            <div class="placeholder center" v-else>
+              <FontAwesomeIcon class="icon" icon="camera" />
+              <h4>No Image KTP</h4>
+              <p>click to upload</p>
             </div>
-            <input
-              ref="ktpUpload"
-              @change="changeUserKTP"
-              accept="image/jpeg,image/png"
-              required
-              style="display: none"
-              type="file"
-            />
           </div>
-        </ValidationProvider>
+          <input
+            ref="ktpUpload"
+            @change="changeUserKTP"
+            accept="image/jpeg,image/png"
+            required
+            style="display: none"
+            type="file"
+          />
+        </div>
       </div>
 
       <div>
         <div class="container center">
-          <AuthButton
-            icon="chevron-right"
-            text="Continue"
-            :disabled="!registerData.ktp"
-          />
+          <AuthButton icon="chevron-right" text="Continue" />
         </div>
       </div>
     </ValidationObserver>
@@ -59,8 +46,7 @@ import {
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
-import { mapGetters } from "vuex";
-import { events } from "@/bus";
+import {createFileBlob} from "@/utils";
 
 export default {
   name: "Step2",
@@ -71,50 +57,32 @@ export default {
     AuthButton,
     ProfileForm,
   },
-  computed: {
-    ...mapGetters(["registerData"]),
-  },
+  props: ["value"],
   data() {
     return {
       ktp: null,
+      errors: [],
     };
   },
   methods: {
-    saveRegister() {
-      if (!this.registerData.ktp) {
-        events.$emit("alert:open", {
-          emoji: "🤔",
-          title: "KTP is required!",
-          message: "Please upload your KTP!",
-        });
-        return;
-      }
-      this.$store.dispatch("set_steps", 3);
+    async saveRegister() {
+      const isValid = await this.$refs.form.validate();
+      if (!isValid) return;
+      this.errors = [];
+      console.log("goto step 3");
+      this.$emit("step", 3);
     },
     async changeUserKTP(e) {
+      console.log(e);
       const files = e.target.files || e.dataTransfer.files;
       const isImage = files[0].type.match(/image.*/);
-      if (!files.length || !isImage) return;
-      const image = await this.createImage(files[0]);
-      // this.userInfo.selfie = image;
-      this.ktp = image;
-      this.$store.dispatch("set_register_data", {
-        ktp: image,
-      });
-      // this.$updateImage("/user/profile", "selfie", e.target.files[0]);
-      // this.errors.selfie = "";
-    },
-    createImage(file) {
-      return new Promise((resolve, reject) => {
-        var reader = new FileReader();
-        reader.onload = (e) => {
-          resolve(e.target.result);
-        };
-        reader.onerror = (e) => {
-          reject(e);
-        };
-        reader.readAsDataURL(file);
-      });
+      if (!files.length || !isImage) {
+        this.errors.push("invalid file");
+        return;
+      }
+      this.ktp = await createFileBlob(files[0]);
+      // const image = await this.createImage(files[0]);
+      this.$emit("input", files[0]);
     },
   },
 };

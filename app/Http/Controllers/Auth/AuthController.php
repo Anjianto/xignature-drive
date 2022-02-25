@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\CheckAccountRequest;
 use App\Setting;
 use App\User;
 use App\UserSettings;
+use App\Services\SignatureService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -93,7 +94,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function register(Request $request)
+    public function register(SignatureService $signService, Request $request)
     {
         $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
 
@@ -101,29 +102,23 @@ class AuthController extends Controller
         if (!intval($settings['registration'])) {
             abort(401);
         }
-        // $ktp = store_system_image($request->file('ktp'), 'ktp');
-        // $selfie = store_system_image($request->file('selfie'), 'selfie');
 
-        // if(!$ktp || !$selfie) {
-        //     abort(400, __t('upload_failed'));
-        // }
-        // Validate request
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|min:12',
             'nik' => 'numeric',
-            'ktp' => 'required|image',
-            'selfie' => 'required|image',
+            'ktp' => 'required',
+            'selfie' => 'required',
             'birth_date' => 'required|date',
             'birth_place' => 'required|string'
         ]);
-//        dd($request->all());
-
+        // dd($request->all());
+        
         $ktp = base64_encode(file_get_contents($request->file('ktp')));
         $selfie = base64_encode(file_get_contents($request->file('selfie')));
-//        dd($request->file('ktp')->store('ktp'));
+        // dd($request->file('ktp')->store('ktp'));
 
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
@@ -154,7 +149,6 @@ class AuthController extends Controller
                 "birth_place" => $request->input('birth_place'),
                 "selfie" => $request->file('selfie')->store('selfie'),
                 "ktp" => $request->file('ktp')->store('ktp'),
-                'signature_token' => $apiResponse->data->token
             ]);
 
             // Create settings
@@ -162,6 +156,17 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'storage_capacity' => $settings['storage_default'],
             ]);
+
+            $sign_doc_key = $request->input('sign_doc_key');	
+            $sign_doc_id = $request->input('sign_doc_id');
+
+            if($sign_doc_key && $sign_doc_id){
+                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
+
+                if($file){
+                    $signService->sign($apiResponse['data']['token'], $file->id, $user->id);
+                }
+            }
 
 
             $response = Route::dispatch(self::make_login_request($request));

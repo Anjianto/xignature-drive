@@ -22,10 +22,19 @@
           <h1>{{ $t("page_registration.title") }}</h1>
           <h2>{{ $t("page_registration.subtitle") }}</h2>
         </div>
-        <Step1 v-if="steps === 1" />
-        <Step2 v-else-if="steps === 2" />
-        <Step3 v-else-if="steps === 3" />
-        <Step4 v-else-if="steps === 4" />
+        <Step1
+          v-if="steps === 1"
+          :errors="errors"
+          v-model="data"
+          @step="changeStep"
+        />
+        <Step2 v-else-if="steps === 2" v-model="data.ktp" @step="changeStep" />
+        <Step3 v-else-if="steps === 3" v-model="data" @step="changeStep" />
+        <Step4
+          v-else-if="steps === 4"
+          v-model="data.selfie"
+          @finish="saveRegister"
+        />
       </AuthContent>
     </AuthContentWrapper>
   </div>
@@ -41,7 +50,7 @@ import Step4 from "./Step4";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 export default {
   name: "SignUp",
   components: {
@@ -52,62 +61,128 @@ export default {
     Step3,
     Step4,
   },
+  data() {
+    return {
+      steps: 1,
+      data: {
+        name: undefined,
+        email: undefined,
+        password: undefined,
+        password_confirmation: undefined,
+        phone: undefined,
+        phone: undefined,
+        nik: undefined,
+        ktp: undefined,
+        birthplace: undefined,
+        birthdate: undefined,
+        selfie: undefined,
+      },
+      errors: {},
+      isLoading: false,
+    };
+  },
   computed: {
-    ...mapGetters(["config", "steps"]),
+    ...mapGetters(["config"]),
+    formData() {
+      const dataRegister = new FormData();
+      dataRegister.append("name", this.data.name);
+      dataRegister.append("email", this.data.email);
+      dataRegister.append("password", this.data.password);
+      dataRegister.append(
+        "password_confirmation",
+        this.data.password_confirmation
+      );
+      dataRegister.append("phone", this.data.phone);
+      dataRegister.append("nik", this.data.nik);
+      dataRegister.append("ktp", this.data.ktp);
+      dataRegister.append("selfie", this.data.selfie);
+      dataRegister.append(
+        "birth_date",
+        format(this.data.birthdate, "yyyy-MM-dd")
+      );
+      dataRegister.append("birth_place", this.data.birthplace);
+
+      dataRegister.append("sign_doc_key", Cookies.get("share_token"))
+      dataRegister.append("sign_doc_id", Cookies.get("share_id"))
+
+      return dataRegister;
+    },
   },
   methods: {
+    changeStep(step) {
+      this.steps = step;
+    },
     async signUp(token, expired) {
       const daysDiff = differenceInDays(expired, new Date());
       Cookies.set("sign", token, { expires: daysDiff });
       this.$router.push({ name: "Files" });
     },
-    async saveRegister() {
-      // Start loading
-      // this.isLoading = true;
-      // axios
-      //   .post("/api/user/register", this.register)
-      //   .then(() => {
-      //     // End loading
-      //     this.isLoading = false;
-      //     // Set login state
-      //     this.$store.commit("SET_AUTHORIZED", true);
-      //     // complete the profile
-      //     // this.isPreRegister = true;
-      //     // this.$router.push({name: 'SignUp', query: {preRegister: true}})
-      //     this.$router.push({name: 'Profile', query: {create_signature: true}})
-      //   })
-      //   .catch((error) => {
-      //     if (error.response.status == 401) {
-      //       if (error.response.data.error === "invalid_client") {
-      //         events.$emit("alert:open", {
-      //           emoji: "🤔",
-      //           title: this.$t("popup_passport_error.title"),
-      //           message: this.$t("popup_passport_error.message"),
-      //         });
-      //       }
-      //     }
-      //     if (error.response.status == 500) {
-      //       events.$emit("alert:open", {
-      //         emoji: "🤔",
-      //         title: this.$t("popup_signup_error.title"),
-      //         message: this.$t("popup_signup_error.message"),
-      //       });
-      //     }
-      //     if (error.response.status == 422) {
-      //       if (error.response.data.errors["email"]) {
-      //         this.$refs.sign_up.setErrors({
-      //           "E-Mail": error.response.data.errors["email"],
-      //         });
-      //       }
-      //       if (error.response.data.errors["password"]) {
-      //         this.$refs.sign_up.setErrors({
-      //           "Your New Password": error.response.data.errors["password"],
-      //         });
-      //       }
-      //     }
-      //     // End loading
-      //     this.isLoading = false;
-      //   });
+    saveRegister() {
+      this.isLoading = true;
+
+      axios
+        .post("/api/user/register", this.formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        // })
+        .then(() => {
+          this.isLoading = false;
+          this.$store.commit("SET_AUTHORIZED", true);
+          console.log("success");
+          this.$router.push({
+            name: "Files",
+            query: { create_signature: true },
+          });
+        })
+        .catch((error) => {
+          if (!error.response) return;
+          if (error.response.status == 401) {
+            if (error.response.data.error === "invalid_client") {
+              events.$emit("alert:open", {
+                emoji: "🤔",
+                title: this.$t("popup_passport_error.title"),
+                message: this.$t("popup_passport_error.message"),
+              });
+            }
+          }
+          if (error.response.status == 500) {
+            events.$emit("alert:open", {
+              emoji: "🤔",
+              title: this.$t("popup_signup_error.title"),
+              message: this.$t("popup_signup_error.message"),
+            });
+          }
+          if (error.response.status == 422) {
+            if (error.response.data.errors["email"]) {
+              this.errors["email"] = error.response.data.errors["email"];
+              this.step = 1;
+            }
+            if (error.response.data.errors["password"]) {
+              this.errors["password"] = error.response.data.errors["password"];
+
+              this.step = 1;
+            }
+
+            events.$emit("alert:open", {
+              emoji: "🤔",
+              title: "Failed Upload Data",
+              message: "Please check your data",
+            });
+          }
+
+          if (Object.keys(error.response.data.errors).length > 0) {
+            const firstKey = Object.keys(error.response.data.errors)[0];
+            events.$emit("alert:open", {
+              emoji: "🤔",
+              title: firstKey,
+              message: error.response.data.errors[firstKey][0],
+            });
+          }
+
+          this.isLoading = false;
+        });
     },
   },
   created() {

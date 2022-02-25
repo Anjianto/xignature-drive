@@ -2,8 +2,7 @@
   <div id="content-card">
     <ValidationObserver
       @submit.prevent="saveRegister"
-      ref="sign_up"
-      v-slot="{ invalid }"
+      ref="form"
       tag="form"
       class="form block-form"
     >
@@ -14,12 +13,11 @@
           mode="passive"
           class="input-wrapper"
           name="E-Mail"
-          rules="required"
+          rules="required|email"
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.email"
-            @keyup="updateField"
+            v-model="value.email"
             name="email"
             :placeholder="$t('page_registration.placeholder_email')"
             type="email"
@@ -43,7 +41,7 @@
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.name"
+            v-model="value.name"
             :placeholder="$t('page_registration.placeholder_name')"
             type="text"
             :class="{ 'is-error': errors[0] }"
@@ -59,11 +57,11 @@
           mode="passive"
           class="input-wrapper"
           name="Your New Password"
-          rules="required"
+          rules="required|confirmed:confirmation"
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.password"
+            v-model="value.password"
             :placeholder="$t('page_registration.placeholder_pass')"
             type="password"
             :class="{ 'is-error': errors[0] }"
@@ -79,11 +77,12 @@
           mode="passive"
           class="input-wrapper"
           name="Confirm Your Password"
+          vid="confirmation"
           rules="required"
           v-slot="{ errors }"
         >
           <input
-            v-model="registerData.password_confirmation"
+            v-model="value.password_confirmation"
             :placeholder="$t('page_registration.placeholder_confirm_pass')"
             type="password"
             :class="{ 'is-error': errors[0] }"
@@ -119,12 +118,6 @@
           <AuthButton
             icon="chevron-right"
             :text="$t('page_registration.button_create_account')"
-            :disabled="
-              !registerData.email &&
-              !registerData.name &&
-              !registerData.password &&
-              !registerData.password_confirmation
-            "
           />
         </div>
         <span class="additional-link"
@@ -147,6 +140,7 @@ import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
+import { required, ext, digits, min, email, confirmation } from "vee-validate/dist/rules";
 
 export default {
   name: "Step1",
@@ -156,7 +150,14 @@ export default {
     AuthContent,
     AuthButton,
     ProfileForm,
+    confirmation,
+    required,
+    ext,
+    digits,
+    email,
+    min,
   },
+  props: ['value'],
   computed: {
     ...mapGetters(["config", "registerData", "registerErrors"]),
     privacyPolicy() {
@@ -171,43 +172,12 @@ export default {
     },
   },
   methods: {
-    saveRegister() {
-      const emailRe =
-        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    async saveRegister() {
+      const isValid = await this.$refs.form.validate();
+      if(!isValid) return;
 
-      if (!this.registerData.email) {
-        this.$store.dispatch("set_register_error", {
-          email: "Email is required!",
-        });
-        return;
-      }
-      if (!emailRe.test(this.registerData.email)) {
-        this.$store.dispatch("set_register_error", {
-          email: "Email is not valid!",
-        });
-        return;
-      }
-      if (!this.registerData.password) {
-        this.$store.dispatch("set_register_error", {
-          password: "Password is required!",
-        });
-        return;
-      }
-      if (!this.registerData.password_confirmation) {
-        this.$store.dispatch("set_register_error", {
-          password_confirmation: "Password Confirmation is required!",
-        });
-        return;
-      }
-
-      this.$store.dispatch("set_steps", 2);
-    },
-    updateField(e) {
-      const name = e.target.name;
-      const value = e.target.value;
-      this.$store.dispatch("set_register_data", {
-        [name]: value,
-      });
+      console.log('goto step 2');
+      this.$emit("step", 2);
     },
   },
 };
