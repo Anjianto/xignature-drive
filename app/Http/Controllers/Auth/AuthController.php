@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\CheckAccountRequest;
 use App\Setting;
 use App\User;
 use App\UserSettings;
+use App\Services\SignatureService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -93,7 +94,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function register(Request $request)
+    public function register(SignatureService $signService, Request $request)
     {
         $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
 
@@ -155,6 +156,17 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'storage_capacity' => $settings['storage_default'],
             ]);
+
+            $sign_doc_key = $request->input('sign_doc_key');	
+            $sign_doc_id = $request->input('sign_doc_id');
+
+            if($sign_doc_key && $sign_doc_id){
+                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
+
+                if($file){
+                    $signService->sign($apiResponse['data']['token'], $file->id, $user->id);
+                }
+            }
 
 
             $response = Route::dispatch(self::make_login_request($request));

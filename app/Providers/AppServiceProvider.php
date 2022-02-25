@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SignatureService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Console\ClientCommand;
@@ -37,7 +38,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Set locale for application
         app()->setLocale($app_language);
-
+        $this->app->bind(SignatureService::class, function () {
+            return new SignatureService();
+        });
         // Set locale for carbon dates
         setlocale(LC_TIME, $app_language . '_' . mb_strtoupper($app_language));
 
