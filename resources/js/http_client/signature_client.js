@@ -9,8 +9,8 @@ export const client = ({ base_url, key }) =>
     },
   });
 
-export const baseUrl = "https://sandbox.xignature.co.id/";
-export const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
+export const baseUrl = process.env.MIX_XIGNATURE_END_POINT;
+export const key = process.env.MIX_XIGNATURE_APP_KEY;
 
 export default {
   client: client({
@@ -62,8 +62,8 @@ export default {
     const resp = await this.client.get(`/v1/document/download/${id}`, {
       headers: {
         accept: "blob",
-      }
-    })
+      },
+    });
     var ia = new Uint8Array(resp.data.length);
     for (var i = 0; i < resp.data.length; i++) {
       ia[i] = resp.data.charCodeAt(i);
