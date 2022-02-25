@@ -39,7 +39,7 @@
       :step="step"
       :open="isOTPModalOpen"
       @submit="handleSubmit"
-      @close="isOTPModalOpen = checkModal"
+      @close="closeOTPModal"
     />
   </div>
 </template>
@@ -105,8 +105,11 @@ export default {
     async loadDoc(id) {
       const fileId = Cookies.get("last_sign_file") || id;
       const { data } = await axios.get(`/api/doc/${fileId}`);
-      this.signedId = data.data.document_id;
+      this.signedId = data.data?.document_id;
       console.log(this.signedId);
+    },
+    closeOTPModal() {
+      this.isOTPModalOpen = false;
     },
     handleSubmit(otp) {
       if (this.step == 1) {
