@@ -2,7 +2,7 @@
 /node_modules
 /public/hot
 /public/storage
-/public/chunks
+/public/*chunks
 /public/js
 /public/mix-manifest.json
 /storage/*.key
