@@ -102,6 +102,9 @@ export default {
       );
       dataRegister.append("birth_place", this.data.birthplace);
 
+      dataRegister.append("sign_doc_key", Cookies.get("share_token"))
+      dataRegister.append("sign_doc_id", Cookies.get("share_id"))
+
       return dataRegister;
     },
   },

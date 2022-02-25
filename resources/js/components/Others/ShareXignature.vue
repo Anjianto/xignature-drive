@@ -292,12 +292,9 @@ export default {
           // End loading
           this.isGeneratedShared = true;
 
-          this.$store.commit(
-            "UPDATE_SHARED_ITEM",
-            response.data.data.attributes
-          );
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e);
           events.$emit("alert:open", {
             title: this.$t("popup_error.title"),
             message: this.$t("popup_error.message"),

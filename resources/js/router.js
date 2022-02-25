@@ -409,6 +409,22 @@ const routesShared = [
     },
   },
 ];
+
+const routesSignInvite = [
+  {
+    name: "SignInvitePage",
+    path: "/invitation/:token",
+    component: () =>
+      import(
+        /* webpackChunkName: "chunks/sign-invite-page" */ "./views/Signature/SignInvitePage"
+      ),
+    meta: {
+      requiresAuth: false,
+    },
+  }
+
+]
+
 const routesAuth = [
   {
     name: "SignIn",
@@ -803,6 +819,7 @@ const router = new Router({
   mode: "history",
   routes: [
     ...routesMaintenance,
+    ...routesSignInvite,
     ...routesShared,
     ...routesAdmin,
     ...routesIndex,

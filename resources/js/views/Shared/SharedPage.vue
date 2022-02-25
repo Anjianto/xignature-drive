@@ -47,7 +47,7 @@
                 <h1>{{ $t('page_shared.title') }}</h1>
                 <h2>{{ $t('page_shared.subtitle') }}</h2>
 
-                <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
+                <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" tag="form" class="form inline-form">
 
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
                         <input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" :class="{'is-error': errors[0]}"/>

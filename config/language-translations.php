@@ -706,5 +706,7 @@ return [
         'navigation.next'                                  => 'Next',
         'navigation.previous'                              => 'Previous',
         'popup_share_xignature.title'                      => 'Request Xignature',
+        'share_sign.title'                                 => 'Request For Your Signature',
+        'share_sign.subtitle'                              => 'This document is waiting for your signature',
     ]
 ];
