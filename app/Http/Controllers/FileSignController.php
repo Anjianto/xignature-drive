@@ -47,7 +47,7 @@ class FileSignController extends Controller
         $signature = new Signatures();
         $signature->user_id = $user->id;
         $signature->sign_token = $sign_token;
-//        $signature->file_manager_file = $file_manager_file;
+        $signature->file_manager_file = $file_manager_file;
         $signature->save();
 
         return response()->json([
@@ -93,6 +93,7 @@ class FileSignController extends Controller
         }
 
         $signature->document_id = $document_id;
+        $signature->file_manager_file = $fileId;
         $signature->save();
 
         //TODO: Send email to owner of document
