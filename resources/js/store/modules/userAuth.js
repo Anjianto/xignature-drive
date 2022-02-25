@@ -145,7 +145,7 @@ const actions = {
                 });
               }
             }
-            resolve(response);
+            resolve(result);
           }
         )
         .catch((error) => {
