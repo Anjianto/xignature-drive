@@ -3,8 +3,8 @@ import store from "./store/index";
 import { debounce, includes, isArray } from "lodash";
 import { events } from "./bus";
 import axios from "axios";
-import router from "@/router";
-import { ALLOWED_EXTENSIONS } from "./variables";
+import { ALLOWED_EXTENSIONS } from "./constants/upload_rules";
+
 
 const Helpers = {
   install(Vue) {

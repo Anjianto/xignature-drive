@@ -7,13 +7,19 @@
       class="form block-form"
     >
       <div class="block-wrapper">
+      <div class="flex justify-center">
+        <div class="text-center mb-4">
+          <h3 class="text-lg">Getting Started</h3>
+        <p class="text-gray-500">Create an account to continue!</p>
+        </div>
+      </div>
         <label>{{ $t("page_registration.label_email") }}</label>
         <ValidationProvider
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="E-Mail"
-          rules="required|email"
+          rules="required|mailcheck|email"
           v-slot="{ errors }"
         >
           <input
@@ -25,9 +31,6 @@
           />
           <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </ValidationProvider>
-        <p v-if="registerErrors.email" class="input-error">
-          {{ registerErrors.email }}
-        </p>
       </div>
 
       <div class="block-wrapper">
@@ -135,13 +138,17 @@
 import {
   ValidationProvider,
   ValidationObserver,
+  confirmation,
+  defineRule,
+  required, ext, digits, min, email
 } from "vee-validate/dist/vee-validate.full";
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
-import { required, ext, digits, min, email, confirmation } from "vee-validate/dist/rules";
+import { emailUniq } from '@/validators/email-exist';
 
+emailUniq('/')
 export default {
   name: "Step1",
   components: {
@@ -159,7 +166,7 @@ export default {
   },
   props: ['value'],
   computed: {
-    ...mapGetters(["config", "registerData", "registerErrors"]),
+    ...mapGetters(["config", "api"]),
     privacyPolicy() {
       return this.config.legal.find((legal) => {
         return legal.slug === "privacy-policy";
@@ -175,11 +182,10 @@ export default {
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
       if(!isValid) return;
-
       console.log('goto step 2');
       this.$emit("step", 2);
     },
-  },
+  }
 };
 </script>
 

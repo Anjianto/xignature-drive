@@ -1,227 +1,74 @@
 import axios from "axios";
 import router from "@/router";
 import Vue from "vue";
-import client from "@/http_client/signature_client";
-import { events } from "../../bus";
 import Cookies from "js-cookie";
-import { convertBinaryToDataURI } from "@/utils"
+import { fetchAuth, logout, register } from "@/http_client/auth_client";
+import { ACT_REGISTER, ACT_GETAPPDATA } from "@/constants/action";
+import { SIGN_DOC_ID, SIGN_DOC_KEY } from "@/constants/variables";
+import isEmpty from 'lodash/isEmpty';
 
 const defaultState = {
   authorized: undefined,
   permission: "master", // master | editor | visitor
   user: undefined,
-  token: undefined,
-  doc: undefined,
 };
-async function getBase64ImageFromUrl(imageUrl) {
-  var res = await fetch(imageUrl);
-  // console.log(res);
-  var blob = await res.blob();
-
-  return new Promise((resolve, reject) => {
-    var reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      function () {
-        resolve(reader.result);
-      },
-      false
-    );
-
-    reader.onerror = () => {
-      return reject(this);
-    };
-    reader.readAsDataURL(blob);
-  });
-}
 const actions = {
-  getAppData: ({ commit, getters }) => {
-    return new Promise((resolve, reject) => {
-      const token = Cookies.get("otp_token");
-      if (!!token) {
-        // console.log("token", token);
-        commit("SET_TOKEN", { token });
-      }
-      axios
-        .get(getters.api + "/user" + getters.sorting.URI)
-        .then((response) => {
-          resolve(response);
+  async [ACT_GETAPPDATA]({ commit, getters }) {
+    const { data, error } = fetchAuth(getters.api);
 
-          // Redirect user if is logged
-          if (router.currentRoute.name === "SignIn")
-            router.push({ name: "Files" });
-          if (router.currentRoute.name === "SignUp")
-            router.push({ name: "Files" });
-          // const attrs = response.data.attributes
-          const attr = response.data.data.attributes;
-          // response.data.attributes.birth_date = new Date(response.data.attributes.birth_date)
-          attr.birth_date = attr.birth_date ? new Date(attr.birth_date) : null;
-          commit("RETRIEVE_USER", response.data);
-        })
-        .catch((error) => {
-          reject(error);
+    if (error) {
+      return { error, authorized: false };
+    }
 
-          // Redirect if unauthenticated
-          if ([401, 403].includes(error.response.status)) {
-            commit("SET_AUTHORIZED", false);
-            //router.push({name: 'SignIn'})
-          }
-        });
-    });
+    // Redirect user if is logged
+    if (router.currentRoute.name === "SignIn") router.push({ name: "Files" });
+    if (router.currentRoute.name === "SignUp") router.push({ name: "Files" });
+    commit("RETRIEVE_USER", data);
+    return { data, error: false };
   },
-  logOut: ({ getters, commit }) => {
+  async [ACT_REGISTER]({commit, getters, router}, {formData}) {
+    const signKey = formData.get(SIGN_DOC_KEY);
+    const signDoc = formData.get(SIGN_DOC_ID);
+    const isRefSign = !isEmpty(signKey) && !isEmpty(signDoc);
+    const { data, error } = await register(getters.api, formData);
+    if (error) {
+      return { error, authorized: false, data: undefined };
+    }
+    commit("RETRIEVE_USER", data);
+    commit("SET_AUTHORIZED", true);
+    setTimeout(() => {
+      router.replace({
+        name: "Files",
+        query: { ref: isRefSign ? 'invitation' : 'register' },
+      });
+    }, 1000);
+    return { data, error: false };
+  },
+  async logOut({ commit, getters }) {
     let popup = setTimeout(() => {
       commit("PROCESSING_POPUP", {
         title: "Logging Out",
         message: "Wait a second...",
       });
     }, 300);
-
-    axios.get(getters.api + "/logout").then(() => {
+    const { error } = await logout(getters.api);
+    if (error) {
       clearTimeout(popup);
-      commit("DESTROY_DATA");
+      commit("PROCESSING_POPUP", {
+        title: "Logging Out",
+        message: "Failed to log out",
+      });
+      return;
+    } else {
+      commit("PROCESSING_POPUP", {
+        title: "Logging Success",
+        message: "You are logged out",
+      });
+    }
+    clearTimeout(popup);
+    commit("DESTROY_DATA");
 
-      router.push({ name: "SignIn" });
-    });
-  },
-  genSignToken: async (
-    { commit, getters, dispatch },
-    { notif = true }
-  ) => {
-    const user = getters.user.data.attributes;
-    // download user ktp and selfie from web
-    // const ktp = await getBase64ImageFromUrl(user.ktp);
-    // const selfie = await getBase64ImageFromUrl(user.selfie);
-    const fileid = Cookies.get("last_sign_file");
-    return new Promise((resolve, reject) => {
-      client
-        .genOTP(
-          {
-            email: user.email,
-            fullname: user.name,
-            nik: user.nik,
-            phone: user.phone,
-            birthplace: user.birth_place,
-            birthdate: user.birth_date,
-            selfie: user.selfie,
-            ktp: user.ktp,
-          },
-          2
-        )
-        .then(
-          async ({
-            data: {
-              data: { token, expiredAt },
-            },
-          }) => {
-            const { data: result } = await axios.post("/api/sign", {
-              sign_token: token,
-              file_id: fileid,
-            });
-            if (result.statusCode === 200) {
-              const expiresDate = new Date(expiredAt);
-              commit("SET_TOKEN", {
-                token,
-                expiresDate,
-              });
-              await dispatch("getAppData");
-              const fileName = Cookies.get("fileName");
-              const fileExt = Cookies.get("fileExt");
-              if (fileName && fileExt) {
-                Cookies.remove("fileName");
-                Cookies.remove("fileExt");
-                router.push({
-                  name: "Sign",
-                  params: { fileId: fileName },
-                  query: { ext: fileExt },
-                });
-              } else {
-                router.push({ name: "Files" });
-              }
-              if (notif) {
-                events.$emit("toaster", {
-                  type: "success",
-                  message: "signature has been generated",
-                });
-              }
-            }
-            resolve(result);
-          }
-        )
-        .catch((error) => {
-          if (notif && error.response && error.response.status >= 500) {
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: "Server Error",
-              message: "Please retry later, or wait for a while",
-            });
-          } else if (notif && error.response && error.response.status >= 400) {
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: error.response.data.error,
-              message: error.response.data.message,
-            });
-          }
-          reject(error);
-        });
-    });
-  },
-  signDocument(
-    { commit, getters, dispatch },
-    { title, signPos, reason, file, page, otp, fileId, notif=false }
-  ) {
-    return new Promise((resolve, reject) => {
-      client
-        .sign({
-          otp,
-          title,
-          reason,
-          signPage: page,
-          signPos: signPos,
-          document: file,
-          token: getters.token,
-        })
-        .then(({ data }) => {
-          if (data.statusCode === 201) {
-            fileId = Cookies.get("last_sign_file");
-            axios.post(`/api/doc/${fileId}/sign`, {
-              sign_token: getters.token,
-              document_id: data.data.id,
-            })
-            commit("SET_DOCUMENT", { document: data.data.id });
-
-            events.$emit("toaster", {
-              type: "success",
-              code: 221,
-              message: data.message,
-            });
-
-            resolve(data);
-          }
-        })
-        .catch((error) => {
-          if (notif && error.response && error.response.status >= 500) {
-            events.$emit("alert:open", {
-              title: "Server Error",
-              message: "Please retry later, or wait for a while",
-            });
-          } else if (notif && error.response && error.response.status >= 400) {
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: error.response.data.error,
-              message: error.response.data.message,
-            });
-          }
-          reject(error);
-        });
-    });
-  },
-  useToken: ({ commit, getters }, payload) => {
-    const { token, expiresDate } = payload;
-    commit("SET_TOKEN", {
-      token,
-      expiresDate,
-    });
+    router.push({ name: "SignIn" });
   },
   addToFavourites: (context, folder) => {
     let addFavourites = [];
@@ -366,10 +213,10 @@ const mutations = {
 const getters = {
   permission: (state) => state.permission,
   isGuest: (state) => !state.authorized,
-  isLogged: (state) => !!state.user.data.id,
+  isLogged: (state) => !!state.user?.data.id,
   user: (state) => state.user,
   isProfileFilled: (state) => {
-    if(!state.user.data) return false;
+    if (!state.user?.data) return false;
     const data = [
       "ktp",
       "selfie",
@@ -387,7 +234,8 @@ const getters = {
     });
     return isFilled;
   },
-  otp: (state) => (state.user ? !state.user.data ? "" : state.user.data.attributes.otp : ""),
+  otp: (state) =>
+    state.user ? (!state.user.data ? "" : state.user.data.attributes.otp) : "",
   token: (state) => state.token,
   signDoc: (state) => state.doc,
 };

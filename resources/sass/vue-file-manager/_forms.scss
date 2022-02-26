@@ -18,6 +18,11 @@
         left: 0;
         bottom: -25px;
       }
+      .info-message {
+        position: absolute;
+        left: 0;
+        bottom: -25px;
+      }
     }
   }
 
@@ -91,12 +96,19 @@
   }
 }
 
-.error-message {
+.error-message, .info-message {
   @include font-size(14);
-  color: $danger;
   padding-top: 5px;
   display: block;
   text-align: left;
+}
+
+.error-message {
+  color: $danger;
+}
+
+.error-message {
+  color: $light_text;
 }
 
 textarea {

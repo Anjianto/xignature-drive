@@ -1,106 +1,54 @@
 import axios from "axios";
-import { format, addDays } from "date-fns";
+import {GEN_OTP, LOAD_DOC, SIGN_DOC} from "../constants/api";
+import { joinUrlPath } from "../utils";
 
-export const client = ({ base_url, key }) =>
-  axios.create({
-    baseURL: base_url,
-    headers: {
-      "api-key": key,
-    },
-  });
-
-export const baseUrl = "https://sandbox.xignature.co.id/";
-export const key = "aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B";
-
-export default {
-  client: client({
-    base_url: baseUrl,
-    key: key,
-  }),
-  key,
-  loadDocuments(page, limit, doctype, status, search) {
-    return this.client.post("/v1/document/list", {
+export const loadDocuments = async (base, {
+  page, 
+  limit, 
+  doctype, 
+  status, 
+  search}) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(base, LOAD_DOC), {
       page,
       limit,
       doctype,
       status,
       search,
     });
-  },
-  genOTP(data) {
-    // format date
-    const birthdate = data.birthdate
-      ? format(data.birthdate, "yyyy-MM-dd")
-      : null;
-    data = {
-      ...data,
-      birthdate,
-    };
-    return this.client.post("/v1/auth/generateToken", data);
-  },
-  genLTC(data, duration) {
-    const birthdate = data.birthdate
-      ? format(data.birthdate, "yyyy-MM-dd")
-      : null;
-    const expiredToken = format(addDays(Date.now(), duration), "yyyy-MM-dd");
-    data = {
-      ...data,
-      expiredToken,
-      birthdate,
-    };
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
 
-    return this.client.post("/v1/auth/generateLtcToken", data);
-  },
-  async getDoucment(id) {
-    const { data } = await this.client.get(`/v1/document/${id}`);
-    return data;
-  },
-  getDocUrl(id) {
-    return `${baseUrl}v1/document/download/${id}`;
-  },
-  async downloadDocument(id) {
-    const resp = await this.client.get(`/v1/document/download/${id}`, {
-      headers: {
-        accept: "blob",
-      }
-    })
-    var ia = new Uint8Array(resp.data.length);
-    for (var i = 0; i < resp.data.length; i++) {
-      ia[i] = resp.data.charCodeAt(i);
-    }
+export const signDoc = async (base, fileid) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(base, SIGN_DOC), {
+      file_id: fileid,
+    });
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
 
-    return new Blob([ia], { type: "application/pdf", name: "selfie.pdf" });
-    // return resp.data;
-  },
-  sign({
-    otp,
-    token,
-    title,
-    reason,
-    signPage,
-    signPos: { x, y },
-    shareToCustomer = true,
-    document,
-  }) {
-    return this.client.post(
-      "/v1/document/sign",
+export const genOTP = async (base) => {
+  try {
+    const {data} = axios.post(joinUrlPath(base, GEN_OTP),
       {
-        title,
-        reason,
-        signPage,
-        signPos: {
-          x,
-          y,
-        },
-        shareDocumentToCustomer: shareToCustomer,
-        document,
+        email: user.email,
+        fullname: user.name,
+        nik: user.nik,
+        phone: user.phone,
+        birthplace: user.birth_place,
+        birthdate: user.birth_date,
+        selfie: user.selfie,
+        ktp: user.ktp,
       },
-      {
-        headers: {
-          "one-time-token": token,
-          otp: otp,
-        },
-      }
-    );
-  },
-};
+    )
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}

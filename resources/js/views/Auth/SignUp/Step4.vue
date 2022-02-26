@@ -1,34 +1,70 @@
 <template>
   <div id="content-card">
-      <div class="block-wrapper">
-        <label>{{ $t("page_registration.label_selfie") }}</label>
-          <div class="input-wrapper">
-            <div class="image preview">
-              <!-- class="relative mx-auto flex h-[250px] w-[90%] flex-col items-center justify-center overflow-hidden rounded border-2 sm:w-[380px]" -->
-              <div id="selfie-wrapper">
-                <!-- <RegisterSelfieCamera v-show="!isLoaded" /> -->
-                <video v-show="isLoaded && !isFinish" id="video"></video>
-                <!-- class="h-auto w-full" -->
-                <img v-show="isLoaded && isFinish" id="capturedImg" />
-                <!-- class="h-auto w-full" -->
-                <canvas id="canvas" class="hidden"></canvas>
+    <div class="block-wrapper">
+      <div class="flex justify-center">
+        <div class="text-center mb-4">
+          <h3 class="text-lg">Take a picture for Liveness</h3>
+          <p class="text-xs max-w-sm text-gray-500">
+            Please activate the camera in the web app and click Allow for selfie
+            taking.
+          </p>
+        </div>
+      </div>
+      <div style="height: 342px">
+        <div class="image preview relative">
+          <!-- class="relative mx-auto flex h-[250px] w-[90%] flex-col items-center justify-center overflow-hidden rounded border-2 sm:w-[380px]" -->
+          <div id="selfie-wrapper">
+            <!-- <RegisterSelfieCamera v-show="!isLoaded" /> -->
+            <video v-show="isLoaded && !isFinish" id="video"></video>
+            <!-- class="h-auto w-full" -->
+            <img v-show="isLoaded && isFinish" id="capturedImg" />
+            <!-- class="h-auto w-full" -->
+            <canvas id="canvas" class="hidden"></canvas>
+            <div
+              v-if="isLoadingCamera"
+              class="
+                spinner-wrapper
+                absolute
+                w-full
+                h-full
+                flex
+                justify-center
+                items-center
+              "
+            >
+              <div
+                class="
+                  flex
+                  text-center
+                  flex-col
+                  justify-center
+                  items-center
+                  gap-1
+                "
+              >
+                <div class="w-24 h-24 relative">
+                  <Spinner />
+                </div>
+                <p class="text-lg font-semibold mb-1">Opening Camera</p>
+                <p class="text-md">open camera in browser</p>
               </div>
             </div>
           </div>
-      </div>
-      <div>
-        <div class="container center">
-          <AuthButton
-            icon="chevron-right"
-            text="Capture"
-            v-if="!isCapture"
-            type="button"
-            @click="capture"
-            :loading="isLoading"
-          />
-          <AuthButton icon="chevron-right" text="Continue" v-else />
         </div>
       </div>
+      <div class="container center">
+        <AuthButton
+          icon="chevron-right"
+          :text="isLoadingCamera ? 'Preparing' : 'Capture'"
+          v-if="!isCapture"
+          type="button"
+          @click="capture"
+          :disabled="isLoadingCamera"
+          :loading="isLoadingCamera"
+        />
+        <AuthButton @click.native="submitData" icon="save" text="Register" v-else />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,26 +77,34 @@ import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { createFileBlob } from "@/utils";
+import Spinner from "@/components/FilesView/Spinner";
 
 export default {
-  name: "Step2",
+  name: "Step4",
   components: {
     ValidationProvider,
     ValidationObserver,
     AuthContent,
     AuthButton,
+    Spinner,
     ProfileForm,
   },
   data() {
     return {
       isLoaded: false,
       isFinish: false,
+      isLoadingCamera: false,
       stream: undefined,
       isCapture: false,
       isLoading: false,
     };
   },
   methods: {
+    submitData() {
+      if(this.isFinish) {
+        this.$emit("submit");
+      }
+    },
     async capture() {
       video.pause();
       this.isCapture = true;
@@ -78,16 +122,14 @@ export default {
       const selfieFile = new File([this.imageBlob], "selfie.jpg", {
         type: "image/jpeg",
       });
-      console.log('goto finish');
       this.$emit("input", selfieFile);
-      this.$emit("finish");
     },
   },
   async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
     const video = document.getElementById("video");
     const capturedImg = document.getElementById("capturedImg");
-
+    this.isLoadingCamera = true;
     this.stream = await navigator.mediaDevices
       .getUserMedia({
         audio: false,
@@ -116,6 +158,7 @@ export default {
       video.play();
       this.isFinish = false;
     };
+    this.isLoadingCamera = false;
   },
 };
 </script>
@@ -175,9 +218,10 @@ export default {
   height: auto;
   width: 100%;
 }
-#captureImg {
-  height: auto;
+#capturedImg {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 #canvas.hidden {
   display: none;

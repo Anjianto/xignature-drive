@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ALLOWED_EXTENSIONS } from "@/variables";
+import { ALLOWED_EXTENSIONS } from "@/constants/upload_rules";
 
 export default {
   name: "ButtonBase",

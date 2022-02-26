@@ -122,7 +122,8 @@ class AuthController extends Controller
 
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
         ])->post(config('app.api') . 'v1/auth/generateLtcToken', [
             "email" => $request->input('email'),
             "fullname" => $request->input('name'),
@@ -132,12 +133,14 @@ class AuthController extends Controller
             "birthplace" => $request->input('birth_place'),
             "selfie" => $selfie,
             "ktp" => $ktp
-        ])->object();
+        ]);
+        
+        $apiData = $apiResponse->object();
 
 
 
 
-        if ($apiResponse->statusCode == '200') {
+        if (isset($apiData) && $apiData->statusCode == '200') {
             // Create user
             $user = User::create([
                 'name' => $request->input('name'),
@@ -164,7 +167,7 @@ class AuthController extends Controller
                 $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
 
                 if($file){
-                    $signService->sign($apiResponse['data']['token'], $file->id, $user->id);
+                    $signService->sign($apiData['data']['token'], $file->id, $user->id);
                 }
             }
 
@@ -180,7 +183,7 @@ class AuthController extends Controller
             return $response;
         }
 
-        return response($apiResponse->message, $apiResponse->statusCode);
+        return response($apiResponse->body(), $apiResponse->status());
     }
 
     /**

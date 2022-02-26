@@ -15,7 +15,7 @@
 
 <script>
 import { UploadCloudIcon } from "vue-feather-icons";
-import { ALLOWED_EXTENSIONS } from "@/variables";
+import { ALLOWED_EXTENSIONS } from "@/constants/upload_rules";
 
 export default {
   name: "ToolbarButtonUpload",

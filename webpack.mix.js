@@ -37,15 +37,20 @@ mix.i18n().js('resources/js/main.js', 'public/js')
         output: {
             chunkFilename: '[name].js?id=[chunkhash]',
         }
-    })
-    /*.options({
-        hmrOptions: {
-            host: '192.168.1.198',
-            port: '8080'
-        },
-    })*/
+    }).sourceMaps()
     .disableNotifications();
-
+mix.options({
+    hmrOptions: {
+        host: '192.168.1.7',
+        port: 8081,
+    },
+});
+mix.webpackConfig({
+    devServer: {
+        host: '192.168.1.7',
+        port: 8081,
+    },
+});
 
 if (mix.inProduction()) {
     mix.version();

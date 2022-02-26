@@ -100,8 +100,8 @@
                   currentFolder &&
                   currentFolder.unique_id === folder.unique_id,
               }"
-              v-for="(folder, i) in favourites"
-              :key="i"
+              v-for="(folder) in favourites"
+              :key="folder.unique_id"
             >
               <div>
                 <folder-icon size="17" class="folder-icon"></folder-icon>

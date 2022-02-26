@@ -36,10 +36,11 @@
       <p>Powered by Xignature</p>
     </footer>
     <OTPModal
-      :step="step"
+      :step="1"
       :open="isOTPModalOpen"
-      @submit="handleSubmit"
+      @submit="signDocument"
       @close="closeOTPModal"
+      @resend="sendOtp"
     />
   </div>
 </template>
@@ -48,20 +49,9 @@
 import FilePreviewMedia from "@/components/FilesView/MediaFullPreview";
 import pdf from "pdfvuer";
 import pdfx from "vue-pdf";
-import { mapGetters } from "vuex";
 import { SearchIcon, PlusIcon, MinusIcon } from "vue-feather-icons";
 import { events } from "@/bus";
-import {
-  createFileBlob,
-  createBlobFromFile,
-  convertDataURIToBinary,
-} from "@/utils";
-import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import OTPModal from "@/components/FilesView/OTPModal.vue";
-import Cookies from "js-cookie";
-import { isUndefined } from "lodash";
-import client from "@/http_client/signature_client";
-import pdfjs from "pdfjs";
 
 export default {
   name: "SignView",
@@ -74,71 +64,24 @@ export default {
     MinusIcon,
     OTPModal,
   },
-  async mounted() {
-    const id = this.$route.query["id"];
-    if (id) {
-      Cookies.set("last_sign_file", id);
-    }
+  mounted() {
+
+    this.getPdf();
 
     events.$on("toaster:close", async (res) => {
+
+      // document sign success
+      // refresh the document
       if(res.code === 221) {
         this.getPdf();
       }
     });
   },
-  computed: {
-    ...mapGetters(["signDoc"]),
-    filename() {
-      const name = this.$route.params["fileId"];
-      const ext = this.$route.query["type"] || this.$route.query["ext"];
-      Cookies.set("fileName", name, { expires: 1 });
-      Cookies.set("fileExt", ext, { expires: 1 });
-      return name + "." + ext;
-    },
-    fileUrl() {
-      // get host of current website
-      const endpoint = window.location.origin;
-      return endpoint + "/file/" + this.filename;
-    },
-  },
   methods: {
-    async loadDoc(id) {
-      const fileId = Cookies.get("last_sign_file") || id;
-      const { data } = await axios.get(`/api/doc/${fileId}`);
-      this.signedId = data.data?.document_id;
-      console.log(this.signedId);
-    },
+    // user resend new otp
     closeOTPModal() {
-      this.isOTPModalOpen = false;
-    },
-    handleSubmit(otp) {
-      if (this.step == 1) {
-        this.signDocument(otp);
-      }
-
-      if (this.step == 0) {
-        this.sendOtp();
-      }
-    },
-    checkModal(step) {
-      // resend otp
-      if (this.step === 1) {
-        this.sendOtp();
-      }
-    },
-    signDocument(otp) {
-      const fileId = this.$route.query["id"];
-      this.$store.dispatch("signDocument", {
-        file: this.pdf64.split(",")[1],
-        page: this.numPages,
-        otp: otp,
-        title: this.filename,
-        signPos: this.signPos,
-        reason: "Acceptance",
-        fileId,
-      });
-
-      this.isOTPModalOpen = false;
+      // send the otp
+      this.sendOtp();
     },
     async sendOtp() {
       // send otp token
@@ -154,42 +97,13 @@ export default {
       }
     },
 
-    setSignPosition(pdfDoc) {
-      // Get the last page of the document
-      const pages = pdfDoc.getPages();
-      const firstPage = pages[pages.length - 1];
-
-      // Get the width and height of the first page
-      const { width, height } = firstPage.getSize();
-
-      this.signPos = {
-        x: width * 0.15,
-        y: height * 0.15,
-      };
-    },
-    async getPdf() {
+    async getPdf(url) {
       this.pdfdata = undefined;
       this.numPages = 0;
       const id = this.$route.query["id"];
       await this.loadDoc(id);
-      const data = await createBlobFromFile(this.fileUrl);
-      const pdfdata = await createFileBlob(data);
-      const pdfbin = convertDataURIToBinary(pdfdata);
-      const pdfDoc = await PDFDocument.load(pdfbin);
-      this.numPages = pdfDoc.getPages().length;
-      this.raw = pdfDoc;
-      this.pdfbin = pdfbin;
-      this.pdf64 = pdfdata;
-      this.setSignPosition(pdfDoc);
-      this.pdfdata = pdfx.createLoadingTask(
-        !!this.signedId === true
-          ? {
-              url: client.getDocUrl(this.signedId),
-              httpHeaders: { "api-key": client.key },
-              withCredentials: true,
-            }
-          : pdfbin
-      );
+      const { pdfbin, pdfDoc } = loadPdf(this.fileUrl);
+      this.pdfdata = pdfx.createLoadingTask(pdfbin);
       setTimeout(() => {
         this.$refs.pdfwrapper.addEventListener("scroll", (e) => {
           // get scroll position
@@ -207,51 +121,6 @@ export default {
         });
       }, 1000);
     },
-    checkSign() {
-      if (isUndefined(this.$store.getters.isLogged === false)) {
-        events.$emit("toaster", {
-          type: "danger",
-          message: "create an account to sign documents",
-        });
-        this.$router.push({
-          name: "SignUp",
-          query: {
-            ref: this.$route.name,
-          },
-        });
-      } else if (!this.$store.getters.isProfileFilled) {
-        events.$emit("toaster", {
-          type: "danger",
-          message: "please fill your profile first",
-        });
-        this.$router.push({
-          name: "Profile",
-          query: {
-            signature: false,
-            redirect: window.location.href,
-          },
-        });
-      }
-
-      this.isOTPModalOpen = true;
-    },
-    getFilesForView() {
-      let requestedFile = this.fileInfoDetail[0];
-
-      this.data.map((element) => {
-        if (requestedFile.mimetype === "pdf") {
-          if (element.mimetype === "pdf") this.files.push(element);
-        } else {
-          if (element.type === requestedFile.type) this.files.push(element);
-        }
-      });
-
-      this.files.forEach((element, index) => {
-        if (element.id === this.fileInfoDetail[0].id) {
-          this.currentIndex = index;
-        }
-      });
-    },
     increaseSizeOfPDF() {
       events.$emit("document-zoom:in");
     },
@@ -265,7 +134,7 @@ export default {
       pdfbin: undefined,
       pdf64: undefined,
       signPos: undefined,
-      step: 0,
+      step: 1,
       signedId: undefined,
       isOTPModalOpen: false,
       numPages: 0,
@@ -290,7 +159,6 @@ export default {
       if (this.documentSize > 40) this.documentSize -= 10;
     });
 
-    this.getPdf();
   },
 };
 </script>

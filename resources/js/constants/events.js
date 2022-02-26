@@ -1,0 +1,10 @@
+export const ALERT_OPEN = "alert:open";
+export const ALERT_CLOSE = "alert:close";
+export const TOASTER_OPEN = "toaster";
+export const TOASTER_CLOSE = "toaster:close";
+export const TOASTER_CLOSE_ALL = "toaster:closeAll";
+export const POPUP_OPEN = "popup:open";
+export const POPUP_CLOSE = "popup:close";
+export const SCROLL_TO_TOP = "scrollTop";
+export const DOCUMENT_ZOOM_IN = "document-zoom:in";
+export const DOCUMENT_ZOOM_OUT = "document-zoom:out";

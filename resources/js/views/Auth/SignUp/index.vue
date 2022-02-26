@@ -11,7 +11,7 @@
         <div>
           <img
             v-if="config.app_logo"
-            class="logo"
+            class="logo logo mx-auto"
             :src="$getImage(config.app_logo)"
             :alt="config.app_name"
           />
@@ -33,10 +33,11 @@
         <Step4
           v-else-if="steps === 4"
           v-model="data.selfie"
-          @finish="saveRegister"
+          @submit="saveRegister"
         />
       </AuthContent>
     </AuthContentWrapper>
+    <ConfirmModal v-model="confirm" @accept="confirmValid"/>
   </div>
 </template>
 
@@ -48,14 +49,21 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { mapGetters } from "vuex";
-import axios from "axios";
+import { events } from "@/bus";
+import { SIGN_DOC_KEY, SIGN_DOC_ID} from "@/constants/variables"
 import Cookies from "js-cookie";
-import { differenceInDays, format } from "date-fns";
+import { format } from "date-fns";
+import { ACT_REGISTER } from "@/constants/action"
+import { ALERT_OPEN } from '@/constants/events';
+import { notifError } from '@/utils';
+import ConfirmModal from "@/components/Modal/ConfirmModal";
+
 export default {
   name: "SignUp",
   components: {
     AuthContentWrapper,
     AuthContent,
+    ConfirmModal,
     Step1,
     Step2,
     Step3,
@@ -64,6 +72,8 @@ export default {
   data() {
     return {
       steps: 1,
+      confirm: false,
+      accept: false,
       data: {
         name: undefined,
         email: undefined,
@@ -85,6 +95,7 @@ export default {
     ...mapGetters(["config"]),
     formData() {
       const dataRegister = new FormData();
+
       dataRegister.append("name", this.data.name);
       dataRegister.append("email", this.data.email);
       dataRegister.append("password", this.data.password);
@@ -102,87 +113,42 @@ export default {
       );
       dataRegister.append("birth_place", this.data.birthplace);
 
-      dataRegister.append("sign_doc_key", Cookies.get("share_token"))
-      dataRegister.append("sign_doc_id", Cookies.get("share_id"))
+      dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY))
+      dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID))
 
       return dataRegister;
     },
   },
   methods: {
+    confirmValid() {
+      this.confirm = false;
+      this.accept = true;
+      this.steps = 4;
+    },
     changeStep(step) {
+      if(step === 4 && !this.accept) {
+        this.confirm = true;
+        return;
+      }
       this.steps = step;
     },
-    async signUp(token, expired) {
-      const daysDiff = differenceInDays(expired, new Date());
-      Cookies.set("sign", token, { expires: daysDiff });
-      this.$router.push({ name: "Files" });
-    },
-    saveRegister() {
+    async saveRegister() {
       this.isLoading = true;
-
-      axios
-        .post("/api/user/register", this.formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        // })
-        .then(() => {
+      const {data, error } = await this.$store.dispatch(ACT_REGISTER, {formData: this.formData});
+      console.log(data, error)
+      if(data) {
+          events.$emit(ALERT_OPEN, {
+            title: "Berhasil",	
+            text: "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+          })
           this.isLoading = false;
-          this.$store.commit("SET_AUTHORIZED", true);
-          console.log("success");
-          this.$router.push({
-            name: "Files",
-            query: { create_signature: true },
-          });
-        })
-        .catch((error) => {
-          if (!error.response) return;
-          if (error.response.status == 401) {
-            if (error.response.data.error === "invalid_client") {
-              events.$emit("alert:open", {
-                emoji: "🤔",
-                title: this.$t("popup_passport_error.title"),
-                message: this.$t("popup_passport_error.message"),
-              });
-            }
-          }
-          if (error.response.status == 500) {
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: this.$t("popup_signup_error.title"),
-              message: this.$t("popup_signup_error.message"),
-            });
-          }
-          if (error.response.status == 422) {
-            if (error.response.data.errors["email"]) {
-              this.errors["email"] = error.response.data.errors["email"];
-              this.step = 1;
-            }
-            if (error.response.data.errors["password"]) {
-              this.errors["password"] = error.response.data.errors["password"];
-
-              this.step = 1;
-            }
-
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: "Failed Upload Data",
-              message: "Please check your data",
-            });
-          }
-
-          if (Object.keys(error.response.data.errors).length > 0) {
-            const firstKey = Object.keys(error.response.data.errors)[0];
-            events.$emit("alert:open", {
-              emoji: "🤔",
-              title: firstKey,
-              message: error.response.data.errors[firstKey][0],
-            });
-          }
-
+      } else {
+        console.log(error)
+        notifError(error, () => {
           this.isLoading = false;
+          this.steps = 1;
         });
+      }
     },
   },
   created() {

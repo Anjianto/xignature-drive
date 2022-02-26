@@ -1,6 +1,6 @@
 <template>
   <div class="otp-modal" v-if="open">
-    <div class="otp-overlay"></div>
+    <div @click="closeModal" class="otp-overlay"></div>
 
     <div :class="['otp', { first: step == 0}]">
       <div class="icon">
@@ -29,7 +29,7 @@
           Send OTP to email to your email address
         </p>
 
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="useOtp">
           <input v-if="step == 1" type="number" v-model="otp" class="otp-input" />
 
           <div class="button-wrapper">
@@ -45,7 +45,7 @@
               v-else
               type="button"
               button-style="secondary"
-              @click.native="closeOTP"
+              @click.native="resendOTP"
               >Kirim Ulang</ButtonBase
             >
             <ButtonBase v-if="step == 0" type="submit" button-style="theme">
@@ -85,14 +85,14 @@ export default {
     };
   },
   methods: {
-    closeOTP() {
-      this.$emit("close");
-      // this.$store.dispatch("closeOTP");
+    resendOTP() {
+      this.$emit("resend");
     },
-    onSubmit() {
+    closeModal() {
+      this.$emit("close");
+    },
+    useOtp() {
       this.$emit("submit", this.otp);
-      // this.$store.dispatch("setOTP", parseInt(this.otp));
-      // this.closeOTP(this.step);
     },
   },
 };
