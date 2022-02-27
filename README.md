@@ -1,5 +1,4 @@
-![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
-# Private Cloud Storage Build on Laravel & Vue.js
+# Private Cloud Storage
 
 ## Contents
 
@@ -8,19 +7,8 @@
     - [Installation](#installation)
     - [PHP Configuration](#php-configuration)
     - [Chunk Upload](#chunk-upload)
-    - [Upgrade Guide](#upgrade-guide)
-        - [Common Instructions](#common-instructions)
-        - [Update from 1.7.12 to 1.8](#update-from-1712-to-18)
-        - [Update from 1.7.10 to 1.7.11](#update-from-1710-to-1711)
-        - [Update from 1.7.8 to 1.7.9](#update-from-178-to-179)
-        - [Update from 1.7.x to 1.7.8](#update-from-17x-to-178)
-        - [Update from 1.6.x to 1.7](#update-from-16x-to-17)
     - [Nginx Configuration](#nginx-configuration)
     - [Apache Configuration](#apache-configuration)
-- [Payments](#payments)
-    - [Get your active plans](#get-your-active-plans)
-    - [Manage Failed Payments](#manage-failed-payments)
-    - [Tax Rates](#tax-rates)
 - [Developers](#developers)
     - [Running development environment on your localhost](#running-development-environment-on-your-localhost)
     - [Supported Storages](#supported-storages)
@@ -92,7 +80,7 @@ At first step you have to verify your purchase code. **Subscription service with
 
 #### 6. Follow setup wizard steps
 
-That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
+That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install Xignature Drive.
 
 #### 7. Set up Cron
 
@@ -113,7 +101,7 @@ max_execution_time = 3600
 ```
 
 ## Chunk & Multipart Upload
-VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to your `.env` and change `CHUNK_SIZE` attribute.
+Xignature Drive in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to your `.env` and change `CHUNK_SIZE` attribute.
 
 When you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space and set higher `max_execution_time` in your php.ini to move your files to external storage. 
 
@@ -127,7 +115,7 @@ These instructions is applicable for all updates. Please follow this step:
 - Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
 
 ### Update from 1.7.12 to 1.8
-- Before upload new files to your hosting, log in to VueFileManager as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
+- Before upload new files to your hosting, log in to Xignature Drive as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
 - Just rewrite all project files with new, excluded /.env file and /storage folder. These items must be preserved!
 - set **QUEUE_CONNECTION** to **database** in your **.env** file
 - Clear cache in your administration panel - Settings / Application / Clear Cache
@@ -135,7 +123,7 @@ These instructions is applicable for all updates. Please follow this step:
 If you are upgrading from GitHub, don't forget run `composer install` to install new vendors.
 
 ### Update from 1.7.10 to 1.7.11
-Before upload new files to your hosting, log in to VueFileManager as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
+Before upload new files to your hosting, log in to Xignature Drive as Admin. After uploading new files on your webhosting, visit this url `your-domain.com/service/upgrade-database` for upgrading your database.
 
 ### Update from 1.7.8 to 1.7.9
 After rewrited old files with new files, log in as admin to the app and go to `your-domain.com/service/upgrade-database`. This will upgrade your database on the background.
@@ -146,7 +134,7 @@ Add the following Cron entry to your server. Just update your php path (if it's 
 ```
 
 ### Update from 1.7.x to 1.7.8
-For those who have installed VueFileManager via git or any other repository synchronization tool, dont't forget after updated code run `composer update` command to update your vendors.
+For those who have installed Xignature Drive via git or any other repository synchronization tool, dont't forget after updated code run `composer update` command to update your vendors.
 
 ### Update from 1.6.x to 1.7
 
@@ -163,7 +151,7 @@ CASHIER_PAYMENT_NOTIFICATION=App\Notifications\ConfirmPayment
 Then go to https://your-domain.com/upgrade and follow the setup wizard instructions.
 
 ## Nginx Configuration
-If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
+If you running Xignature Drive undex Nginx, don't forget set this value in your `nginx.conf` file:
 ```
 http {
     client_max_body_size 1024M;
@@ -203,7 +191,7 @@ server {
 ```
 
 ## Apache Configuration
-Make sure you have enabled mod_rewrite. There is an example config for running VueFileManager under apache:
+Make sure you have enabled mod_rewrite. There is an example config for running Xignature Drive under apache:
 
 ```
 <VirtualHost example.com:80>
@@ -224,7 +212,7 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 ```
 
 # Payments
-VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
+Xignature Drive is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
 
 ## Get your active plans
 Would you like to get your subscription plans for your custom front-end page? Create GET request and get all your active plans:
@@ -233,7 +221,7 @@ GET /api/public/pricing
 ```
 
 ## Manage Failed Payments
-VueFileManager manage failed payments with additional email notification. But, there is more you can do for better User Experience. There is some additionals option in Stripe, look on [prevent failed payments](https://dashboard.stripe.com/settings/billing/automatic).
+Xignature Drive manage failed payments with additional email notification. But, there is more you can do for better User Experience. There is some additionals option in Stripe, look on [prevent failed payments](https://dashboard.stripe.com/settings/billing/automatic).
 
 ## Tax Rates
 You are able to manage tax rates. When adding a new tax rate, if no Region is specified, the tax rate will apply to everyone. Add a [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) to the Region field if you wish to apply taxes per country.
@@ -258,7 +246,7 @@ Also, to debug application, set `APP_DEBUG` on true:
 APP_DEBUG=true
 ```
 
-To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure VueFileManager.
+To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure Xignature Drive.
 ```
 php artisan serve
 ```
@@ -286,7 +274,7 @@ npm run prod
 ```
 
 ## Supported Storages
-VueFileManager support these storages for your files:
+Xignature Drive support these storages for your files:
 
 - [Amazon Web Services S3](https://aws.amazon.com/s3/)
 - [Digital Ocean Spaces](https://www.digitalocean.com/products/spaces/)
@@ -302,33 +290,10 @@ FILESYSTEM_DRIVER=local
 ```
 Then you can find corresponding credentials options for your storage driver like key, secret, region in `/.env` file.
 
-# Others
-## Changelog
-
-Refer to the [Changelog](https://vuefilemanager.com/changelog) for a full history of the project.
-
-## GitHub Repository
-[Join our GitHub repository](https://vuefilemanager.com/github-access) to submit your issues or suggestions, track VueFileManager progress and get new updates as fast as possible.
-
-## Support
-
-The following support channels are available at your fingertips:
-
-- [CodeCanyon support message](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986/support)
-- [GitHub repository](https://vuefilemanager.com/github-access)
-
-## Supporting VueFileManager
-Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
-
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
-
-- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
-- [Become a Patreon](https://www.patreon.com/vuefilemanager)
-- [One-time donation via PayPal](https://www.paypal.me/peterpapp)
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within this project, please send an e-mail to [peterpapp@makingcg.com](peterpapp@makingcg.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this project, please send an e-mail to [developer@circle-creative.com](developer@circle-creative.com). All security vulnerabilities will be promptly addressed.
 
 
 

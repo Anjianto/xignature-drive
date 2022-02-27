@@ -102,7 +102,7 @@ class ContentSeeder extends Seeder
                 'value' => 'https://sandbox.xignature.co.id/'
             ],
             [
-                'name' => 'sign_key',
+                'name' => 'api_key',
                 'value' => 'aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B'
             ]
         ]);

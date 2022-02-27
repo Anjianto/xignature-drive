@@ -31,12 +31,12 @@ class WriteProfileToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropIfExists('phone');
-            $table->dropIfExists('nik');
-            $table->dropIfExists('birth_date');
-            $table->dropIfExists('birth_place');
-            $table->dropIfExists('ktp_file');
-            $table->dropIfExists('selfie_file');
+            $table->dropColumn('phone');
+            $table->dropColumn('nik');
+            $table->dropColumn('birth_date');
+            $table->dropColumn('birth_place');
+            $table->dropColumn('ktp');
+            $table->dropColumn('selfie');
         });
     }
 }
