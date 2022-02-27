@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Mvdnbrk\EloquentExpirable\Expirable;
 
 /**
  * App\Signatures
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Signatures extends Model
 {
+    use Expirable;
     /**
      * @var string
      */
@@ -23,11 +25,13 @@ class Signatures extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['user_id', 'sign_token', 'file_manager_file', 'document_id'];
+    protected $fillable = ['user_id', 'sign_token', 'file_manager_file', 'document_id', 'expired_at'];
     /**
      * @var bool
      */
     public $timestamps = true;
+
+    const EXPIRES_AT = 'expired_at';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

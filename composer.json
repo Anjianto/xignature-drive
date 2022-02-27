@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-json": "*",
         "cartalyst/stripe-laravel": "^12.0",
         "doctrine/dbal": "^2.13.1",
         "fideloper/proxy": "^4.4.1",
@@ -23,12 +24,12 @@
         "laravel/scout": "^7.2.1",
         "laravel/tinker": "^2.6.1",
         "laravel/ui": "^2.5",
+        "lcobucci/jwt": "3.3.3",
         "league/flysystem-aws-s3-v3": "^1.0.29",
         "league/flysystem-cached-adapter": "^1.1",
         "madnest/madzipper": "^1.1",
-        "teamtnt/laravel-scout-tntsearch-driver": "^8.3",
-        "lcobucci/jwt": "3.3.3",
-      "ext-json": "*"
+        "mvdnbrk/laravel-model-expires": "^1.8",
+        "teamtnt/laravel-scout-tntsearch-driver": "^8.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8.2",

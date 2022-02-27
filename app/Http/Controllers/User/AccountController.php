@@ -33,10 +33,6 @@ class AccountController extends Controller
      */
     public function list_users()
     {
-
-        $users = DB::table('users')->get();
-//        dd($users);
-
         return ListUserResource::collection(User::all());
 
     }
@@ -212,6 +208,11 @@ class AccountController extends Controller
             "selfie" => base64_encode(file_get_contents($user->selfie)),
             "ktp" => base64_encode(file_get_contents($user->ktp))
         ])->object();
+
+        $user->signatures()->create([
+            'sign_token' => $apiResponse->data->token,
+            'expired_at' => $apiResponse->data->expiredAt
+        ]);
 
 
         return response()->json($apiResponse->data);

@@ -163,6 +163,9 @@ class AuthController extends Controller
 
             if ($response->isSuccessful()) {
                 $data = json_decode($response->content(), true);
+                $user->signatures()->create([
+                    'sign_token' => $apiResponse->date->token
+                ]);
 
                 return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
             }

@@ -15,10 +15,15 @@ class CreateSignaturesTable extends Migration
     {
         Schema::create('signatures', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('user_id')->onDelete('cascade');
+            $table->foreignId('user_id');
             $table->text('sign_token');
             $table->foreignId('file_manager_file')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('file_manager_file')->references('id')->on('file_manager_files')->cascadeOnDelete();
+            $table->string('document_id')->nullable();
+            $table->expires();
+            $table->timestamps();
+            
         });
     }
 
