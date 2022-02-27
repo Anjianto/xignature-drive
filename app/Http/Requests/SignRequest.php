@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @bodyParam title string  required The title of the document. Example: File sample document
  * @bodyParam reason string  required The reason of the document. Example: sign to projects
  * @bodyParam sign_page string  required The sign_page of the document. Example: 1
- * @bodyParam sign_pos string  required The sign_pos of the document.
+ * @bodyParam sign_pos string  object The sign_pos of the document.
  * @bodyParam share_document_to_customer string  required The share_document_to_customer of the document. Example: true
  * @bodyParam otp string  required The otp of the document. Example: 12345678
  *
