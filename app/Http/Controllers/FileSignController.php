@@ -22,6 +22,7 @@ class FileSignController extends Controller
     /**
      * Sign Document
      *
+     * @urlParam id integer required The ID of the document.
      * @param SignRequest $request
      * @param $id
      * @return FileManagerResource|\Illuminate\Http\JsonResponse
