@@ -4,6 +4,17 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @bodyParam title string  required The title of the user. Example: File sample document
+ * @bodyParam reason string  required The reason of the user. Example: sign to projects
+ * @bodyParam sign_page string  required The sign_page of the user. Example: 1
+ * @bodyParam sign_pos string  required The sign_pos of the user.
+ * @bodyParam share_document_to_customer string  required The share_document_to_customer of the user. Example: true
+ * @bodyParam otp string  required The otp of the user. Example: 12345678
+ *
+ * Class SignRequest
+ * @package App\Http\Requests
+ */
 class SignRequest extends FormRequest
 {
     /**
