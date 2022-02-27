@@ -28,7 +28,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => bcrypt('secret'), // password
         'remember_token' => Str::random(10),
-        'ktp' => $faker->imageUrl(400, 300),
-        'selfie' => $faker->imageUrl( 512, 512)
+        'ktp' => \Illuminate\Http\UploadedFile::fake()->image('ktp.jpg', 300, 400)->store('ktp'),
+        'selfie' => \Illuminate\Http\UploadedFile::fake()->image('selfie.jpg', 512, 512)->store('selfie'),
     ];
 });

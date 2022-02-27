@@ -10,6 +10,7 @@ use App\Http\Tools\Demo;
 use App\Setting;
 use App\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,10 @@ class AccountController extends Controller
     public function list_users()
     {
 
-        return ListUserResource::collection(User::all(['email']));
+        $users = DB::table('users')->get();
+//        dd($users);
+
+        return ListUserResource::collection(User::all());
 
     }
     /**

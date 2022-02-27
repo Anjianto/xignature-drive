@@ -15,7 +15,12 @@ class UserSeeder extends Seeder
     {
         \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
         User::truncate();
-        factory(User::class, 3)->create();
+        factory(User::class, 3)->create()->each(function (User $user) {
+            $user->settings()->create([
+                'storage_capacity' => 500,
+            ]);
+        });
+
 
 //        $settings = Setting::whereIn('name', ['api_key'])->pluck('value', 'name');
 //        foreach (User::all() as $user) {

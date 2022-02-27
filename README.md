@@ -55,7 +55,7 @@ Configure your web server's document root to point to the public directory of th
 
 Please don't try go to `yourdomain.com/public` URL address, you will have issue to verify your purchase code, this is not correct domain root setup, you must do this in your webhosting settings panel.
 
-![Domain Root](https://vuefilemanager.com/assets/images/domain-root.jpg)
+![Domain Root](https://xignature-drive.com/assets/images/domain-root.jpg)
 
 #### 3. Check your .env file
 Make sure `.env` file was uploaded. This type of file can be hidden in default.
@@ -169,7 +169,7 @@ server {
     error_log /var/log/nginx/laravel-error.log; 
     
     # Webroot Directory for Laravel project
-    root /var/www/vuefilemanager/public;
+    root /var/www/xignature-drive/public;
     index index.php index.html index.htm;
     
     # Your Domain Name
@@ -195,10 +195,10 @@ Make sure you have enabled mod_rewrite. There is an example config for running X
 
 ```
 <VirtualHost example.com:80>
-    DocumentRoot /var/www/vuefilemanager/public
+    DocumentRoot /var/www/xignature-drive/public
     ServerName example.com
 
-    <Directory "/var/www/vuefilemanager/public">
+    <Directory "/var/www/xignature-drive/public">
         AllowOverride All
         allow from all
         Options +Indexes

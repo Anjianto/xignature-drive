@@ -5,6 +5,7 @@ namespace App;
 use App\Notifications\ResetPassword;
 use ByteUnits\Metric;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -122,7 +123,8 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $appends = [
-        'used_capacity', 'storage'
+        'used_capacity',
+ 'storage'
     ];
 
     /**
@@ -406,9 +408,9 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function settings()
+    public function settings(): HasOne
     {
-        return $this->hasOne(UserSettings::class);
+        return $this->hasOne(UserSettings::class, 'user_id');
     }
     /**
      * Get signatures attributes
@@ -417,6 +419,6 @@ class User extends Authenticatable
      */
     public function signatures()
     {
-        return $this->hasMany(Signatures::class);
+        return $this->hasMany(Signatures::class, 'user_id');
     }
 }

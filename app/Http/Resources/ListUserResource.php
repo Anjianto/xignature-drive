@@ -14,6 +14,18 @@ class ListUserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'name' => $this->name,
+            'avatar' => $this->avatar,
+            'phone' => $this->phone,
+            'nik' => $this->nik,
+            'ktp' => $this->ktp,
+            'birth_date' => $this->birth_date->format('Y-m-d'),
+            'selfie'=> $this->selfie,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
+        ];
     }
 }
