@@ -12,7 +12,23 @@
               {{ $t("admin_menu.dashboard") }}
             </div>
           </router-link>
-          <router-link :to="{ name: 'Users' }" class="menu-list-item link">
+          <router-link
+            :to="{ name: 'Users' }"
+            class="menu-list-item link"
+            :class="[
+              $route.name === 'UserCreate' ||
+              $route.name === 'User' ||
+              $route.name === 'UserDetail' ||
+              $route.name === 'UserStorage' ||
+              $route.name === 'UserSubscription' ||
+              $route.name === 'UserInvoices' ||
+              $route.name === 'UserPassword' ||
+              $route.name === 'UserDelete' ||
+              $route.name === 'UserIntegration'
+                ? 'router-link-exact-active router-link-active'
+                : '',
+            ]"
+          >
             <div class="icon">
               <users-icon size="17"></users-icon>
             </div>
@@ -20,7 +36,18 @@
               {{ $t("admin_menu.users") }}
             </div>
           </router-link>
-          <router-link :to="{ name: 'AppOthers' }" class="menu-list-item link">
+          <router-link
+            :to="{ name: 'AppOthers' }"
+            class="menu-list-item link"
+            :class="[
+              $route.name === 'AppAppearance' ||
+              $route.name === 'AppIndex' ||
+              $route.name === 'AppEmail' ||
+              $route.name === 'AppIntegration'
+                ? 'router-link-exact-active router-link-active'
+                : '',
+            ]"
+          >
             <div class="icon">
               <settings-icon size="17"></settings-icon>
             </div>
@@ -28,7 +55,15 @@
               {{ $t("admin_menu.settings") }}
             </div>
           </router-link>
-          <router-link :to="{ name: 'Pages' }" class="menu-list-item link">
+          <router-link
+            :to="{ name: 'Pages' }"
+            class="menu-list-item link"
+            :class="[
+              $route.name === 'PageEdit'
+                ? 'router-link-exact-active router-link-active'
+                : '',
+            ]"
+          >
             <div class="icon">
               <monitor-icon size="17"></monitor-icon>
             </div>
@@ -80,7 +115,6 @@ import {
   UsersIcon,
   SettingsIcon,
   FileTextIcon,
-  CreditCardIcon,
   DatabaseIcon,
   BoxIcon,
   MonitorIcon,
@@ -90,21 +124,21 @@ import ContentGroup from "@/components/Sidebar/ContentGroup";
 import { mapGetters } from "vuex";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Settings",
-  computed: {
-    ...mapGetters(["config"]),
-  },
   components: {
     MonitorIcon,
     BoxIcon,
     DatabaseIcon,
-    CreditCardIcon,
     FileTextIcon,
     SettingsIcon,
     ContentSidebar,
     ContentGroup,
     UsersIcon,
     GlobeIcon,
+  },
+  computed: {
+    ...mapGetters(["config"]),
   },
 };
 </script>
