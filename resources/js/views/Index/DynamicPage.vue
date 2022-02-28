@@ -4,7 +4,7 @@
     <Navigation class="page-wrapper small" />
 
     <!--Page content-->
-    <div class="page-wrapper small">
+    <div v-if="page" class="page-wrapper small">
       <!--Headline-->
       <PageTitle
         class="headline"
@@ -37,19 +37,22 @@ export default {
     Navigation,
     PageTitle,
   },
-  computed: {
-    ...mapGetters(["config"]),
-  },
   data() {
     return {
       isLoading: false,
       page: undefined,
     };
   },
+  computed: {
+    ...mapGetters(["config"]),
+  },
   watch: {
     $route(to, from) {
       this.getPage();
     },
+  },
+  created() {
+    this.getPage();
   },
   methods: {
     getPage() {
@@ -59,9 +62,6 @@ export default {
         this.$scrollTop();
       });
     },
-  },
-  created() {
-    this.getPage();
   },
 };
 </script>
