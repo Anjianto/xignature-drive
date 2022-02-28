@@ -53,8 +53,8 @@ import {
 } from "vue-feather-icons";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Option",
-  props: ["title", "icon"],
   components: {
     CornerDownRightIcon,
     DownloadCloudIcon,
@@ -71,6 +71,7 @@ export default {
     EyeIcon,
     EditIcon,
   },
+  props: ["title", "icon"],
 };
 </script>
 

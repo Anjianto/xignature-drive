@@ -126,7 +126,7 @@ export default {
             if (page !== this.currentIndex && page <= this.numPages) {
               this.currentIndex = page;
             }
-          }
+          };
         }, 1000);
       } catch (error) {
         notifError(error, () => {

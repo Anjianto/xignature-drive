@@ -1,8 +1,8 @@
 <template>
   <div
     v-if="isFullPreview"
-    class="file-preview"
     ref="filePreview"
+    class="file-preview"
     tabindex="-1"
     @keydown.esc="closeFilePreview"
     @keydown.right="next"
@@ -29,6 +29,19 @@ export default {
       isFullPreview: false,
     };
   },
+  mounted() {
+    events.$on("fileFullPreview:show", () => {
+      this.isFullPreview = true;
+    });
+    events.$on("fileFullPreview:hide", () => {
+      this.isFullPreview = false;
+    });
+  },
+  updated() {
+    if (this.isFullPreview) {
+      this.$refs.filePreview.focus();
+    }
+  },
   methods: {
     closeFilePreview() {
       this.isFullPreview = false;
@@ -41,19 +54,6 @@ export default {
     prev() {
       events.$emit("file-preview:prev");
     },
-  },
-  updated() {
-    if (this.isFullPreview) {
-      this.$refs.filePreview.focus();
-    }
-  },
-  mounted() {
-    events.$on("fileFullPreview:show", () => {
-      this.isFullPreview = true;
-    });
-    events.$on("fileFullPreview:hide", () => {
-      this.isFullPreview = false;
-    });
   },
 };
 </script>

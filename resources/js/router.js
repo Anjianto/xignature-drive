@@ -429,8 +429,7 @@ const routesSignInvite = [
       requiresAuth: true,
     },
   },
-
-]
+];
 const routesAuth = [
   {
     name: "SignIn",

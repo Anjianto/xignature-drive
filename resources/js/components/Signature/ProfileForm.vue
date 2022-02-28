@@ -408,7 +408,6 @@ export default {
       if (!files.length) return;
       this.ktpFileName = files[0].name;
       this.profile.ktp = await this.createImage(files[0]);
-      
     },
     async onSelfieUpload(e, next) {
       var files = e.target.files || e.dataTransfer.files;

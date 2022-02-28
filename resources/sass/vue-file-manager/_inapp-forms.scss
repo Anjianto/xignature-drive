@@ -1,5 +1,5 @@
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import "@assets/vue-file-manager/_variables";
+@import "@assets/vue-file-manager/_mixins";
 
 // Forms
 .form-wrapper {
@@ -30,7 +30,6 @@
   justify-content: space-between;
 
   &.icon-append {
-
     .input-text {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
@@ -44,7 +43,8 @@
       text-align: center;
       line-height: 0;
 
-      path, polyline {
+      path,
+      polyline {
         stroke: white;
       }
     }
@@ -60,15 +60,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-
   .inline-wrapper {
-
     &.icon-append {
-
       .icon {
         background: rgba($theme, 0.1);
 
-        path, polyline {
+        path,
+        polyline {
           stroke: $theme;
         }
       }

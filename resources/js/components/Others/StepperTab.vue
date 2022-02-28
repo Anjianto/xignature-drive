@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <slot name="head" :props="{progress}" ></slot>
+    <slot name="head" :props="{ progress }"></slot>
     <div ref="stepWrapper" class="stepper-wrapper">
       <div ref="progress" class="progress"></div>
       <div
-        v-for="x, k in steps"
+        v-for="(x, k) in steps"
         :class="[
           'screen-indicator',
           {
@@ -16,21 +16,24 @@
         }"
         :key="k"
       >
-        <slot :props="{x}" name="indicator">
+        <slot :props="{ x }" name="indicator">
           {{ x }}
         </slot>
       </div>
     </div>
-    <slot :props="{progress}"></slot>
+    <slot :props="{ progress }"></slot>
     <div class="actions">
-        <slot :action="{next: next, previous: previous, progress}" name="action">
+      <slot
+        :action="{ next: next, previous: previous, progress }"
+        name="action"
+      >
         <button class="control-btn" @onclick="previous" :disabled="prevBtn">
-            Back
+          Back
         </button>
         <button class="control-btn" @onclick="next" :disabled="nextBtn">
-            Continue
+          Continue
         </button>
-        </slot>
+      </slot>
     </div>
   </div>
 </template>
@@ -51,15 +54,14 @@ export default {
   },
   methods: {
     previous() {
-      if(this.prevBtn === false) return;
+      if (this.prevBtn === false) return;
       --this.progress;
       const width = (this.progress / (this.steps.length - 1)) * 100;
 
-      if(0 <= width && width <= 100) {
+      if (0 <= width && width <= 100) {
         this.$refs.progress.style.width = `${width}%`;
       }
 
-        
       this.disableControls();
     },
     goTo(progress) {
@@ -67,12 +69,12 @@ export default {
       this.disableControls();
     },
     next() {
-      if(this.nextBtn === false) {
+      if (this.nextBtn === false) {
         return;
-      };
+      }
       ++this.progress;
       const width = (this.progress / (this.steps.length - 1)) * 100;
-      if(0 <= width && width <= 100) {
+      if (0 <= width && width <= 100) {
         this.$refs.progress.style.width = `${width}%`;
       }
       this.disableControls();
@@ -98,8 +100,7 @@ export default {
 }
 
 .actions {
-      margin: 50px auto;
-
+  margin: 50px auto;
 }
 .stepper-wrapper {
   margin-bottom: 50px;

@@ -21,6 +21,7 @@ export const loadDocuments = async ({
   search,
 }) => {
   try {
+    // eslint-disable-next-line no-undef
     const { data } = await axios.post(joinUrlPath(config.api, LOAD_DOC), {
       page,
       limit,
@@ -36,6 +37,7 @@ export const loadDocuments = async ({
 
 export const findDocToSign = async (file_id) => {
   try {
+    // eslint-disable-next-line no-undef
     const { data } = await axios.post(joinUrlPath(config.api, SIGNER_FIND), {
       file_id,
     });
@@ -47,6 +49,7 @@ export const findDocToSign = async (file_id) => {
 
 export const signDoc = async (fileId) => {
   try {
+    // eslint-disable-next-line no-undef
     const { data } = await axios.post(joinUrlPath(config.api, SIGN_DOC), {
       file_id: fileId,
     });
@@ -58,14 +61,23 @@ export const signDoc = async (fileId) => {
 
 export const genOTP = async (base) => {
   try {
+    // eslint-disable-next-line no-undef
     const { data } = axios.post(joinUrlPath(config.api, GEN_OTP), {
+      // eslint-disable-next-line no-undef
       email: user.email,
+      // eslint-disable-next-line no-undef
       fullname: user.name,
+      // eslint-disable-next-line no-undef
       nik: user.nik,
+      // eslint-disable-next-line no-undef
       phone: user.phone,
+      // eslint-disable-next-line no-undef
       birthplace: user.birth_place,
+      // eslint-disable-next-line no-undef
       birthdate: user.birth_date,
+      // eslint-disable-next-line no-undef
       selfie: user.selfie,
+      // eslint-disable-next-line no-undef
       ktp: user.ktp,
     });
     return { data, error: false };

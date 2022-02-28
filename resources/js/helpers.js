@@ -2,9 +2,9 @@ import i18n from "@/i18n/index";
 import store from "./store/index";
 import { debounce, includes, isArray } from "lodash";
 import { events } from "./bus";
+import _ from "lodash";
 import axios from "axios";
 import { ALLOWED_EXTENSIONS } from "./constants/upload_rules";
-
 
 const Helpers = {
   install(Vue) {
@@ -253,6 +253,7 @@ const Helpers = {
           : undefined;
 
       // Check if type is object
+      // eslint-disable-next-line valid-typeof
       if (typeof location === "Object" || location instanceof Object) {
         return includes(location, currentLocation);
       } else {
@@ -264,6 +265,7 @@ const Helpers = {
       let currentPermission = store.getters.permission;
 
       // Check if type is object
+      // eslint-disable-next-line valid-typeof
       if (typeof type === "Object" || type instanceof Object) {
         return includes(type, currentPermission);
       } else {

@@ -4,11 +4,16 @@ import { joinUrlPath } from "@/utils";
 
 export const register = async (endpoint, formData) => {
   try {
-    const { data } = await axios.post(joinUrlPath(config.api || endpoint, REGISTER), formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { data } = await axios.post(
+      // eslint-disable-next-line no-undef
+      joinUrlPath(config.api || endpoint, REGISTER),
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     console.log(data);
     return { data, error: false };
   } catch (error) {
@@ -19,6 +24,7 @@ export const register = async (endpoint, formData) => {
 
 export const login = async (email, password) => {
   try {
+    // eslint-disable-next-line no-undef
     const { data } = await axios.post(joinUrlPath(config.api, LOG_IN), {
       email,
       password,
@@ -28,10 +34,11 @@ export const login = async (email, password) => {
     console.log(error);
     return { data: null, error: error.response };
   }
-}
+};
 
 export const logout = async (endpoint) => {
   try {
+    // eslint-disable-next-line no-undef
     await axios.get(joinUrlPath(config.api || endpoint, LOG_OUT));
     return { data: true, error: false };
   } catch (error) {
@@ -41,7 +48,10 @@ export const logout = async (endpoint) => {
 
 export const fetchAuth = async (sorting) => {
   try {
-    const { data } = await axios.get(joinUrlPath(config.api, `${FIND_ONE_USER}${sorting.URI}`));
+    const { data } = await axios.get(
+      // eslint-disable-next-line no-undef
+      joinUrlPath(config.api, `${FIND_ONE_USER}${sorting.URI}`)
+    );
 
     return { data, error: false };
   } catch (error) {

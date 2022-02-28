@@ -7,12 +7,12 @@
       class="form block-form"
     >
       <div class="block-wrapper">
-      <div class="flex justify-center">
-        <div class="text-center mb-4">
-          <h3 class="text-lg">Getting Started</h3>
-        <p class="text-gray-500">Create an account to continue!</p>
+        <div class="flex justify-center">
+          <div class="text-center mb-4">
+            <h3 class="text-lg">Getting Started</h3>
+            <p class="text-gray-500">Create an account to continue!</p>
+          </div>
         </div>
-      </div>
         <label>{{ $t("page_registration.label_email") }}</label>
         <ValidationProvider
           tag="div"
@@ -140,15 +140,19 @@ import {
   ValidationObserver,
   confirmation,
   defineRule,
-  required, ext, digits, min, email
+  required,
+  ext,
+  digits,
+  min,
+  email,
 } from "vee-validate/dist/vee-validate.full";
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
-import { emailUniq } from '@/validators/email-exist';
+import { emailUniq } from "@/validators/email-exist";
 
-emailUniq('/')
+emailUniq("/");
 export default {
   name: "Step1",
   components: {
@@ -164,7 +168,7 @@ export default {
     email,
     min,
   },
-  props: ['value'],
+  props: ["value"],
   computed: {
     ...mapGetters(["config", "api"]),
     privacyPolicy() {
@@ -181,11 +185,11 @@ export default {
   methods: {
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
-      if(!isValid) return;
-      console.log('goto step 2');
+      if (!isValid) return;
+      console.log("goto step 2");
       this.$emit("step", 2);
     },
-  }
+  },
 };
 </script>
 

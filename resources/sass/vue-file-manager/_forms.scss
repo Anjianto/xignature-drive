@@ -1,5 +1,5 @@
-@import '@assets/vue-file-manager/_variables';
-@import '@assets/vue-file-manager/_mixins';
+@import "@assets/vue-file-manager/_variables";
+@import "@assets/vue-file-manager/_mixins";
 
 .form {
   max-width: 700px;
@@ -27,7 +27,6 @@
   }
 
   &.block-form {
-
     .wrapper-inline {
       display: flex;
       margin: 0 -15px;
@@ -96,7 +95,8 @@
   }
 }
 
-.error-message, .info-message {
+.error-message,
+.info-message {
   @include font-size(14);
   padding-top: 5px;
   display: block;
@@ -163,7 +163,8 @@ input[type="email"] {
   display: block;
   color: $text;
 
-  b, a {
+  b,
+  a {
     color: $theme;
     cursor: pointer;
 
@@ -181,7 +182,6 @@ input[type="email"] {
 
 @media only screen and (max-width: 960px) {
   .form {
-
     .button {
       margin-top: 20px;
       width: 100%;
@@ -189,13 +189,13 @@ input[type="email"] {
       margin-right: 0;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       min-width: 100%;
     }
 
     &.block-form {
-
       .block-wrapper {
         display: block;
 
@@ -252,31 +252,25 @@ input[type="email"] {
 }
 
 @media only screen and (max-width: 690px) {
-
   .form.block-form .wrapper-inline {
     display: block;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-
   .form {
-
     .input-help {
       color: $dark_mode_text_secondary;
     }
 
     &.block-form {
-
       .block-wrapper label {
         color: $dark_mode_text_primary;
       }
     }
 
     .inline-wrapper {
-
       .switch-label {
-
         .input-label {
           color: $dark_mode_text_primary;
         }
@@ -293,7 +287,6 @@ input[type="email"] {
     border-color: $dark_mode_foreground;
     background: $dark_mode_foreground;
     color: $dark_mode_text_primary;
-
 
     &::placeholder {
       color: $dark_mode_text_secondary;

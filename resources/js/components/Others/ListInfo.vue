@@ -1,16 +1,16 @@
 <template>
-    <ul class="list-info">
-        <slot></slot>
-    </ul>
+  <ul class="list-info">
+    <slot></slot>
+  </ul>
 </template>
 
 <script>
-    export default {
-        name: 'ListInfo',
-    }
+export default {
+  name: "ListInfo",
+};
 </script>
 
 <style lang="scss" scoped>
-    @import '@assets/vue-file-manager/_variables';
-    @import '@assets/vue-file-manager/_mixins';
+@import "@assets/vue-file-manager/_variables";
+@import "@assets/vue-file-manager/_mixins";
 </style>

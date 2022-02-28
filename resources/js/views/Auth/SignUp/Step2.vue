@@ -101,7 +101,7 @@ export default {
     },
     async saveRegister() {
       if (!this.value) {
-        this.errors.push("foto ktp required");        
+        this.errors.push("foto ktp required");
       } else {
         this.errors = [];
         console.log("goto step 3");

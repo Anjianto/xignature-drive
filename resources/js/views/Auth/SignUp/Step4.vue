@@ -22,25 +22,10 @@
             <canvas id="canvas" class="hidden"></canvas>
             <div
               v-if="isLoadingCamera"
-              class="
-                spinner-wrapper
-                absolute
-                w-full
-                h-full
-                flex
-                justify-center
-                items-center
-              "
+              class="spinner-wrapper absolute w-full h-full flex justify-center items-center"
             >
               <div
-                class="
-                  flex
-                  text-center
-                  flex-col
-                  justify-center
-                  items-center
-                  gap-1
-                "
+                class="flex text-center flex-col justify-center items-center gap-1"
               >
                 <div class="w-24 h-24 relative">
                   <Spinner />
@@ -55,14 +40,21 @@
       <div class="container center">
         <AuthButton
           icon="chevron-right"
-          :text="isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'"
+          :text="
+            isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'
+          "
           v-if="!isCapture || isLoading"
           type="button"
           @click="capture"
           :disabled="isLoadingCamera || isLoading"
           :loading="isLoadingCamera || isLoading"
         />
-        <AuthButton @click.native="submitData" icon="save" text="Register" v-else />
+        <AuthButton
+          @click.native="submitData"
+          icon="save"
+          text="Register"
+          v-else
+        />
       </div>
     </div>
   </div>
@@ -106,7 +98,7 @@ export default {
   },
   methods: {
     submitData() {
-      if(this.isFinish) {
+      if (this.isFinish) {
         this.$emit("submit");
       }
     },

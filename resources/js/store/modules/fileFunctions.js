@@ -430,7 +430,7 @@ const actions = {
   closeOTP: ({ commit }) => {
     commit("SET_OTP_STATUS", false);
   },
-  [SHOW_PROCESSING]({ commit }, {title, message}) {
+  [SHOW_PROCESSING]({ commit }, { title, message }) {
     commit("PROCESSING_POPUP", {
       title,
       message,
@@ -438,7 +438,7 @@ const actions = {
   },
   [HIDE_PROCESSING]({ commit }) {
     commit("PROCESSING_POPUP", undefined);
-  }
+  },
 };
 
 const mutations = {

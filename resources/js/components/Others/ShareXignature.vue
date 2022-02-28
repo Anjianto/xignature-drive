@@ -276,13 +276,10 @@ export default {
 
       this.isLoading = true;
       const queue = this.shareOptions.emails.map((email) => {
-        return axios.post(
-          `/api/doc/${this.pickedItem.id}/invite`,
-          {
-              ...this.shareOptions,
-              email: email
-          }
-        );
+        return axios.post(`/api/doc/${this.pickedItem.id}/invite`, {
+          ...this.shareOptions,
+          email: email,
+        });
       });
       Promise.all(queue)
         .then(() => {
@@ -291,7 +288,6 @@ export default {
 
           // End loading
           this.isGeneratedShared = true;
-
         })
         .catch((e) => {
           console.log(e);
@@ -320,7 +316,6 @@ export default {
 
       // Store picked item
       this.pickedItem = args.item;
-
 
       this.shareOptions.type = args.item.type;
       this.shareOptions.unique_id = args.item.unique_id;
