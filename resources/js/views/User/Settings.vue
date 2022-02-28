@@ -367,6 +367,15 @@ export default {
       this.$router.push({ name: "Profile" });
     }
 
+    const user = this.$store.state.userAuth.user.data.attributes;
+    if (user.ktp && user.selfie) {
+      this.userInfo = { ...this.userInfo, ktp: user.ktp, selfie: user.selfie };
+
+      delete this.errors.ktp;
+      delete this.errors.selfie;
+      return;
+    }
+
     this.isAssetsLoading = true;
     axios
       .get("/api/user?assets=true")
@@ -378,7 +387,6 @@ export default {
           ktp,
           selfie,
         });
-        this.userInfo = { ...this.userInfo, ktp };
         this.userInfo = { ...this.userInfo, ktp, selfie };
         if (ktp) {
           delete this.errors.ktp;
