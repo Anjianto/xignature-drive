@@ -128,6 +128,7 @@ export default {
         "Password",
         "Storage",
         "Invoice",
+        "Integration",
         "Subscription",
         "PaymentMethods",
       ]);
