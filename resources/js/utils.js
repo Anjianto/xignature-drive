@@ -5,18 +5,28 @@ export const notifError = (error, callback) => {
   // api http error
   if (error.status >= 500) {
     events.$emit("alert:open", {
-      title: "Server Error",
+      title: error.statusText,
       message: error.message,
+      button: "OK",
     });
   } else if (error.status >= 400) {
-    var message = data.message + ": ";
-    for (var key in error.data.errors) {
-      message += error.data.errors[key] + "\n";
+    let message = error.data.message;
+    let errors = error.data.errors;
+    if(errors) {
+      message += ": ";
+      for (var key in errors) {
+        let errMsg = errors[key];
+        if(Array.isArray(errMsg)) {
+          errMsg = errMsg.join(", ");
+        }
+        message += errMsg + "\n";
+      }
     }
 
     events.$emit("alert:open", {
-      title: "Server Error",
+      title: error.statusText,
       message,	
+      button: "Retry",
     });
   }
   // argument error
@@ -24,24 +34,31 @@ export const notifError = (error, callback) => {
     type: "danger",
     message: error.message,
   });
-
-  events.$on("toaster:close", callback);
-  events.$on("alert:close", callback);
+  if(callback) {
+    events.$on("toaster:close", callback);
+    events.$on("alert:close", callback);
+    events.$on("popup:close", callback);
+  }
 };
 
 export const loadPdf = async (url) => {
-  const data = await createBlobFromFile(url);
-  const pdfdata = await createFileBlob(data);
-  const pdfbin = convertDataURIToBinary(pdfdata);
-  const pdfDocument = await PDFDocument.load(pdfbin);
-  pdfdata = pdfx.createLoadingTask(pdfbin);
+  const data = await getAsBlob(url);
+  const blobUrl = await getBlobUrl(data);
+  const blobData = convertDataURIToBinary(blobUrl);
+  const pdfDocument = await PDFDocument.load(blobData);
+
   return {
-    pdfbin,
-    pdfDoc: pdfDocument,
+    data: blobData,
+    doc: pdfDocument,
+    url: blobUrl,
   };
 };
-
-export function createFileBlob(file) {
+/**
+ * 
+ * @param {Blob} file 
+ * @returns {Promise<string>}
+ */
+export function getBlobUrl(file) {
   return new Promise((resolve, reject) => {
     var reader = new FileReader();
     reader.onload = (e) => {
@@ -54,7 +71,12 @@ export function createFileBlob(file) {
   });
 }
 
-export function createBlobFromFile(url) {
+/**
+ * 
+ * @param {string} url 
+ * @returns {Promise<Blob>}
+ */
+export function getAsBlob(url) {
   return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
@@ -64,7 +86,7 @@ export function createBlobFromFile(url) {
       if (this.status === 200) {
         resolve(this.response);
       } else {
-        reject(new Error("Could not load image"));
+        reject(xhr.statusText);
       }
     };
     xhr.send();
@@ -73,6 +95,11 @@ export function createBlobFromFile(url) {
 
 var BASE64_MARKER = ";base64,";
 
+/**
+ * convertDataURIToBinary - convert base64 to binary array
+ * @param {string} dataURI 
+ * @returns {Uint8Array}
+ */
 export function convertDataURIToBinary(dataURI) {
   var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
   var base64 = dataURI.substring(base64Index);
@@ -97,16 +124,6 @@ export function convertBlobToBase64(blob) {
     };
     reader.readAsDataURL(blob);
   });
-}
-
-export function convertBinaryToDataURI(buffer) {
-  var binary = "";
-  var bytes = new Uint8Array(buffer);
-  var len = bytes.byteLength;
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
 }
 
 export const joinUrlPath = (base, path) => {

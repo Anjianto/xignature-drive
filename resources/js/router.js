@@ -419,7 +419,16 @@ const routesSignInvite = [
     meta: {
       requiresAuth: false,
     },
-  }
+  },
+  {
+    name: "SignDoc",
+    path: "/sign/:fileId",
+    component: () =>
+      import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 
 ]
 const routesAuth = [
@@ -474,15 +483,6 @@ const routesUser = [
       import(/* webpackChunkName: "chunks/files" */ "./views/FilePages/Files"),
     meta: {
       requiresAuth: true,
-    },
-  },
-  {
-    name: "Sign",
-    path: "/sign/:fileId",
-    component: () =>
-      import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
-    meta: {
-      requiresAuth: false,
     },
   },
   {
@@ -869,5 +869,5 @@ router.beforeEach((to, from, next) => {
 
   return next();
 });
-
+window.router = router;
 export default router;

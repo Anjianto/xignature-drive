@@ -26,6 +26,7 @@ import {
   faLink,
   faLock,
   faLockOpen,
+  faPaperPlane,
   faPencilAlt,
   faSave,
   faSearch,
@@ -81,6 +82,7 @@ library.add(
   faUser,
   faUserEdit,
   faUserFriends,
+  faPaperPlane,
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

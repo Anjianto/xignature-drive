@@ -180,8 +180,9 @@ class BrowseController extends Controller
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();
-        // map files to array
+        
         $result = $files->map(function ($file) {
+            $file['integrity'] = encrypt($file->id);
             $file['signer'] = $file->signatures()->get()->map(
                 function ($signature) {
                     return [

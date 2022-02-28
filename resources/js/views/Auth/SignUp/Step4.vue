@@ -55,12 +55,12 @@
       <div class="container center">
         <AuthButton
           icon="chevron-right"
-          :text="isLoadingCamera ? 'Preparing' : 'Capture'"
-          v-if="!isCapture"
+          :text="isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'"
+          v-if="!isCapture || isLoading"
           type="button"
           @click="capture"
-          :disabled="isLoadingCamera"
-          :loading="isLoadingCamera"
+          :disabled="isLoadingCamera || isLoading"
+          :loading="isLoadingCamera || isLoading"
         />
         <AuthButton @click.native="submitData" icon="save" text="Register" v-else />
       </div>
@@ -76,7 +76,7 @@ import {
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
-import { createFileBlob } from "@/utils";
+import { getBlobUrl } from "@/utils";
 import Spinner from "@/components/FilesView/Spinner";
 
 export default {
@@ -89,6 +89,12 @@ export default {
     Spinner,
     ProfileForm,
   },
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isLoaded: false,
@@ -96,7 +102,6 @@ export default {
       isLoadingCamera: false,
       stream: undefined,
       isCapture: false,
-      isLoading: false,
     };
   },
   methods: {
@@ -111,7 +116,7 @@ export default {
       const track = this.stream.getVideoTracks()[0];
       let imageCapture = new ImageCapture(track);
       let image = await imageCapture.takePhoto();
-      let imgUrl = await createFileBlob(image);
+      let imgUrl = await getBlobUrl(image);
       this.imageBlob = image;
       capturedImg.src = imgUrl;
       this.isFinish = true;

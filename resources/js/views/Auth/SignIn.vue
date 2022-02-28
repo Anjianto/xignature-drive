@@ -9,7 +9,7 @@
             <h1>{{ $t('page_login.title') }}</h1>
             <h2>{{ $t('page_login.subtitle') }}</h2>
 
-            <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
+            <ValidationObserver @submit.prevent="logIn" ref="log_in" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
@@ -38,7 +38,7 @@
                 <h2>{{ $t('page_sign_in.subtitle') }}</h2>
             </div>
 
-            <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form"
+            <ValidationObserver @submit.prevent="singIn" ref="sign_in" tag="form"
                                 class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="User Password" rules="required"
                                     v-slot="{ errors }">
@@ -70,6 +70,7 @@
     import {mapGetters} from 'vuex'
     import {events} from "@/bus"
     import axios from 'axios'
+import { login } from '@/http_client/auth_client'
 
     export default {
         name: 'SignIn',
@@ -165,12 +166,8 @@
                 this.isLoading = true
 
                 // Send request to get user token
-                axios
-                    .post('/api/user/login', {
-                        email: this.loginEmail,
-                        password: this.loginPassword,
-                    })
-                    .then(() => {
+                login(this.loginEmail, this.loginPassword)
+                .then(() => {
 
                         // End loading
                         this.isLoading = false

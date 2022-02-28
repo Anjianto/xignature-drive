@@ -4,7 +4,9 @@
             <div class="popup-wrapper">
                 <div class="popup-content">
                     <div class="spinner-wrapper">
-                        <Spinner/>
+                        <slot>
+                            <Spinner/>
+                        </slot>
                     </div>
                     <h1 class="title">{{ processingPopup.title }}</h1>
                     <p class="message">{{ processingPopup.message }}</p>

@@ -14,7 +14,7 @@ const defaultState = {
 };
 const actions = {
   async [ACT_GETAPPDATA]({ commit, getters }) {
-    const { data, error } = fetchAuth(getters.api);
+    const { data, error } = await fetchAuth(getters.sorting);
 
     if (error) {
       return { error, authorized: false };
@@ -37,7 +37,7 @@ const actions = {
     commit("RETRIEVE_USER", data);
     commit("SET_AUTHORIZED", true);
     setTimeout(() => {
-      router.replace({
+      window.router.replace({
         name: "Files",
         query: { ref: isRefSign ? 'invitation' : 'register' },
       });

@@ -31,6 +31,7 @@
             style="display: none"
             type="file"
           />
+          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </div>
       </div>
 
@@ -67,7 +68,7 @@ import {
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
-import { createFileBlob } from "@/utils";
+import { getBlobUrl } from "@/utils";
 export default {
   name: "Step2",
   components: {
@@ -95,15 +96,17 @@ export default {
   methods: {
     async fetchPreview(val) {
       if (val && val instanceof File) {
-        this.ktp = await createFileBlob(val);
+        this.ktp = await getBlobUrl(val);
       }
     },
     async saveRegister() {
-      const isValid = await this.$refs.form.validate();
-      if (!isValid) return;
-      this.errors = [];
-      console.log("goto step 3");
-      this.$emit("step", 3);
+      if (!this.value) {
+        this.errors.push("foto ktp required");        
+      } else {
+        this.errors = [];
+        console.log("goto step 3");
+        this.$emit("step", 3);
+      }
     },
     async changeUserKTP(e) {
       const files = e.target.files || e.dataTransfer.files;
@@ -112,7 +115,7 @@ export default {
         this.errors.push("invalid file");
         return;
       }
-      this.ktp = await createFileBlob(files[0]);
+      this.ktp = await getBlobUrl(files[0]);
       this.$emit("input", files[0]);
     },
   },

@@ -6,6 +6,7 @@ import { events } from "@/bus";
 import { last } from "lodash";
 import axios from "axios";
 import Vue from "vue";
+import { HIDE_PROCESSING, SHOW_PROCESSING } from "@/constants/action";
 
 const defaultState = {
   processingPopup: undefined,
@@ -429,6 +430,15 @@ const actions = {
   closeOTP: ({ commit }) => {
     commit("SET_OTP_STATUS", false);
   },
+  [SHOW_PROCESSING]({ commit }, {title, message}) {
+    commit("PROCESSING_POPUP", {
+      title,
+      message,
+    });
+  },
+  [HIDE_PROCESSING]({ commit }) {
+    commit("PROCESSING_POPUP", undefined);
+  }
 };
 
 const mutations = {

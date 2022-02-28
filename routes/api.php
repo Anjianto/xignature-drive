@@ -198,10 +198,11 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 });
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master' , 'scope:master,visitor,editor']], function () {
     // Signature
-    Route::post('/sign', 'FileSignController@add_sign');
-    Route::post('/doc/{fileId}/sign', 'FileSignController@sign_document');
-    Route::post('/doc/{fileId}/invite', 'FileSignController@allow_signature');
-    Route::get('/doc/{fileId}', 'FileSignController@find_document');
+    Route::post('/signer/verify', 'FileSignController@add_sign');
+    Route::post('/signer/write', 'FileSignController@add_sign');
+    Route::post('/signer/doc', 'FileSignController@sign_document');
+    Route::post('/signer/invite', 'FileSignController@allow_signature');
+    Route::post('/signer/find', 'FileSignController@find_document');
 });
 // User master,editor routes
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,editor']], function () {

@@ -33,6 +33,7 @@
         <Step4
           v-else-if="steps === 4"
           v-model="data.selfie"
+          :isLoading="isLoading"
           @submit="saveRegister"
         />
       </AuthContent>
@@ -135,15 +136,16 @@ export default {
     async saveRegister() {
       this.isLoading = true;
       const {data, error } = await this.$store.dispatch(ACT_REGISTER, {formData: this.formData});
-      console.log(data, error)
       if(data) {
           events.$emit(ALERT_OPEN, {
+            emoji: "🗝️",
             title: "Berhasil",	
-            text: "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+            message: "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+            buttonStyle: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+            button: "Go To Files",
           })
           this.isLoading = false;
       } else {
-        console.log(error)
         notifError(error, () => {
           this.isLoading = false;
           this.steps = 1;

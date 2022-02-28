@@ -164,12 +164,6 @@
           "
           icon="share"
         />
-        <!-- <Option
-          @click.native="shareXignature"
-          v-if="item.shared"
-          :title="$t('Share Xignature')"
-          icon="share"
-        /> -->
         <Option
           @click.native="deleteItem"
           :title="$t('context_menu.delete')"
@@ -303,8 +297,18 @@
           "
           icon="share"
         />
-        <Option v-if="isDoc" @click.native="requestSign" title="Request Sign" icon="sign" />
-        <Option v-if="isDoc" @click.native="singleSignItem" title="Sign Doc" icon="sign" />
+        <Option
+          v-if="isDoc"
+          @click.native="inviteSigner"
+          title="Invite"
+          icon="send"
+        />
+        <Option
+          v-if="isDoc"
+          @click.native="selfSign"
+          title="Sign"
+          icon="sign"
+        />
         <Option
           @click.native="deleteItem"
           :title="$t('context_menu.delete')"
@@ -641,32 +645,30 @@ export default {
       // );
       this.$store.dispatch("signDocument");
     },
-    singleSignItem() {
-      this.$store.dispatch("addFileInfoDetail", this.item);
-      const [_, name, ext] = new RegExp(/(^.*)\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/).exec(this.item.basename);
-      this.$router.push({
-        name: "Sign",
+    selfSign() {
+      window.router.push({
+        name: "SignDoc",
         params: {
-          fileId: name,
-        },
-        query: {
-          type: ext,
-          id: this.item.id,
-          scope: this.item.user_scope,
-          user: this.item.user_id,
+          fileId: this.item.integrity,
         },
       });
     },
     moveItem() {
       events.$emit("popup:open", { name: "move", item: [this.item] });
     },
-    requestSign() {
+    inviteSign() {
       if (this.item.shared) {
         // Open edit share popup
-        events.$emit("popup:open", { name: "share-xignature", item: this.item });
+        events.$emit("popup:open", {
+          name: "share-xignature",
+          item: this.item,
+        });
       } else {
         // Open create share popup
-        events.$emit("popup:open", { name: "share-xignature", item: this.item });
+        events.$emit("popup:open", {
+          name: "share-xignature",
+          item: this.item,
+        });
       }
     },
     shareItem() {
@@ -677,10 +679,6 @@ export default {
         // Open create share popup
         events.$emit("popup:open", { name: "share-create", item: this.item });
       }
-    },
-    shareXignature() {
-      // window.location.href = ;
-      window.open("/pdfViewer.html", "_blank");
     },
     addToFavourites() {
       // Check if folder is in favourites and then add/remove from favourites

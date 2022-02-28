@@ -6,13 +6,18 @@
         ></PageTitle>
 
         <!--User registration button-->
-        <router-link v-if="config.userRegistration" class="sign-up-button" :to="{name: 'SignUp'}">
+        <router-link v-if="config.userRegistration && !isLogged" class="sign-up-button" :to="{name: 'SignUp'}">
             <AuthButton class="button" icon="chevron-right" :text="$t('page_index.sign_up_button')" />
         </router-link>
 
         <!--User login button-->
-        <router-link v-if="! config.userRegistration" class="sign-up-button" :to="{name: 'SignIn'}">
+        <router-link v-if="! config.userRegistration && !isLogged" class="sign-up-button" :to="{name: 'SignIn'}">
             <AuthButton class="button" icon="chevron-right" :text="$t('page_index.menu.log_in')" />
+        </router-link>
+
+        <!--User Logged In -->
+        <router-link v-if="isLogged" class="sign-up-button" :to="{name: 'Files'}">
+            <AuthButton class="button" icon="chevron-right" text="Open Files" />
         </router-link>
 
         <div class="features" v-if="config.isSaaS">
@@ -44,7 +49,7 @@
             AuthButton,
         },
         computed: {
-            ...mapGetters(['index', 'config']),
+            ...mapGetters(['index', 'config', 'isLogged']),
         },
     }
 </script>

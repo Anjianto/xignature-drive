@@ -1,15 +1,15 @@
 import axios from "axios";
-import {GEN_OTP, LOAD_DOC, SIGN_DOC} from "../constants/api";
+import {GEN_OTP, LOAD_DOC, SIGNER_FIND, SIGN_DOC} from "../constants/api";
 import { joinUrlPath } from "../utils";
 
-export const loadDocuments = async (base, {
+export const loadDocuments = async ({
   page, 
   limit, 
   doctype, 
   status, 
   search}) => {
   try {
-    const {data} = await axios.post(joinUrlPath(base, LOAD_DOC), {
+    const {data} = await axios.post(joinUrlPath(config.api, LOAD_DOC), {
       page,
       limit,
       doctype,
@@ -22,9 +22,20 @@ export const loadDocuments = async (base, {
   }
 }
 
-export const signDoc = async (base, fileid) => {
+export const findDocToSign = async (file_id) => {
   try {
-    const {data} = await axios.post(joinUrlPath(base, SIGN_DOC), {
+    const {data} = await axios.post(joinUrlPath(config.api, SIGNER_FIND), {
+      file_id
+    });
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
+
+export const signDoc = async (fileid) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(config.api, SIGN_DOC), {
       file_id: fileid,
     });
     return {data, error: false};
@@ -35,7 +46,7 @@ export const signDoc = async (base, fileid) => {
 
 export const genOTP = async (base) => {
   try {
-    const {data} = axios.post(joinUrlPath(base, GEN_OTP),
+    const {data} = axios.post(joinUrlPath(config.api, GEN_OTP),
       {
         email: user.email,
         fullname: user.name,

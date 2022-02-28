@@ -19,6 +19,7 @@
       ></corner-down-right-icon>
       <link-icon v-if="icon === 'share'" size="17"></link-icon>
       <star-icon v-if="icon === 'favourites'" size="17"></star-icon>
+      <send-icon v-if="icon === 'send'" size="17"></send-icon>
       <folder-plus-icon
         v-if="icon === 'create-folder'"
         size="17"
@@ -48,6 +49,7 @@ import {
   EyeIcon,
   SmileIcon,
   EditIcon,
+  SendIcon,
 } from "vue-feather-icons";
 
 export default {
@@ -63,6 +65,7 @@ export default {
     SmileIcon,
     Edit2Icon,
     TrashIcon,
+    SendIcon,
     LinkIcon,
     StarIcon,
     EyeIcon,
