@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isAdmin">
+  <div v-if="isAdmin" class="admin-layout">
     <slot />
   </div>
-  <div v-else-if="isLoading && !isAdmin">
+  <div v-else-if="isLoading && !isAdmin" class="admin-layout">
     <Spinner />
   </div>
 </template>
@@ -38,3 +38,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.admin-layout {
+  width: 100%;
+}
+</style>
