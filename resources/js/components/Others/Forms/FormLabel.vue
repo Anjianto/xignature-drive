@@ -1,6 +1,6 @@
 <template>
   <div class="form-label">
-    <edit-2-icon size="22" class="icon"></edit-2-icon>
+    <edit-2-icon v-if="!noIcon" size="22" class="icon"></edit-2-icon>
     <b class="label">
       <slot></slot>
     </b>
@@ -14,6 +14,11 @@ export default {
   name: "FormLabel",
   components: {
     Edit2Icon,
+  },
+  props: {
+    noIcon: {
+      type: Boolean,
+    },
   },
 };
 </script>

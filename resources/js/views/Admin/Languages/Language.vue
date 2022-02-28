@@ -16,10 +16,10 @@
               <!-- Languages -->
               <div class="all-language-wrapper">
                 <div
-                  @click="getLanguage(language)"
                   v-for="language in languages"
                   :key="language.data.id"
                   class="language group"
+                  @click="getLanguage(language)"
                 >
                   <label
                     class="name"
@@ -36,18 +36,18 @@
                   </label>
                   <x-icon
                     v-if="language.data.attributes.locale !== 'en'"
-                    @click.stop="deleteLanguage(language)"
                     class="icon"
                     size="17"
+                    @click.stop="deleteLanguage(language)"
                   />
                 </div>
               </div>
             </div>
 
             <MobileActionButton
-              @click.native="createLanguage"
               icon="plus"
               class="button-add-language"
+              @click.native="createLanguage"
             >
               {{ $t("add_language") }}
             </MobileActionButton>
@@ -65,7 +65,6 @@
           <div class="menu-list-wrapper horizontal">
             <!--List of languages-->
             <div
-              @click="getLanguage(language)"
               v-for="language in languages"
               :key="language.data.id"
               :class="{
@@ -75,6 +74,7 @@
                     language.data.attributes.locale,
               }"
               class="menu-list-item link border-bottom-theme"
+              @click="getLanguage(language)"
             >
               <div class="label text-theme">
                 {{ language.data.attributes.name }}
@@ -83,8 +83,8 @@
 
             <!--Add new language-->
             <div
-              @click="createLanguage"
               class="menu-list-item link border-bottom-theme"
+              @click="createLanguage"
             >
               <div class="icon text-theme">
                 <plus-icon size="17" />
@@ -93,6 +93,9 @@
           </div>
 
           <div class="dynamic-content">
+            <!-- <FormLabel v-if="!selectedLanguage" :no-icon="true">
+              Please Select the Language
+            </FormLabel> -->
             <Spinner v-if="!selectedLanguage" class="spinner" />
 
             <div v-if="selectedLanguage">
@@ -106,21 +109,14 @@
                 <div class="block-wrapper">
                   <label>{{ $t("language_name") }}:</label>
                   <ValidationProvider
+                    v-slot="{ errors }"
                     tag="div"
                     mode="passive"
                     class="input-wrapper"
                     name="App Description"
                     rules="required"
-                    v-slot="{ errors }"
                   >
                     <input
-                      @input="
-                        $updateText(
-                          `/admin/languages/${selectedLanguage.data.id}`,
-                          'name',
-                          selectedLanguage.data.attributes.name
-                        )
-                      "
                       v-model="selectedLanguage.data.attributes.name"
                       :placeholder="
                         $t('admin_settings.appearance.description_plac')
@@ -128,8 +124,15 @@
                       type="text"
                       :class="{ 'is-error': errors[0] }"
                       class="focus-border-theme"
+                      @input="
+                        $updateText(
+                          `/admin/languages/${selectedLanguage.data.id}`,
+                          'name',
+                          selectedLanguage.data.attributes.name
+                        )
+                      "
                     />
-                    <span class="error-message" v-if="errors[0]">{{
+                    <span v-if="errors[0]" class="error-message">{{
                       errors[0]
                     }}</span>
                   </ValidationProvider>
@@ -149,7 +152,6 @@
                         </small>
                       </div>
                       <SwitchInput
-                        @input="setDefaultLanguage"
                         class="switch"
                         :class="{
                           'disable-switch':
@@ -160,6 +162,7 @@
                           selectedLanguage.data.attributes.locale ===
                           this.defaultLanguageLocale
                         "
+                        @input="setDefaultLanguage"
                       />
                     </div>
                   </div>
@@ -182,28 +185,21 @@
 
               <!--Translation-->
               <div
-                class="block-wrapper"
                 v-for="(translation, key) in translationList"
                 :key="key"
+                class="block-wrapper"
               >
                 <label> {{ referenceTranslations[key] }}:</label>
                 <ValidationProvider
+                  v-slot="{ errors }"
                   tag="div"
                   class="input-wrapper"
                   name="Language string"
                   rules="required"
-                  v-slot="{ errors }"
                 >
                   <!--Textarea-->
                   <textarea
                     v-model="selectedLanguage.data.attributes.translations[key]"
-                    @input="
-                      $updateText(
-                        `/admin/languages/${selectedLanguage.data.id}/strings`,
-                        key,
-                        selectedLanguage.data.attributes.translations[key]
-                      )
-                    "
                     :rows="
                       selectedLanguage.data.attributes.translations[key]
                         .length >= 80
@@ -212,9 +208,16 @@
                     "
                     class="focus-border-theme"
                     :class="{ 'is-error': errors[0] }"
+                    @input="
+                      $updateText(
+                        `/admin/languages/${selectedLanguage.data.id}/strings`,
+                        key,
+                        selectedLanguage.data.attributes.translations[key]
+                      )
+                    "
                   ></textarea>
 
-                  <span class="error-message" v-if="errors[0]">{{
+                  <span v-if="errors[0]" class="error-message">{{
                     errors[0]
                   }}</span>
                 </ValidationProvider>
@@ -230,33 +233,29 @@
 </template>
 
 <script>
-import {
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate/dist/vee-validate.full";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full";
 import MobileActionButton from "@/components/FilesView/MobileActionButton";
 import SwitchInput from "@/components/Others/Forms/SwitchInput";
 import SearchInput from "@/components/Others/Forms/SearchInput";
 import FormLabel from "@/components/Others/Forms/FormLabel";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import ButtonBase from "@/components/FilesView/ButtonBase";
 import InfoBox from "@/components/Others/Forms/InfoBox";
 import PageHeader from "@/components/Others/PageHeader";
 import Spinner from "@/components/FilesView/Spinner";
 import { PlusIcon, XIcon } from "vue-feather-icons";
 import { debounce, omitBy } from "lodash";
 import { events } from "@/bus";
+import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Language",
   components: {
     ValidationProvider,
-    ValidationObserver,
     MobileActionButton,
     MobileHeader,
     SearchInput,
     SwitchInput,
-    ButtonBase,
     PageHeader,
     FormLabel,
     PlusIcon,
@@ -275,6 +274,16 @@ export default {
       query: "",
     };
   },
+  computed: {
+    isSearching() {
+      return this.searchedTranslationResults && this.query !== "";
+    },
+    translationList() {
+      return this.isSearching
+        ? this.searchedTranslationResults
+        : this.selectedLanguage.data.attributes.translations;
+    },
+  },
   watch: {
     query: debounce(function (val) {
       this.searchedTranslationResults = omitBy(
@@ -289,15 +298,21 @@ export default {
       container.scrollTop = 0;
     }, 300),
   },
-  computed: {
-    isSearching() {
-      return this.searchedTranslationResults && this.query !== "";
-    },
-    translationList() {
-      return this.isSearching
-        ? this.searchedTranslationResults
-        : this.selectedLanguage.data.attributes.translations;
-    },
+  mounted() {
+    this.getLanguages();
+
+    events.$on("reload:languages", () => this.getLanguages());
+
+    events.$on("action:confirmed", (data) => {
+      if (data.operation === "delete-language")
+        axios
+          .delete(`/api/admin/languages/${data.id}`)
+          .then(() => this.getLanguages())
+          .catch(() => this.$isSomethingWrong());
+    });
+  },
+  destroyed() {
+    events.$off("action:confirmed");
   },
   methods: {
     setDefaultLanguage() {
@@ -319,9 +334,9 @@ export default {
             response.data.meta.reference_translations;
           this.selectedLanguage = response.data.meta.current_language;
           this.defaultLanguageLocale =
-            response.data.meta.current_language.data.attributes.locale;
+            response.data.meta?.current_language?.data?.attributes?.locale;
         })
-        .catch(() => {
+        .catch((e) => {
           this.$isSomethingWrong();
         });
     },
@@ -333,7 +348,7 @@ export default {
         .then((response) => {
           this.selectedLanguage = response.data;
         })
-        .catch(() => {
+        .catch((e) => {
           this.$isSomethingWrong();
         });
     },
@@ -351,22 +366,6 @@ export default {
     createLanguage() {
       events.$emit("popup:open", { name: "create-language" });
     },
-  },
-  mounted() {
-    this.getLanguages();
-
-    events.$on("reload:languages", () => this.getLanguages());
-
-    events.$on("action:confirmed", (data) => {
-      if (data.operation === "delete-language")
-        axios
-          .delete(`/api/admin/languages/${data.id}`)
-          .then(() => this.getLanguages())
-          .catch(() => this.$isSomethingWrong());
-    });
-  },
-  destroyed() {
-    events.$off("action:confirmed");
   },
 };
 </script>
@@ -402,6 +401,10 @@ export default {
 
 .dynamic-content {
   position: relative;
+
+  > .form-label {
+    white-space: nowrap;
+  }
 
   .spinner {
     margin-top: 0 !important;
