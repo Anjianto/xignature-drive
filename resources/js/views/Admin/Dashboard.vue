@@ -1,6 +1,6 @@
 <template>
   <div id="single-page">
-    <div id="page-content" v-if="!isLoading && data">
+    <div v-if="!isLoading && data" id="page-content">
       <MobileHeader :title="$t($router.currentRoute.meta.title)" />
 
       <div class="dashboard-headline">
@@ -91,7 +91,7 @@
         />
       </div>
     </div>
-    <div id="loader" v-if="isLoading">
+    <div v-if="isLoading" id="loader">
       <Spinner></Spinner>
     </div>
   </div>
@@ -99,42 +99,22 @@
 
 <script>
 import WidgetLatestRegistrations from "@/components/Admin/WidgetLatestRegistrations";
-import DatatableWrapper from "@/components/Others/Tables/DatatableWrapper";
-import MobileActionButton from "@/components/FilesView/MobileActionButton";
-import EmptyPageContent from "@/components/Others/EmptyPageContent";
-import SwitchInput from "@/components/Others/Forms/SwitchInput";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import SectionTitle from "@/components/Others/SectionTitle";
 import WidgetTotals from "@/components/Admin/WidgetTotals";
-import ButtonBase from "@/components/FilesView/ButtonBase";
 import InfoBox from "@/components/Others/Forms/InfoBox";
-import PageHeader from "@/components/Others/PageHeader";
-import ColorLabel from "@/components/Others/ColorLabel";
 import Spinner from "@/components/FilesView/Spinner";
-import { CreditCardIcon } from "vue-feather-icons";
 import { mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Dashboard",
   components: {
     WidgetLatestRegistrations,
-    MobileActionButton,
-    EmptyPageContent,
-    DatatableWrapper,
     WidgetTotals,
-    CreditCardIcon,
-    SectionTitle,
     MobileHeader,
-    SwitchInput,
-    PageHeader,
-    ButtonBase,
-    ColorLabel,
     InfoBox,
     Spinner,
-  },
-  computed: {
-    ...mapGetters(["config"]),
   },
   data() {
     return {
@@ -142,10 +122,8 @@ export default {
       data: undefined,
     };
   },
-  methods: {
-    changeStatus(val, id) {
-      this.$updateText("/plans/" + id + "/update", "is_active", val);
-    },
+  computed: {
+    ...mapGetters(["config"]),
   },
   created() {
     axios
@@ -156,6 +134,11 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    changeStatus(val, id) {
+      this.$updateText("/plans/" + id + "/update", "is_active", val);
+    },
   },
 };
 </script>

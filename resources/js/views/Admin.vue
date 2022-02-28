@@ -105,7 +105,9 @@
       </ContentGroup>
     </ContentSidebar>
 
-    <router-view />
+    <Layout>
+      <router-view />
+    </Layout>
   </section>
 </template>
 
@@ -122,6 +124,7 @@ import {
 import ContentSidebar from "@/components/Sidebar/ContentSidebar";
 import ContentGroup from "@/components/Sidebar/ContentGroup";
 import { mapGetters } from "vuex";
+import Layout from "@/components/Admin/Layout";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -136,6 +139,7 @@ export default {
     ContentGroup,
     UsersIcon,
     GlobeIcon,
+    Layout,
   },
   computed: {
     ...mapGetters(["config"]),

@@ -1,5 +1,5 @@
 <template>
-  <section class="content-sidebar" id="content-sidebar">
+  <section id="content-sidebar" class="content-sidebar">
     <slot></slot>
   </section>
 </template>

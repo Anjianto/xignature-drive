@@ -1,11 +1,11 @@
 <template>
   <div id="single-page">
     <!--Stripe plans-->
-    <div id="page-content" v-show="stripeConfiguredWithPlans">
+    <div v-show="stripeConfiguredWithPlans" id="page-content">
       <MobileHeader :title="$t($router.currentRoute.meta.title)" />
       <PageHeader :title="$t($router.currentRoute.meta.title)" />
 
-      <div class="content-page" v-if="config.stripe_public_key">
+      <div v-if="config.stripe_public_key" class="content-page">
         <div class="table-tools">
           <div class="buttons">
             <router-link :to="{ name: 'PlanCreate' }">
@@ -17,21 +17,21 @@
           <div class="searching"></div>
         </div>
         <DatatableWrapper
-          @data="plans = $event"
-          @init="isLoading = false"
           api="/api/plans"
           :paginator="false"
           :columns="columns"
           class="table table-users"
+          @data="plans = $event"
+          @init="isLoading = false"
         >
           <template slot-scope="{ row }">
             <tr>
               <td style="max-width: 80px">
                 <span class="cell-item">
                   <SwitchInput
-                    @input="changeStatus($event, row.data.id)"
                     class="switch"
                     :state="row.data.attributes.status"
+                    @input="changeStatus($event, row.data.id)"
                   />
                 </span>
               </td>
@@ -112,7 +112,7 @@
     </EmptyPageContent>
 
     <!--Spinner-->
-    <div id="loader" v-if="isLoading">
+    <div v-if="isLoading" id="loader">
       <Spinner></Spinner>
     </div>
   </div>
@@ -124,46 +124,26 @@ import MobileActionButton from "@/components/FilesView/MobileActionButton";
 import EmptyPageContent from "@/components/Others/EmptyPageContent";
 import SwitchInput from "@/components/Others/Forms/SwitchInput";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import SectionTitle from "@/components/Others/SectionTitle";
 import ButtonBase from "@/components/FilesView/ButtonBase";
 import { Trash2Icon, Edit2Icon } from "vue-feather-icons";
 import PageHeader from "@/components/Others/PageHeader";
-import ColorLabel from "@/components/Others/ColorLabel";
 import Spinner from "@/components/FilesView/Spinner";
 import { mapGetters } from "vuex";
-import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Plans",
   components: {
     MobileActionButton,
     EmptyPageContent,
     DatatableWrapper,
-    SectionTitle,
     MobileHeader,
     SwitchInput,
     Trash2Icon,
     PageHeader,
     ButtonBase,
-    ColorLabel,
     Edit2Icon,
     Spinner,
-  },
-  computed: {
-    ...mapGetters(["config"]),
-    isEmptyPlans() {
-      return (
-        !this.isLoading &&
-        this.plans.length === 0 &&
-        this.config.stripe_public_key
-      );
-    },
-    stripeIsNotConfigured() {
-      return !this.config.stripe_public_key;
-    },
-    stripeConfiguredWithPlans() {
-      return !this.isLoading && this.config.stripe_public_key;
-    },
   },
   data() {
     return {
@@ -202,13 +182,29 @@ export default {
       ],
     };
   },
-  methods: {
-    changeStatus(val, id) {
-      this.$updateText("/plans/" + id + "/update", "is_active", val);
+  computed: {
+    ...mapGetters(["config"]),
+    isEmptyPlans() {
+      return (
+        !this.isLoading &&
+        this.plans.length === 0 &&
+        this.config.stripe_public_key
+      );
+    },
+    stripeIsNotConfigured() {
+      return !this.config.stripe_public_key;
+    },
+    stripeConfiguredWithPlans() {
+      return !this.isLoading && this.config.stripe_public_key;
     },
   },
   created() {
     if (!this.config.stripe_public_key) this.isLoading = false;
+  },
+  methods: {
+    changeStatus(val, id) {
+      this.$updateText("/plans/" + id + "/update", "is_active", val);
+    },
   },
 };
 </script>

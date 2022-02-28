@@ -1,16 +1,16 @@
 <template>
   <div id="single-page">
-    <div id="page-content" v-show="!isLoading">
+    <div v-show="!isLoading" id="page-content">
       <MobileHeader :title="$t($router.currentRoute.meta.title)" />
       <PageHeader :title="$t($router.currentRoute.meta.title)" />
 
       <div class="content-page">
         <DatatableWrapper
-          @init="isLoading = false"
           api="/api/pages"
           :paginator="false"
           :columns="columns"
           class="table table-users"
+          @init="isLoading = false"
         >
           <template slot-scope="{ row }">
             <tr>
@@ -34,9 +34,9 @@
               <td>
                 <span class="cell-item">
                   <SwitchInput
-                    @input="changeStatus($event, row.data.attributes.slug)"
                     class="switch"
                     :state="row.data.attributes.visibility"
+                    @input="changeStatus($event, row.data.attributes.slug)"
                   />
                 </span>
               </td>
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div id="loader" v-if="isLoading">
+    <div v-if="isLoading" id="loader">
       <Spinner></Spinner>
     </div>
   </div>
@@ -66,31 +66,20 @@
 
 <script>
 import DatatableWrapper from "@/components/Others/Tables/DatatableWrapper";
-import MobileActionButton from "@/components/FilesView/MobileActionButton";
-import EmptyPageContent from "@/components/Others/EmptyPageContent";
 import SwitchInput from "@/components/Others/Forms/SwitchInput";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import SectionTitle from "@/components/Others/SectionTitle";
-import ButtonBase from "@/components/FilesView/ButtonBase";
-import { Trash2Icon, Edit2Icon } from "vue-feather-icons";
+import { Edit2Icon } from "vue-feather-icons";
 import PageHeader from "@/components/Others/PageHeader";
-import ColorLabel from "@/components/Others/ColorLabel";
 import Spinner from "@/components/FilesView/Spinner";
-import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Pages",
   components: {
-    MobileActionButton,
-    EmptyPageContent,
     DatatableWrapper,
-    SectionTitle,
     MobileHeader,
     SwitchInput,
-    Trash2Icon,
     PageHeader,
-    ButtonBase,
-    ColorLabel,
     Edit2Icon,
     Spinner,
   },

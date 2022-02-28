@@ -11,6 +11,7 @@ const defaultState = {
   authorized: undefined,
   permission: "master", // master | editor | visitor
   user: undefined,
+  isAdmin: false,
 };
 const actions = {
   async [ACT_GETAPPDATA]({ commit, getters }) {
@@ -137,6 +138,12 @@ const actions = {
     commit("UPDATE_SELFIE", user.selfie);
     commit("UPDATE_KTP", user.ktp);
   },
+  setPermission: ({ commit }, permission) => {
+    commit("SET_PERMISSION", permission);
+  },
+  setIsAdmin: ({ commit }, isAdmin) => {
+    commit("SET_IS_ADMIN", isAdmin);
+  },
 };
 
 const mutations = {
@@ -145,6 +152,9 @@ const mutations = {
   },
   SET_PERMISSION(state, role) {
     state.permission = role;
+  },
+  SET_IS_ADMIN(state, isAdmin) {
+    state.isAdmin = isAdmin;
   },
   DESTROY_DATA(state) {
     state.authorized = false;
@@ -221,6 +231,7 @@ const getters = {
   user: (state) => state.user,
   ktp: (state) => state.user.data.attributes?.ktp,
   selfie: (state) => state.user.data.attributes?.selfie,
+  isAdmin: (state) => state.isAdmin,
   isProfileFilled: (state) => {
     if (!state.user?.data) return false;
     const data = [

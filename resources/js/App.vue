@@ -1,9 +1,9 @@
 <template>
-  <div id="vue-file-manager" v-cloak @click="unClick">
+  <div v-cloak id="vue-file-manager" @click="unClick">
     <!--System alerts-->
     <Alert />
 
-    <div id="application-wrapper" v-if="!isGuestLayout && isLoadedTranslations">
+    <div v-if="!isGuestLayout && isLoadedTranslations" id="application-wrapper">
       <!-- Create language popup -->
       <CreateLanguage />
 
@@ -99,7 +99,7 @@ import { events } from "./bus";
 // import FilePDFEditor from "@/components/FilesView/FilePDFEditor.vue";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     MobileSortingAndPreview,
     MobileMultiSelectMenu,
@@ -123,6 +123,12 @@ export default {
     DragUI,
     Alert,
     // FilePDFEditor,
+  },
+  data() {
+    return {
+      isScaledDown: false,
+      isLoadedTranslations: false,
+    };
   },
   computed: {
     ...mapGetters(["isLogged", "isGuest", "config", "fileQueue"]),
@@ -153,17 +159,6 @@ export default {
         ],
         this.$route.name
       );
-    },
-  },
-  data() {
-    return {
-      isScaledDown: false,
-      isLoadedTranslations: false,
-    };
-  },
-  methods: {
-    unClick() {
-      events.$emit("unClick");
     },
   },
   beforeMount() {
@@ -208,6 +203,11 @@ export default {
       "mobileSortingAndPreview",
       (state) => (this.isScaledDown = state)
     );
+  },
+  methods: {
+    unClick() {
+      events.$emit("unClick");
+    },
   },
 };
 </script>

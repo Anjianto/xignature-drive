@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu-bar" v-if="user">
+  <nav v-if="user" class="menu-bar">
     <!--Navigation Icons-->
     <div class="icon-navigation menu">
       <router-link :to="{ name: 'Profile' }" class="icon-navigation-item user">
@@ -53,9 +53,9 @@
     <!--User avatar & Logout-->
     <ul class="icon-navigation logout">
       <li
-        @click="$store.dispatch('logOut')"
         :title="$t('locations.logout')"
         class="icon-navigation-item"
+        @click="$store.dispatch('logOut')"
       >
         <div class="button-icon">
           <power-icon size="19"></power-icon>
@@ -71,7 +71,6 @@ import { mapGetters } from "vuex";
 import {
   HardDriveIcon,
   SettingsIcon,
-  Trash2Icon,
   UserIcon,
   PowerIcon,
   ShareIcon,
@@ -83,23 +82,9 @@ export default {
     HardDriveIcon,
     SettingsIcon,
     UserAvatar,
-    Trash2Icon,
     PowerIcon,
     ShareIcon,
     UserIcon,
-  },
-  computed: {
-    ...mapGetters(["user"]),
-    isUserProfileRoute() {
-      return this.$isThisRoute(this.$route, [
-        "Profile",
-        "Password",
-        "Storage",
-        "Invoice",
-        "Subscription",
-        "PaymentMethods",
-      ]);
-    },
   },
   data() {
     return {
@@ -134,6 +119,19 @@ export default {
         "User",
       ],
     };
+  },
+  computed: {
+    ...mapGetters(["user"]),
+    isUserProfileRoute() {
+      return this.$isThisRoute(this.$route, [
+        "Profile",
+        "Password",
+        "Storage",
+        "Invoice",
+        "Subscription",
+        "PaymentMethods",
+      ]);
+    },
   },
   mounted() {
     this.$store.dispatch("getAppData");

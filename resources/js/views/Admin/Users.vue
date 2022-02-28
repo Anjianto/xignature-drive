@@ -18,11 +18,11 @@
 
         <!--Datatable-->
         <DatatableWrapper
-          @init="isLoading = false"
           api="/api/users"
           :paginator="true"
           :columns="columns"
           class="table table-users"
+          @init="isLoading = false"
         >
           <template slot-scope="{ row }">
             <tr>
@@ -43,10 +43,10 @@
                 </ColorLabel>
               </td>
               <td v-if="config.isSaaS">
-                <span class="cell-item" v-if="row.data.attributes.subscription">
+                <span v-if="row.data.attributes.subscription" class="cell-item">
                   {{ $t("global.premium") }}
                 </span>
-                <span class="cell-item" v-else>
+                <span v-else class="cell-item">
                   {{ $t("global.free") }}
                 </span>
               </td>
@@ -89,7 +89,7 @@
         </DatatableWrapper>
       </div>
     </div>
-    <div id="loader" v-if="isLoading">
+    <div v-if="isLoading" id="loader">
       <Spinner></Spinner>
     </div>
   </div>
@@ -100,32 +100,25 @@ import DatatableCellImage from "@/components/Others/Tables/DatatableCellImage";
 import DatatableWrapper from "@/components/Others/Tables/DatatableWrapper";
 import MobileActionButton from "@/components/FilesView/MobileActionButton";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import SectionTitle from "@/components/Others/SectionTitle";
-import ButtonBase from "@/components/FilesView/ButtonBase";
 import { Trash2Icon, Edit2Icon } from "vue-feather-icons";
 import PageHeader from "@/components/Others/PageHeader";
 import ColorLabel from "@/components/Others/ColorLabel";
 import Spinner from "@/components/FilesView/Spinner";
 import { mapGetters } from "vuex";
-import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Profile",
   components: {
     DatatableCellImage,
     MobileActionButton,
     DatatableWrapper,
-    SectionTitle,
     MobileHeader,
     Trash2Icon,
     PageHeader,
-    ButtonBase,
     ColorLabel,
     Edit2Icon,
     Spinner,
-  },
-  computed: {
-    ...mapGetters(["config"]),
   },
   data() {
     return {
@@ -133,17 +126,8 @@ export default {
       columns: undefined,
     };
   },
-  methods: {
-    getRoleColor(role) {
-      switch (role) {
-        case "admin":
-          return "purple";
-          break;
-        case "user":
-          return "yellow";
-          break;
-      }
-    },
+  computed: {
+    ...mapGetters(["config"]),
   },
   created() {
     this.columns = [
@@ -185,6 +169,16 @@ export default {
         sortable: false,
       },
     ];
+  },
+  methods: {
+    getRoleColor(role) {
+      switch (role) {
+        case "admin":
+          return "purple";
+        case "user":
+          return "yellow";
+      }
+    },
   },
 };
 </script>

@@ -10,7 +10,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import Spinner from "../FilesView/Spinner.vue";
+import Spinner from "@/components/FilesView/Spinner";
 
 export default {
   name: "LayoutAdmin",
@@ -24,6 +24,7 @@ export default {
     ...mapGetters(["isAdmin"]),
   },
   mounted() {
+    if (this.isAdmin) return;
     this.isLoading = true;
     axios
       .get("/api/is-admin")

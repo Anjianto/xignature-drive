@@ -1,18 +1,18 @@
 <template>
   <div id="single-page">
     <!--Page Content-->
-    <div id="page-content" v-show="!isLoading && config.stripe_public_key">
+    <div v-show="!isLoading && config.stripe_public_key" id="page-content">
       <MobileHeader :title="$t($router.currentRoute.meta.title)" />
       <PageHeader :title="$t($router.currentRoute.meta.title)" />
 
-      <div class="content-page" v-if="config.stripe_public_key">
+      <div v-if="config.stripe_public_key" class="content-page">
         <DatatableWrapper
-          @data="invoices = $event"
-          @init="isLoading = false"
           api="/api/invoices"
           :paginator="false"
           :columns="columns"
           class="table"
+          @data="invoices = $event"
+          @init="isLoading = false"
         >
           <template slot-scope="{ row }">
             <tr>
@@ -103,7 +103,7 @@
     </EmptyPageContent>
 
     <!--Spinner-->
-    <div id="loader" v-if="isLoading">
+    <div v-if="isLoading" id="loader">
       <Spinner></Spinner>
     </div>
   </div>
@@ -112,37 +112,26 @@
 <script>
 import DatatableCellImage from "@/components/Others/Tables/DatatableCellImage";
 import DatatableWrapper from "@/components/Others/Tables/DatatableWrapper";
-import MobileActionButton from "@/components/FilesView/MobileActionButton";
 import EmptyPageContent from "@/components/Others/EmptyPageContent";
-import SwitchInput from "@/components/Others/Forms/SwitchInput";
 import MobileHeader from "@/components/Mobile/MobileHeader";
-import SectionTitle from "@/components/Others/SectionTitle";
 import ButtonBase from "@/components/FilesView/ButtonBase";
 import PageHeader from "@/components/Others/PageHeader";
-import ColorLabel from "@/components/Others/ColorLabel";
 import Spinner from "@/components/FilesView/Spinner";
 import { ExternalLinkIcon } from "vue-feather-icons";
 import { mapGetters } from "vuex";
-import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Invoices",
   components: {
     DatatableCellImage,
-    MobileActionButton,
     ExternalLinkIcon,
     EmptyPageContent,
     DatatableWrapper,
-    SectionTitle,
     MobileHeader,
-    SwitchInput,
     PageHeader,
     ButtonBase,
-    ColorLabel,
     Spinner,
-  },
-  computed: {
-    ...mapGetters(["config"]),
   },
   data() {
     return {
@@ -180,6 +169,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters(["config"]),
   },
   created() {
     if (!this.config.stripe_public_key) this.isLoading = false;

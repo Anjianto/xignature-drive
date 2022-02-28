@@ -9,11 +9,10 @@
 
       <div class="content-page">
         <ValidationObserver
-          @submit.prevent="createPlan"
           ref="createPlan"
-          v-slot="{ invalid }"
           tag="form"
           class="form block-form form-fixed-width"
+          @submit.prevent="createPlan"
         >
           <div class="form-group">
             <FormLabel>
@@ -24,12 +23,12 @@
             <div class="block-wrapper">
               <label>{{ $t("admin_page_plans.form.name") }}:</label>
               <ValidationProvider
+                v-slot="{ errors }"
                 tag="div"
                 mode="passive"
                 class="input-wrapper"
                 name="Name"
                 rules="required"
-                v-slot="{ errors }"
               >
                 <input
                   v-model="plan.name"
@@ -37,7 +36,7 @@
                   type="text"
                   :class="{ 'is-error': errors[0] }"
                 />
-                <span class="error-message" v-if="errors[0]">{{
+                <span v-if="errors[0]" class="error-message">{{
                   errors[0]
                 }}</span>
               </ValidationProvider>
@@ -47,18 +46,18 @@
             <div class="block-wrapper">
               <label>{{ $t("admin_page_plans.form.description") }}:</label>
               <ValidationProvider
+                v-slot="{ errors }"
                 tag="div"
                 mode="passive"
                 class="input-wrapper"
                 name="Description"
-                v-slot="{ errors }"
               >
                 <textarea
                   v-model="plan.description"
                   :placeholder="$t('admin_page_plans.form.description_plac')"
                   :class="{ 'is-error': errors[0] }"
                 ></textarea>
-                <span class="error-message" v-if="errors[0]">{{
+                <span v-if="errors[0]" class="error-message">{{
                   errors[0]
                 }}</span>
               </ValidationProvider>
@@ -72,12 +71,12 @@
             <div class="block-wrapper">
               <label>{{ $t("admin_page_plans.form.price") }}:</label>
               <ValidationProvider
+                v-slot="{ errors }"
                 tag="div"
                 mode="passive"
                 class="input-wrapper"
                 name="Plan price"
                 rules="required"
-                v-slot="{ errors }"
               >
                 <input
                   v-model="plan.price"
@@ -88,7 +87,7 @@
                   max="999999999999"
                   :class="{ 'is-error': errors[0] }"
                 />
-                <span class="error-message" v-if="errors[0]">{{
+                <span v-if="errors[0]" class="error-message">{{
                   errors[0]
                 }}</span>
               </ValidationProvider>
@@ -98,12 +97,12 @@
             <div class="block-wrapper">
               <label>{{ $t("admin_page_plans.form.storage") }}:</label>
               <ValidationProvider
+                v-slot="{ errors }"
                 tag="div"
                 mode="passive"
                 class="input-wrapper"
                 name="Storage capacity"
                 rules="required"
-                v-slot="{ errors }"
               >
                 <input
                   v-model="plan.capacity"
@@ -113,7 +112,7 @@
                   max="999999999"
                   :class="{ 'is-error': errors[0] }"
                 />
-                <span class="error-message" v-if="errors[0]">{{
+                <span v-if="errors[0]" class="error-message">{{
                   errors[0]
                 }}</span>
               </ValidationProvider>
@@ -123,7 +122,7 @@
             </div>
           </div>
 
-          <div class="form-group" v-if="isError">
+          <div v-if="isError" class="form-group">
             <InfoBox type="error" style="margin-top: 40px">
               <p>{{ errorMessage }}</p>
             </InfoBox>
@@ -150,16 +149,11 @@ import {
   ValidationProvider,
   ValidationObserver,
 } from "vee-validate/dist/vee-validate.full";
-import SelectInput from "@/components/Others/Forms/SelectInput";
-import ImageInput from "@/components/Others/Forms/ImageInput";
 import MobileHeader from "@/components/Mobile/MobileHeader";
 import FormLabel from "@/components/Others/Forms/FormLabel";
-import SectionTitle from "@/components/Others/SectionTitle";
 import ButtonBase from "@/components/FilesView/ButtonBase";
 import PageHeader from "@/components/Others/PageHeader";
 import InfoBox from "@/components/Others/Forms/InfoBox";
-import { required } from "vee-validate/dist/rules";
-import { mapGetters } from "vuex";
 import { events } from "@/bus";
 import axios from "axios";
 
@@ -168,14 +162,10 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    SectionTitle,
     MobileHeader,
-    SelectInput,
     ButtonBase,
-    ImageInput,
     PageHeader,
     FormLabel,
-    required,
     InfoBox,
   },
   data() {

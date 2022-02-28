@@ -9,7 +9,7 @@
     </div>
 
     <transition name="list">
-      <div class="wrapper" v-show="isVisible">
+      <div v-show="isVisible" class="wrapper">
         <slot></slot>
       </div>
     </transition>
@@ -22,24 +22,17 @@ import { ChevronUpIcon } from "vue-feather-icons";
 
 export default {
   name: "ContentGroup",
-  props: ["title", "canCollapse", "slug"],
   components: {
     ChevronUpIcon,
     TextLabel,
   },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ["title", "canCollapse", "slug"],
   data() {
     return {
       isVisible: true,
       canCollapseWrapper: false,
     };
-  },
-  methods: {
-    hideGroup() {
-      if (!this.canCollapseWrapper) return;
-
-      this.isVisible = !this.isVisible;
-      localStorage.setItem("panel-group-" + this.slug, this.isVisible);
-    },
   },
   created() {
     if (this.canCollapse) {
@@ -50,6 +43,14 @@ export default {
         : true;
       this.canCollapseWrapper = true;
     }
+  },
+  methods: {
+    hideGroup() {
+      if (!this.canCollapseWrapper) return;
+
+      this.isVisible = !this.isVisible;
+      localStorage.setItem("panel-group-" + this.slug, this.isVisible);
+    },
   },
 };
 </script>
