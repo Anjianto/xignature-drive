@@ -4,7 +4,7 @@
       <div class="form block-form">
         <FormLabel>{{ $t("user_settings.title_account") }}</FormLabel>
         <div class="block-wrapper">
-          <label>{{ $t("page_registration.label_email") }}</label>
+          <label>{{ $t("page_registration.label_email") }} </label>
           <div class="input-wrapper">
             <input
               :value="userInfo.email"
@@ -111,6 +111,7 @@
               required
               style="display: none"
               type="file"
+              :disabled="userInfo.ktp"
             />
           </div>
           <p v-if="errors.ktp" class="input-error">
@@ -142,6 +143,7 @@
               required
               style="display: none"
               type="file"
+              :disabled="userInfo.selfie"
             />
           </div>
           <p v-if="errors.selfie" class="input-error">
@@ -334,6 +336,7 @@ import { format } from "date-fns";
 import Button from "@/components/Others/Button";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import axios from "axios";
 
 export default {
   name: "Settings",
@@ -356,6 +359,7 @@ export default {
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
     const preReg = urlParams.get("create_signature");
+
     if (preReg) {
       events.$emit("alert:open", {
         emoji: "🤔",
@@ -364,6 +368,67 @@ export default {
         type: "info",
       });
       this.$router.push({ name: "Profile" });
+    }
+
+    this.isLoading = true;
+    axios
+      .get("/api/user?assets=true")
+      .then((data) => {
+        console.log(data.data.data);
+        const ktp = data.data.data.ktp;
+        const selfie = data.data.data.selfie;
+        this.$store.dispatch("retrieveUser", {
+          ktp,
+          selfie,
+        });
+        this.userInfo = { ...this.userInfo, ktp };
+        this.userInfo = { ...this.userInfo, ktp, selfie };
+        if (ktp) {
+          delete this.errors.ktp;
+        }
+        if (selfie) {
+          delete this.errors.selfie;
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+
+    if (!this.userInfo.phone) {
+      this.errors = {
+        ...this.errors,
+        phone: "Phone is required!",
+      };
+    }
+    if (!this.userInfo.nik) {
+      this.errors = {
+        ...this.errors,
+        nik: "NIK is required!",
+      };
+    }
+    if (!this.userInfo.birthplace) {
+      this.errors = {
+        ...this.errors,
+        birthplace: "Birthplace is required!",
+      };
+    }
+    if (!this.userInfo.birthdate) {
+      this.errors = {
+        ...this.errors,
+        birthdate: "Birthday is required!",
+      };
+    }
+    if (!this.userInfo.ktp) {
+      this.errors = {
+        ...this.errors,
+        ktp: "KTP is required!",
+      };
+    }
+    if (!this.userInfo.selfie) {
+      this.errors = {
+        ...this.errors,
+        selfie: "Selfie With Ktp is required!",
+      };
     }
   },
   computed: {
@@ -476,44 +541,6 @@ export default {
         reader.readAsDataURL(file);
       });
     },
-  },
-  mounted() {
-    if (!this.userInfo.phone) {
-      this.errors = {
-        ...this.errors,
-        phone: "Phone is required!",
-      };
-    }
-    if (!this.userInfo.nik) {
-      this.errors = {
-        ...this.errors,
-        nik: "NIK is required!",
-      };
-    }
-    if (!this.userInfo.birthplace) {
-      this.errors = {
-        ...this.errors,
-        birthplace: "Birthplace is required!",
-      };
-    }
-    if (!this.userInfo.birthdate) {
-      this.errors = {
-        ...this.errors,
-        birthdate: "Birthday is required!",
-      };
-    }
-    if (!this.userInfo.ktp) {
-      this.errors = {
-        ...this.errors,
-        ktp: "KTP is required!",
-      };
-    }
-    if (!this.userInfo.selfie) {
-      this.errors = {
-        ...this.errors,
-        selfie: "Selfie With Ktp is required!",
-      };
-    }
   },
   created() {
     this.userTimezone =
