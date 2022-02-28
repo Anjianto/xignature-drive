@@ -99,9 +99,15 @@
             <div class="image preview" @click="() => $refs.ktpUpload.click()">
               <img v-if="userInfo.ktp" :src="userInfo.ktp" alt="ktp photo" />
               <div class="placeholder center" v-else>
-                <FontAwesomeIcon class="icon" icon="camera" />
-                <h4>No Image KTP</h4>
-                <p>click to upload</p>
+                <FontAwesomeIcon
+                  v-if="isAssetsLoading"
+                  icon="sync-alt"
+                  class="sync-alt"
+                />
+                <FontAwesomeIcon class="icon" icon="camera" v-else />
+                <h4 v-if="isAssetsLoading">Try to getting the KTP image</h4>
+                <h4 v-else>No Image KTP</h4>
+                <p v-if="!isAssetsLoading">click to upload</p>
               </div>
             </div>
             <input
@@ -131,9 +137,15 @@
                 alt="selfie photo"
               />
               <div class="placeholder center" v-else>
-                <FontAwesomeIcon class="icon" icon="camera" />
-                <h4>No Image selfie</h4>
-                <p>click to upload</p>
+                <FontAwesomeIcon
+                  v-if="isAssetsLoading"
+                  icon="sync-alt"
+                  class="sync-alt"
+                />
+                <FontAwesomeIcon class="icon" icon="camera" v-else />
+                <h4 v-if="isAssetsLoading">Try to getting the selfie image</h4>
+                <h4 v-else>No Image selfie</h4>
+                <p v-if="!isAssetsLoading">click to upload</p>
               </div>
             </div>
             <input
@@ -370,7 +382,7 @@ export default {
       this.$router.push({ name: "Profile" });
     }
 
-    this.isLoading = true;
+    this.isAssetsLoading = true;
     axios
       .get("/api/user?assets=true")
       .then((data) => {
@@ -391,7 +403,20 @@ export default {
         }
       })
       .finally(() => {
-        this.isLoading = false;
+        this.isAssetsLoading = false;
+
+        if (!this.userInfo.ktp && !isAssetsLoading) {
+          this.errors = {
+            ...this.errors,
+            ktp: "KTP is required!",
+          };
+        }
+        if (!this.userInfo.selfie && !isAssetsLoading) {
+          this.errors = {
+            ...this.errors,
+            selfie: "Selfie With Ktp is required!",
+          };
+        }
       });
 
     if (!this.userInfo.phone) {
@@ -418,13 +443,13 @@ export default {
         birthdate: "Birthday is required!",
       };
     }
-    if (!this.userInfo.ktp) {
+    if (!this.userInfo.ktp && !isAssetsLoading) {
       this.errors = {
         ...this.errors,
         ktp: "KTP is required!",
       };
     }
-    if (!this.userInfo.selfie) {
+    if (!this.userInfo.selfie && !isAssetsLoading) {
       this.errors = {
         ...this.errors,
         selfie: "Selfie With Ktp is required!",
@@ -440,6 +465,7 @@ export default {
       billingInfo: undefined,
       userTimezone: undefined,
       isLoading: false,
+      isAssetsLoading: false,
       errors: {},
     };
   },
@@ -602,5 +628,18 @@ export default {
 /* Firefox */
 .reset-input-number[type="number"] {
   -moz-appearance: textfield;
+}
+
+.sync-alt {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
