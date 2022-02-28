@@ -21,19 +21,20 @@ export const notifError = (error, callback) => {
         }
         message += errMsg + "\n";
       }
-    }
+    } 
 
     events.$emit("alert:open", {
       title: error.statusText,
       message,	
       button: "Retry",
     });
+  } else {
+    // argument error
+    events.$emit("toaster", {
+      type: "danger",
+      message: error.message,
+    });
   }
-  // argument error
-  events.$emit("toaster", {
-    type: "danger",
-    message: error.message,
-  });
   if(callback) {
     events.$on("toaster:close", callback);
     events.$on("alert:close", callback);

@@ -198,7 +198,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
 });
 Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master' , 'scope:master,visitor,editor']], function () {
     // Signature
-    Route::post('/signer/verify', 'FileSignController@add_sign');
+    Route::post('/signer/verify', 'FileSignController@sign');
     Route::post('/signer/write', 'FileSignController@add_sign');
     Route::post('/signer/doc', 'FileSignController@sign_document');
     Route::post('/signer/invite', 'FileSignController@allow_signature');

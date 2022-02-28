@@ -45,6 +45,8 @@ class UserController extends Controller
     /**
      * Get user details
      *
+     * @urlParam id integer required The ID of the user. Example: 1
+     *
      * @param $id
      * @return UserResource
      */
@@ -58,6 +60,7 @@ class UserController extends Controller
     /**
      * Get user storage details
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @param $id
      * @return UserStorageResource
      */
@@ -71,6 +74,7 @@ class UserController extends Controller
     /**
      * Get user storage details
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @return InvoiceCollection
      */
     public function invoices($id)
@@ -85,6 +89,7 @@ class UserController extends Controller
     /**
      * Get user subscription details
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @param $id
      * @return UserSubscription
      */
@@ -116,6 +121,7 @@ class UserController extends Controller
     /**
      * Change user role
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @param ChangeRoleRequest $request
      * @param $id
      * @return UserResource
@@ -139,6 +145,7 @@ class UserController extends Controller
     /**
      * Change user storage capacity
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @param ChangeStorageCapacityRequest $request
      * @param $id
      * @return UserStorageResource
@@ -155,6 +162,7 @@ class UserController extends Controller
     /**
      * Send user password reset link
      *
+     * @urlParam id integer required The ID of the user. Example: 1
      * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
      */
@@ -162,10 +170,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Demo preview
-        if (env('APP_DEMO')) {
-            return response('Done!', 204);
-        }
 
         // Get password token
         $token = Password::getRepository()->create($user);
@@ -210,6 +214,8 @@ class UserController extends Controller
     /**
      * Delete user with all user data
      *
+     * @urlParam id integer required The ID of the user. Example: 1
+     *
      * @param DeleteUserRequest $request
      * @param $id
      * @return ResponseFactory|\Illuminate\Http\Response
@@ -223,10 +229,6 @@ class UserController extends Controller
             abort(202, 'You can\'t delete this account while user have active subscription.');
         }
 
-        // Demo preview
-        if (env('APP_DEMO')) {
-            return response('Done!', 204);
-        }
 
         // Check for self deleted account
         if ($user->id === Auth::id()) {

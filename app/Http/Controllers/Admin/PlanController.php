@@ -53,6 +53,7 @@ class PlanController extends Controller
     /**
      * Get plan record
      *
+     * @urlParam id integer required The ID of the plan. Example: 1
      * @param $id
      * @return PlanResource
      */
@@ -104,6 +105,8 @@ class PlanController extends Controller
     /**
      * Update plan attribute
      *
+     * @urlParam id integer required The ID of the plan. Example: 1
+     *
      * @param Request $request
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -127,6 +130,7 @@ class PlanController extends Controller
     /**
      * Delete plan
      *
+     * @urlParam id integer required The ID of the plan. Example: 1
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */

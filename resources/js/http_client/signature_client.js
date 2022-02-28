@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GEN_OTP, LOAD_DOC, SIGNER_FIND, SIGN_DOC} from "../constants/api";
+import {GEN_OTP, LOAD_DOC, SIGNER_FIND, SIGNER_VERIFY, SIGNER_WRITE, SIGN_DOC} from "../constants/api";
 import { joinUrlPath } from "../utils";
 
 export const loadDocuments = async ({
@@ -33,10 +33,12 @@ export const findDocToSign = async (file_id) => {
   }
 }
 
-export const signDoc = async (fileid) => {
+export const signDoc = async (formData) => {
   try {
-    const {data} = await axios.post(joinUrlPath(config.api, SIGN_DOC), {
-      file_id: fileid,
+    const {data} = await axios.post(joinUrlPath(config.api, SIGNER_VERIFY), formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return {data, error: false};
   } catch (error) {
@@ -44,20 +46,9 @@ export const signDoc = async (fileid) => {
   }
 }
 
-export const genOTP = async (base) => {
+export const rewriteSign = async () => {
   try {
-    const {data} = axios.post(joinUrlPath(config.api, GEN_OTP),
-      {
-        email: user.email,
-        fullname: user.name,
-        nik: user.nik,
-        phone: user.phone,
-        birthplace: user.birth_place,
-        birthdate: user.birth_date,
-        selfie: user.selfie,
-        ktp: user.ktp,
-      },
-    )
+    const {data} = await axios.post(joinUrlPath(config.api, SIGNER_WRITE))
     return {data, error: false};
   } catch (error) {
     return {data: null,  error: error.response};

@@ -21,13 +21,13 @@
       <div :class="[{right: step == 1}]">
         <h4 class="title">OTP Diperlukan</h4>
 
-        <p v-if="step == 1" class="description">
-          Masukan 6 digit token yang diperlukan dari aplikasi
-          <span>Authenticator</span>
+        <p class="description">
+          Masukan 6 digit token yang diperlukan dari aplikasi <br/>
+          <slot></slot>
         </p>
-        <p v-else class="description">
+        <!-- <p v-else class="description">
           Send OTP to email to your email address
-        </p>
+        </p> -->
 
         <form @submit.prevent="useOtp">
           <input v-if="step == 1" type="number" v-model="otp" class="otp-input" />
@@ -46,12 +46,17 @@
               type="button"
               button-style="secondary"
               @click.native="resendOTP"
-              >Kirim Ulang</ButtonBase
+              :disabled="disabled"
+              >
+              Kirim Ulang
+              </ButtonBase
             >
             <ButtonBase v-if="step == 0" type="submit" button-style="theme">
               Kirim OTP
             </ButtonBase>
-            <ButtonBase v-else type="submit" button-style="theme">
+            <ButtonBase v-else type="submit" 
+            :disabled="disabled"
+            button-style="theme">
               Tanda Tangani
             </ButtonBase>
           </div>
@@ -74,6 +79,10 @@ export default {
     step: {
       type: Number,
       default: 0,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {

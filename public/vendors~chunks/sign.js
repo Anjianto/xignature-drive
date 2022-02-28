@@ -241,6 +241,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sty
 
 eval("module.exports = function() {\n  return new Worker(__webpack_require__.p + \"983b46c6898be26c7afa.worker.js\");\n};//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9ub2RlX21vZHVsZXMvdnVlLXBkZi9ub2RlX21vZHVsZXMvcGRmanMtZGlzdC9lczUvYnVpbGQvcGRmLndvcmtlci5qcz82MDg1Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0Esb0JBQW9CLHFCQUF1QjtBQUMzQyIsImZpbGUiOiIuL25vZGVfbW9kdWxlcy93b3JrZXItbG9hZGVyL2Rpc3QvY2pzLmpzIS4vbm9kZV9tb2R1bGVzL3Z1ZS1wZGYvbm9kZV9tb2R1bGVzL3BkZmpzLWRpc3QvZXM1L2J1aWxkL3BkZi53b3JrZXIuanMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJtb2R1bGUuZXhwb3J0cyA9IGZ1bmN0aW9uKCkge1xuICByZXR1cm4gbmV3IFdvcmtlcihfX3dlYnBhY2tfcHVibGljX3BhdGhfXyArIFwiOTgzYjQ2YzY4OThiZTI2YzdhZmEud29ya2VyLmpzXCIpO1xufTsiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js\n");
 
+/***/ }),
+
+/***/ "./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js":
+/*!***********************************************************************************************************************!*\
+  !*** ./node_modules/worker-loader/dist/cjs.js!./node_modules/vue-pdf/node_modules/pdfjs-dist/es5/build/pdf.worker.js ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = function() {
+  return new Worker(__webpack_require__.p + "303528f7caf08da71607.worker.js");
+};
+
 /***/ })
 
 }]);

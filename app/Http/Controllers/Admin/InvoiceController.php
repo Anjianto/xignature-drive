@@ -19,6 +19,7 @@ class InvoiceController extends Controller
 {
     /**
      * PlanController constructor.
+     * @param StripeService $stripe
      */
     public function __construct(StripeService $stripe)
     {

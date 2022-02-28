@@ -94,6 +94,10 @@ class ContentSeeder extends Seeder
                 'value' => '5000'
             ],
             [
+                'name' => 'storage_limitation',
+                'value' => '500'
+            ],
+            [
                 'name' => 'registration',
                 'value' => '1'
             ],
@@ -102,7 +106,7 @@ class ContentSeeder extends Seeder
                 'value' => 'https://sandbox.xignature.co.id/'
             ],
             [
-                'name' => 'sign_key',
+                'name' => 'api_key',
                 'value' => 'aMIhFatJnGJHRQFB6fwgM4R22Lfrajnkbi5B'
             ]
         ]);

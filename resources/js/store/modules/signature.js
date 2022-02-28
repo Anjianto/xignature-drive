@@ -5,7 +5,7 @@ import {
   MUT_SIGN_ERROR,
   MUT_SIGN_OTP_SENT,
 } from "@/constants/mutation";
-import { genOTP, signDoc } from "@/http_client/signature_client";
+import { genOTP, rewriteSign, signDoc } from "@/http_client/signature_client";
 
 const defaultState = {
   loading: false,
@@ -16,22 +16,25 @@ const defaultState = {
 
 const actions = {
   async [ACT_GENOTP]({ commit, getters }, payload) {
-    const { data, error } = genOTP(getters.api);
+    const { data, error } = await rewriteSign();
     if (error) {
       return { error };
     }
-
     commit(MUT_SIGNED, { signed: false });
+    return { data, error: false };
   },
-  async [ACT_SIGN_DOC]({ commit, getters }, { fileId }) {
-    const { data, error } = await signDoc(getters.api, fileId);
-
+  async [ACT_SIGN_DOC]({ commit, getters }, { formData }) {
+    if ((formData instanceof FormData) === false) {
+      return { error: "Invalid form data type" };
+    }
+    const { data, error } = await signDoc(formData);
+    
     if (error) {
-      return { error };
+      return { data, error };
     } else {
       commit(MUT_SIGNED, { signed: true });
     }
-    return { data };
+    return { data, error };
   },
 };
 

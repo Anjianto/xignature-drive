@@ -40,6 +40,7 @@ class LanguageController extends Controller
      * Get all language strings for admin translate
      *
      * @param Language $language
+     * @return Application|ResponseFactory|Response
      */
     public function get_language(Language $language)
     {

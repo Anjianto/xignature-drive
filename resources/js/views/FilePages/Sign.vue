@@ -5,10 +5,17 @@
         <img src="/assets/images/logo.png" alt="Logo  " />
       </router-link>
       <div class="flex gap-1">
-        <button class="btn-action flat" @click="signDocument">
-          Original Document
+        <button
+          class="btn-action flat"
+          @click="switchMode"
+          v-if="isSigned"
+          :disabled="isLoading"
+        >
+          {{ !showOriginal ? 'Original Document' : 'Signed Document' }}
         </button>
-        <button class="btn-action" @click="signDocument">Sign Document</button>
+        <button class="btn-action" @click="showOtpModal" :disabled="isLoading">
+          Sign Document
+        </button>
       </div>
     </header>
     <main>
@@ -62,6 +69,17 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
+    <OTPModal
+      :open="askOTP"
+      :step="1"
+      @resend="writeSign"
+      @close="closeOTP"
+      @submit="signDocument"
+    >
+      <span class="font-weight-700 text-yellow-500" v-if="waitingSignMsg">
+        {{ waitingSignMsg }}
+      </span>
+    </OTPModal>
   </div>
 </template>
 
@@ -71,9 +89,15 @@ import { mapGetters } from "vuex";
 import { SearchIcon, PlusIcon, MinusIcon } from "vue-feather-icons";
 import { events } from "@/bus";
 import Spinner from "@/components/FilesView/Spinner";
-import { SHOW_PROCESSING } from "@/constants/action";
+import {
+  ACT_GENOTP,
+  ACT_SIGN_DOC,
+  HIDE_PROCESSING,
+  SHOW_PROCESSING,
+} from "@/constants/action";
 import { findDocToSign } from "@/http_client/signature_client";
 import { loadPdf, notifError } from "@/utils";
+import OTPModal from "@/components/FilesView/OTPModal";
 
 export default {
   name: "SignView",
@@ -83,35 +107,123 @@ export default {
     SearchIcon,
     PlusIcon,
     MinusIcon,
+    OTPModal,
   },
   computed: {
     ...mapGetters(["fileInfoDetail", "data"]),
   },
   methods: {
-    signDocument() {
-      this.$store.dispatch(SHOW_PROCESSING, {
-        title: "Signing Document",
-        message: "Please wait...",
-      });
+    closeOTP() {
+      this.askOTP = false;
+      this.waitingSignMsg = undefined;
     },
-    signDocument() {
+    async signDocument(otp) {
+      this.askOTP = false;
+      this.isLoading = true;
+      const formData = new FormData();
+      formData.append("fileId", this.$route.params.fileId);
+      formData.append("title", this.file.name);
+      formData.append("reason", "accpet all");
+      formData.append("sign_page", this.numPages);
+      formData.append("sign_pos", {
+        x: 100,
+        y: 100,
+      });
+      formData.append("share_document_to_customer", 1);
+      formData.append("otp", otp);
+      this.$store.dispatch(SHOW_PROCESSING, {
+        title: "Putting signature",
+        message: "Please wait while we put signature on the document",
+      });
+      const { data, error } = await this.$store.dispatch(ACT_SIGN_DOC, {
+        formData,
+      });
+
+      if (error) {
+        this.$store.dispatch(HIDE_PROCESSING);
+        setTimeout(() => {
+          if (error.data && error.data.statusCode === 400) {
+            error.data.message =
+              "Email is not verified. Please verify your email.";
+          }
+          notifError(error, () => {
+            this.errors = [error];
+            this.isLoading = false;
+            if (
+              error.data &&
+              (error.data.status === "empty" || error.data.statusCode === 401)
+            ) {
+              this.askOTP = true;
+            }
+          });
+        }, 500);
+        return;
+      }
+      this.file = data;
+      this.$store.dispatch(SHOW_PROCESSING, {
+        title: "Document signed",
+        message: "Thank you for signing the document",
+      });
+      setTimeout(() => {
+        this.$store.dispatch(HIDE_PROCESSING);
+        this.isLoading = false;
+        this.getPdf(false);
+      }, 2000);
+    },
+    async writeSign() {
+      this.isWaitingSign = true;
+      const { error } = await this.$store.dispatch(ACT_GENOTP);
+
+      if (error) {
+        this.waitingSignMsg = error.data
+          ? error.data.message
+          : "failed to generate otp";
+      }
+
+      this.waitingSignMsg = "otp has been sent to your email";
+      this.isWaitingSign = false;
+    },
+    showOtpModal() {
+      this.askOTP = true;
+    },
+    switchMode() {
       this.$store.dispatch(SHOW_PROCESSING, {
         title: "Preparing Original Document",
         message: "Please wait...",
       });
+      setTimeout(() => {
+        this.$store.dispatch(HIDE_PROCESSING);
+        this.isLoading = false;
+        this.showOriginal = !this.showOriginal;
+        this.getPdf(this.showOriginal);
+      }, 2000);
     },
-    async getPdf() {
+    async getPdf(original = true) {
       this.numPages = 0;
       this.isLoading = true;
       try {
         const fileId = this.$route.params.fileId;
-        const { data: body } = await findDocToSign(fileId);
-        const { data, doc, url } = await loadPdf(body.data.file_url);
-        this.pdfdata = pdf.createLoadingTask(body.data.file_url);
+        const { data: body, error } = await findDocToSign(fileId);
+        if(error) {
+          this.$store.dispatch(HIDE_PROCESSING);
+          notifError(error, () => {
+            this.errors = [error];
+            this.isLoading = false;
+          });
+          return;
+        }
+        let url = body.data.file_url;
+        this.isSigned = body.data.metadata && body.data.metadata.id;
+        if (this.isSigned && original === false) {
+          console.log("show signing doc version");
+          url = `${window.location.origin}/file/${body.data.metadata.id}/signed`;
+        }
+        const { doc } = await loadPdf(url);
+        this.pdfdata = pdf.createLoadingTask(url);
         this.files = doc.computePages();
         this.numPages = this.files.length;
         this.isLoading = false;
-        this.file = body;
+        this.file = body.data;
         setTimeout(() => {
           const wrapper = document.getElementById("pdf-wrapper");
           wrapper.onscroll = (e) => {
@@ -126,15 +238,12 @@ export default {
             if (page !== this.currentIndex && page <= this.numPages) {
               this.currentIndex = page;
             }
-          }
+          };
         }, 1000);
       } catch (error) {
         notifError(error, () => {
-          window.router.replace({
-            name: "Files",
-          });
+          this.errors = [error];
         });
-        this.errors = [error];
       } finally {
         this.isLoading = false;
       }
@@ -151,15 +260,18 @@ export default {
       pdfdata: undefined,
       numPages: 0,
       currentIndex: 0,
+      otp: undefined,
+      askOTP: false,
       file: undefined,
       files: [],
       isLoading: false,
+      showOriginal: true,
+      isWaitingSign: false,
+      isSigned: false,
+      waitingSignMsg: undefined,
       errors: [],
       documentSize: 50,
     };
-  },
-  mounted() {
-    this.getPdf();
   },
   created() {
     // Set zoom size
@@ -175,6 +287,7 @@ export default {
     events.$on("document-zoom:out", () => {
       if (this.documentSize > 40) this.documentSize -= 10;
     });
+    this.getPdf();
   },
 };
 </script>

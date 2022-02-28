@@ -31,6 +31,7 @@ class PagesController extends Controller
     /**
      * Get page resource
      *
+     * @urlParam slug string required The Slug of the page. Example: slug-string
      * @param $slug
      * @return PageResource
      */
@@ -44,6 +45,7 @@ class PagesController extends Controller
     /**
      * Update page content
      *
+     * @urlParam slug string required The Slug of the page. Example: slug-string
      * @param Request $request
      * @param $slug
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response

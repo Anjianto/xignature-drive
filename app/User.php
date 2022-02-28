@@ -5,6 +5,7 @@ namespace App;
 use App\Notifications\ResetPassword;
 use ByteUnits\Metric;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -122,7 +123,8 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $appends = [
-        'used_capacity', 'storage'
+        'used_capacity',
+ 'storage'
     ];
 
     /**
@@ -233,46 +235,6 @@ class User extends Authenticatable
         }
 
         return url('/assets/images/' . 'default-avatar.png');
-    }
-
-    /**
-     * Format avatar to full url
-     *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
-     */
-    public function getSelfieAttribute()
-    {
-        // Get selfie from external storage
-        if ($this->attributes['selfie'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-            return Storage::temporaryUrl($this->attributes['selfie'], now()->addDay());
-        }
-
-        // Get selfie from local storage
-        if ($this->attributes['selfie']) {
-            return url('/' . $this->attributes['selfie']);
-        }
-
-        return null;
-    }
-
-    /**
-     * Format ktp to full url
-     *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
-     */
-    public function getKtpAttribute()
-    {
-        // Get ktp from external storage
-        if ($this->attributes['ktp'] && is_storage_driver(['s3', 'spaces', 'wasabi', 'backblaze', 'oss'])) {
-            return Storage::temporaryUrl($this->attributes['ktp'], now()->addDay());
-        }
-
-        // Get ktp from local storage
-        if ($this->attributes['ktp']) {
-            return url('/' . $this->attributes['ktp']);
-        }
-
-        return null;
     }
 
     /**
@@ -406,9 +368,9 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function settings()
+    public function settings(): HasOne
     {
-        return $this->hasOne(UserSettings::class);
+        return $this->hasOne(UserSettings::class, 'user_id');
     }
     /**
      * Get signatures attributes
@@ -417,6 +379,6 @@ class User extends Authenticatable
      */
     public function signatures()
     {
-        return $this->hasMany(Signatures::class);
+        return $this->hasMany(Signatures::class, 'user_id');
     }
 }

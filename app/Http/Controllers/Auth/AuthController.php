@@ -162,20 +162,23 @@ class AuthController extends Controller
 
             $sign_doc_key = $request->input('sign_doc_key');	
             $sign_doc_id = $request->input('sign_doc_id');
-
+            $file_id = null;
             if($sign_doc_key && $sign_doc_id){
                 $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
 
                 if($file){
-                    $signService->sign($apiData['data']['token'], $file->id, $user->id);
+                    $file_id = $file->id;
                 }
             }
-
+            $signService->sign($apiData->data->token, $file_id, $user->id);
 
             $response = Route::dispatch(self::make_login_request($request));
 
             if ($response->isSuccessful()) {
                 $data = json_decode($response->content(), true);
+                $user->signatures()->create([
+                    'sign_token' => $apiResponse->date->token
+                ]);
 
                 return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
             }

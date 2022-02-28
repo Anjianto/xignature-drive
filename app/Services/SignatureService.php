@@ -7,16 +7,11 @@ use App\FileManagerFile;
 class SignatureService {
 
 
-    public function sign(string $sign_token, string $file_id, $user_id) {
-
-
-        $sign_token = $sign_token;
-        $file_manager_file = $file_id;
-
+    public function sign(string $sign_token, $file_id, $user_id) {
         $signature = new Signatures();
         $signature->user_id = $user_id;
         $signature->sign_token = $sign_token;
-        $signature->file_manager_file = $file_manager_file;
+        $signature->file_manager_file = $file_id;
         $signature->save();
     }
 

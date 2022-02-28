@@ -10,6 +10,7 @@ use App\Http\Tools\Demo;
 use App\Setting;
 use App\User;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -28,12 +29,13 @@ class AccountController extends Controller
 {
 
     /**
+     * List User for role user
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function list_users()
     {
-
-        return ListUserResource::collection(User::all(['email']));
+        return ListUserResource::collection(User::all());
 
     }
     /**
@@ -76,6 +78,9 @@ class AccountController extends Controller
     /**
      * Update user profile
      *
+     * @bodyParam avatar file required The avatar of the user.
+     * @bodyParam name string required The name of the user. Example: Nur Wachid
+     * @bodyParam value string required The value of the user.
      * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
      */
@@ -128,6 +133,9 @@ class AccountController extends Controller
     /**
      * Update user settings relationship
      *
+     * @bodyParam name string required The name of the setting. Example: storage
+     * @bodyParam value string required The value of the setting. Example: 100
+     *
      * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
      */
@@ -161,6 +169,8 @@ class AccountController extends Controller
     /**
      * Change user password
      *
+     * @bodyParam password string required The password of the user. Example: Pa$$worD
+     * @bodyParam password_confirmation string required The password_confirmation of the user. Example: Pa$$worD
      * @param Request $request
      * @return ResponseFactory|\Illuminate\Http\Response
      */
@@ -208,6 +218,11 @@ class AccountController extends Controller
             "selfie" => base64_encode(file_get_contents($user->selfie)),
             "ktp" => base64_encode(file_get_contents($user->ktp))
         ])->object();
+
+        $user->signatures()->create([
+            'sign_token' => $apiResponse->data->token,
+            'expired_at' => $apiResponse->data->expiredAt
+        ]);
 
 
         return response()->json($apiResponse->data);

@@ -9,6 +9,7 @@
                         v-show="false"
                         id="file"
                         type="file"
+                        accept=".pdf, .doc, .docx"
                         name="files[]"
                         multiple
                 />

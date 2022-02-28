@@ -1,6 +1,6 @@
 <template>
-    <transition name="popup">
-        <div class="popup" v-if="processingPopup">
+    <transition v-if="processingPopup" name="popup">
+        <div class="popup">
             <div class="popup-wrapper">
                 <div class="popup-content">
                     <div class="spinner-wrapper">
