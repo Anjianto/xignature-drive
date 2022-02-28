@@ -3,13 +3,13 @@
     <table v-if="hasData" class="table">
       <thead class="table-header">
         <tr>
-          <template v-if="!column.hidden">
-            <th
-              v-for="(column, index) in columns"
-              :key="index"
-              :class="{ sortable: column.sortable }"
-              @click="sort(column.field, column.sortable)"
-            >
+          <th
+            v-for="(column, index) in columns"
+            :key="index"
+            :class="{ sortable: column.sortable }"
+            @click="sort(column.field, column.sortable)"
+          >
+            <template v-if="!column.hidden">
               <span>{{ column.label }}</span>
 
               <chevron-up-icon
@@ -18,8 +18,8 @@
                 size="14"
                 class="filter-arrow"
               ></chevron-up-icon>
-            </th>
-          </template>
+            </template>
+          </th>
         </tr>
       </thead>
 
@@ -352,6 +352,7 @@ export default {
         }
 
         &:last-child {
+          padding-top: 0;
           text-align: right;
         }
       }
