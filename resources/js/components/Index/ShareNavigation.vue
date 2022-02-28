@@ -25,8 +25,11 @@
                 </li> -->
             </ul>
         </div>
-        <router-link class="cta-button log-in" :to="{name: 'SignIn'}">
+        <router-link v-if="!isLogged" class="cta-button log-in" :to="{name: 'SignIn'}">
             {{ $t('page_index.menu.log_in') }}
+        </router-link>
+        <router-link v-else class="cta-button log-in" :to="{name: 'Files'}">
+            Open Files
         </router-link>
     </nav>
 </template>
@@ -37,7 +40,7 @@
     export default {
         name: 'ShareNavigation',
         computed: {
-            ...mapGetters(['config', 'index']),
+            ...mapGetters(['config', 'index', 'isLogged']),
         },
     }
 </script>

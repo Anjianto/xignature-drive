@@ -6,15 +6,21 @@
       tag="form"
       class="form block-form"
     >
-      <span></span>
+      <div class="flex justify-center">
+        <div class="text-center mb-4">
+          <h3 class="text-lg">Take a picture of your ID Card</h3>
+          <p class="text-gray-500">
+            The document is required to verify your identity
+          </p>
+        </div>
+      </div>
       <div class="block-wrapper">
-        <label>{{ $t("page_registration.label_ktp") }}</label>
         <div class="input-wrapper">
           <div class="image preview" @click="() => $refs.ktpUpload.click()">
-            <img v-if="value" :src="ktp" alt="ktp photo" />
+            <img ref="ktpPreview" v-if="value" :src="ktp" alt="ktp photo" />
             <div class="placeholder center" v-else>
               <FontAwesomeIcon class="icon" icon="camera" />
-              <h4>No Image KTP</h4>
+              <h4>Empty</h4>
               <p>click to upload</p>
             </div>
           </div>
@@ -22,16 +28,32 @@
             ref="ktpUpload"
             @change="changeUserKTP"
             accept="image/jpeg,image/png"
-            required
             style="display: none"
             type="file"
           />
+          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </div>
       </div>
 
       <div>
         <div class="container center">
           <AuthButton icon="chevron-right" text="Continue" />
+        </div>
+        <div>
+          <ul class="px-8 pt-4 text-left list-disc">
+            <li class="text-xs">
+              Gambar identitas &amp; pas foto harus terbaca jelas
+              <span class="text-xs text-yellow-500"
+                >(Gambar tidak kabur, rusak, atau terkena pantulan cahaya)</span
+              >
+            </li>
+            <li class="text-xs">
+              Foto identitas adalah dokumen asli, bukan dokumen fotokopi
+            </li>
+            <li class="text-xs">
+              Identitas yang terdaftar adalah data yang masih berlaku
+            </li>
+          </ul>
         </div>
       </div>
     </ValidationObserver>
@@ -46,8 +68,7 @@ import {
 import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
-import {createFileBlob} from "@/utils";
-
+import { getBlobUrl } from "@/utils";
 export default {
   name: "Step2",
   components: {
@@ -58,6 +79,14 @@ export default {
     ProfileForm,
   },
   props: ["value"],
+  watch: {
+    async value(val) {
+      this.fetchPreview(val);
+    },
+  },
+  async mounted() {
+    this.fetchPreview(this.val);
+  },
   data() {
     return {
       ktp: null,
@@ -65,23 +94,28 @@ export default {
     };
   },
   methods: {
+    async fetchPreview(val) {
+      if (val && val instanceof File) {
+        this.ktp = await getBlobUrl(val);
+      }
+    },
     async saveRegister() {
-      const isValid = await this.$refs.form.validate();
-      if (!isValid) return;
-      this.errors = [];
-      console.log("goto step 3");
-      this.$emit("step", 3);
+      if (!this.value) {
+        this.errors.push("foto ktp required");        
+      } else {
+        this.errors = [];
+        console.log("goto step 3");
+        this.$emit("step", 3);
+      }
     },
     async changeUserKTP(e) {
-      console.log(e);
       const files = e.target.files || e.dataTransfer.files;
       const isImage = files[0].type.match(/image.*/);
       if (!files.length || !isImage) {
         this.errors.push("invalid file");
         return;
       }
-      this.ktp = await createFileBlob(files[0]);
-      // const image = await this.createImage(files[0]);
+      this.ktp = await getBlobUrl(files[0]);
       this.$emit("input", files[0]);
     },
   },

@@ -1,0 +1,4 @@
+export const MUT_SIGNED = 'MUT_SIGNED';
+export const MUT_SIGN_LOADING = 'MUT_SIGN_LOADING';
+export const MUT_SIGN_ERROR = 'MUT_SIGN_ERROR';
+export const MUT_SIGN_OTP_SENT = 'MUT_SIGN_OTP_SENT';

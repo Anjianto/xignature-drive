@@ -106,9 +106,8 @@
                 : $tc("folder.item_counts", folderItems)
             }}, {{ timeStamp }}
           </span>
-          <span v-if="item.signer.length > 0" class="item-length">
-            sign by {{
-              item.signer[0].user}}{{ item.signer.length - 1 > 0 ? `, and ${item.signer.length - 1} other` : ''}}
+          <span v-if="item.signer && item.signer.length > 0" class="item-length">
+            sign by {{ item.signer.length }} users
           </span>
         </div>
       </div>

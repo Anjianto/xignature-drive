@@ -107,9 +107,10 @@ class FileSignController extends Controller
 
 
 
-    public function find_document(string $fileId)
+    public function find_document(Request $request)
     {
         $user = Auth::user()->id;
+        $fileId = decrypt($request->file_id);
         $document = FileManagerFile::where('id', $fileId)->first();
         if (!$document) {
             return response()->json([
@@ -121,15 +122,19 @@ class FileSignController extends Controller
 
         if (!$signature) {
             return response()->json([
-                'statusCode' => 404,
-                'message' => 'Signature not found.'
+                'statusCode' => 200,
+                'data' => $document,
+                'message' => 'Found the document.',
             ]);
         }
 
         return response()->json([
             'statusCode' => 200,
             'message' => 'Document Found.',
-            'data' => $signature
+            'data' => [
+                'document' => $document,
+                'signature' => $signature
+            ]
         ]);
     }
 

@@ -1,0 +1,15 @@
+export const REGISTER = "/api/user/register";
+export const LOAD_DOC = "/api/document/list";
+export const GEN_OTP = "/api/user/otp";
+export const SIGN_DOC = "/api/sign";
+export const LOG_OUT = "/api/logout";
+export const LOG_IN = "api/user/login";
+export const FIND_FILE = "/api/find";
+export const FIND_USER = "/api/user/find";
+export const FIND_ONE_USER = "/api/user";
+export const FIND_USER_EMAIL = "/api/user/check";
+export const SIGNER_VERIFY = "/api/signer/verify";
+export const SIGNER_WRITE = "/api/signer/write";
+export const SIGNER_DOC = "/api/signer/doc";
+export const SIGNER_INVITE = "/api/signer/invite";
+export const SIGNER_FIND = "/api/signer/find";

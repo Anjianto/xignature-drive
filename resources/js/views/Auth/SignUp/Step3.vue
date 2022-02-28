@@ -6,6 +6,14 @@
       tag="form"
       class="form block-form"
     >
+      <div class="flex justify-center">
+        <div class="text-center mb-4">
+          <h3 class="text-lg">Enter your Personal Data</h3>
+          <p class="text-gray-500">
+            Enter your identity data based on your ID card.
+          </p>
+        </div>
+      </div>
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_nik") }}</label>
         <ValidationProvider
@@ -23,11 +31,13 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
+          <span
+            v-if="nikHint && !errors.length"
+            class="text-gray-500 text-left info-message"
+            >{{ nikHint }}
+          </span>
           <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </ValidationProvider>
-        <p v-if="registerErrors.nik" class="input-error">
-          {{ registerErrors.nik }}
-        </p>
       </div>
 
       <div class="block-wrapper">
@@ -47,11 +57,13 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
+          <span
+            v-if="phoneHint && !errors.length"
+            class="text-gray-500 text-left info-message"
+            >{{ phoneHint }}
+          </span>
           <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </ValidationProvider>
-        <p v-if="registerErrors.phone" class="input-error">
-          {{ registerErrors.phone }}
-        </p>
       </div>
 
       <div class="block-wrapper">
@@ -72,9 +84,6 @@
           />
           <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </ValidationProvider>
-        <p v-if="registerErrors.birthplace" class="input-error">
-          {{ registerErrors.birthplace }}
-        </p>
       </div>
 
       <div class="block-wrapper">
@@ -101,17 +110,11 @@
             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
           </ValidationProvider>
         </div>
-        <p v-if="registerErrors.birthday" class="input-error">
-          {{ registerErrors.birthday }}
-        </p>
       </div>
 
       <div>
         <div class="container center">
-          <AuthButton
-            icon="chevron-right"
-            text="Continue"
-          />
+          <AuthButton icon="chevron-right" text="Continue" />
         </div>
       </div>
     </ValidationObserver>
@@ -149,6 +152,16 @@ export default {
   props: ["value"],
   computed: {
     ...mapGetters(["config", "registerErrors"]),
+    nikHint() {
+      const size = this.value.nik?.length || 0;
+      const total = 16 - size;
+      return total && total > 0 ? `type ${total} number more` : "";
+    },
+    phoneHint() {
+      const size = this.value.phone?.length || 0;
+      const total = 12 - size;
+      return total && total > 0 ? `type ${total} number more` : "";
+    },
   },
   methods: {
     async saveRegister() {

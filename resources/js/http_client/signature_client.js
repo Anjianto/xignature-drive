@@ -1,6 +1,8 @@
 import axios from "axios";
-import { format, addDays } from "date-fns";
+import {GEN_OTP, LOAD_DOC, SIGNER_FIND, SIGN_DOC} from "../constants/api";
+import { joinUrlPath } from "../utils";
 
+<<<<<<< HEAD
 export const client = ({ base_url, key }) =>
   axios.create({
     baseURL: base_url,
@@ -20,87 +22,66 @@ export default {
   key,
   loadDocuments(page, limit, doctype, status, search) {
     return this.client.post("/v1/document/list", {
+=======
+export const loadDocuments = async ({
+  page, 
+  limit, 
+  doctype, 
+  status, 
+  search}) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(config.api, LOAD_DOC), {
+>>>>>>> e5cfa189f292cb5b61f073730bea8c1dd7fa3fdf
       page,
       limit,
       doctype,
       status,
       search,
     });
-  },
-  genOTP(data) {
-    // format date
-    const birthdate = data.birthdate
-      ? format(data.birthdate, "yyyy-MM-dd")
-      : null;
-    data = {
-      ...data,
-      birthdate,
-    };
-    return this.client.post("/v1/auth/generateToken", data);
-  },
-  genLTC(data, duration) {
-    const birthdate = data.birthdate
-      ? format(data.birthdate, "yyyy-MM-dd")
-      : null;
-    const expiredToken = format(addDays(Date.now(), duration), "yyyy-MM-dd");
-    data = {
-      ...data,
-      expiredToken,
-      birthdate,
-    };
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
 
-    return this.client.post("/v1/auth/generateLtcToken", data);
-  },
-  async getDoucment(id) {
-    const { data } = await this.client.get(`/v1/document/${id}`);
-    return data;
-  },
-  getDocUrl(id) {
-    return `${baseUrl}v1/document/download/${id}`;
-  },
-  async downloadDocument(id) {
-    const resp = await this.client.get(`/v1/document/download/${id}`, {
-      headers: {
-        accept: "blob",
-      },
+export const findDocToSign = async (file_id) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(config.api, SIGNER_FIND), {
+      file_id
     });
-    var ia = new Uint8Array(resp.data.length);
-    for (var i = 0; i < resp.data.length; i++) {
-      ia[i] = resp.data.charCodeAt(i);
-    }
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
 
-    return new Blob([ia], { type: "application/pdf", name: "selfie.pdf" });
-    // return resp.data;
-  },
-  sign({
-    otp,
-    token,
-    title,
-    reason,
-    signPage,
-    signPos: { x, y },
-    shareToCustomer = true,
-    document,
-  }) {
-    return this.client.post(
-      "/v1/document/sign",
+export const signDoc = async (fileId) => {
+  try {
+    const {data} = await axios.post(joinUrlPath(config.api, SIGN_DOC), {
+      file_id: fileId,
+    });
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}
+
+export const genOTP = async (base) => {
+  try {
+    const {data} = axios.post(joinUrlPath(config.api, GEN_OTP),
       {
-        title,
-        reason,
-        signPage,
-        signPos: {
-          x,
-          y,
-        },
-        shareDocumentToCustomer: shareToCustomer,
-        document,
+        email: user.email,
+        fullname: user.name,
+        nik: user.nik,
+        phone: user.phone,
+        birthplace: user.birth_place,
+        birthdate: user.birth_date,
+        selfie: user.selfie,
+        ktp: user.ktp,
       },
-      {
-        headers: {
-          "one-time-token": token,
-          otp: otp,
-        },
-      }
-    );
-  },
-};
+    )
+    return {data, error: false};
+  } catch (error) {
+    return {data: null,  error: error.response};
+  }
+}

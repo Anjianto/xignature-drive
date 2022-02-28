@@ -4,19 +4,46 @@
       <router-link to="/files" class="logo">
         <img src="/assets/images/logo.png" alt="Logo  " />
       </router-link>
-      <button class="btn-sign" @click="checkSign">Sign Document</button>
+      <div class="flex gap-1">
+        <button class="btn-action flat" @click="signDocument">
+          Original Document
+        </button>
+        <button class="btn-action" @click="signDocument">Sign Document</button>
+      </div>
     </header>
     <main>
       <div class="file-wrapper-preview">
         <!--Show PDF-->
         <div
           ref="pdfwrapper"
+          v-if="isLoading === false && errors < true === true"
           id="pdf-wrapper"
-          :style="{ width: documentSize + '%' }"
+          :style="{ width: documentSize + '%', height: '100vh' }"
         >
-          <div v-for="(i, k) in numPages" :key="k" style="margin-bottom: 16px">
-            <pdfx :src="pdfdata" :page="i"></pdfx>
-          </div>
+          <pdf
+            :src="pdfdata"
+            v-for="i in numPages"
+            :key="i"
+            :resize="true"
+            :id="i"
+            :page="i"
+            class="pdf-page"
+            scale="page-width"
+            :style="`width: 100%; margin: 20px auto; padding-bottom: ${
+              i === numPages ? '200px' : '0'
+            };`"
+          >
+            <template slot="loading">
+              <div
+                class="preload center bg-white flex justify-center items-center"
+              >
+                <div class="mx-auto">
+                  <Spinner />
+                  <h1>loading content...</h1>
+                </div>
+              </div>
+            </template>
+          </pdf>
           <div class="utilities">
             <p>Page {{ currentIndex + 1 }} / {{ numPages }}</p>
             <div class="zoom">
@@ -35,222 +62,82 @@
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
-    <OTPModal
-      :step="step"
-      :open="isOTPModalOpen"
-      @submit="handleSubmit"
-      @close="closeOTPModal"
-    />
   </div>
 </template>
 
 <script>
-import FilePreviewMedia from "@/components/FilesView/MediaFullPreview";
 import pdf from "pdfvuer";
-import pdfx from "vue-pdf";
 import { mapGetters } from "vuex";
 import { SearchIcon, PlusIcon, MinusIcon } from "vue-feather-icons";
 import { events } from "@/bus";
-import {
-  createFileBlob,
-  createBlobFromFile,
-  convertDataURIToBinary,
-} from "@/utils";
-import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import OTPModal from "@/components/FilesView/OTPModal.vue";
-import Cookies from "js-cookie";
-import { isUndefined } from "lodash";
-import client from "@/http_client/signature_client";
-import pdfjs from "pdfjs";
+import Spinner from "@/components/FilesView/Spinner";
+import { SHOW_PROCESSING } from "@/constants/action";
+import { findDocToSign } from "@/http_client/signature_client";
+import { loadPdf, notifError } from "@/utils";
 
 export default {
   name: "SignView",
   components: {
-    FilePreviewMedia,
     pdf,
-    pdfx,
+    Spinner,
     SearchIcon,
     PlusIcon,
     MinusIcon,
-    OTPModal,
-  },
-  async mounted() {
-    const id = this.$route.query["id"];
-    if (id) {
-      Cookies.set("last_sign_file", id);
-    }
-
-    events.$on("toaster:close", async (res) => {
-      if(res.code === 221) {
-        this.getPdf();
-      }
-    });
   },
   computed: {
-    ...mapGetters(["signDoc"]),
-    filename() {
-      const name = this.$route.params["fileId"];
-      const ext = this.$route.query["type"] || this.$route.query["ext"];
-      Cookies.set("fileName", name, { expires: 1 });
-      Cookies.set("fileExt", ext, { expires: 1 });
-      return name + "." + ext;
-    },
-    fileUrl() {
-      // get host of current website
-      const endpoint = window.location.origin;
-      return endpoint + "/file/" + this.filename;
-    },
+    ...mapGetters(["fileInfoDetail", "data"]),
   },
   methods: {
-    async loadDoc(id) {
-      const fileId = Cookies.get("last_sign_file") || id;
-      const { data } = await axios.get(`/api/doc/${fileId}`);
-      this.signedId = data.data?.document_id;
-      console.log(this.signedId);
-    },
-    closeOTPModal() {
-      this.isOTPModalOpen = false;
-    },
-    handleSubmit(otp) {
-      if (this.step == 1) {
-        this.signDocument(otp);
-      }
-
-      if (this.step == 0) {
-        this.sendOtp();
-      }
-    },
-    checkModal(step) {
-      // resend otp
-      if (this.step === 1) {
-        this.sendOtp();
-      }
-    },
-    signDocument(otp) {
-      const fileId = this.$route.query["id"];
-      this.$store.dispatch("signDocument", {
-        file: this.pdf64.split(",")[1],
-        page: this.numPages,
-        otp: otp,
-        title: this.filename,
-        signPos: this.signPos,
-        reason: "Acceptance",
-        fileId,
+    signDocument() {
+      this.$store.dispatch(SHOW_PROCESSING, {
+        title: "Signing Document",
+        message: "Please wait...",
       });
-
-      this.isOTPModalOpen = false;
     },
-    async sendOtp() {
-      // send otp token
-      const fileid = this.$route.query["id"];
-      this.$store.dispatch("genSignToken", {
-        fileid,
+    signDocument() {
+      this.$store.dispatch(SHOW_PROCESSING, {
+        title: "Preparing Original Document",
+        message: "Please wait...",
       });
-      this.step = 1;
-    },
-    setPageNumber(sum) {
-      if (this.numPages !== 0) {
-        this.numPages = sum;
-      }
-    },
-
-    setSignPosition(pdfDoc) {
-      // Get the last page of the document
-      const pages = pdfDoc.getPages();
-      const firstPage = pages[pages.length - 1];
-
-      // Get the width and height of the first page
-      const { width, height } = firstPage.getSize();
-
-      this.signPos = {
-        x: width * 0.15,
-        y: height * 0.15,
-      };
     },
     async getPdf() {
-      this.pdfdata = undefined;
       this.numPages = 0;
-      const id = this.$route.query["id"];
-      await this.loadDoc(id);
-      const data = await createBlobFromFile(this.fileUrl);
-      const pdfdata = await createFileBlob(data);
-      const pdfbin = convertDataURIToBinary(pdfdata);
-      const pdfDoc = await PDFDocument.load(pdfbin);
-      this.numPages = pdfDoc.getPages().length;
-      this.raw = pdfDoc;
-      this.pdfbin = pdfbin;
-      this.pdf64 = pdfdata;
-      this.setSignPosition(pdfDoc);
-      this.pdfdata = pdfx.createLoadingTask(
-        !!this.signedId === true
-          ? {
-              url: client.getDocUrl(this.signedId),
-              httpHeaders: { "api-key": client.key },
-              withCredentials: true,
+      this.isLoading = true;
+      try {
+        const fileId = this.$route.params.fileId;
+        const { data: body } = await findDocToSign(fileId);
+        const { data, doc, url } = await loadPdf(body.data.file_url);
+        this.pdfdata = pdf.createLoadingTask(body.data.file_url);
+        this.files = doc.computePages();
+        this.numPages = this.files.length;
+        this.isLoading = false;
+        this.file = body;
+        setTimeout(() => {
+          const wrapper = document.getElementById("pdf-wrapper");
+          wrapper.onscroll = (e) => {
+            // get scroll position
+            const scrollTop = e.target.scrollTop;
+            // get height of the scroll
+            const scrollHeight = e.target.scrollHeight;
+            // get percetage scroll
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            // get interpolated scroll percentage into range pages
+            const page = Math.round((scrollPercent / 100) * this.numPages);
+            if (page !== this.currentIndex && page <= this.numPages) {
+              this.currentIndex = page;
             }
-          : pdfbin
-      );
-      setTimeout(() => {
-        this.$refs.pdfwrapper.addEventListener("scroll", (e) => {
-          // get scroll position
-          const scrollTop = e.target.scrollTop;
-          // get height of the scroll
-          const scrollHeight = e.target.scrollHeight;
-          // get percetage scroll
-          const scrollPercent = (scrollTop / scrollHeight) * 100;
-
-          // get interpolated scroll percentage into range pages
-          const page = Math.round((scrollPercent / 100) * this.numPages);
-          if (page !== this.currentIndex && page <= this.numPages) {
-            this.currentIndex = page;
           }
+        }, 1000);
+      } catch (error) {
+        notifError(error, () => {
+          window.router.replace({
+            name: "Files",
+          });
         });
-      }, 1000);
-    },
-    checkSign() {
-      if (isUndefined(this.$store.getters.isLogged === false)) {
-        events.$emit("toaster", {
-          type: "danger",
-          message: "create an account to sign documents",
-        });
-        this.$router.push({
-          name: "SignUp",
-          query: {
-            ref: this.$route.name,
-          },
-        });
-      } else if (!this.$store.getters.isProfileFilled) {
-        events.$emit("toaster", {
-          type: "danger",
-          message: "please fill your profile first",
-        });
-        this.$router.push({
-          name: "Profile",
-          query: {
-            signature: false,
-            redirect: window.location.href,
-          },
-        });
+        this.errors = [error];
+      } finally {
+        this.isLoading = false;
       }
-
-      this.isOTPModalOpen = true;
-    },
-    getFilesForView() {
-      let requestedFile = this.fileInfoDetail[0];
-
-      this.data.map((element) => {
-        if (requestedFile.mimetype === "pdf") {
-          if (element.mimetype === "pdf") this.files.push(element);
-        } else {
-          if (element.type === requestedFile.type) this.files.push(element);
-        }
-      });
-
-      this.files.forEach((element, index) => {
-        if (element.id === this.fileInfoDetail[0].id) {
-          this.currentIndex = index;
-        }
-      });
     },
     increaseSizeOfPDF() {
       events.$emit("document-zoom:in");
@@ -262,18 +149,17 @@ export default {
   data() {
     return {
       pdfdata: undefined,
-      pdfbin: undefined,
-      pdf64: undefined,
-      signPos: undefined,
-      step: 0,
-      signedId: undefined,
-      isOTPModalOpen: false,
       numPages: 0,
       currentIndex: 0,
-      raw: undefined,
+      file: undefined,
       files: [],
+      isLoading: false,
+      errors: [],
       documentSize: 50,
     };
+  },
+  mounted() {
+    this.getPdf();
   },
   created() {
     // Set zoom size
@@ -289,23 +175,36 @@ export default {
     events.$on("document-zoom:out", () => {
       if (this.documentSize > 40) this.documentSize -= 10;
     });
-
-    this.getPdf();
   },
 };
 </script>
 
 <style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>
-
 <style lang="scss" scoped>
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
+$header-color: hsl(251, 59%, 31%);
+$btn-border-color: hsl(251, 39%, 31%);
+$content-bg-color: hsl(251, 35%, 31%);
 
+.sign-wrapper {
+  padding-bottom: 40px;
+  position: relative;
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+.preload {
+  height: 100vh;
+}
 .sign-wrapper {
   width: 100%;
   position: absolute;
   inset: 0;
-  background-color: #082247;
+  background-color: $content-bg-color;
   max-height: 100%;
   overflow: hidden;
   display: flex;
@@ -318,7 +217,7 @@ export default {
   align-items: center;
   padding: 1rem 2rem;
   width: 100%;
-  background: #202d7c;
+  background: $header-color;
   flex-direction: column;
 
   .logo {
@@ -332,12 +231,12 @@ export default {
     }
   }
 
-  .btn-sign {
+  .btn-action {
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     color: white;
-    background-color: transparent;
-    border: 2px solid white;
+    background-color: hsl(214, 59%, 31%);
+    border: 2px solid $btn-border-color;
     margin-top: 1rem;
     font-size: 0.75rem;
 
@@ -351,8 +250,8 @@ export default {
 .footer {
   margin-top: auto;
   padding: 1rem 3rem;
-  background-color: #011027;
-  z-index: 99;
+  background-color: $header-color;
+  z-index: 1;
 
   p {
     color: #fff;
@@ -511,7 +410,7 @@ export default {
       height: auto;
     }
 
-    .btn-sign {
+    .btn-action {
       margin-top: 0;
       font-size: 1rem;
     }

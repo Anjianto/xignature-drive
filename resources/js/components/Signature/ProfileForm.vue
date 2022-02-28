@@ -42,11 +42,6 @@
         </div>
         <div class="action_wrapper">
           <AuthButton icon="pencil-alt" @click="roolback" text="Edit" />
-          <AuthButton
-            icon="save"
-            @click="reqToken"
-            :text="retries > 0 ? 'Resend' : 'Save'"
-          />
         </div>
       </div>
       <div class="loading container" v-else-if="loading">
@@ -86,7 +81,6 @@
           <ValidationObserver
             v-if="progress === 0"
             ref="make_profile"
-            v-slot="{ invalid }"
             tag="form"
             class="form block-form"
           >
@@ -157,7 +151,6 @@
           <ValidationObserver
             v-if="progress === 1"
             ref="make_signature"
-            v-slot="{ invalid }"
             tag="form"
             class="form block-form"
           >
@@ -261,7 +254,6 @@
           <ValidationObserver
             v-if="progress === 2"
             ref="make_selfie"
-            v-slot="{ invalid }"
             tag="form"
             class="form block-form"
           >
@@ -338,7 +330,6 @@ import {
 import { required, ext, digits, min } from "vee-validate/dist/rules";
 import AuthButton from "@/components/Auth/AuthButton";
 import StepperTab from "@/components/Others/StepperTab";
-import signature_client from "@/http_client/signature_client";
 import DatePicker from "vue2-datepicker";
 import { events } from "@/bus";
 import { format } from "date-fns";
@@ -450,46 +441,6 @@ export default {
         this.$emit("token", data.token, expiresDate);
         this.token = "";
         this.loading = false;
-      }
-    },
-    async reqToken() {
-      this.displayConfirm = false;
-      this.loading = true;
-      try {
-        const { data } = await signature_client.genLTC(this.profile, 2);
-
-        if (data.statusCode === 200) {
-          this.saveToken(data.data);
-        } else if (data.statusCode < 600) {
-          events.$emit("alert:open", {
-            emoji: "🤔",
-            title: data.error ?? "Error",
-            message: data.message,
-          });
-          this.errors = data.error;
-          this.loading = false;
-        } else {
-          this.loading = false;
-          events.$emit("alert:open", {
-            emoji: "🤔",
-            title: "Error",
-            message: "Something went wrong",
-          });
-        }
-      } catch (error) {
-        this.loading = false;
-        if (this.retries < 2 && this.token === "") {
-          this.retries++;
-          this.reqToken();
-        } else {
-          this.displayConfirm = true;
-          events.$emit("alert:open", {
-            emoji: "🤔",
-            title: "Error",
-            message: "Something went wrong, please try again",
-          });
-          throw error;
-        }
       }
     },
     async saveFields(pos, next) {

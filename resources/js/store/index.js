@@ -6,7 +6,6 @@ import fileBrowser from "./modules/fileBrowser";
 import userAuth from "./modules/userAuth";
 import sharing from "./modules/sharing";
 import app from "./modules/app";
-import register from "./modules/register";
 
 Vue.use(Vuex);
 
@@ -17,6 +16,5 @@ export default new Vuex.Store({
     userAuth,
     sharing,
     app,
-    register,
   },
 });

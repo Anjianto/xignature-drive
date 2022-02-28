@@ -1,99 +1,20 @@
 require("./bootstrap");
 import Vue from "vue";
 import VueRouter from "vue-router";
+import * as VeeValidate from "vee-validate";
 import router from "./router";
 import i18n from "./i18n/index.js";
 import App from "./App.vue";
 import store from "./store";
 import {events} from "./bus";
 import Helpers from "./helpers";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import {
-  faLock,
-  faLockOpen,
-  faDownload,
-  faUserFriends,
-  faCheck,
-  faLink,
-  faUserEdit,
-  faUser,
-  faFileAudio,
-  faFileVideo,
-  faAddressCard,
-  faSyncAlt,
-  faShare,
-  faHome,
-  faEyeSlash,
-  faBars,
-  faSearch,
-  faEllipsisV,
-  faChevronLeft,
-  faChevronRight,
-  faChevronDown,
-  faUpload,
-  faFolderPlus,
-  faSave,
-  faTh,
-  faThList,
-  faInfo,
-  faFolder,
-  faFile,
-  faFileImage,
-  faTimes,
-  faSort,
-  faTrashAlt,
-  faHdd,
-  faCubes,
-  faCamera,
-  faEllipsisH,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import ClickOutDirective from "@/directives/click-outside";
+import "@/components/globals";
 
-library.add(
-  faLock,
-  faLockOpen,
-  faDownload,
-  faUserFriends,
-  faCheck,
-  faLink,
-  faCubes,
-  faAddressCard,
-  faUserEdit,
-  faCamera,
-  faUser,
-  faFileAudio,
-  faFileVideo,
-  faHdd,
-  faSyncAlt,
-  faShare,
-  faSave,
-  faHome,
-  faEyeSlash,
-  faBars,
-  faSearch,
-  faEllipsisV,
-  faChevronLeft,
-  faChevronRight,
-  faChevronDown,
-  faUpload,
-  faTrashAlt,
-  faFolderPlus,
-  faTh,
-  faThList,
-  faInfo,
-  faFolder,
-  faFile,
-  faFileImage,
-  faTimes,
-  faSort,
-  faEllipsisH,
-  faPencilAlt
-);
-Vue.component("FontAwesomeIcon", FontAwesomeIcon);
-
+Vue.use(VeeValidate)
 Vue.use(VueRouter);
 Vue.use(Helpers);
+Vue.directive("click-outside", ClickOutDirective);
 
 Vue.config.productionTip = false;
 

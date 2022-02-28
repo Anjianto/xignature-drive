@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import auth from "@/middleware/auth";
 import AdminMobileMenu from "./views/Mobile/AdminMobileMenu";
 import UserProfileMobileMenu from "./views/Mobile/UserProfileMobileMenu";
 
@@ -409,7 +408,6 @@ const routesShared = [
     },
   },
 ];
-
 const routesSignInvite = [
   {
     name: "SignInvitePage",
@@ -421,10 +419,18 @@ const routesSignInvite = [
     meta: {
       requiresAuth: false,
     },
-  }
+  },
+  {
+    name: "SignDoc",
+    path: "/sign/:fileId",
+    component: () =>
+      import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 
 ]
-
 const routesAuth = [
   {
     name: "SignIn",
@@ -480,15 +486,6 @@ const routesUser = [
     },
   },
   {
-    name: "Sign",
-    path: "/sign/:fileId",
-    component: () =>
-      import(/* webpackChunkName: "chunks/sign" */ "./views/FilePages/Sign"),
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
     name: "SharedFiles",
     path: "/shared-files",
     component: () =>
@@ -517,7 +514,6 @@ const routesUser = [
           ),
         meta: {
           requiresAuth: true,
-          middleware: auth,
           title: "routes_title.profile",
         },
       },
@@ -554,7 +550,6 @@ const routesUser = [
           ),
         meta: {
           requiresAuth: false,
-          middleware: auth,
         },
       },
       {
@@ -874,5 +869,5 @@ router.beforeEach((to, from, next) => {
 
   return next();
 });
-
+window.router = router;
 export default router;
