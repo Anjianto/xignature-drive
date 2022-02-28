@@ -329,45 +329,30 @@
 </template>
 
 <script>
-import {
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate/dist/vee-validate.full";
 import PageTabGroup from "@/components/Others/Layout/PageTabGroup";
 import SelectInput from "@/components/Others/Forms/SelectInput";
 import FormLabel from "@/components/Others/Forms/FormLabel";
-import MobileHeader from "@/components/Mobile/MobileHeader";
 import ButtonBase from "@/components/FilesView/ButtonBase";
 import PageTab from "@/components/Others/Layout/PageTab";
-import PageHeader from "@/components/Others/PageHeader";
-import ThemeLabel from "@/components/Others/ThemeLabel";
-import { required } from "vee-validate/dist/rules";
 import { events } from "@/bus";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
-import Button from "@/components/Others/Button";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import axios from "axios";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Settings",
-  props: ["user"],
   components: {
-    ValidationProvider,
     DatePicker,
-    Button,
-    ValidationObserver,
     PageTabGroup,
-    MobileHeader,
     SelectInput,
-    PageHeader,
     ButtonBase,
-    ThemeLabel,
     FormLabel,
-    required,
     PageTab,
   },
+  props: ["user"],
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
     const preReg = urlParams.get("create_signature");
@@ -405,13 +390,13 @@ export default {
       .finally(() => {
         this.isAssetsLoading = false;
 
-        if (!this.userInfo.ktp && !isAssetsLoading) {
+        if (!this.userInfo.ktp && !this.isAssetsLoading) {
           this.errors = {
             ...this.errors,
             ktp: "KTP is required!",
           };
         }
-        if (!this.userInfo.selfie && !isAssetsLoading) {
+        if (!this.userInfo.selfie && !this.isAssetsLoading) {
           this.errors = {
             ...this.errors,
             selfie: "Selfie With Ktp is required!",
@@ -443,21 +428,18 @@ export default {
         birthdate: "Birthday is required!",
       };
     }
-    if (!this.userInfo.ktp && !isAssetsLoading) {
+    if (!this.userInfo.ktp && !this.isAssetsLoading) {
       this.errors = {
         ...this.errors,
         ktp: "KTP is required!",
       };
     }
-    if (!this.userInfo.selfie && !isAssetsLoading) {
+    if (!this.userInfo.selfie && !this.isAssetsLoading) {
       this.errors = {
         ...this.errors,
         selfie: "Selfie With Ktp is required!",
       };
     }
-  },
-  computed: {
-    ...mapGetters(["config", "countries", "timezones"]),
   },
   data() {
     return {
@@ -468,6 +450,9 @@ export default {
       isAssetsLoading: false,
       errors: {},
     };
+  },
+  computed: {
+    ...mapGetters(["config", "countries", "timezones"]),
   },
   methods: {
     changeUserName() {
