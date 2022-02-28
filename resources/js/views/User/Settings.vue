@@ -18,10 +18,10 @@
           <label>{{ $t("page_registration.label_name") }}</label>
           <div class="input-wrapper">
             <input
-              @keyup="changeUserName"
               v-model="userInfo.name"
-              :placeholder="$t('page_registration.placeholder_name')"
               type="text"
+              :placeholder="$t('page_registration.placeholder_name')"
+              @keyup="changeUserName"
             />
           </div>
         </div>
@@ -29,12 +29,12 @@
           <label>{{ $t("page_registration.label_phone") }}</label>
           <div class="input-wrapper">
             <input
-              @keyup="changeUserPhone"
               v-model="userInfo.phone"
               :placeholder="$t('page_registration.placeholder_phone')"
               type="number"
               required
               class="reset-input-number"
+              @keyup="changeUserPhone"
             />
           </div>
           <p v-if="errors.phone" class="input-error">
@@ -45,7 +45,6 @@
           <label>{{ $t("page_registration.label_nik") }}</label>
           <div class="input-wrapper">
             <input
-              @keyup="changeUserNik"
               v-model="userInfo.nik"
               :placeholder="$t('page_registration.placeholder_nik')"
               minlength="16"
@@ -53,6 +52,7 @@
               type="number"
               required
               class="reset-input-number"
+              @keyup="changeUserNik"
             />
           </div>
           <p v-if="errors.nik" class="input-error">
@@ -63,11 +63,11 @@
           <label>{{ $t("page_registration.label_birthplace") }}</label>
           <div class="input-wrapper">
             <input
-              @keyup="changeUserBirthPlace"
               v-model="userInfo.birthplace"
               :placeholder="$t('page_registration.placeholder_birthplace')"
               type="text"
               required
+              @keyup="changeUserBirthPlace"
             />
           </div>
           <p v-if="errors.birthplace" class="input-error">
@@ -78,14 +78,14 @@
           <label>{{ $t("page_registration.label_birthdate") }}</label>
           <div class="input-wrapper">
             <DatePicker
-              @change="changeUserBirthdate"
-              :placeholder="$t('page_registration.placeholder_birthdate')"
               v-model="userInfo.birthdate"
+              :placeholder="$t('page_registration.placeholder_birthdate')"
               format="YYYY-MM-DD"
               :input-attr="{
                 class: ['mx-input date-field'],
               }"
               type="date"
+              @change="changeUserBirthdate"
             >
             </DatePicker>
           </div>
@@ -96,15 +96,19 @@
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_ktp") }}</label>
           <div class="input-wrapper">
-            <div class="image preview" @click="() => $refs.ktpUpload.click()">
+            <div
+              class="image preview"
+              :class="[isAssetsLoading || userInfo.ktp ? 'disabled' : '']"
+              @click="() => $refs.ktpUpload.click()"
+            >
               <img v-if="userInfo.ktp" :src="userInfo.ktp" alt="ktp photo" />
-              <div class="placeholder center" v-else>
+              <div v-else class="placeholder center">
                 <FontAwesomeIcon
                   v-if="isAssetsLoading"
                   icon="sync-alt"
                   class="sync-alt"
                 />
-                <FontAwesomeIcon class="icon" icon="camera" v-else />
+                <FontAwesomeIcon v-else class="icon" icon="camera" />
                 <h4 v-if="isAssetsLoading">Try to getting the KTP image</h4>
                 <h4 v-else>No Image KTP</h4>
                 <p v-if="!isAssetsLoading">click to upload</p>
@@ -112,12 +116,12 @@
             </div>
             <input
               ref="ktpUpload"
-              @change="changeUserKTP"
               accept="image/jpeg,image/png"
               required
               style="display: none"
               type="file"
               :disabled="userInfo.ktp"
+              @change="changeUserKTP"
             />
           </div>
           <p v-if="errors.ktp" class="input-error">
@@ -129,6 +133,7 @@
           <div class="input-wrapper">
             <div
               class="image preview"
+              :class="[isAssetsLoading || userInfo.selfie ? 'disabled' : '']"
               @click="() => $refs.selfieUpload.click()"
             >
               <img
@@ -136,13 +141,13 @@
                 :src="userInfo.selfie"
                 alt="selfie photo"
               />
-              <div class="placeholder center" v-else>
+              <div v-else class="placeholder center">
                 <FontAwesomeIcon
                   v-if="isAssetsLoading"
                   icon="sync-alt"
                   class="sync-alt"
                 />
-                <FontAwesomeIcon class="icon" icon="camera" v-else />
+                <FontAwesomeIcon v-else class="icon" icon="camera" />
                 <h4 v-if="isAssetsLoading">Try to getting the selfie image</h4>
                 <h4 v-else>No Image selfie</h4>
                 <p v-if="!isAssetsLoading">click to upload</p>
@@ -150,12 +155,12 @@
             </div>
             <input
               ref="selfieUpload"
-              @change="changeUserSelfie"
               accept="image/jpeg,image/png"
               required
               style="display: none"
               type="file"
               :disabled="userInfo.selfie"
+              @change="changeUserSelfie"
             />
           </div>
           <p v-if="errors.selfie" class="input-error">
@@ -178,6 +183,10 @@
           <label>GMT:</label>
           <div class="input-wrapper">
             <SelectInput
+              v-model="userTimezone"
+              :default="userTimezone"
+              :options="timezones"
+              :placeholder="$t('user_settings.timezone_plac')"
               @input="
                 $updateText(
                   '/user/relationships/settings',
@@ -185,10 +194,6 @@
                   userTimezone
                 )
               "
-              v-model="userTimezone"
-              :default="userTimezone"
-              :options="timezones"
-              :placeholder="$t('user_settings.timezone_plac')"
             />
           </div>
         </div>
@@ -202,6 +207,9 @@
           <label>{{ $t("user_settings.name") }}:</label>
           <div class="input-wrapper">
             <input
+              v-model="billingInfo.billing_name"
+              :placeholder="$t('user_settings.name_plac')"
+              type="text"
               @keyup="
                 $updateText(
                   '/user/relationships/settings',
@@ -209,9 +217,6 @@
                   billingInfo.billing_name
                 )
               "
-              v-model="billingInfo.billing_name"
-              :placeholder="$t('user_settings.name_plac')"
-              type="text"
             />
           </div>
         </div>
@@ -219,6 +224,9 @@
           <label>{{ $t("user_settings.address") }}:</label>
           <div class="input-wrapper">
             <input
+              v-model="billingInfo.billing_address"
+              :placeholder="$t('user_settings.address_plac')"
+              type="text"
               @keyup="
                 $updateText(
                   '/user/relationships/settings',
@@ -226,9 +234,6 @@
                   billingInfo.billing_address
                 )
               "
-              v-model="billingInfo.billing_address"
-              :placeholder="$t('user_settings.address_plac')"
-              type="text"
             />
           </div>
         </div>
@@ -237,6 +242,9 @@
             <label>{{ $t("user_settings.city") }}:</label>
             <div class="input-wrapper">
               <input
+                v-model="billingInfo.billing_city"
+                :placeholder="$t('user_settings.city_plac')"
+                type="text"
                 @keyup="
                   $updateText(
                     '/user/relationships/settings',
@@ -244,9 +252,6 @@
                     billingInfo.billing_city
                   )
                 "
-                v-model="billingInfo.billing_city"
-                :placeholder="$t('user_settings.city_plac')"
-                type="text"
               />
             </div>
           </div>
@@ -254,6 +259,9 @@
             <label>{{ $t("user_settings.postal_code") }}:</label>
             <div class="input-wrapper">
               <input
+                v-model="billingInfo.billing_postal_code"
+                :placeholder="$t('user_settings.postal_code_plac')"
+                type="text"
                 @keyup="
                   $updateText(
                     '/user/relationships/settings',
@@ -261,9 +269,6 @@
                     billingInfo.billing_postal_code
                   )
                 "
-                v-model="billingInfo.billing_postal_code"
-                :placeholder="$t('user_settings.postal_code_plac')"
-                type="text"
               />
             </div>
           </div>
@@ -272,6 +277,10 @@
           <label>{{ $t("user_settings.country") }}:</label>
           <div class="input-wrapper">
             <SelectInput
+              v-model="billingInfo.billing_country"
+              :default="billingInfo.billing_country"
+              :options="countries"
+              :placeholder="$t('user_settings.country_plac')"
               @input="
                 $updateText(
                   '/user/relationships/settings',
@@ -279,10 +288,6 @@
                   billingInfo.billing_country
                 )
               "
-              v-model="billingInfo.billing_country"
-              :default="billingInfo.billing_country"
-              :options="countries"
-              :placeholder="$t('user_settings.country_plac')"
             />
           </div>
         </div>
@@ -290,6 +295,9 @@
           <label>{{ $t("user_settings.state") }}:</label>
           <div class="input-wrapper">
             <input
+              v-model="billingInfo.billing_state"
+              :placeholder="$t('user_settings.state_plac')"
+              type="text"
               @keyup="
                 $updateText(
                   '/user/relationships/settings',
@@ -297,9 +305,6 @@
                   billingInfo.billing_state
                 )
               "
-              v-model="billingInfo.billing_state"
-              :placeholder="$t('user_settings.state_plac')"
-              type="text"
             />
             <small class="input-help">
               State, county, province, or region.
@@ -310,6 +315,9 @@
           <label>{{ $t("user_settings.phone_number") }}:</label>
           <div class="input-wrapper">
             <input
+              v-model="billingInfo.billing_phone_number"
+              :placeholder="$t('user_settings.phone_number_plac')"
+              type="text"
               @keyup="
                 $updateText(
                   '/user/relationships/settings',
@@ -317,9 +325,6 @@
                   billingInfo.billing_phone_number
                 )
               "
-              v-model="billingInfo.billing_phone_number"
-              :placeholder="$t('user_settings.phone_number_plac')"
-              type="text"
             />
           </div>
         </div>
@@ -352,7 +357,21 @@ export default {
     FormLabel,
     PageTab,
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: ["user"],
+  data() {
+    return {
+      userInfo: undefined,
+      billingInfo: undefined,
+      userTimezone: undefined,
+      isLoading: false,
+      isAssetsLoading: false,
+      errors: {},
+    };
+  },
+  computed: {
+    ...mapGetters(["config", "countries", "timezones"]),
+  },
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
     const preReg = urlParams.get("create_signature");
@@ -380,7 +399,6 @@ export default {
     axios
       .get("/api/user?assets=true")
       .then((data) => {
-        console.log(data.data.data);
         const ktp = data.data.data.ktp;
         const selfie = data.data.data.selfie;
         this.$store.dispatch("retrieveUser", {
@@ -449,18 +467,37 @@ export default {
       };
     }
   },
-  data() {
-    return {
-      userInfo: undefined,
-      billingInfo: undefined,
-      userTimezone: undefined,
-      isLoading: false,
-      isAssetsLoading: false,
-      errors: {},
+  created() {
+    this.userTimezone =
+      this.user.relationships.timezone.data.attributes.timezone;
+
+    this.userInfo = {
+      name: this.user.data.attributes.name,
+      email: this.user.data.attributes.email,
+      phone: this.user.data.attributes.phone,
+      nik: this.user.data.attributes.nik,
+      birthplace: this.user.data.attributes.birth_place,
+      birthdate: this.user.data.attributes.birth_date,
+      ktp: this.user.data.attributes.ktp,
+      selfie: this.user.data.attributes.selfie,
     };
-  },
-  computed: {
-    ...mapGetters(["config", "countries", "timezones"]),
+
+    this.billingInfo = {
+      billing_name:
+        this.user.relationships.settings.data.attributes.billing_name,
+      billing_address:
+        this.user.relationships.settings.data.attributes.billing_address,
+      billing_state:
+        this.user.relationships.settings.data.attributes.billing_state,
+      billing_city:
+        this.user.relationships.settings.data.attributes.billing_city,
+      billing_postal_code:
+        this.user.relationships.settings.data.attributes.billing_postal_code,
+      billing_country:
+        this.user.relationships.settings.data.attributes.billing_country,
+      billing_phone_number:
+        this.user.relationships.settings.data.attributes.billing_phone_number,
+    };
   },
   methods: {
     changeUserName() {
@@ -560,38 +597,6 @@ export default {
         reader.readAsDataURL(file);
       });
     },
-  },
-  created() {
-    this.userTimezone =
-      this.user.relationships.timezone.data.attributes.timezone;
-
-    this.userInfo = {
-      name: this.user.data.attributes.name,
-      email: this.user.data.attributes.email,
-      phone: this.user.data.attributes.phone,
-      nik: this.user.data.attributes.nik,
-      birthplace: this.user.data.attributes.birth_place,
-      birthdate: this.user.data.attributes.birth_date,
-      ktp: this.user.data.attributes.ktp,
-      selfie: this.user.data.attributes.selfie,
-    };
-
-    this.billingInfo = {
-      billing_name:
-        this.user.relationships.settings.data.attributes.billing_name,
-      billing_address:
-        this.user.relationships.settings.data.attributes.billing_address,
-      billing_state:
-        this.user.relationships.settings.data.attributes.billing_state,
-      billing_city:
-        this.user.relationships.settings.data.attributes.billing_city,
-      billing_postal_code:
-        this.user.relationships.settings.data.attributes.billing_postal_code,
-      billing_country:
-        this.user.relationships.settings.data.attributes.billing_country,
-      billing_phone_number:
-        this.user.relationships.settings.data.attributes.billing_phone_number,
-    };
   },
 };
 </script>
