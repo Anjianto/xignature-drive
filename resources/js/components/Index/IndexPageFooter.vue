@@ -66,6 +66,8 @@ footer {
   img {
     height: 38px;
     width: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .logo-text {
