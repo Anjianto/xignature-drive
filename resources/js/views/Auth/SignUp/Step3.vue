@@ -17,12 +17,12 @@
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_nik") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="KTP"
           rules="required|min:16|max:16"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.nik"
@@ -31,24 +31,22 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
-          <span
-            v-if="nikHint && !errors.length"
-            class="text-gray-500 text-left info-message"
+          <span v-if="nikHint && !errors.length" class="input-hint"
             >{{ nikHint }}
           </span>
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_phone") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Phone"
           rules="required|min:12|max:12"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.phone"
@@ -57,24 +55,22 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
-          <span
-            v-if="phoneHint && !errors.length"
-            class="text-gray-500 text-left info-message"
+          <span v-if="phoneHint && !errors.length" class="input-hint"
             >{{ phoneHint }}
           </span>
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_birthplace") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Birth Place"
           rules="required"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.birthplace"
@@ -82,7 +78,7 @@
             type="text"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
@@ -90,16 +86,16 @@
         <label>{{ $t("page_registration.label_birthdate") }}</label>
         <div class="input-wrapper">
           <ValidationProvider
+            v-slot="{ errors }"
             tag="div"
             mode="passive"
             class="input-wrapper"
             name="Birthdate"
             rules="required"
-            v-slot="{ errors }"
           >
             <DatePicker
-              :placeholder="$t('page_registration.placeholder_birthdate')"
               v-model="value.birthdate"
+              :placeholder="$t('page_registration.placeholder_birthdate')"
               format="YYYY-MM-DD"
               :input-attr="{
                 class: ['mx-input date-field'],
@@ -107,7 +103,7 @@
               type="date"
             >
             </DatePicker>
-            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
           </ValidationProvider>
         </div>
       </div>
@@ -126,29 +122,21 @@ import {
   ValidationProvider,
   ValidationObserver,
 } from "vee-validate/dist/vee-validate.full";
-import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
-import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import { required, ext, digits, min, max } from "vee-validate/dist/rules";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Step3",
   components: {
     DatePicker,
     ValidationProvider,
     ValidationObserver,
-    AuthContent,
     AuthButton,
-    ProfileForm,
-    required,
-    ext,
-    digits,
-    min,
-    max,
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: ["value"],
   computed: {
     ...mapGetters(["config", "registerErrors"]),
@@ -168,7 +156,6 @@ export default {
       const isValid = await this.$refs.form.validate();
       if (!isValid) return;
 
-      console.log("goto step 4");
       this.$emit("step", 4);
     },
   },
@@ -226,6 +213,12 @@ export default {
   margin-top: 0.3rem;
   @include font-size(12);
   color: red;
+  font-weight: 700;
+}
+
+.input-hint {
+  @include font-size(12);
+  color: #8a8a8a;
   font-weight: 700;
 }
 </style>

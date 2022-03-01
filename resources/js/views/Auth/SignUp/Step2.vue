@@ -104,7 +104,6 @@ export default {
         this.errors.push("foto ktp required");
       } else {
         this.errors = [];
-        console.log("goto step 3");
         this.$emit("step", 3);
       }
     },

@@ -39,21 +39,21 @@
       </div>
       <div class="container center">
         <AuthButton
+          v-if="!isCapture || isLoading"
           icon="chevron-right"
           :text="
             isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'
           "
-          v-if="!isCapture || isLoading"
           type="button"
-          @click="capture"
           :disabled="isLoadingCamera || isLoading"
           :loading="isLoadingCamera || isLoading"
+          @click="capture"
         />
         <AuthButton
-          @click.native="submitData"
+          v-else
           icon="save"
           text="Register"
-          v-else
+          @click.native="submitData"
         />
       </div>
     </div>
@@ -61,25 +61,16 @@
 </template>
 
 <script>
-import {
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate/dist/vee-validate.full";
-import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
-import ProfileForm from "@/components/Signature/ProfileForm";
 import { getBlobUrl } from "@/utils";
 import Spinner from "@/components/FilesView/Spinner";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Step4",
   components: {
-    ValidationProvider,
-    ValidationObserver,
-    AuthContent,
     AuthButton,
     Spinner,
-    ProfileForm,
   },
   props: {
     isLoading: {
@@ -94,38 +85,14 @@ export default {
       isLoadingCamera: false,
       stream: undefined,
       isCapture: false,
+      video: null,
+      capturedImg: null,
     };
-  },
-  methods: {
-    submitData() {
-      if (this.isFinish) {
-        this.$emit("submit");
-      }
-    },
-    async capture() {
-      video.pause();
-      this.isCapture = true;
-      const track = this.stream.getVideoTracks()[0];
-      let imageCapture = new ImageCapture(track);
-      let image = await imageCapture.takePhoto();
-      let imgUrl = await getBlobUrl(image);
-      this.imageBlob = image;
-      capturedImg.src = imgUrl;
-      this.isFinish = true;
-      // stop camera running in background
-      video.srcObject.getTracks().forEach((track) => {
-        track.stop();
-      });
-      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
-        type: "image/jpeg",
-      });
-      this.$emit("input", selfieFile);
-    },
   },
   async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
-    const video = document.getElementById("video");
-    const capturedImg = document.getElementById("capturedImg");
+    this.video = document.getElementById("video");
+    this.capturedImg = document.getElementById("capturedImg");
     this.isLoadingCamera = true;
     this.stream = await navigator.mediaDevices
       .getUserMedia({
@@ -136,26 +103,52 @@ export default {
         },
       })
       .then((stream) => {
-        (this.isLoaded = true), (video.srcObject = stream);
-        video.play();
+        (this.isLoaded = true), (this.video.srcObject = stream);
+        this.video.play();
 
         // we check if the selfie field already has value
         if (this.value) {
-          capturedImg.src = this.value;
-          video.pause();
+          this.capturedImg.src = this.value;
+          this.video.pause();
         } else {
-          video.play();
+          this.video.play();
         }
 
         return stream;
       })
       .catch(console.error);
 
-    video.onclick = () => {
-      video.play();
+    this.video.onclick = () => {
+      this.video.play();
       this.isFinish = false;
     };
     this.isLoadingCamera = false;
+  },
+  methods: {
+    submitData() {
+      if (this.isFinish) {
+        this.$emit("submit");
+      }
+    },
+    async capture() {
+      this.video.pause();
+      this.isCapture = true;
+      const track = this.stream.getVideoTracks()[0];
+      let imageCapture = new ImageCapture(track);
+      let image = await imageCapture.takePhoto();
+      let imgUrl = await getBlobUrl(image);
+      this.imageBlob = image;
+      this.capturedImg.src = imgUrl;
+      this.isFinish = true;
+      // stop camera running in background
+      this.video.srcObject.getTracks().forEach((track) => {
+        track.stop();
+      });
+      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
+        type: "image/jpeg",
+      });
+      this.$emit("input", selfieFile);
+    },
   },
 };
 </script>

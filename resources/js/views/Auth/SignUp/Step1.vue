@@ -186,7 +186,6 @@ export default {
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
       if (!isValid) return;
-      console.log("goto step 2");
       this.$emit("step", 2);
     },
   },

@@ -81,7 +81,6 @@ export default {
         password: undefined,
         password_confirmation: undefined,
         phone: undefined,
-        phone: undefined,
         nik: undefined,
         ktp: undefined,
         birthplace: undefined,
@@ -120,6 +119,9 @@ export default {
       return dataRegister;
     },
   },
+  created() {
+    this.$scrollTop();
+  },
   methods: {
     confirmValid() {
       this.confirm = false;
@@ -156,9 +158,6 @@ export default {
         });
       }
     },
-  },
-  created() {
-    this.$scrollTop();
   },
 };
 </script>
