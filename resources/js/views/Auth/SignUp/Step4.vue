@@ -61,25 +61,15 @@
 </template>
 
 <script>
-import {
-  ValidationProvider,
-  ValidationObserver,
-} from "vee-validate/dist/vee-validate.full";
-import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
-import ProfileForm from "@/components/Signature/ProfileForm";
 import { getBlobUrl } from "@/utils";
 import Spinner from "@/components/FilesView/Spinner";
 
 export default {
   name: "SignUpStep4",
   components: {
-    ValidationProvider,
-    ValidationObserver,
-    AuthContent,
     AuthButton,
     Spinner,
-    ProfileForm,
   },
   props: {
     isLoading: {
@@ -94,12 +84,14 @@ export default {
       isLoadingCamera: false,
       stream: undefined,
       isCapture: false,
+      video: null,
+      capturedImg: null,
     };
   },
   async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
-    const video = document.getElementById("video");
-    const capturedImg = document.getElementById("capturedImg");
+    this.video = document.getElementById("video");
+    this.capturedImg = document.getElementById("capturedImg");
     this.isLoadingCamera = true;
     this.stream = await navigator.mediaDevices
       .getUserMedia({
@@ -110,23 +102,23 @@ export default {
         },
       })
       .then((stream) => {
-        (this.isLoaded = true), (video.srcObject = stream);
-        video.play();
+        (this.isLoaded = true), (this.video.srcObject = stream);
+        this.video.play();
 
         // we check if the selfie field already has value
         if (this.value) {
-          capturedImg.src = this.value;
-          video.pause();
+          this.capturedImg.src = this.value;
+          this.video.pause();
         } else {
-          video.play();
+          this.video.play();
         }
 
         return stream;
       })
       .catch(console.error);
 
-    video.onclick = () => {
-      video.play();
+    this.video.onclick = () => {
+      this.video.play();
       this.isFinish = false;
     };
     this.isLoadingCamera = false;

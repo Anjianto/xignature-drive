@@ -119,6 +119,9 @@ export default {
       return dataRegister;
     },
   },
+  created() {
+    this.$scrollTop();
+  },
   methods: {
     confirmValid() {
       this.confirm = false;
@@ -155,9 +158,6 @@ export default {
         });
       }
     },
-  },
-  created() {
-    this.$scrollTop();
   },
 };
 </script>

@@ -32,9 +32,7 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
-          <span
-            v-if="nikHint && !errors.length"
-            class="text-gray-500 text-left info-message"
+          <span v-if="nikHint && !errors.length" class="input-hint"
             >{{ nikHint }}
           </span>
           <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
@@ -58,9 +56,7 @@
             class="reset-input-number"
             :class="{ 'is-error': errors[0] }"
           />
-          <span
-            v-if="phoneHint && !errors.length"
-            class="text-gray-500 text-left info-message"
+          <span v-if="phoneHint && !errors.length" class="input-hint"
             >{{ phoneHint }}
           </span>
           <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
@@ -127,13 +123,10 @@ import {
   ValidationProvider,
   ValidationObserver,
 } from "vee-validate/dist/vee-validate.full";
-import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
-import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import { required, ext, digits, min, max } from "vee-validate/dist/rules";
 
 export default {
   name: "SignUpStep3",
@@ -141,15 +134,9 @@ export default {
     DatePicker,
     ValidationProvider,
     ValidationObserver,
-    AuthContent,
     AuthButton,
-    ProfileForm,
-    required,
-    ext,
-    digits,
-    min,
-    max,
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: ["value"],
   computed: {
     ...mapGetters(["config", "registerErrors"]),
@@ -169,7 +156,6 @@ export default {
       const isValid = await this.$refs.form.validate();
       if (!isValid) return;
 
-      console.log("goto step 4");
       this.$emit("step", 4);
     },
   },
@@ -227,6 +213,12 @@ export default {
   margin-top: 0.3rem;
   @include font-size(12);
   color: red;
+  font-weight: 700;
+}
+
+.input-hint {
+  @include font-size(12);
+  color: #8a8a8a;
   font-weight: 700;
 }
 </style>

@@ -5,7 +5,7 @@
     <Navigation class="page-wrapper small" />
 
     <!--Page content-->
-    <div class="page-wrapper small">
+    <div v-if="page" class="page-wrapper small">
       <!--Headline-->
       <PageTitle
         class="headline"

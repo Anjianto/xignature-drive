@@ -19,7 +19,6 @@
           <div class="input-wrapper">
             <input
               v-model="userInfo.name"
-              :placeholder="$t('page_registration.placeholder_name')"
               type="text"
               @keyup="changeUserName"
             />
@@ -96,7 +95,11 @@
         <div class="block-wrapper">
           <label>{{ $t("page_registration.label_ktp") }}</label>
           <div class="input-wrapper">
-            <div class="image preview" @click="() => $refs.ktpUpload.click()">
+            <div
+              class="image preview"
+              :class="[isAssetsLoading || userInfo.ktp ? 'disabled' : '']"
+              @click="() => $refs.ktpUpload.click()"
+            >
               <img v-if="userInfo.ktp" :src="userInfo.ktp" alt="ktp photo" />
               <div v-else class="placeholder center">
                 <FontAwesomeIcon
@@ -129,6 +132,7 @@
           <div class="input-wrapper">
             <div
               class="image preview"
+              :class="[isAssetsLoading || userInfo.selfie ? 'disabled' : '']"
               @click="() => $refs.selfieUpload.click()"
             >
               <img
@@ -352,6 +356,7 @@ export default {
     FormLabel,
     PageTab,
   },
+  // eslint-disable-next-line vue/require-prop-types
   props: ["user"],
   data() {
     return {
@@ -390,7 +395,6 @@ export default {
     axios
       .get("/api/user?assets=true")
       .then((data) => {
-        console.log(data.data.data);
         const ktp = data.data.data.ktp;
         const selfie = data.data.data.selfie;
         this.$store.dispatch("retrieveUser", {

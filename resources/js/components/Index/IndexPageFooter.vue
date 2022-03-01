@@ -23,15 +23,15 @@
       </li>
     </ul>
     <ul class="navigation-links">
-      <template v-if="legal.visibility">
-        <li v-for="(legal, index) in config.legal" :key="index">
+      <li v-for="(legal, index) in config.legal" :key="index">
+        <template v-if="legal.visibility">
           <router-link
             :to="{ name: 'DynamicPage', params: { slug: legal.slug } }"
           >
             {{ legal.title }}
           </router-link>
-        </li>
-      </template>
+        </template>
+      </li>
     </ul>
     <!-- eslint-disable-next-line vue/no-v-html -->
     <p class="copyright" v-html="config.app_footer"></p>
@@ -66,6 +66,8 @@ footer {
   img {
     height: 38px;
     width: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .logo-text {
