@@ -180,8 +180,8 @@ export default {
     },
     submitButtonText() {
       return this.isGeneratedShared
-        ? this.$t("shared_form.button_done")
-        : this.$t("shared_form.button_generate");
+        ? this.$t("invite_form.button_done")
+        : this.$t("invite_form.button_generate");
     },
     moreOptionsTitle() {
       return this.isMoreOptions

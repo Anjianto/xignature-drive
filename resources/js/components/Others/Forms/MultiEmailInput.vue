@@ -30,13 +30,13 @@
     <span v-if="isError" class="error-message">{{ isError }}</span>
     <div
       v-if="emailResult.length > 0"
-      class="autocomplete-list bg-white px-1 py-3 shadow-md rounded-sm"
+      class="autocomplete-list bg-white px-1 py-3 shadow-md cursor-pointer rounded-sm"
     >
       <div
-        v-for="(profile, i) in emailResult"
+        v-for="(profile, i) in emailResult.slice(0, 3)"
         :key="i"
         class="autocomplete-item"
-        @click="addEmail(email)"
+        @click="addEmail(profile.email)"
       >
         <div
           class="profile-list-item flex justify-start items-center coursor-pointer"
@@ -55,8 +55,8 @@
             <p class="text-sm color-gray-400">
               <span class="font-bold">{{
                 profile.email.substring(0, email.length)
-              }}</span>
-              {{ profile.email.substring(email.length) }}
+              }}</span
+              >{{ profile.email.substring(email.length) }}
             </p>
           </div>
         </div>
@@ -134,6 +134,14 @@ export default {
     removeLastEmail(event) {
       // If is input empty and presse backspace remove last email from array
       if (event.code === "Backspace" && this.email === "") this.emails.pop();
+    },
+    addEmail(email) {
+      this.emails.push(email);
+      this.email = "";
+      this.emailResult = [];
+
+      // After add email send new emails list to parent
+      events.$emit("emailsInputValues", this.emails);
     },
     handleEmail() {
       if (this.email.length > 0) {

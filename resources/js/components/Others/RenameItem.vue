@@ -55,7 +55,7 @@
         />
 
         <ActionButton
-          v-if="pickedItem.type === 'folder'"
+          v-if="pickedItem && pickedItem.type === 'folder'"
           :icon="isMoreOptions ? 'x' : 'pencil-alt'"
           @click.native.stop="moreOptions"
           >{{ moreOptionsTitle }}</ActionButton

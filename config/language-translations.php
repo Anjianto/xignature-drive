@@ -569,6 +569,8 @@ return [
         "shared.editor"                                    => "Can edit and upload files",
         "shared.empty_shared"                              => "You haven't shared anything yet.",
         "shared.visitor"                                   => "Can only view and download",
+        "invite_form.button_done"                          => "Invite Sent",
+        "invite_form.button_generate"                      => "Invite Sign",
         "shared_form.button_close_options"                 => "Close Options",
         "shared_form.button_done"                          => "Awesome, I’m done!",
         "shared_form.button_folder_icon_open"              => "Customize Folder Icon",

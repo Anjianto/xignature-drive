@@ -32,7 +32,7 @@
         class="form-wrapper"
         @submit.prevent
       >
-        <TabWrapper v-if="!pickedItem.shared">
+        <TabWrapper v-if="pickedItem && !pickedItem.shared">
           <!-- Share via link -->
           <TabOption
             :selected="true"
@@ -57,16 +57,9 @@
               />
             </ValidationProvider>
           </TabOption>
-
-          <!-- share xiganture -->
-          <!-- <TabOption v-if="isDoc" :title="$t('Xignature')" icon="link">
-                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
-                        </ValidationProvider>
-                    </TabOption> -->
         </TabWrapper>
 
-        <TabWrapper v-if="pickedItem.shared">
+        <TabWrapper v-if="pickedItem && pickedItem.shared">
           <!-- share xiganture -->
           <TabOption
             v-if="isDoc"
@@ -255,6 +248,24 @@ export default {
     LinkIcon,
     InfoBox,
   },
+  data() {
+    return {
+      shareOptions: {
+        isPassword: false,
+        expiration: undefined,
+        password: undefined,
+        permission: undefined,
+        type: undefined,
+        unique_id: undefined,
+        emails: undefined,
+      },
+      pickedItem: undefined,
+      isGeneratedShared: false,
+      isLoading: false,
+      isMoreOptions: false,
+      sharedViaEmail: false,
+    };
+  },
   computed: {
     ...mapGetters(["permissionOptions", "expirationList"]),
     isDoc() {
@@ -273,33 +284,13 @@ export default {
       return this.pickedItem && this.pickedItem.type === "folder";
     },
     submitButtonText() {
-      return this.isGeneratedShared
-        ? this.$t("shared_form.button_done")
-        : this.$t("shared_form.button_generate");
+      return this.isGeneratedShared ? "Sign Sent" : "Send Document";
     },
     moreOptionsTitle() {
       return this.isMoreOptions
         ? this.$t("shared_form.button_close_options")
         : this.$t("shared_form.button_more_options");
     },
-  },
-  data() {
-    return {
-      shareOptions: {
-        isPassword: false,
-        expiration: undefined,
-        password: undefined,
-        permission: undefined,
-        type: undefined,
-        unique_id: undefined,
-        emails: undefined,
-      },
-      pickedItem: undefined,
-      isGeneratedShared: false,
-      isLoading: false,
-      isMoreOptions: false,
-      sharedViaEmail: false,
-    };
   },
   mounted() {
     events.$on(

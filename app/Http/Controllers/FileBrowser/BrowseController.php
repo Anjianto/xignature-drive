@@ -5,12 +5,15 @@ namespace App\Http\Controllers\FileBrowser;
 use App\Http\Requests\FileBrowser\SearchRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use App\FileManagerFolder;
 use App\FileManagerFile;
 use App\Share;
+use App\Signatures;
+use Symfony\Component\Console\Helper\Table;
 
 /**
  * @group Browse
@@ -174,9 +177,14 @@ class BrowseController extends Controller
             ->where('parent_id', $unique_id)
             ->sortable()
             ->get();
-
+            // ::select(
+            //     DB::raw("SELECT * FROM file_manager_files WHERE file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id );")
+            // )
+        
         $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
-            ->where('user_id', $user_id)
+            ->whereRaw(
+                "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
+            )
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();
@@ -194,7 +202,6 @@ class BrowseController extends Controller
 
             return $file->toArray();
         });
-
         // Collect folders and files to single array
         return collect([$folders, $result])->collapse();
     }

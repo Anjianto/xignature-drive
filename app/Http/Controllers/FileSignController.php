@@ -221,6 +221,10 @@ class FileSignController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     function allow_signature(Request $request) {
         $email = $request->email;
         $fileId = $request->file_id;
@@ -248,8 +252,10 @@ class FileSignController extends Controller
         }
 
         try {
+            $token = $request->user()->signatures->last();
             $signature = new Signatures();
             $signature->user_id = $user->id;
+            $signature->sign_token = $token->sign_token;
             $signature->file_manager_file = $fileId;
             $signature->save();
             return response()->json([

@@ -20,6 +20,7 @@
         v-if="isGeneratedShared && sharedViaEmail"
         class="info-box-wrapper"
       >
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="$t('shared_form.email_successfully_send_message')"></p>
       </InfoBox>
 
@@ -31,7 +32,7 @@
         class="form-wrapper"
         @submit.prevent
       >
-        <TabWrapper v-if="!pickedItem.shared">
+        <TabWrapper v-if="pickedItem && !pickedItem.shared">
           <!-- Share via link -->
           <TabOption
             :selected="true"
@@ -57,17 +58,6 @@
             </ValidationProvider>
           </TabOption>
         </TabWrapper>
-
-        <!-- <TabWrapper v-if="pickedItem.shared"> -->
-
-        <!-- share xiganture -->
-        <!-- <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link"> -->
-        <!-- <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }"> -->
-        <!-- <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/> -->
-        <!-- </ValidationProvider> -->
-        <!-- </TabOption> -->
-
-        <!-- </TabWrapper> -->
 
         <!--Permision Select-->
         <ValidationProvider
@@ -233,6 +223,24 @@ export default {
     LinkIcon,
     InfoBox,
   },
+  data() {
+    return {
+      shareOptions: {
+        isPassword: false,
+        expiration: undefined,
+        password: undefined,
+        permission: undefined,
+        type: undefined,
+        unique_id: undefined,
+        emails: undefined,
+      },
+      pickedItem: undefined,
+      isGeneratedShared: false,
+      isLoading: false,
+      isMoreOptions: false,
+      sharedViaEmail: false,
+    };
+  },
   computed: {
     ...mapGetters(["permissionOptions", "expirationList"]),
     isDoc() {
@@ -260,24 +268,6 @@ export default {
         ? this.$t("shared_form.button_close_options")
         : this.$t("shared_form.button_more_options");
     },
-  },
-  data() {
-    return {
-      shareOptions: {
-        isPassword: false,
-        expiration: undefined,
-        password: undefined,
-        permission: undefined,
-        type: undefined,
-        unique_id: undefined,
-        emails: undefined,
-      },
-      pickedItem: undefined,
-      isGeneratedShared: false,
-      isLoading: false,
-      isMoreOptions: false,
-      sharedViaEmail: false,
-    };
   },
   mounted() {
     events.$on(
