@@ -1,10 +1,11 @@
 <template>
+  <!-- eslint-disable vue/no-mutating-props */ -->
   <div id="content-card">
     <ValidationObserver
-      @submit.prevent="saveRegister"
       ref="form"
       tag="form"
       class="form block-form"
+      @submit.prevent="saveRegister"
     >
       <div class="flex justify-center">
         <div class="text-center mb-4">
@@ -17,12 +18,12 @@
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_nik") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="KTP"
           rules="required|min:16|max:16"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.nik"
@@ -36,19 +37,19 @@
             class="text-gray-500 text-left info-message"
             >{{ nikHint }}
           </span>
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_phone") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Phone"
           rules="required|min:12|max:12"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.phone"
@@ -62,19 +63,19 @@
             class="text-gray-500 text-left info-message"
             >{{ phoneHint }}
           </span>
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_birthplace") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Birth Place"
           rules="required"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.birthplace"
@@ -82,7 +83,7 @@
             type="text"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
@@ -90,16 +91,16 @@
         <label>{{ $t("page_registration.label_birthdate") }}</label>
         <div class="input-wrapper">
           <ValidationProvider
+            v-slot="{ errors }"
             tag="div"
             mode="passive"
             class="input-wrapper"
             name="Birthdate"
             rules="required"
-            v-slot="{ errors }"
           >
             <DatePicker
-              :placeholder="$t('page_registration.placeholder_birthdate')"
               v-model="value.birthdate"
+              :placeholder="$t('page_registration.placeholder_birthdate')"
               format="YYYY-MM-DD"
               :input-attr="{
                 class: ['mx-input date-field'],
@@ -107,7 +108,7 @@
               type="date"
             >
             </DatePicker>
-            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+            <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
           </ValidationProvider>
         </div>
       </div>
@@ -135,7 +136,7 @@ import "vue2-datepicker/index.css";
 import { required, ext, digits, min, max } from "vee-validate/dist/rules";
 
 export default {
-  name: "Step3",
+  name: "SignUpStep3",
   components: {
     DatePicker,
     ValidationProvider,

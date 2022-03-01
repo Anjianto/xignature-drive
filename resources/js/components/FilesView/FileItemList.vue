@@ -1,27 +1,27 @@
 <template>
   <div
     class="file-wrapper"
+    spellcheck="false"
     @mouseup.stop="clickedItem"
     @dblclick="goToItem"
-    spellcheck="false"
   >
     <!--List preview-->
     <div
       :draggable="canDrag"
-      @dragstart="$emit('dragstart')"
-      @drop="drop()"
-      @dragleave="dragLeave"
-      @dragover.prevent="dragEnter"
       class="file-item"
       :class="{
         'is-clicked': isClicked,
         'no-clicked': !isClicked && this.$isMobile(),
         'is-dragenter': area,
       }"
+      @dragstart="$emit('dragstart')"
+      @drop="drop()"
+      @dragleave="dragLeave"
+      @dragover.prevent="dragEnter"
     >
       <!-- MultiSelecting for the mobile version -->
       <transition name="slide-from-left">
-        <div class="check-select" v-if="mobileMultiSelect">
+        <div v-if="mobileMultiSelect" class="check-select">
           <div class="select-box" :class="{ 'select-box-active': isClicked }">
             <CheckIcon v-if="isClicked" class="icon" size="17" />
           </div>
@@ -47,8 +47,8 @@
 
         <!--Image thumbnail-->
         <img
-          loading="lazy"
           v-if="isImage && item.thumbnail"
+          loading="lazy"
           class="image"
           :src="item.thumbnail"
           :alt="item.name"
@@ -67,11 +67,11 @@
       <div class="item-name">
         <b
           :ref="this.item.unique_id"
+          :contenteditable="canEditName"
+          class="name"
           @input="renameItem"
           @keydown.delete.stop
           @click.stop
-          :contenteditable="canEditName"
-          class="name"
         >
           {{ itemName }}
         </b>
@@ -92,7 +92,7 @@
           >
             <user-plus-icon size="12" class="shared-icon"></user-plus-icon>
           </div>
-      
+
           <!--Filesize and timestamp-->
           <span v-if="!isFolder" class="item-size"
             >{{ item.filesize }}, {{ timeStamp }}</span
@@ -106,7 +106,10 @@
                 : $tc("folder.item_counts", folderItems)
             }}, {{ timeStamp }}
           </span>
-          <span v-if="item.signer && item.signer.length > 0" class="item-length">
+          <span
+            v-if="item.signer && item.signer.length > 0"
+            class="item-length"
+          >
             sign by {{ item.signer.length }} users
           </span>
         </div>
@@ -114,8 +117,8 @@
 
       <!--Show item actions-->
       <transition name="slide-from-right">
-        <div class="actions" v-if="$isMobile() && !mobileMultiSelect">
-          <span @mousedown.stop="showItemActions" class="show-actions">
+        <div v-if="$isMobile() && !mobileMultiSelect" class="actions">
+          <span class="show-actions" @mousedown.stop="showItemActions">
             <FontAwesomeIcon
               icon="ellipsis-v"
               class="icon-action"
@@ -136,12 +139,28 @@ import { events } from "@/bus";
 
 export default {
   name: "FileItemList",
-  props: ["item"],
   components: {
     UserPlusIcon,
     LinkIcon,
     FolderIcon,
     CheckIcon,
+  },
+  filters: {
+    limitCharacters(str) {
+      if (str.length > 3) {
+        return str.substring(0, 3) + "...";
+      } else {
+        return str.substring(0, 3);
+      }
+    },
+  },
+  props: ["item"],
+  data() {
+    return {
+      area: false,
+      itemName: undefined,
+      mobileMultiSelect: false,
+    };
   },
   computed: {
     ...mapGetters(["FilePreviewType", "fileInfoDetail", "data"]),
@@ -197,21 +216,67 @@ export default {
       return this.$store.state.fileFunctions.otp;
     },
   },
-  filters: {
-    limitCharacters(str) {
-      if (str.length > 3) {
-        return str.substring(0, 3) + "...";
-      } else {
-        return str.substring(0, 3);
+  watch: {
+    otp() {
+      // console.log(this.$store);
+      if (this.$store.state.fileFunctions.otp) {
+        const otp = this.$store.state.fileFunctions.otp;
+
+        const basenames = this.$store.state.fileFunctions.documentSignature
+          ? this.$store.state.fileFunctions.documentSignature
+          : {};
+
+        if (Object.keys(basenames).includes(this.item.basename)) {
+          // console.log(this.item.file_url);
+
+          const documentSignature =
+            this.$store.state.fileFunctions.documentSignature;
+
+          const updateDocumentSignature = () => {
+            delete documentSignature[this.item.basename];
+            this.$store.dispatch("setDocumentSignature", documentSignature);
+          };
+
+          fetch(this.item.file_url)
+            .then((r) => r.blob())
+            .then((blob) => {
+              var reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = function () {
+                var base64data = reader.result;
+                // console.log(base64data);
+
+                updateDocumentSignature();
+              };
+            });
+        }
       }
     },
   },
-  data() {
-    return {
-      area: false,
-      itemName: undefined,
-      mobileMultiSelect: false,
-    };
+  created() {
+    this.itemName = this.item.name;
+
+    events.$on("newFolder:focus", (unique_id) => {
+      if (this.item.unique_id == unique_id && !this.$isMobile()) {
+        this.$refs[unique_id].focus();
+        document.execCommand("selectAll");
+      }
+    });
+
+    events.$on("mobileSelecting:start", () => {
+      this.mobileMultiSelect = true;
+      this.$store.commit("CLEAR_FILEINFO_DETAIL");
+    });
+
+    events.$on("mobileSelecting:stop", () => {
+      this.mobileMultiSelect = false;
+      this.$store.commit("CLEAR_FILEINFO_DETAIL");
+    });
+
+    // Change item name
+    events.$on("change:name", (item) => {
+      if (this.item.unique_id == item.unique_id) this.itemName = item.name;
+    });
   },
   methods: {
     drop() {
@@ -360,68 +425,6 @@ export default {
         name: e.target.innerText,
       });
     }, 300),
-  },
-  watch: {
-    otp() {
-      // console.log(this.$store);
-      if (this.$store.state.fileFunctions.otp) {
-        const otp = this.$store.state.fileFunctions.otp;
-
-        const basenames = this.$store.state.fileFunctions.documentSignature
-          ? this.$store.state.fileFunctions.documentSignature
-          : {};
-
-        if (Object.keys(basenames).includes(this.item.basename)) {
-          // console.log(this.item.file_url);
-
-          const documentSignature =
-            this.$store.state.fileFunctions.documentSignature;
-
-          const updateDocumentSignature = () => {
-            delete documentSignature[this.item.basename];
-            this.$store.dispatch("setDocumentSignature", documentSignature);
-          };
-
-          fetch(this.item.file_url)
-            .then((r) => r.blob())
-            .then((blob) => {
-              var reader = new FileReader();
-              reader.readAsDataURL(blob);
-              reader.onloadend = function () {
-                var base64data = reader.result;
-                // console.log(base64data);
-
-                updateDocumentSignature();
-              };
-            });
-        }
-      }
-    },
-  },
-  created() {
-    this.itemName = this.item.name;
-
-    events.$on("newFolder:focus", (unique_id) => {
-      if (this.item.unique_id == unique_id && !this.$isMobile()) {
-        this.$refs[unique_id].focus();
-        document.execCommand("selectAll");
-      }
-    });
-
-    events.$on("mobileSelecting:start", () => {
-      this.mobileMultiSelect = true;
-      this.$store.commit("CLEAR_FILEINFO_DETAIL");
-    });
-
-    events.$on("mobileSelecting:stop", () => {
-      this.mobileMultiSelect = false;
-      this.$store.commit("CLEAR_FILEINFO_DETAIL");
-    });
-
-    // Change item name
-    events.$on("change:name", (item) => {
-      if (this.item.unique_id == item.unique_id) this.itemName = item.name;
-    });
   },
 };
 </script>

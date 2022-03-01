@@ -11,7 +11,7 @@
           v-if="isSigned"
           :disabled="isLoading"
         >
-          {{ !showOriginal ? 'Original Document' : 'Signed Document' }}
+          {{ !showOriginal ? "Original Document" : "Signed Document" }}
         </button>
         <button class="btn-action" @click="showOtpModal" :disabled="isLoading">
           Sign Document
@@ -204,7 +204,7 @@ export default {
       try {
         const fileId = this.$route.params.fileId;
         const { data: body, error } = await findDocToSign(fileId);
-        if(error) {
+        if (error) {
           this.$store.dispatch(HIDE_PROCESSING);
           notifError(error, () => {
             this.errors = [error];

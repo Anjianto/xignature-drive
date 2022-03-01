@@ -210,7 +210,10 @@ class FileSignController extends Controller
                 'message' => 'Document not found.'
             ]);
         }
-        $request->session()->put('file_id', $fileId);
+        // check if request api or not web
+        if($request->is('api/*') == false) {
+            $request->session()->put('file_id', $fileId);
+        }
         return response()->json([
             'statusCode' => 200,
             'message' => 'Document Found.',

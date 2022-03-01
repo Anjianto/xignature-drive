@@ -8,27 +8,27 @@
     >
       <div class="email-list">
         <div
+          v-for="(memail, i) in emails"
+          :key="i"
           class="email-tag"
           :class="{ 'mb-offset': getCharactersLength > 45 }"
-          v-for="(email, i) in emails"
-          :key="i"
         >
-          <span>{{ email }}</span>
-          <x-icon @click="removeEmail(email)" class="icon" size="14" />
+          <span>{{ memail }}</span>
+          <x-icon class="icon" size="14" @click="removeEmail(memail)" />
         </div>
         <input
-          @keydown.delete="removeLastEmail($event)"
-          @keyup="handleEmail()"
+          ref="input"
           v-model="email"
           :size="inputSize"
           class="email-input"
           :placeholder="placeHolder"
           autocomplete="new-password"
-          ref="input"
+          @keydown.delete="removeLastEmail($event)"
+          @keyup="handleEmail()"
         />
       </div>
     </div>
-    <span class="error-message" v-if="isError">{{ isError }}</span>
+    <span v-if="isError" class="error-message">{{ isError }}</span>
   </div>
 </template>
 
@@ -41,7 +41,22 @@ import { findEmail } from "@/http_client/user_client";
 export default {
   name: "MultiEmailInput",
   components: { XIcon },
-  props: ["isError", "label"],
+  props: {
+    label: {
+      type: String,
+      default: "Email",
+    },
+    isEmail: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  data() {
+    return {
+      emails: [],
+      email: undefined,
+    };
+  },
   computed: {
     getCharactersLength() {
       return this.emails.join("").length;
@@ -55,21 +70,20 @@ export default {
       return this.email && this.email.length > 14 ? this.email.length : 14;
     },
   },
-  data() {
-    return {
-      emails: [],
-      email: undefined,
-    };
-  },
   watch: {
     email: debounce(async (email) => {
-        if (email.length > 3) {
-            const { data, error } = await findEmail(email);
-            if (error) return;
-      
-            console.log(data.data);
-        }
+      if (email.length > 3) {
+        const { data, error } = await findEmail(email);
+        if (error) return;
+
+        console.log(data.data);
+      }
     }, 500),
+  },
+  created() {
+    this.$nextTick(() => {
+      this.$refs.input.focus();
+    });
   },
   methods: {
     removeEmail(email) {
@@ -109,11 +123,6 @@ export default {
         }
       }
     },
-  },
-  created() {
-    this.$nextTick(() => {
-      this.$refs.input.focus();
-    });
   },
 };
 </script>

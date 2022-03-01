@@ -52,6 +52,17 @@ class AuthController extends Controller
         return abort('404', __t('user_not_fount'));
     }
 
+    public function is_admin(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+            return $user->role == 'admin';
+        }
+
+        return false;
+    }
+
     /**
      * Login user
      *

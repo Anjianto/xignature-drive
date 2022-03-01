@@ -82,7 +82,7 @@ library.add(
   faUser,
   faUserEdit,
   faUserFriends,
-  faPaperPlane,
+  faPaperPlane
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

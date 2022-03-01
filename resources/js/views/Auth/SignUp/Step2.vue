@@ -1,10 +1,10 @@
 <template>
   <div id="content-card">
     <ValidationObserver
-      @submit.prevent="saveRegister"
       ref="form"
       tag="form"
       class="form block-form"
+      @submit.prevent="saveRegister"
     >
       <div class="flex justify-center">
         <div class="text-center mb-4">
@@ -17,8 +17,8 @@
       <div class="block-wrapper">
         <div class="input-wrapper">
           <div class="image preview" @click="() => $refs.ktpUpload.click()">
-            <img ref="ktpPreview" v-if="value" :src="ktp" alt="ktp photo" />
-            <div class="placeholder center" v-else>
+            <img v-if="value" ref="ktpPreview" :src="ktp" alt="ktp photo" />
+            <div v-else class="placeholder center">
               <FontAwesomeIcon class="icon" icon="camera" />
               <h4>Empty</h4>
               <p>click to upload</p>
@@ -26,12 +26,12 @@
           </div>
           <input
             ref="ktpUpload"
-            @change="changeUserKTP"
             accept="image/jpeg,image/png"
             style="display: none"
             type="file"
+            @change="changeUserKTP"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { getBlobUrl } from "@/utils";
 export default {
-  name: "Step2",
+  name: "SignUpStep2",
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -79,6 +79,12 @@ export default {
     ProfileForm,
   },
   props: ["value"],
+  data() {
+    return {
+      ktp: null,
+      errors: [],
+    };
+  },
   watch: {
     async value(val) {
       this.fetchPreview(val);
@@ -86,12 +92,6 @@ export default {
   },
   async mounted() {
     this.fetchPreview(this.val);
-  },
-  data() {
-    return {
-      ktp: null,
-      errors: [],
-    };
   },
   methods: {
     async fetchPreview(val) {
@@ -101,7 +101,7 @@ export default {
     },
     async saveRegister() {
       if (!this.value) {
-        this.errors.push("foto ktp required");        
+        this.errors.push("foto ktp required");
       } else {
         this.errors = [];
         console.log("goto step 3");

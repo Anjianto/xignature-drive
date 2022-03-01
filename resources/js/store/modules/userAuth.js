@@ -5,12 +5,13 @@ import Cookies from "js-cookie";
 import { fetchAuth, logout, register } from "@/http_client/auth_client";
 import { ACT_REGISTER, ACT_GETAPPDATA } from "@/constants/action";
 import { SIGN_DOC_ID, SIGN_DOC_KEY } from "@/constants/variables";
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from "lodash/isEmpty";
 
 const defaultState = {
   authorized: undefined,
   permission: "master", // master | editor | visitor
   user: undefined,
+  isAdmin: false,
 };
 const actions = {
   async [ACT_GETAPPDATA]({ commit, getters }) {
@@ -26,7 +27,7 @@ const actions = {
     commit("RETRIEVE_USER", data);
     return { data, error: false };
   },
-  async [ACT_REGISTER]({commit, getters, router}, {formData}) {
+  async [ACT_REGISTER]({ commit, getters, router }, { formData }) {
     const signKey = formData.get(SIGN_DOC_KEY);
     const signDoc = formData.get(SIGN_DOC_ID);
     const isRefSign = !isEmpty(signKey) && !isEmpty(signDoc);
@@ -39,7 +40,7 @@ const actions = {
     setTimeout(() => {
       window.router.replace({
         name: "Files",
-        query: { ref: isRefSign ? 'invitation' : 'register' },
+        query: { ref: isRefSign ? "invitation" : "register" },
       });
     }, 1000);
     return { data, error: false };
@@ -133,6 +134,16 @@ const actions = {
         Vue.prototype.$isSomethingWrong();
       });
   },
+  retrieveUser: ({ commit }, user) => {
+    commit("UPDATE_SELFIE", user.selfie);
+    commit("UPDATE_KTP", user.ktp);
+  },
+  setPermission: ({ commit }, permission) => {
+    commit("SET_PERMISSION", permission);
+  },
+  setIsAdmin: ({ commit }, isAdmin) => {
+    commit("SET_IS_ADMIN", isAdmin);
+  },
 };
 
 const mutations = {
@@ -141,6 +152,9 @@ const mutations = {
   },
   SET_PERMISSION(state, role) {
     state.permission = role;
+  },
+  SET_IS_ADMIN(state, isAdmin) {
+    state.isAdmin = isAdmin;
   },
   DESTROY_DATA(state) {
     state.authorized = false;
@@ -215,6 +229,9 @@ const getters = {
   isGuest: (state) => !state.authorized,
   isLogged: (state) => !!state.user?.data.id,
   user: (state) => state.user,
+  ktp: (state) => state.user.data.attributes?.ktp,
+  selfie: (state) => state.user.data.attributes?.selfie,
+  isAdmin: (state) => state.isAdmin,
   isProfileFilled: (state) => {
     if (!state.user?.data) return false;
     const data = [

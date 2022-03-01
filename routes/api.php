@@ -75,7 +75,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/content', 'AppFunctionsController@get_settings');
 
     Route::get('/invite/{hash}', 'FileSignController@get_file_by_hash');
-
 });
 
 // User master Routes
@@ -136,6 +135,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
 Route::group(['middleware' => ['auth:api', 'auth.master', 'auth.admin', 'scope:master']], function () {
 
     // Admin
+    Route::get('/is-admin', 'Auth\AuthController@is_admin');
     Route::get('/dashboard', 'Admin\DashboardController@index');
     Route::get('/dashboard/new-users', 'Admin\DashboardController@new_registrations');
 
@@ -197,7 +197,7 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'scope:visitor,editor'
     Route::get('/search/private', 'Sharing\FileSharingController@search_private');
     Route::get('/files/private', 'Sharing\FileSharingController@file_private');
 });
-Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master' , 'scope:master,visitor,editor']], function () {
+Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:master,visitor,editor']], function () {
     // Signature
     Route::post('/signer/verify', 'FileSignController@sign');
     Route::post('/signer/write', 'FileSignController@add_sign');

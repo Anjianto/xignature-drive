@@ -15,6 +15,7 @@ const messages = {
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({
+  // eslint-disable-next-line no-undef
   locale: config.language,
   messages,
   silentTranslationWarn: true,

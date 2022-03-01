@@ -1,18 +1,18 @@
 <template>
   <div
-    class="file-content"
     id="file-content-id"
+    class="file-content"
+    tabindex="-1"
     :class="{ 'is-offset': filesInQueueTotal > 0, 'is-dragging': isDragging }"
     @dragover.prevent
     @drop.stop.prevent="dropUpload($event)"
     @dragover="dragEnter"
     @dragleave="dragLeave"
     @keydown.delete="deleteItems"
-    tabindex="-1"
   >
     <div
-      class="files-container"
       ref="fileContainer"
+      class="files-container"
       :class="{
         'is-fileinfo-visible': fileInfoVisible && !$isMinimalScale(),
         'mobile-multi-select': mobileMultiSelect,
@@ -37,14 +37,14 @@
           :class="FilePreviewType"
         >
           <FileItemList
-            @dragstart="dragStart(item)"
-            @drop.stop.native.prevent="dragFinish(item, $event)"
-            @contextmenu.native.prevent="contextMenu($event, item)"
-            :item="item"
             v-for="item in data"
             :key="item.unique_id"
             class="file-item"
+            :item="item"
             :class="draggedItems.includes(item) ? 'dragged' : ''"
+            @dragstart="dragStart(item)"
+            @drop.stop.native.prevent="dragFinish(item, $event)"
+            @contextmenu.native.prevent="contextMenu($event, item)"
           />
         </transition-group>
       </div>
@@ -58,14 +58,14 @@
           :class="FilePreviewType"
         >
           <FileItemGrid
+            v-for="item in data"
+            :key="item.unique_id"
+            :item="item"
+            class="file-item"
+            :class="draggedItems.includes(item) ? 'dragged' : ''"
             @dragstart="dragStart(item)"
             @drop.native.prevent="dragFinish(item, $event)"
             @contextmenu.native.prevent="contextMenu($event, item)"
-            :item="item"
-            v-for="item in data"
-            :key="item.unique_id"
-            class="file-item"
-            :class="draggedItems.includes(item) ? 'dragged' : ''"
           />
         </transition-group>
       </div>
@@ -136,6 +136,13 @@ export default {
     SearchBar,
     EmptyPage,
   },
+  data() {
+    return {
+      draggingId: undefined,
+      isDragging: false,
+      mobileMultiSelect: false,
+    };
+  },
   computed: {
     ...mapGetters([
       "filesInQueueTotal",
@@ -156,6 +163,7 @@ export default {
     isEmpty() {
       return this.data.length == 0;
     },
+    // eslint-disable-next-line vue/return-in-computed-property
     draggedItems() {
       //Set opacity for dragged items
 
@@ -168,12 +176,32 @@ export default {
       }
     },
   },
-  data() {
-    return {
-      draggingId: undefined,
-      isDragging: false,
-      mobileMultiSelect: false,
-    };
+  created() {
+    events.$on("mobileSelecting:start", () => {
+      this.mobileMultiSelect = true;
+    });
+
+    events.$on("mobileSelecting:stop", () => {
+      this.mobileMultiSelect = false;
+    });
+
+    events.$on("drop", () => {
+      this.isDragging = false;
+      setTimeout(() => {
+        this.draggingId = undefined;
+      }, 10);
+    });
+
+    events.$on("fileItem:deselect", () =>
+      this.$store.commit("CLEAR_FILEINFO_DETAIL")
+    );
+
+    events.$on("scrollTop", () => {
+      // Scroll top
+      var container = document.getElementsByClassName("files-container")[0];
+
+      if (container) container.scrollTop = 0;
+    });
   },
   methods: {
     deleteItems() {
@@ -260,33 +288,6 @@ export default {
       // Deselect itms clicked by outside
       this.$store.commit("CLEAR_FILEINFO_DETAIL");
     },
-  },
-  created() {
-    events.$on("mobileSelecting:start", () => {
-      this.mobileMultiSelect = true;
-    });
-
-    events.$on("mobileSelecting:stop", () => {
-      this.mobileMultiSelect = false;
-    });
-
-    events.$on("drop", () => {
-      this.isDragging = false;
-      setTimeout(() => {
-        this.draggingId = undefined;
-      }, 10);
-    });
-
-    events.$on("fileItem:deselect", () =>
-      this.$store.commit("CLEAR_FILEINFO_DETAIL")
-    );
-
-    events.$on("scrollTop", () => {
-      // Scroll top
-      var container = document.getElementsByClassName("files-container")[0];
-
-      if (container) container.scrollTop = 0;
-    });
   },
 };
 </script>

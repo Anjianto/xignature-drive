@@ -24,11 +24,11 @@ const actions = {
     return { data, error: false };
   },
   async [ACT_SIGN_DOC]({ commit, getters }, { formData }) {
-    if ((formData instanceof FormData) === false) {
+    if (formData instanceof FormData === false) {
       return { error: "Invalid form data type" };
     }
     const { data, error } = await signDoc(formData);
-    
+
     if (error) {
       return { data, error };
     } else {

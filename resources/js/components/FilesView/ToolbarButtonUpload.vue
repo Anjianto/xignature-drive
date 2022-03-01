@@ -2,13 +2,13 @@
   <label label="file" class="button file-input">
     <upload-cloud-icon size="17"></upload-cloud-icon>
     <input
-      @change="emmitFiles"
       v-show="false"
       id="file"
       type="file"
       name="files[]"
       multiple
       :accept="Object.values(ALLOWED_EXTENSIONS).join(', ')"
+      @change="emmitFiles"
     />
   </label>
 </template>
@@ -19,14 +19,14 @@ import { ALLOWED_EXTENSIONS } from "@/constants/upload_rules";
 
 export default {
   name: "ToolbarButtonUpload",
+  components: {
+    UploadCloudIcon,
+  },
   props: ["action"],
   data() {
     return {
       ALLOWED_EXTENSIONS,
     };
-  },
-  components: {
-    UploadCloudIcon,
   },
   methods: {
     emmitFiles(e) {

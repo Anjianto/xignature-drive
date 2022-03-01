@@ -1,26 +1,27 @@
 <template>
   <div id="content-card">
+    <!-- eslint-disable vue/no-mutating-props  -->
     <ValidationObserver
-      @submit.prevent="saveRegister"
       ref="form"
       tag="form"
       class="form block-form"
+      @submit.prevent="saveRegister"
     >
       <div class="block-wrapper">
-      <div class="flex justify-center">
-        <div class="text-center mb-4">
-          <h3 class="text-lg">Getting Started</h3>
-        <p class="text-gray-500">Create an account to continue!</p>
+        <div class="flex justify-center">
+          <div class="text-center mb-4">
+            <h3 class="text-lg">Getting Started</h3>
+            <p class="text-gray-500">Create an account to continue!</p>
+          </div>
         </div>
-      </div>
         <label>{{ $t("page_registration.label_email") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="E-Mail"
           rules="required|mailcheck|email"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.email"
@@ -29,19 +30,19 @@
             type="email"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_name") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Full Name"
           rules="required"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.name"
@@ -49,19 +50,19 @@
             type="text"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_pass") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Your New Password"
           rules="required|confirmed:confirmation"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.password"
@@ -69,20 +70,20 @@
             type="password"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
       <div class="block-wrapper">
         <label>{{ $t("page_registration.label_confirm_pass") }}</label>
         <ValidationProvider
+          v-slot="{ errors }"
           tag="div"
           mode="passive"
           class="input-wrapper"
           name="Confirm Your Password"
           vid="confirmation"
           rules="required"
-          v-slot="{ errors }"
         >
           <input
             v-model="value.password_confirmation"
@@ -90,7 +91,7 @@
             type="password"
             :class="{ 'is-error': errors[0] }"
           />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
 
@@ -138,33 +139,21 @@
 import {
   ValidationProvider,
   ValidationObserver,
-  confirmation,
-  defineRule,
-  required, ext, digits, min, email
 } from "vee-validate/dist/vee-validate.full";
-import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
-import ProfileForm from "@/components/Signature/ProfileForm";
 import { mapGetters } from "vuex";
-import { emailUniq } from '@/validators/email-exist';
+import { emailUniq } from "@/validators/email-exist";
 
-emailUniq('/')
+emailUniq("/");
 export default {
-  name: "Step1",
+  name: "RegisterStep1",
   components: {
     ValidationProvider,
     ValidationObserver,
-    AuthContent,
     AuthButton,
-    ProfileForm,
-    confirmation,
-    required,
-    ext,
-    digits,
-    email,
-    min,
   },
-  props: ['value'],
+  // eslint-disable-next-line vue/require-prop-types
+  props: ["value"],
   computed: {
     ...mapGetters(["config", "api"]),
     privacyPolicy() {
@@ -181,11 +170,11 @@ export default {
   methods: {
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
-      if(!isValid) return;
-      console.log('goto step 2');
+      if (!isValid) return;
+      console.log("goto step 2");
       this.$emit("step", 2);
     },
-  }
+  },
 };
 </script>
 

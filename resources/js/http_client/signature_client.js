@@ -10,6 +10,17 @@ import {
 } from "../constants/api";
 import { joinUrlPath } from "../utils";
 
+export const client = ({ base_url, key }) =>
+  axios.create({
+    baseURL: base_url,
+    headers: {
+      "api-key": key,
+    },
+  });
+
+export const baseUrl = process.env.MIX_XIGNATURE_END_POINT;
+export const key = process.env.MIX_XIGNATURE_APP_KEY;
+
 export const loadDocuments = async ({
   page,
   limit,

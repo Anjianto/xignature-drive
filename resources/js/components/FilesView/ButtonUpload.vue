@@ -7,12 +7,12 @@
     <slot></slot>
     <input
       v-show="false"
-      @change="emmitFiles"
       id="file"
-      type="file"
-      name="files[]"
-      multiple
       :accept="Object.values(ALLOWED_EXTENSIONS).join(', ')"
+      multiple
+      name="files[]"
+      type="file"
+      @change="emmitFiles"
     />
   </label>
 </template>

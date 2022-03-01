@@ -1,5 +1,5 @@
 <template>
-  <section id="viewport" v-if="user">
+  <section v-if="user" id="viewport">
     <ContentSidebar>
       <!--Empty storage warning-->
       <ContentGroup v-if="config.storageLimit && storage.used > 95">
@@ -57,15 +57,15 @@
         :can-collapse="true"
         class="navigator"
       >
-        <span class="empty-note navigator" v-if="tree.length == 0">
+        <span v-if="tree.length == 0" class="empty-note navigator">
           {{ $t("sidebar.folders_empty") }}
         </span>
         <TreeMenuNavigator
+          v-for="items in tree"
+          :key="items.unique_id"
           class="folder-tree"
           :depth="0"
           :nodes="items"
-          v-for="items in tree"
-          :key="items.unique_id"
         />
       </ContentGroup>
 
@@ -84,15 +84,16 @@
         >
           <transition-group tag="div" class="menu-list" name="folder-item">
             <span
-              class="empty-note favourites"
               v-if="favourites.length == 0"
               :key="0"
+              class="empty-note favourites"
             >
               {{ $t("sidebar.favourites_empty") }}
             </span>
 
             <a
-              @click.stop="openFolder(folder)"
+              v-for="folder in favourites"
+              :key="folder.unique_id"
               class="menu-list-item"
               :class="{
                 'is-current':
@@ -100,8 +101,7 @@
                   currentFolder &&
                   currentFolder.unique_id === folder.unique_id,
               }"
-              v-for="(folder) in favourites"
-              :key="folder.unique_id"
+              @click.stop="openFolder(folder)"
             >
               <div>
                 <folder-icon size="17" class="folder-icon"></folder-icon>
@@ -109,8 +109,8 @@
               </div>
               <x-icon
                 size="17"
-                @click.stop="removeFavourite(folder)"
                 class="delete-icon"
+                @click.stop="removeFavourite(folder)"
               ></x-icon>
             </a>
           </transition-group>
@@ -181,6 +181,18 @@ export default {
       draggedItem: undefined,
     };
   },
+  created() {
+    this.goHome();
+
+    // Listen for dragstart folder items
+    events.$on("dragstart", (item) => {
+      (this.draggedItem = item), (this.dragInProgress = true);
+    });
+
+    events.$on("drop", () => {
+      this.dragInProgress = false;
+    });
+  },
   methods: {
     getTrash() {
       this.$store.dispatch("getTrash");
@@ -250,18 +262,6 @@ export default {
     removeFavourite(folder) {
       this.$store.dispatch("removeFromFavourites", folder);
     },
-  },
-  created() {
-    this.goHome();
-
-    // Listen for dragstart folder items
-    events.$on("dragstart", (item) => {
-      (this.draggedItem = item), (this.dragInProgress = true);
-    });
-
-    events.$on("drop", () => {
-      this.dragInProgress = false;
-    });
   },
 };
 </script>

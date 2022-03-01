@@ -14,6 +14,27 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $assets = $request->query('assets', null);
+
+
+        if ($assets) {
+            $ktp = $this->ktp;
+            $selfie = $this->selfie;
+
+            return [
+                'data' => [
+                    'ktp'                  => $ktp
+                        ? 'data:image/' . pathinfo(explode("?", $ktp)[0])["extension"] . ';base64,' . base64_encode(file_get_contents($ktp))
+                        : null,
+                    'selfie'               => $selfie
+                        ? 'data:image/' . pathinfo(explode("?", $selfie)[0])["extension"] . ';base64,' . base64_encode(file_get_contents($selfie))
+                        : null,
+                ]
+            ];
+        }
+
+
         return [
             'data'          => [
                 'id'         => (string)$this->id,
@@ -25,6 +46,10 @@ class UserResource extends JsonResource
                     'stripe_customer'      => is_null($this->stripe_id) ? false : true,
                     'name'                 => $this->name,
                     'email'                => env('APP_DEMO') ? obfuscate_email($this->email) : $this->email,
+                    'phone'                => $this->phone,
+                    'nik'                  => $this->nik,
+                    'birth_date'           => $this->birth_date,
+                    'birth_place'          => $this->birth_place,
                     'avatar'               => $this->avatar,
                     'role'                 => $this->role,
                     'created_at_formatted' => format_date($this->created_at, '%d. %B. %Y'),
@@ -78,7 +103,7 @@ class UserResource extends JsonResource
                         'id'        => '1',
                         'type'      => 'timezone',
                         'attributes' => [
-                            'timezone'  =>$this->settings->timezone
+                            'timezone'  => $this->settings->timezone
                         ],
                     ]
                 ],

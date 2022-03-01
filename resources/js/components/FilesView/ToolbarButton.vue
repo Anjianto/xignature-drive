@@ -54,7 +54,6 @@ import SortingAndPreviewIcon from "@/components/FilesView/Icons/SortingAndPrevie
 
 export default {
   name: "ToolbarButton",
-  props: ["source", "action"],
   components: {
     ZoomOutIcon,
     ZoomInIcon,
@@ -73,6 +72,7 @@ export default {
     LinkIcon,
     EditIcon,
   },
+  props: ["source", "action"],
 };
 </script>
 

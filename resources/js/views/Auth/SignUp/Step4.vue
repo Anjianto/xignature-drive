@@ -22,25 +22,10 @@
             <canvas id="canvas" class="hidden"></canvas>
             <div
               v-if="isLoadingCamera"
-              class="
-                spinner-wrapper
-                absolute
-                w-full
-                h-full
-                flex
-                justify-center
-                items-center
-              "
+              class="spinner-wrapper absolute w-full h-full flex justify-center items-center"
             >
               <div
-                class="
-                  flex
-                  text-center
-                  flex-col
-                  justify-center
-                  items-center
-                  gap-1
-                "
+                class="flex text-center flex-col justify-center items-center gap-1"
               >
                 <div class="w-24 h-24 relative">
                   <Spinner />
@@ -54,15 +39,22 @@
       </div>
       <div class="container center">
         <AuthButton
-          icon="chevron-right"
-          :text="isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'"
           v-if="!isCapture || isLoading"
+          icon="chevron-right"
+          :text="
+            isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'
+          "
           type="button"
-          @click="capture"
           :disabled="isLoadingCamera || isLoading"
           :loading="isLoadingCamera || isLoading"
+          @click="capture"
         />
-        <AuthButton @click.native="submitData" icon="save" text="Register" v-else />
+        <AuthButton
+          v-else
+          icon="save"
+          text="Register"
+          @click.native="submitData"
+        />
       </div>
     </div>
   </div>
@@ -80,7 +72,7 @@ import { getBlobUrl } from "@/utils";
 import Spinner from "@/components/FilesView/Spinner";
 
 export default {
-  name: "Step4",
+  name: "SignUpStep4",
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -103,32 +95,6 @@ export default {
       stream: undefined,
       isCapture: false,
     };
-  },
-  methods: {
-    submitData() {
-      if(this.isFinish) {
-        this.$emit("submit");
-      }
-    },
-    async capture() {
-      video.pause();
-      this.isCapture = true;
-      const track = this.stream.getVideoTracks()[0];
-      let imageCapture = new ImageCapture(track);
-      let image = await imageCapture.takePhoto();
-      let imgUrl = await getBlobUrl(image);
-      this.imageBlob = image;
-      capturedImg.src = imgUrl;
-      this.isFinish = true;
-      // stop camera running in background
-      video.srcObject.getTracks().forEach((track) => {
-        track.stop();
-      });
-      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
-        type: "image/jpeg",
-      });
-      this.$emit("input", selfieFile);
-    },
   },
   async mounted() {
     const selfieWrapper = document.getElementById("selfie-wrapper");
@@ -164,6 +130,34 @@ export default {
       this.isFinish = false;
     };
     this.isLoadingCamera = false;
+  },
+  methods: {
+    submitData() {
+      if (this.isFinish) {
+        this.$emit("submit");
+      }
+    },
+    async capture() {
+      const video = document.getElementById("video");
+      const capturedImg = document.getElementById("capturedImg");
+      video.pause();
+      this.isCapture = true;
+      const track = this.stream.getVideoTracks()[0];
+      let imageCapture = new ImageCapture(track);
+      let image = await imageCapture.takePhoto();
+      let imgUrl = await getBlobUrl(image);
+      this.imageBlob = image;
+      capturedImg.src = imgUrl;
+      this.capturedImgisFinish = true;
+      // stop camera running in background
+      video.srcObject.getTracks().forEach((track) => {
+        track.stop();
+      });
+      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
+        type: "image/jpeg",
+      });
+      this.$emit("input", selfieFile);
+    },
   },
 };
 </script>

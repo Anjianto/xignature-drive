@@ -1,8 +1,8 @@
 <template>
-  <div class="otp-modal" v-if="open">
-    <div @click="closeModal" class="otp-overlay"></div>
+  <div v-if="open" class="otp-modal">
+    <div class="otp-overlay" @click="closeModal"></div>
 
-    <div :class="['otp', { first: step == 0}]">
+    <div :class="['otp', { first: step == 0 }]">
       <div class="icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -18,11 +18,11 @@
           />
         </svg>
       </div>
-      <div :class="[{right: step == 1}]">
+      <div :class="[{ right: step == 1 }]">
         <h4 class="title">OTP Diperlukan</h4>
 
         <p class="description">
-          Masukan 6 digit token yang diperlukan dari aplikasi <br/>
+          Masukan 6 digit token yang diperlukan dari aplikasi <br />
           <slot></slot>
         </p>
         <!-- <p v-else class="description">
@@ -30,7 +30,12 @@
         </p> -->
 
         <form @submit.prevent="useOtp">
-          <input v-if="step == 1" type="number" v-model="otp" class="otp-input" />
+          <input
+            v-if="step == 1"
+            v-model="otp"
+            type="number"
+            class="otp-input"
+          />
 
           <div class="button-wrapper">
             <ButtonBase
@@ -47,16 +52,18 @@
               button-style="secondary"
               @click.native="resendOTP"
               :disabled="disabled"
-              >
-              Kirim Ulang
-              </ButtonBase
             >
+              Kirim Ulang
+            </ButtonBase>
             <ButtonBase v-if="step == 0" type="submit" button-style="theme">
               Kirim OTP
             </ButtonBase>
-            <ButtonBase v-else type="submit" 
-            :disabled="disabled"
-            button-style="theme">
+            <ButtonBase
+              v-else
+              type="submit"
+              :disabled="disabled"
+              button-style="theme"
+            >
               Tanda Tangani
             </ButtonBase>
           </div>
@@ -71,6 +78,9 @@ import ButtonBase from "@/components/FilesView/ButtonBase";
 
 export default {
   name: "OTPModal",
+  components: {
+    ButtonBase,
+  },
   props: {
     open: {
       type: Boolean,
@@ -84,9 +94,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    ButtonBase,
   },
   data() {
     return {

@@ -38,7 +38,7 @@
         />
       </AuthContent>
     </AuthContentWrapper>
-    <ConfirmModal v-model="confirm" @accept="confirmValid"/>
+    <ConfirmModal v-model="confirm" @accept="confirmValid" />
   </div>
 </template>
 
@@ -51,12 +51,12 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { mapGetters } from "vuex";
 import { events } from "@/bus";
-import { SIGN_DOC_KEY, SIGN_DOC_ID} from "@/constants/variables"
+import { SIGN_DOC_KEY, SIGN_DOC_ID } from "@/constants/variables";
 import Cookies from "js-cookie";
 import { format } from "date-fns";
-import { ACT_REGISTER } from "@/constants/action"
-import { ALERT_OPEN } from '@/constants/events';
-import { notifError } from '@/utils';
+import { ACT_REGISTER } from "@/constants/action";
+import { ALERT_OPEN } from "@/constants/events";
+import { notifError } from "@/utils";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
 
 export default {
@@ -80,7 +80,6 @@ export default {
         email: undefined,
         password: undefined,
         password_confirmation: undefined,
-        phone: undefined,
         phone: undefined,
         nik: undefined,
         ktp: undefined,
@@ -114,8 +113,8 @@ export default {
       );
       dataRegister.append("birth_place", this.data.birthplace);
 
-      dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY))
-      dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID))
+      dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY));
+      dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID));
 
       return dataRegister;
     },
@@ -127,7 +126,7 @@ export default {
       this.steps = 4;
     },
     changeStep(step) {
-      if(step === 4 && !this.accept) {
+      if (step === 4 && !this.accept) {
         this.confirm = true;
         return;
       }
@@ -135,16 +134,20 @@ export default {
     },
     async saveRegister() {
       this.isLoading = true;
-      const {data, error } = await this.$store.dispatch(ACT_REGISTER, {formData: this.formData});
-      if(data) {
-          events.$emit(ALERT_OPEN, {
-            emoji: "🗝️",
-            title: "Berhasil",	
-            message: "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
-            buttonStyle: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-            button: "Go To Files",
-          })
-          this.isLoading = false;
+      const { data, error } = await this.$store.dispatch(ACT_REGISTER, {
+        formData: this.formData,
+      });
+      if (data) {
+        events.$emit(ALERT_OPEN, {
+          emoji: "🗝️",
+          title: "Berhasil",
+          message:
+            "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+          buttonStyle:
+            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+          button: "Go To Files",
+        });
+        this.isLoading = false;
       } else {
         notifError(error, () => {
           this.isLoading = false;

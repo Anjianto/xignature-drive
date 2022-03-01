@@ -12,20 +12,20 @@ export const notifError = (error, callback) => {
   } else if (error.status >= 400) {
     let message = error.data.message;
     let errors = error.data.errors;
-    if(errors) {
+    if (errors) {
       message += ": ";
       for (var key in errors) {
         let errMsg = errors[key];
-        if(Array.isArray(errMsg)) {
+        if (Array.isArray(errMsg)) {
           errMsg = errMsg.join(", ");
         }
         message += errMsg + "\n";
       }
-    } 
+    }
 
     events.$emit("alert:open", {
       title: error.statusText,
-      message,	
+      message,
       button: "Retry",
     });
   } else {
@@ -35,7 +35,7 @@ export const notifError = (error, callback) => {
       message: error.message,
     });
   }
-  if(callback) {
+  if (callback) {
     events.$on("toaster:close", callback);
     events.$on("alert:close", callback);
     events.$on("popup:close", callback);
@@ -55,8 +55,8 @@ export const loadPdf = async (url) => {
   };
 };
 /**
- * 
- * @param {Blob} file 
+ *
+ * @param {Blob} file
  * @returns {Promise<string>}
  */
 export function getBlobUrl(file) {
@@ -73,8 +73,8 @@ export function getBlobUrl(file) {
 }
 
 /**
- * 
- * @param {string} url 
+ *
+ * @param {string} url
  * @returns {Promise<Blob>}
  */
 export function getAsBlob(url) {
@@ -98,7 +98,7 @@ var BASE64_MARKER = ";base64,";
 
 /**
  * convertDataURIToBinary - convert base64 to binary array
- * @param {string} dataURI 
+ * @param {string} dataURI
  * @returns {Uint8Array}
  */
 export function convertDataURIToBinary(dataURI) {
@@ -129,4 +129,4 @@ export function convertBlobToBase64(blob) {
 
 export const joinUrlPath = (base, path) => {
   return new URL(path, base).href;
-}
+};

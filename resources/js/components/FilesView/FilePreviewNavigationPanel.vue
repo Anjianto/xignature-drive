@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="navigation-panel" v-if="fileInfoDetail[0]">
+    <div v-if="fileInfoDetail[0]" class="navigation-panel">
       <div class="name-wrapper">
         <x-icon
-          @click="closeFullPreview"
           size="22"
           class="icon-close hover-text-theme"
+          @click="closeFullPreview"
         />
         <div class="name-count-wrapper">
           <p class="title">{{ fileInfoDetail[0].name }}</p>
@@ -16,9 +16,9 @@
           </span>
         </div>
         <span
-          @click.stop="menuOpen"
           id="fast-preview-menu"
           class="fast-menu-icon group"
+          @click.stop="menuOpen"
         >
           <more-horizontal-icon
             class="more-icon group-hover-text-theme"
@@ -36,36 +36,36 @@
       <div class="navigation-icons">
         <div v-if="isPdf" class="navigation-tool-wrapper">
           <ToolbarButton
-            @click.native="increaseSizeOfPDF"
             source="zoom-in"
             :action="$t('pdf_zoom_in')"
+            @click.native="increaseSizeOfPDF"
           />
           <ToolbarButton
-            @click.native="decreaseSizeOfPDF"
             source="zoom-out"
             :action="$t('pdf_zoom_out')"
+            @click.native="decreaseSizeOfPDF"
           />
         </div>
         <div class="navigation-tool-wrapper">
           <ToolbarButton
-            @click.native="downloadItem"
             class="mobile-hide"
             source="download"
             :action="$t('actions.download')"
+            @click.native="downloadItem"
           />
           <ToolbarButton
             v-if="canShareItem"
-            @click.native="shareItem"
             class="mobile-hide"
             :class="{ 'is-inactive': !canShareItem }"
             source="share"
             :action="$t('actions.share')"
+            @click.native="shareItem"
           />
           <ToolbarButton
             v-if="isImage"
-            @click.native="printMethod()"
             source="print"
             :action="$t('actions.print')"
+            @click.native="printMethod()"
           />
         </div>
       </div>
@@ -79,7 +79,6 @@ import ToolbarButton from "@/components/FilesView/ToolbarButton";
 import { XIcon, MoreHorizontalIcon } from "vue-feather-icons";
 import { mapGetters } from "vuex";
 import { events } from "@/bus";
-import ButtonBase from "@/components/FilesView/ButtonBase";
 import OTPModal from "./OTPModal.vue";
 
 export default {
@@ -88,7 +87,6 @@ export default {
     MoreHorizontalIcon,
     ToolbarButton,
     XIcon,
-    ButtonBase,
     OTPModal,
   },
   computed: {

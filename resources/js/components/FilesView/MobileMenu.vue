@@ -25,9 +25,9 @@
           >
             <ul class="menu-option-group">
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="$store.dispatch('restoreItem', fileInfoDetail[0])"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <life-buoy-icon size="17"></life-buoy-icon>
@@ -37,9 +37,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -51,7 +51,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+              <li v-if="!isFolder" class="menu-option" @click="downloadItem">
                 <div class="icon">
                   <download-cloud-icon size="17"></download-cloud-icon>
                 </div>
@@ -60,7 +60,7 @@
                 </div>
               </li>
 
-              <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+              <li v-if="isFolder" class="menu-option" @click="downloadFolder">
                 <div class="icon">
                   <paperclip-icon size="17"></paperclip-icon>
                 </div>
@@ -78,9 +78,9 @@
           >
             <ul class="menu-option-group">
               <li
+                v-if="fileInfoDetail[0] && isFolder"
                 class="menu-option"
                 @click="addToFavourites"
-                v-if="fileInfoDetail[0] && isFolder"
               >
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -97,9 +97,9 @@
 
             <ul class="menu-option-group">
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="renameItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
@@ -109,9 +109,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="shareItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <link-icon size="17"></link-icon>
@@ -125,9 +125,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -139,7 +139,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+              <li v-if="!isFolder" class="menu-option" @click="downloadItem">
                 <div class="icon">
                   <download-cloud-icon size="17"></download-cloud-icon>
                 </div>
@@ -148,7 +148,7 @@
                 </div>
               </li>
 
-              <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+              <li v-if="isFolder" class="menu-option" @click="downloadFolder">
                 <div class="icon">
                   <paperclip-icon size="17"></paperclip-icon>
                 </div>
@@ -167,7 +167,7 @@
             "
             class="menu-options"
           >
-            <ul class="menu-option-group" v-if="fileInfoDetail[0] && isFolder">
+            <ul v-if="fileInfoDetail[0] && isFolder" class="menu-option-group">
               <li class="menu-option" @click="addToFavourites">
                 <div class="icon">
                   <star-icon size="17"></star-icon>
@@ -184,9 +184,9 @@
 
             <ul class="menu-option-group">
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="renameItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
@@ -196,9 +196,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="moveItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
@@ -208,9 +208,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="singleSignItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <edit-icon size="17"></edit-icon>
@@ -219,9 +219,9 @@
               </li>
               <!-- Sign -->
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="shareItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <link-icon size="17"></link-icon>
@@ -235,9 +235,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option delete"
                 @click="deleteItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <trash-2-icon size="17"></trash-2-icon>
@@ -249,7 +249,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+              <li v-if="!isFolder" class="menu-option" @click="downloadItem">
                 <div class="icon">
                   <download-cloud-icon size="17"></download-cloud-icon>
                 </div>
@@ -258,7 +258,7 @@
                 </div>
               </li>
 
-              <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+              <li v-if="isFolder" class="menu-option" @click="downloadFolder">
                 <div class="icon">
                   <paperclip-icon size="17"></paperclip-icon>
                 </div>
@@ -278,9 +278,9 @@
           >
             <ul class="menu-option-group">
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="renameItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <edit-2-icon size="17"></edit-2-icon>
@@ -290,9 +290,9 @@
                 </div>
               </li>
               <li
+                v-if="fileInfoDetail[0]"
                 class="menu-option"
                 @click="moveItem"
-                v-if="fileInfoDetail[0]"
               >
                 <div class="icon">
                   <corner-down-right-icon size="17"></corner-down-right-icon>
@@ -312,7 +312,7 @@
             </ul>
 
             <ul class="menu-option-group">
-              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+              <li v-if="!isFolder" class="menu-option" @click="downloadItem">
                 <div class="icon">
                   <download-cloud-icon size="17"></download-cloud-icon>
                 </div>
@@ -321,7 +321,7 @@
                 </div>
               </li>
 
-              <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+              <li v-if="isFolder" class="menu-option" @click="downloadFolder">
                 <div class="icon">
                   <paperclip-icon size="17"></paperclip-icon>
                 </div>
@@ -340,7 +340,7 @@
             class="menu-options"
           >
             <ul class="menu-option-group">
-              <li class="menu-option" @click="downloadItem" v-if="!isFolder">
+              <li v-if="!isFolder" class="menu-option" @click="downloadItem">
                 <div class="icon">
                   <download-cloud-icon size="17"></download-cloud-icon>
                 </div>
@@ -349,7 +349,7 @@
                 </div>
               </li>
 
-              <li class="menu-option" @click="downloadFolder" v-if="isFolder">
+              <li v-if="isFolder" class="menu-option" @click="downloadFolder">
                 <div class="icon">
                   <paperclip-icon size="17"></paperclip-icon>
                 </div>
@@ -378,15 +378,12 @@ import ThumbnailItem from "@/components/Others/ThumbnailItem";
 import {
   CornerDownRightIcon,
   DownloadCloudIcon,
-  FolderPlusIcon,
   PaperclipIcon,
   LifeBuoyIcon,
   Trash2Icon,
   Edit2Icon,
-  TrashIcon,
   StarIcon,
   LinkIcon,
-  EyeIcon,
   EditIcon,
 } from "vue-feather-icons";
 import { events } from "@/bus";
@@ -397,17 +394,20 @@ export default {
   components: {
     CornerDownRightIcon,
     DownloadCloudIcon,
-    FolderPlusIcon,
     PaperclipIcon,
     ThumbnailItem,
     LifeBuoyIcon,
     Trash2Icon,
     Edit2Icon,
-    TrashIcon,
     LinkIcon,
     StarIcon,
-    EyeIcon,
     EditIcon,
+  },
+  data() {
+    return {
+      isVisible: false,
+      showFromMediaPreview: false,
+    };
   },
   computed: {
     ...mapGetters(["fileInfoDetail", "user"]),
@@ -434,11 +434,21 @@ export default {
       return this.fileInfoDetail[0] && this.fileInfoDetail[0].type === "folder";
     },
   },
-  data() {
-    return {
-      isVisible: false,
-      showFromMediaPreview: false,
-    };
+  created() {
+    events.$on("mobileMenu:show", (showFromMedia) => {
+      // If emit come from MediaFullPreview
+      if (showFromMedia) {
+        this.isVisible = true;
+        this.showFromMediaPreview = true;
+      } else {
+        this.isVisible = !this.isVisible;
+      }
+    });
+
+    // Hide mobile menu
+    events.$on("mobileMenu:hide", () => {
+      this.isVisible = false;
+    });
   },
   methods: {
     downloadFolder() {
@@ -502,22 +512,6 @@ export default {
       this.showFromMediaPreview = false;
       events.$emit("hide:mobile-navigation");
     },
-  },
-  created() {
-    events.$on("mobileMenu:show", (showFromMedia) => {
-      // If emit come from MediaFullPreview
-      if (showFromMedia) {
-        this.isVisible = true;
-        this.showFromMediaPreview = true;
-      } else {
-        this.isVisible = !this.isVisible;
-      }
-    });
-
-    // Hide mobile menu
-    events.$on("mobileMenu:hide", () => {
-      this.isVisible = false;
-    });
   },
 };
 </script>

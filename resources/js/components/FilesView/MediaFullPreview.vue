@@ -1,12 +1,12 @@
 <template>
-  <div class="media-full-preview" id="mediaPreview" v-if="fileInfoDetail[0]">
+  <div v-if="fileInfoDetail[0]" id="mediaPreview" class="media-full-preview">
     <!--Arrow navigation-->
     <div v-if="files.length > 1" class="navigation-arrows">
-      <div @click.prevent="prev" class="prev">
+      <div class="prev" @click.prevent="prev">
         <chevron-left-icon size="17" />
       </div>
 
-      <div @click.prevent="next" class="next">
+      <div class="next" @click.prevent="next">
         <chevron-right-icon size="17" />
       </div>
     </div>
@@ -16,14 +16,14 @@
       <!--Show PDF-->
       <div v-if="isPDF" id="pdf-wrapper" :style="{ width: documentSize + '%' }">
         <pdf
-          :src="pdfdata"
           v-for="i in numPages"
+          id="printable-file"
           :key="i"
+          :src="pdfdata"
           :resize="true"
           :page="i"
           scale="page-width"
           style="width: 100%; margin: 20px auto"
-          id="printable-file"
         >
           <template slot="loading">
             <h1>loading content...</h1>
@@ -42,14 +42,14 @@
         ></audio>
 
         <img
-          id="printable-file"
           v-if="isImage"
+          id="printable-file"
           class="file"
           :class="{ 'file-shadow': !$isMobile() }"
           :src="currentFile.file_url"
         />
 
-        <div class="video-wrapper" v-if="isVideo">
+        <div v-if="isVideo" class="video-wrapper">
           <video
             :src="currentFile.file_url"
             class="video"
@@ -68,8 +68,6 @@
 
 <script>
 import { ChevronLeftIcon, ChevronRightIcon } from "vue-feather-icons";
-import ToolbarButton from "@/components/FilesView/ToolbarButton";
-import Spinner from "@/components/FilesView/Spinner";
 import { mapGetters } from "vuex";
 import { events } from "@/bus";
 import pdf from "pdfvuer";
@@ -79,9 +77,16 @@ export default {
   components: {
     ChevronRightIcon,
     ChevronLeftIcon,
-    ToolbarButton,
-    Spinner,
     pdf,
+  },
+  data() {
+    return {
+      pdfdata: undefined,
+      numPages: 0,
+      currentIndex: 0,
+      files: [],
+      documentSize: 50,
+    };
   },
   computed: {
     ...mapGetters(["fileInfoDetail", "data"]),
@@ -100,15 +105,6 @@ export default {
     isImage() {
       return this.fileInfoDetail[0].type === "image";
     },
-  },
-  data() {
-    return {
-      pdfdata: undefined,
-      numPages: 0,
-      currentIndex: 0,
-      files: [],
-      documentSize: 50,
-    };
   },
   watch: {
     files() {
@@ -139,6 +135,23 @@ export default {
         this.files = [];
       }
     },
+  },
+  created() {
+    // Set zoom size
+    this.documentSize = window.innerWidth < 960 ? 100 : 50;
+
+    events.$on("file-preview:next", () => this.next());
+    events.$on("file-preview:prev", () => this.prev());
+
+    events.$on("document-zoom:in", () => {
+      if (this.documentSize < 100) this.documentSize += 10;
+    });
+
+    events.$on("document-zoom:out", () => {
+      if (this.documentSize > 40) this.documentSize -= 10;
+    });
+
+    this.getFilesForView();
   },
   methods: {
     next() {
@@ -190,23 +203,6 @@ export default {
         }
       });
     },
-  },
-  created() {
-    // Set zoom size
-    this.documentSize = window.innerWidth < 960 ? 100 : 50;
-
-    events.$on("file-preview:next", () => this.next());
-    events.$on("file-preview:prev", () => this.prev());
-
-    events.$on("document-zoom:in", () => {
-      if (this.documentSize < 100) this.documentSize += 10;
-    });
-
-    events.$on("document-zoom:out", () => {
-      if (this.documentSize > 40) this.documentSize -= 10;
-    });
-
-    this.getFilesForView();
   },
 };
 </script>

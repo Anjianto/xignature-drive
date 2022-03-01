@@ -1,299 +1,388 @@
 <template>
-    <PopupWrapper name="share-create">
-        <!--Title-->
-        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" icon="share"/>
+  <PopupWrapper name="share-create">
+    <!--Title-->
+    <PopupHeader
+      :title="$t('popup_share_create.title', { item: itemTypeTitle })"
+      icon="share"
+    />
 
-        <!--Content-->
-        <PopupContent>
+    <!--Content-->
+    <PopupContent>
+      <!--Item Thumbnail-->
+      <ThumbnailItem
+        class="item-thumbnail"
+        :item="pickedItem"
+        info="metadata"
+      />
 
-            <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata"/>
+      <!-- Infobox for successfull sended email -->
+      <InfoBox
+        v-if="isGeneratedShared && sharedViaEmail"
+        class="info-box-wrapper"
+      >
+        <p v-html="$t('shared_form.email_successfully_send_message')"></p>
+      </InfoBox>
 
-            <!-- Infobox for successfull sended email -->
-            <InfoBox v-if="isGeneratedShared && sharedViaEmail" class="info-box-wrapper">
-                <p v-html="$t('shared_form.email_successfully_send_message')"></p>
-            </InfoBox>
+      <!--Form to set sharing-->
+      <ValidationObserver
+        v-if="!isGeneratedShared"
+        ref="shareForm"
+        tag="form"
+        class="form-wrapper"
+        @submit.prevent
+      >
+        <TabWrapper v-if="!pickedItem.shared">
+          <!-- Share via link -->
+          <TabOption
+            :selected="true"
+            :title="$t('shared_form.share_by_link')"
+            icon="link"
+          />
 
-            <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent v-if="! isGeneratedShared" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+          <!-- Share via Email -->
+          <TabOption :title="$t('shared_form.share_by_email')" icon="email">
+            <ValidationProvider
+              v-slot="{ errors }"
+              tag="div"
+              mode="passive"
+              name="Email"
+              rules="required"
+            >
+              <MultiEmailInput
+                v-model="shareOptions.emails"
+                rules="required"
+                :label="$t('shared_form.recipients_label')"
+                :is-error="errors[0]"
+              />
+            </ValidationProvider>
+          </TabOption>
+        </TabWrapper>
 
-                <TabWrapper v-if="!pickedItem.shared">
+        <!-- <TabWrapper v-if="pickedItem.shared"> -->
 
-                    <!-- Share via link -->
-                    <TabOption :selected="true" :title="$t('shared_form.share_by_link')" icon="link"/>
+        <!-- share xiganture -->
+        <!-- <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link"> -->
+        <!-- <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }"> -->
+        <!-- <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/> -->
+        <!-- </ValidationProvider> -->
+        <!-- </TabOption> -->
 
-                    <!-- Share via Email -->
-                    <TabOption :title="$t('shared_form.share_by_email')" icon="email">
-                        <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                            <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/>
-                        </ValidationProvider>
-                    </TabOption>
+        <!-- </TabWrapper> -->
 
+        <!--Permision Select-->
+        <ValidationProvider
+          v-if="isFolder"
+          v-slot="{ errors }"
+          tag="div"
+          mode="passive"
+          class="input-wrapper"
+          name="Permission"
+          rules="required"
+        >
+          <label class="input-label"
+            >{{ $t("shared_form.label_permission") }}:</label
+          >
+          <SelectInput
+            v-model="shareOptions.permission"
+            :options="$translateSelectOptions(permissionOptions)"
+            :placeholder="$t('shared_form.placeholder_permission')"
+            :is-error="errors[0]"
+          />
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+        </ValidationProvider>
 
-                </TabWrapper>
+        <!--Password Switch-->
+        <div class="input-wrapper">
+          <div class="inline-wrapper">
+            <label class="input-label"
+              >{{ $t("shared_form.label_password_protection") }}:</label
+            >
+            <SwitchInput
+              v-model="shareOptions.isPassword"
+              class="switch"
+              :state="0"
+            />
+          </div>
+        </div>
 
-                <!-- <TabWrapper v-if="pickedItem.shared"> -->
+        <!--Set password-->
+        <ValidationProvider
+          v-if="shareOptions.isPassword"
+          v-slot="{ errors }"
+          tag="div"
+          mode="passive"
+          class="input-wrapper password"
+          name="Password"
+          rules="required"
+        >
+          <input
+            v-model="shareOptions.password"
+            :class="{ 'is-error': errors[0] }"
+            type="text"
+            :placeholder="$t('page_sign_in.placeholder_password')"
+          />
+          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+        </ValidationProvider>
 
-                    <!-- share xiganture -->
-                    <!-- <TabOption v-if="isDoc" :selected="true" :title="$t('Xignature')" icon="link"> -->
-                        <!-- <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }"> -->
-                            <!-- <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]"/> -->
-                        <!-- </ValidationProvider> -->
-                    <!-- </TabOption> -->
+        <!--More options-->
+        <div v-if="isMoreOptions" class="more-options">
+          <!--Set expiration-->
+          <div class="input-wrapper">
+            <label class="input-label"
+              >{{ $t("shared_form.label_expiration") }}:</label
+            >
+            <SelectBoxInput
+              v-model="shareOptions.expiration"
+              :data="$translateSelectOptions(expirationList)"
+              class="box"
+            />
+          </div>
+        </div>
 
-                <!-- </TabWrapper> -->
+        <ActionButton
+          :icon="isMoreOptions ? 'x' : 'pencil-alt'"
+          @click.native="moreOptions"
+          >{{ moreOptionsTitle }}</ActionButton
+        >
+      </ValidationObserver>
 
-                <!--Permision Select-->
-                <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+      <!--Copy generated link-->
+      <div v-if="isGeneratedShared" class="form-wrapper">
+        <div class="input-wrapper">
+          <label class="input-label"
+            >{{
+              sharedViaEmail
+                ? $t("shared_form.label_share_vie_email")
+                : $t("shared_form.label_shared_url")
+            }}:</label
+          >
+          <CopyInput size="small" :item="pickedItem" />
+        </div>
+      </div>
+    </PopupContent>
 
-                <!--Password Switch-->
-                <div class="input-wrapper">
-                    <div class="inline-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0"/>
-                    </div>
-                </div>
-
-                <!--Set password-->
-                <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" :placeholder="$t('page_sign_in.placeholder_password')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                <!--More options-->
-                <div class="more-options" v-if="isMoreOptions">
-
-                    <!--Set expiration-->
-                    <div class="input-wrapper">
-                        <label class="input-label">{{ $t('shared_form.label_expiration') }}:</label>
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" class="box"/>
-                    </div>
-                </div>
-
-                <ActionButton @click.native="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
-            </ValidationObserver>
-
-            <!--Copy generated link-->
-            <div v-if="isGeneratedShared" class="form-wrapper">
-                <div class="input-wrapper">
-                    <label class="input-label">{{ this.sharedViaEmail ? $t('shared_form.label_share_vie_email') : $t('shared_form.label_shared_url') }}:</label>
-                    <CopyInput size="small" :item="pickedItem"/>
-                </div>
-            </div>
-        </PopupContent>
-
-        <!--Actions-->
-        <PopupActions>
-            <ButtonBase v-if="! isGeneratedShared" class="popup-button" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }}
-            </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">{{ submitButtonText }}
-            </ButtonBase>
-        </PopupActions>
-    </PopupWrapper>
+    <!--Actions-->
+    <PopupActions>
+      <ButtonBase
+        v-if="!isGeneratedShared"
+        class="popup-button"
+        button-style="secondary"
+        @click.native="$closePopup()"
+        >{{ $t("popup_move_item.cancel") }}
+      </ButtonBase>
+      <ButtonBase
+        class="popup-button"
+        button-style="theme"
+        :loading="isLoading"
+        :disabled="isLoading"
+        @click.native="submitShareOptions"
+        >{{ submitButtonText }}
+      </ButtonBase>
+    </PopupActions>
+  </PopupWrapper>
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SelectBoxInput from '@/components/Others/Forms/SelectBoxInput'
-import PopupWrapper from '@/components/Others/Popup/PopupWrapper'
-import PopupActions from '@/components/Others/Popup/PopupActions'
-import PopupContent from '@/components/Others/Popup/PopupContent'
-import PopupHeader from '@/components/Others/Popup/PopupHeader'
-import MultiEmailInput from '@/components/Others/Forms/MultiEmailInput'
-import SwitchInput from '@/components/Others/Forms/SwitchInput'
-import SelectInput from '@/components/Others/Forms/SelectInput'
-import ThumbnailItem from '@/components/Others/ThumbnailItem'
-import ActionButton from '@/components/Others/ActionButton'
-import CopyInput from '@/components/Others/Forms/CopyInput'
-import TabWrapper from '@/components/Others/TabWrapper'
-import TabOption from '@/components/Others/TabOption'
-import ButtonBase from '@/components/FilesView/ButtonBase'
-import InfoBox from '@/components/Others/Forms/InfoBox'
-import { LinkIcon, MailIcon, Share2Icon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
-import { mapGetters } from 'vuex'
-import { events } from '@/bus'
-import axios from 'axios'
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate/dist/vee-validate.full";
+import SelectBoxInput from "@/components/Others/Forms/SelectBoxInput";
+import PopupWrapper from "@/components/Others/Popup/PopupWrapper";
+import PopupActions from "@/components/Others/Popup/PopupActions";
+import PopupContent from "@/components/Others/Popup/PopupContent";
+import PopupHeader from "@/components/Others/Popup/PopupHeader";
+import MultiEmailInput from "@/components/Others/Forms/MultiEmailInput";
+import SwitchInput from "@/components/Others/Forms/SwitchInput";
+import SelectInput from "@/components/Others/Forms/SelectInput";
+import ThumbnailItem from "@/components/Others/ThumbnailItem";
+import ActionButton from "@/components/Others/ActionButton";
+import CopyInput from "@/components/Others/Forms/CopyInput";
+import TabWrapper from "@/components/Others/TabWrapper";
+import TabOption from "@/components/Others/TabOption";
+import ButtonBase from "@/components/FilesView/ButtonBase";
+import InfoBox from "@/components/Others/Forms/InfoBox";
+import { LinkIcon, MailIcon, Share2Icon } from "vue-feather-icons";
+import { required } from "vee-validate/dist/rules";
+import { mapGetters } from "vuex";
+import { events } from "@/bus";
+import axios from "axios";
 
 export default {
-    name: 'ShareCreate',
-    components: {
-        ValidationProvider,
-        ValidationObserver,
-        SelectBoxInput,
-        ThumbnailItem,
-        ActionButton,
-        PopupWrapper,
-        PopupActions,
-        TabWrapper,
-        TabOption,
-        PopupContent,
-        PopupHeader,
-        MultiEmailInput,
-        SelectInput,
-        SwitchInput,
-        ButtonBase,
-        CopyInput,
-        MailIcon,
-        Share2Icon,
-        required,
-        LinkIcon,
-        InfoBox
+  name: "ShareCreate",
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+    SelectBoxInput,
+    ThumbnailItem,
+    ActionButton,
+    PopupWrapper,
+    PopupActions,
+    TabWrapper,
+    TabOption,
+    PopupContent,
+    PopupHeader,
+    MultiEmailInput,
+    SelectInput,
+    SwitchInput,
+    ButtonBase,
+    CopyInput,
+    MailIcon,
+    Share2Icon,
+    required,
+    LinkIcon,
+    InfoBox,
+  },
+  computed: {
+    ...mapGetters(["permissionOptions", "expirationList"]),
+    isDoc() {
+      const extesion = this.pickedItem.basename.split(".").pop();
+      if (extesion === "doc" || extesion === "docx" || extesion === "pdf") {
+        return true;
+      }
+      return false;
     },
-    computed: {
-        ...mapGetters([
-            'permissionOptions',
-            'expirationList'
-        ]),
-        isDoc() {
-            const extesion = this.pickedItem.basename.split('.').pop()
-            if(extesion === 'doc' || extesion === 'docx' || extesion === 'pdf') {
-                return true
-            }
-            return false
-        },
-        itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
-        },
-        isFolder() {
-            return this.pickedItem && this.pickedItem.type === 'folder'
-        },
-        submitButtonText() {
-            return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
-        },
-        moreOptionsTitle() {
-            return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_more_options')
-        }
+    itemTypeTitle() {
+      return this.pickedItem && this.pickedItem.type === "folder"
+        ? this.$t("types.folder")
+        : this.$t("types.file");
     },
-    data() {
-        return {
-            shareOptions: {
-                isPassword: false,
-                expiration: undefined,
-                password: undefined,
-                permission: undefined,
-                type: undefined,
-                unique_id: undefined,
-                emails: undefined
-            },
-            pickedItem: undefined,
-            isGeneratedShared: false,
-            isLoading: false,
-            isMoreOptions: false,
-            sharedViaEmail: false
-        }
+    isFolder() {
+      return this.pickedItem && this.pickedItem.type === "folder";
     },
-    methods: {
-        moreOptions() {
-            this.isMoreOptions = !this.isMoreOptions
-
-            if (!this.isMoreOptions)
-                this.shareOptions.expiration = undefined
-        },
-        async submitShareOptions() {
-
-            // If shared was generated, then close popup
-            if (this.isGeneratedShared) {
-                events.$emit('popup:close')
-
-                return
-            }
-
-            // Validate fields
-            const isValid = await this.$refs.shareForm.validate()
-
-            if (!isValid) return
-
-            this.isLoading = true
-
-            // Send request to get share link
-            axios
-                .post('/api/share', this.shareOptions)
-                .then(response => {
-
-                    // Show infobox and reset emails container
-                    if (this.shareOptions.emails)
-                        this.sharedViaEmail = true
-
-                    // End loading
-                    this.isGeneratedShared = true
-
-                    this.$store.commit('UPDATE_SHARED_ITEM', response.data.data.attributes)
-                })
-                .catch(() => {
-                    events.$emit('alert:open', {
-                        title: this.$t('popup_error.title'),
-                        message: this.$t('popup_error.message'),
-                    })
-
-                    // End loading
-                    this.isLoading = false
-                })
-                .finally(() => {
-                    this.isLoading = false
-                })
-        }
+    submitButtonText() {
+      return this.isGeneratedShared
+        ? this.$t("shared_form.button_done")
+        : this.$t("shared_form.button_generate");
     },
-    mounted() {
+    moreOptionsTitle() {
+      return this.isMoreOptions
+        ? this.$t("shared_form.button_close_options")
+        : this.$t("shared_form.button_more_options");
+    },
+  },
+  data() {
+    return {
+      shareOptions: {
+        isPassword: false,
+        expiration: undefined,
+        password: undefined,
+        permission: undefined,
+        type: undefined,
+        unique_id: undefined,
+        emails: undefined,
+      },
+      pickedItem: undefined,
+      isGeneratedShared: false,
+      isLoading: false,
+      isMoreOptions: false,
+      sharedViaEmail: false,
+    };
+  },
+  mounted() {
+    events.$on(
+      "emailsInputValues",
+      (emails) => (this.shareOptions.emails = emails)
+    );
 
-        events.$on('emailsInputValues', (emails) => this.shareOptions.emails = emails)
+    // Show popup
+    events.$on("popup:open", (args) => {
+      if (args.name !== "share-create") return;
 
-        // Show popup
-        events.$on('popup:open', args => {
+      // Store picked item
+      this.pickedItem = args.item;
 
-            if (args.name !== 'share-create') return
+      this.shareOptions.type = args.item.type;
+      this.shareOptions.unique_id = args.item.unique_id;
+    });
 
-            // Store picked item
-            this.pickedItem = args.item
+    // Close popup
+    events.$on("popup:close", () => {
+      // Restore data
+      setTimeout(() => {
+        this.shareOptions = {
+          permission: undefined,
+          password: undefined,
+          isPassword: false,
+          expiration: undefined,
+          type: undefined,
+          unique_id: undefined,
+          emails: undefined,
+        };
+        this.isGeneratedShared = false;
+        this.isMoreOptions = false;
+        this.sharedViaEmail = false;
+      }, 150);
+    });
+  },
+  methods: {
+    moreOptions() {
+      this.isMoreOptions = !this.isMoreOptions;
 
-            this.shareOptions.type = args.item.type
-            this.shareOptions.unique_id = args.item.unique_id
+      if (!this.isMoreOptions) this.shareOptions.expiration = undefined;
+    },
+    async submitShareOptions() {
+      // If shared was generated, then close popup
+      if (this.isGeneratedShared) {
+        events.$emit("popup:close");
+
+        return;
+      }
+
+      // Validate fields
+      const isValid = await this.$refs.shareForm.validate();
+
+      if (!isValid) return;
+
+      this.isLoading = true;
+
+      // Send request to get share link
+      axios
+        .post("/api/share", this.shareOptions)
+        .then((response) => {
+          // Show infobox and reset emails container
+          if (this.shareOptions.emails) this.sharedViaEmail = true;
+
+          // End loading
+          this.isGeneratedShared = true;
+
+          this.$store.commit(
+            "UPDATE_SHARED_ITEM",
+            response.data.data.attributes
+          );
         })
+        .catch(() => {
+          events.$emit("alert:open", {
+            title: this.$t("popup_error.title"),
+            message: this.$t("popup_error.message"),
+          });
 
-        // Close popup
-        events.$on('popup:close', () => {
-
-            // Restore data
-            setTimeout(() => {
-                this.shareOptions = {
-                    permission: undefined,
-                    password: undefined,
-                    isPassword: false,
-                    expiration: undefined,
-                    type: undefined,
-                    unique_id: undefined,
-                    emails: undefined
-                }
-                this.isGeneratedShared = false
-                this.isMoreOptions = false
-                this.sharedViaEmail = false
-            }, 150)
+          // End loading
+          this.isLoading = false;
         })
-    }
-}
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "@assets/vue-file-manager/_inapp-forms.scss";
-@import '@assets/vue-file-manager/_forms';
+@import "@assets/vue-file-manager/_forms";
 
 .more-options {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .input-wrapper {
-
-    &.password {
-        margin-top: -10px;
-    }
+  &.password {
+    margin-top: -10px;
+  }
 }
 
 .item-thumbnail {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-
 </style>

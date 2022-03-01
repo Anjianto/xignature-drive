@@ -5,14 +5,12 @@
 }
 
 .auth-form {
-
   input {
     min-width: initial;
   }
 }
 
 .duplicator {
-
   .duplicator-add-button {
     width: 100%;
   }
@@ -39,7 +37,6 @@
       cursor: pointer;
 
       &:hover {
-
         line {
           stroke: $theme;
         }
@@ -49,7 +46,7 @@
     input,
     textarea {
       box-shadow: none;
-      background: #FAFAFA;
+      background: #fafafa;
     }
   }
 }
@@ -72,7 +69,8 @@
   margin-bottom: 10px;
   animation: spinner 5s linear infinite;
 
-  circle, path {
+  circle,
+  path {
     stroke: $theme;
   }
 }
@@ -88,7 +86,6 @@
 
 @media (prefers-color-scheme: dark) {
   .duplicator {
-
     .duplicator-item {
       background: $dark_mode_foreground;
 
