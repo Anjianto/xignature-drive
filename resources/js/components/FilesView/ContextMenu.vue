@@ -299,7 +299,7 @@
         />
         <Option
           v-if="isDoc"
-          @click.native="inviteSigner"
+          @click.native="inviteSign"
           title="Invite"
           icon="send"
         />

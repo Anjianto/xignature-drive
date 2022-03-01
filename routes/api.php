@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
+    Route::get('/user/search', 'User\AccountController@search_user');
     Route::get('/list-users', 'User\AccountController@list_users');
     Route::get('/generate-token', 'User\AccountController@generate_token');
 

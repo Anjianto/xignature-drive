@@ -1,10 +1,12 @@
 import { joinUrlPath } from "@/utils";
-import { FIND_USER_EMAIL } from "@/constants/api";
+import { FIND_USER } from "@/constants/api";
 
-export const findEmail = async (base, {email}) => {
+export const findEmail = async (email) => {
     try {
-        const { data } = await axios.post(joinUrlPath(base, FIND_USER_EMAIL), {
-            email,
+        const { data } = await axios.get(joinUrlPath(config.api, FIND_USER), {
+            params: {
+                email,
+            }
         });
         return { data, error: false };
     } catch (error) {

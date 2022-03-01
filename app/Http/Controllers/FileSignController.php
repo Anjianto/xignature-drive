@@ -202,7 +202,6 @@ class FileSignController extends Controller
 
     public function find_document(Request $request)
     {
-        $user = Auth::user()->id;
         $fileId = decrypt($request->file_id);
         $document = FileManagerFile::where('id', $fileId)->first();
         if (!$document) {
@@ -211,35 +210,30 @@ class FileSignController extends Controller
                 'message' => 'Document not found.'
             ]);
         }
-        $signature = $document->signatures()->where('user_id', $user)->first();
-
-        if (!$signature) {
-            return response()->json([
-                'statusCode' => 200,
-                'data' => $document,
-                'message' => 'Found the document.',
-            ]);
-        }
-
+        $request->session()->put('file_id', $fileId);
         return response()->json([
             'statusCode' => 200,
             'message' => 'Document Found.',
-            'data' => [
-                'document' => $document,
-                'signature' => $signature
-            ]
+            'data' => new FileManagerResource($document)
         ]);
     }
 
-    function allow_signature(string $fileId, Request $request) {
+    function allow_signature(Request $request) {
         $email = $request->email;
+        $fileId = $request->file_id;
         $user = User::whereEmail($email)->first();
         $document = FileManagerFile::where('id', $fileId)->first();
 
+        if (isset($document) == false) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Document not found.'
+            ]);
+        }
         if (!$user) {
             // send sign document email
             // hash filed id
-            $file_hash = md5($fileId);
+            $file_hash = encrypt($fileId);
             $filename = $document->basename;
             Notification::route('mail', $email)->notify(new SignDocuInvitation($file_hash, $filename));
             
@@ -250,21 +244,14 @@ class FileSignController extends Controller
             
         }
 
-        if (!$document) {
-            return response()->json([
-                'statusCode' => 404,
-                'message' => 'Document not found.'
-            ]);
-        }
-        $signature = new Signatures();
         try {
-            //code...
+            $signature = new Signatures();
             $signature->user_id = $user->id;
             $signature->file_manager_file = $fileId;
             $signature->save();
             return response()->json([
                 'statusCode' => 200,
-                'message' => 'Document Signed Successfully.',
+                'message' => 'user add to signer.',
                 'data' => $signature
             ]);
         } catch (\Throwable $th) {

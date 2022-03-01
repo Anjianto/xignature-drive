@@ -71,6 +71,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { HomeIcon } from "vue-feather-icons";
 import { mapGetters } from "vuex";
+import { findDocToSign } from '@/http_client/signature_client';
 
 export default {
   name: "SignInvitePage",
@@ -108,29 +109,21 @@ export default {
       }
     },
     registerAndSign() {
-        const shareToken = this.$route.params.token;
-        const shareId = this.$route.query["filename"];
-        Cookies.set("share_token", shareToken);
-        Cookies.set("share_id", shareId);
-        this.$router.replace({ name: "SignUp", query: { sign: shareToken } });
+      this.$router.replace({ name: "SignUp" });
     }
   },
+  async loadDocInfo() {
+    this.isPageLoading = true;
+    const { data, error } = await findDocToSign(this.$route.params.token);
+    if (error) {
+      this.$router.push({ name: "NotFoundShared" });
+      return;
+    }
+    this.sharedFile = data;
+    this.isPageLoading = false;
+  },
   mounted() {
-    axios
-      .get(
-        `/api/invite/${this.$route.params.token}?filename=${this.$route.query.filename}`
-      )
-      .then(({ data: { file } }) => {
-        // Hide page spinner
-        this.sharedFile = file;
-        this.isPageLoading = false;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response && error.response.status == 404) {
-          this.$router.push({ name: "NotFoundShared" });
-        }
-      });
+    this.loadDocInfo();
   },
 };
 </script>

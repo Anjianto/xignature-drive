@@ -28,7 +28,6 @@
         @submit.prevent
         v-if="!isGeneratedShared"
         ref="shareForm"
-        v-slot="{ invalid }"
         tag="form"
         class="form-wrapper"
       >
@@ -73,60 +72,6 @@
           />
           <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
         </ValidationProvider>
-
-        <!--Password Switch-->
-        <div class="input-wrapper">
-          <div class="inline-wrapper">
-            <label class="input-label"
-              >{{ $t("shared_form.label_password_protection") }}:</label
-            >
-            <SwitchInput
-              v-model="shareOptions.isPassword"
-              class="switch"
-              :state="0"
-            />
-          </div>
-        </div>
-
-        <!--Set password-->
-        <ValidationProvider
-          v-if="shareOptions.isPassword"
-          tag="div"
-          mode="passive"
-          class="input-wrapper password"
-          name="Password"
-          rules="required"
-          v-slot="{ errors }"
-        >
-          <input
-            v-model="shareOptions.password"
-            :class="{ 'is-error': errors[0] }"
-            type="text"
-            :placeholder="$t('page_sign_in.placeholder_password')"
-          />
-          <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-        </ValidationProvider>
-
-        <!--More options-->
-        <div class="more-options" v-if="isMoreOptions">
-          <!--Set expiration-->
-          <div class="input-wrapper">
-            <label class="input-label"
-              >{{ $t("shared_form.label_expiration") }}:</label
-            >
-            <SelectBoxInput
-              v-model="shareOptions.expiration"
-              :data="$translateSelectOptions(expirationList)"
-              class="box"
-            />
-          </div>
-        </div>
-
-        <ActionButton
-          @click.native="moreOptions"
-          :icon="isMoreOptions ? 'x' : 'pencil-alt'"
-          >{{ moreOptionsTitle }}</ActionButton
-        >
       </ValidationObserver>
 
       <!--Copy generated link-->
@@ -190,6 +135,7 @@ import { required } from "vee-validate/dist/rules";
 import { mapGetters } from "vuex";
 import { events } from "@/bus";
 import axios from "axios";
+import { inviteSign } from '@/http_client/signature_client';
 
 export default {
   name: "ShareXignature",
@@ -275,15 +221,7 @@ export default {
       if (!isValid) return;
 
       this.isLoading = true;
-      const queue = this.shareOptions.emails.map((email) => {
-        return axios.post(
-          `/api/doc/${this.pickedItem.id}/invite`,
-          {
-              ...this.shareOptions,
-              email: email
-          }
-        );
-      });
+      const queue = this.shareOptions.emails.map((email) => inviteSign(email, this.pickedItem.id));
       Promise.all(queue)
         .then(() => {
           // Show infobox and reset emails container

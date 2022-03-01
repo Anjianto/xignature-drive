@@ -10,8 +10,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
+use Laravel\Scout\Searchable;
 use Laravel\Passport\HasApiTokens;
 use Kyslik\ColumnSortable\Sortable;
+use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 
 /**
  * App\User
@@ -83,7 +85,7 @@ use Kyslik\ColumnSortable\Sortable;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Billable, Sortable;
+    use HasApiTokens, Notifiable, Billable, Sortable, Searchable;
 
     /**
      * @var string[]
@@ -139,6 +141,40 @@ class User extends Authenticatable
         'created_at',
         'storage_capacity',
     ];
+
+    /**
+     * Get the value used to index the model.
+     *
+     * @return mixed
+     */
+    public function getScoutKey()
+    {
+        return $this->email;
+    }
+ 
+    /**
+     * Get the key name used to index the model.
+     *
+     * @return mixed
+     */
+    public function getScoutKeyName()
+    {
+        return 'email';
+    }
+        /**
+     * Index file
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'emailNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams($this->email)),
+        ];
+    }
 
     /**
      * Get tax rate id for user

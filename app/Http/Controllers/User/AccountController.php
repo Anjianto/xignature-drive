@@ -52,6 +52,28 @@ class AccountController extends Controller
     }
 
     /**
+     * Get all user data that match search query
+     *
+     * @
+     * @return UserResource
+     */
+    public function search_user(Request $request)
+    {
+        $query = $request->email;
+        $users = User::search($query)->get();
+        dd($users, $query);
+        return response()->json([
+            'status' => 'success',
+            'data' => is_null($users) ? array_map(function ($user) {
+                return [
+                    "email" => $user->email,
+                    "name" => $user->name,
+                ];
+            }, $users->toArray()) : []
+        ]);
+    }
+
+    /**
      * Get storage details
      *
      * @return UserStorageResource
