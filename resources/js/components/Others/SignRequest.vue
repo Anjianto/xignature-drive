@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html */ -->
   <PopupWrapper name="share-create">
     <!--Title-->
     <PopupHeader

@@ -60,16 +60,17 @@ class AccountController extends Controller
     public function search_user(Request $request)
     {
         $query = $request->email;
-        $users = User::search($query)->get();
-        dd($users, $query);
+        $users = User::where('email', 'like', $query . '%')->get();
         return response()->json([
             'status' => 'success',
-            'data' => is_null($users) ? array_map(function ($user) {
+            'query' => $query,
+            'data' => $users->map(function ($user) {
                 return [
+                    "avatar" => $user->avatar,
                     "email" => $user->email,
                     "name" => $user->name,
                 ];
-            }, $users->toArray()) : []
+            })
         ]);
     }
 

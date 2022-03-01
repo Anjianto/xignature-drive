@@ -22,13 +22,46 @@
           :size="inputSize"
           class="email-input"
           :placeholder="placeHolder"
-          autocomplete="new-password"
           @keydown.delete="removeLastEmail($event)"
           @keyup="handleEmail()"
         />
       </div>
     </div>
     <span v-if="isError" class="error-message">{{ isError }}</span>
+    <div
+      v-if="emailResult.length > 0"
+      class="autocomplete-list bg-white px-1 py-3 shadow-md rounded-sm"
+    >
+      <div
+        v-for="(profile, i) in emailResult"
+        :key="i"
+        class="autocomplete-item"
+        @click="addEmail(email)"
+      >
+        <div
+          class="profile-list-item flex justify-start items-center coursor-pointer"
+        >
+          <div class="avatar mr-4">
+            <img
+              :src="profile.avatar"
+              alt="avatar"
+              class="w-12 h-12 rounded-full"
+            />
+          </div>
+          <div class="profile">
+            <h4 class="text-md font-medium mb-1">
+              {{ profile.name }}
+            </h4>
+            <p class="text-sm color-gray-400">
+              <span class="font-bold">{{
+                profile.email.substring(0, email.length)
+              }}</span>
+              {{ profile.email.substring(email.length) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,15 +79,17 @@ export default {
       type: String,
       default: "Email",
     },
-    isEmail: {
+    isError: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   data() {
     return {
       emails: [],
+      emailResult: [],
       email: undefined,
+      emailFetcher: undefined,
     };
   },
   computed: {
@@ -71,14 +106,18 @@ export default {
     },
   },
   watch: {
-    email: debounce(async (email) => {
+    email(email) {
+      this.emailFetcher(email);
+    },
+  },
+  mounted() {
+    this.emailFetcher = debounce(async (email) => {
       if (email.length > 3) {
         const { data, error } = await findEmail(email);
         if (error) return;
-
-        console.log(data.data);
+        this.emailResult = data.data;
       }
-    }, 500),
+    }, 500);
   },
   created() {
     this.$nextTick(() => {
@@ -139,6 +178,32 @@ export default {
   @include font-size(14);
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete-results {
+  padding: 0;
+  margin: 0;
+  border: 1px solid #eeeeee;
+  height: 120px;
+  min-height: 1em;
+  max-height: 6em;
+  overflow: auto;
+}
+
+.autocomplete-result {
+  list-style: none;
+  text-align: left;
+  padding: 4px 2px;
+  cursor: pointer;
+}
+
+.autocomplete-result:hover {
+  background-color: #4aae9b;
+  color: white;
 }
 
 .input-wrapper {
