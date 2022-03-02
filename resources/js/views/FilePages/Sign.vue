@@ -6,14 +6,14 @@
       </router-link>
       <div class="flex gap-1">
         <button
-          class="btn-action flat"
-          @click="switchMode"
           v-if="isSigned"
+          class="btn-action flat"
           :disabled="isLoading"
+          @click="switchMode"
         >
           {{ !showOriginal ? "Original Document" : "Signed Document" }}
         </button>
-        <button class="btn-action" @click="showOtpModal" :disabled="isLoading">
+        <button class="btn-action" :disabled="isLoading" @click="showOtpModal">
           Sign Document
         </button>
       </div>
@@ -22,17 +22,17 @@
       <div class="file-wrapper-preview">
         <!--Show PDF-->
         <div
-          ref="pdfwrapper"
           v-if="isLoading === false && errors < true === true"
           id="pdf-wrapper"
+          ref="pdfwrapper"
           :style="{ width: documentSize + '%', height: '100vh' }"
         >
           <pdf
-            :src="pdfdata"
             v-for="i in numPages"
-            :key="i"
-            :resize="true"
             :id="i"
+            :key="i"
+            :src="pdfdata"
+            :resize="true"
             :page="i"
             class="pdf-page"
             scale="page-width"
@@ -76,7 +76,7 @@
       @close="closeOTP"
       @submit="signDocument"
     >
-      <span class="font-weight-700 text-yellow-500" v-if="waitingSignMsg">
+      <span v-if="waitingSignMsg" class="font-weight-700 text-yellow-500">
         {{ waitingSignMsg }}
       </span>
     </OTPModal>
@@ -111,6 +111,22 @@ export default {
   },
   computed: {
     ...mapGetters(["fileInfoDetail", "data"]),
+  },
+  created() {
+    // Set zoom size
+    this.documentSize = window.innerWidth < 960 ? 100 : 50;
+
+    events.$on("file-preview:next", () => this.next());
+    events.$on("file-preview:prev", () => this.prev());
+
+    events.$on("document-zoom:in", () => {
+      if (this.documentSize < 100) this.documentSize += 10;
+    });
+
+    events.$on("document-zoom:out", () => {
+      if (this.documentSize > 40) this.documentSize -= 10;
+    });
+    this.getPdf();
   },
   methods: {
     closeOTP() {
@@ -241,8 +257,13 @@ export default {
           };
         }, 1000);
       } catch (error) {
+        console.log(error);
         notifError(error, () => {
+          console.log(error);
           this.errors = [error];
+          this.$route.replace({
+            name: "Files",
+          });
         });
       } finally {
         this.isLoading = false;
@@ -272,22 +293,6 @@ export default {
       errors: [],
       documentSize: 50,
     };
-  },
-  created() {
-    // Set zoom size
-    this.documentSize = window.innerWidth < 960 ? 100 : 50;
-
-    events.$on("file-preview:next", () => this.next());
-    events.$on("file-preview:prev", () => this.prev());
-
-    events.$on("document-zoom:in", () => {
-      if (this.documentSize < 100) this.documentSize += 10;
-    });
-
-    events.$on("document-zoom:out", () => {
-      if (this.documentSize > 40) this.documentSize -= 10;
-    });
-    this.getPdf();
   },
 };
 </script>

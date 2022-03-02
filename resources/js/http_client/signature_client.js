@@ -47,6 +47,7 @@ export const findDocToSign = async (file_id) => {
     const { data } = await axios.post(joinUrlPath(config.api, SIGNER_FIND), {
       file_id,
     });
+    console.log(data);
     return { data, error: false };
   } catch (error) {
     return { data: null, error: error.response };
