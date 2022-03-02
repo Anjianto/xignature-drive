@@ -149,6 +149,7 @@ export default {
         type: "image/jpeg",
       });
       this.$emit("input", selfieFile);
+      this.isFinish = true;
     },
   },
 };

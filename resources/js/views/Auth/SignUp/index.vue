@@ -24,8 +24,8 @@
         </div>
         <Step1
           v-if="steps === 1"
-          :errors="errors"
           v-model="data"
+          :errors="errors"
           @step="changeStep"
         />
         <Step2 v-else-if="steps === 2" v-model="data.ktp" @step="changeStep" />
@@ -33,7 +33,7 @@
         <Step4
           v-else-if="steps === 4"
           v-model="data.selfie"
-          :isLoading="isLoading"
+          :is-loading="isLoading"
           @submit="saveRegister"
         />
       </AuthContent>
@@ -152,8 +152,8 @@ export default {
         });
         this.isLoading = false;
       } else {
+        this.isLoading = false;
         notifError(error, () => {
-          this.isLoading = false;
           this.steps = 1;
         });
       }
