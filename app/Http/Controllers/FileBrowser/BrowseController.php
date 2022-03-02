@@ -185,6 +185,7 @@ class BrowseController extends Controller
             ->whereRaw(
                 "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
             )
+            ->orWhere('user_id', $user_id)	
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();
