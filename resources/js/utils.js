@@ -32,7 +32,7 @@ export const notifError = (error, callback) => {
     // argument error
     events.$emit("toaster", {
       type: "danger",
-      message: error.message,
+      message: error.message || error.statusText,
     });
   }
   if (callback) {

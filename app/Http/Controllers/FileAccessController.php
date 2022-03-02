@@ -115,19 +115,23 @@ class FileAccessController extends Controller
 
         // Get file record
         $file = FileManagerFile::withTrashed()
-            ->where('user_id', $user_id)
+            ->whereRaw(
+                "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
+            )
+            ->orWhere('user_id', $user_id)	
             ->where('basename', $filename)
             ->firstOrFail();
+        
 
         // Check user permission
-        if (!$request->user()->tokenCan('master')) {
+        // if (!$request->user()->tokenCan('master')) {
 
-            // Get shared token
-            $shared = get_shared($request->cookie('shared_token'));
+        //     // Get shared token
+        //     $shared = get_shared($request->cookie('shared_token'));
 
-            // Check access to file
-            $this->check_file_access($shared, $file);
-        }
+        //     // Check access to file
+        //     $this->check_file_access($shared, $file);
+        // }
 
         // Store user download size
         $request->user()->record_download((int)$file->getRawOriginal('filesize'));
