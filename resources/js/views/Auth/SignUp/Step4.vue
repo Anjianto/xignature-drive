@@ -39,7 +39,17 @@
       </div>
       <div class="container center">
         <AuthButton
-          v-if="!isCapture || isLoading"
+          v-if="isCapture && !isFinish"
+          id="btn-retake"
+          text="Retake"
+          icon="camera"
+          type="button"
+          :disabled="isLoadingCamera || isLoading"
+          :loading="isLoadingCamera || isLoading"
+          @click="retake"
+        />
+        <AuthButton
+          v-if="!isCapture && !isFinish"
           icon="chevron-right"
           :text="
             isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'
@@ -86,6 +96,7 @@ export default {
       isCapture: false,
       video: null,
       capturedImg: null,
+      retake: () => {},
     };
   },
   async mounted() {
@@ -104,6 +115,7 @@ export default {
       .then((stream) => {
         (this.isLoaded = true), (this.video.srcObject = stream);
         this.video.play();
+        this.isLoadingCamera = false;
 
         // we check if the selfie field already has value
         if (this.value) {
@@ -117,11 +129,14 @@ export default {
       })
       .catch(console.error);
 
-    this.video.onclick = () => {
+    const retake = () => {
       this.video.play();
+      this.isCapture = false;
       this.isFinish = false;
     };
-    this.isLoadingCamera = false;
+
+    this.video.onclick = retake;
+    this.retake = retake;
   },
   methods: {
     submitData() {
@@ -173,8 +188,20 @@ export default {
 }
 .container {
   display: flex;
+  flex-direction: column;
+  width: 50%;
+
   &.center {
+    margin-left: auto;
+    margin-right: auto;
     justify-content: center;
+  }
+
+  > * {
+    margin-bottom: 20px;
+  }
+  > :last-child {
+    margin-bottom: 0;
   }
 }
 #content-card {
