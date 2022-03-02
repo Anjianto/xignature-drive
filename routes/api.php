@@ -42,6 +42,8 @@ Route::group(['middleware' => ['api'], 'prefix' => 'public'], function () {
 
 // Public routes
 Route::group(['middleware' => ['api']], function () {
+    // Find the user by email
+    Route::get('/user/search', 'User\AccountController@search_user');
 
     // Edit Functions
     Route::patch('/rename-item/{unique_id}/public/{token}', 'FileFunctions\EditItemsController@guest_rename_item');
@@ -88,7 +90,6 @@ Route::group(['middleware' => ['auth:api', 'auth.master', 'scope:master']], func
     Route::get('/user/invoices', 'User\AccountController@invoices');
     Route::get('/user/storage', 'User\AccountController@storage');
     Route::get('/user', 'User\AccountController@user');
-    Route::get('/user/search', 'User\AccountController@search_user');
     Route::get('/list-users', 'User\AccountController@list_users');
     Route::get('/generate-token', 'User\AccountController@generate_token');
 
@@ -221,5 +222,3 @@ Route::group(['middleware' => ['auth:api', 'auth.shared', 'auth.master', 'scope:
     Route::get('/emojis-list', 'AppFunctionsController@get_emojis_list');
 });
 
-// Route::group(['middleware' => ['auth:api']], function () {
-// });
