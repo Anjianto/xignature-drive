@@ -9,6 +9,7 @@ use App\UserSettings;
 use App\Services\SignatureService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -102,6 +103,7 @@ class AuthController extends Controller
      * @bodyParam birth_date string  required The birth date of the user. Example: 2000-12-12
      * @response 201 {"Register Successfull!"}
      * @response 400 {"NIK sudah terdaftar pada email pandu.septian@xignature.co.id dan no handphone 085774719951"}
+     * @param SignatureService $signService
      * @param Request $request
      * @return mixed
      */
@@ -153,6 +155,7 @@ class AuthController extends Controller
 
         if (isset($apiData) && $apiData->statusCode == '200') {
             // Create user
+           DB::beginTransaction();
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -188,14 +191,16 @@ class AuthController extends Controller
             if ($response->isSuccessful()) {
                 $data = json_decode($response->content(), true);
                 $user->signatures()->create([
-                    'sign_token' => $apiResponse->date->token
+                    'sign_token' => $apiResponse->data->token
                 ]);
 
                 return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
             }
 
+            DB::commit();
             return $response;
         }
+        DB::rollBack();
 
         return response($apiResponse->body(), $apiResponse->status());
     }
