@@ -452,6 +452,17 @@ const routesAuth = [
     },
   },
   {
+    name: "SignUpActivation",
+    path: "/sign-up/activate",
+    component: () =>
+      import(
+        /* webpackChunkName: "chunks/sign-up-activation" */ "./views/Auth/SignUp/Activation"
+      ),
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
     name: "ForgottenPassword",
     path: "/forgotten-password",
     component: () =>
