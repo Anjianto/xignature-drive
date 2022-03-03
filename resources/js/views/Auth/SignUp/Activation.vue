@@ -12,10 +12,35 @@
         config.app_name
       }}</b>
 
-      <h1>{{ $t("page_registration_activation.title") }}</h1>
-      <h2>{{ $t("page_registration_activation.subtitle") }}</h2>
+      <h1>
+        <template v-if="!status">
+          {{ $t("page_registration_activation.title") }}
+        </template>
+        <template v-else-if="status === 'success'">
+          {{ $t("page_registration_activation.title_success") }}
+        </template>
+        <template v-else-if="status === 'expired'">
+          {{ $t("page_registration_activation.title_expired") }}
+        </template>
+        <template v-else-if="status === 'invalid'">
+          {{ $t("page_registration_activation.title_invalid") }}
+        </template>
+      </h1>
+
+      <h2>
+        <template v-if="!status">
+          {{ $t("page_registration_activation.subtitle") }}
+        </template>
+        <template v-else-if="status === 'success'">
+          {{ $t("page_registration_activation.subtitle_success") }}
+        </template>
+        <template v-else-if="status === 'expired' || status === 'invalid'">
+          {{ $t("page_registration_activation.subtitle_expired|invalid") }}
+        </template>
+      </h2>
 
       <ValidationObserver
+        v-if="!status || status === 'expired' || status === 'invalid'"
         @submit.prevent="activateAccount"
         ref="log_in"
         tag="form"
@@ -77,6 +102,8 @@ export default {
   data() {
     return {
       isLoading: false,
+      // success | expired | invalid | null
+      status: null,
       email: "",
     };
   },
