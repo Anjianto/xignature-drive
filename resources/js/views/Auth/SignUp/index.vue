@@ -29,7 +29,12 @@
           @step="changeStep"
         />
         <Step2 v-else-if="steps === 2" v-model="data.ktp" @step="changeStep" />
-        <Step3 v-else-if="steps === 3" v-model="data" @step="changeStep" />
+        <Step3
+          v-else-if="steps === 3"
+          v-model="data"
+          :APIErrors="errors"
+          @step="changeStep"
+        />
         <Step4
           v-else-if="steps === 4"
           v-model="data.selfie"
@@ -154,6 +159,20 @@ export default {
       } else {
         this.isLoading = false;
         notifError(error, () => {
+          const splitMessage = error?.data?.message?.split?.(" ");
+          const isNIK = splitMessage?.[0]?.toLowerCase?.() === "nik";
+          const isPhone =
+            splitMessage?.[0]?.toLowerCase?.() +
+              " " +
+              splitMessage?.[1]?.toLowerCase?.() ===
+            "no hp";
+          if (isNIK || isPhone) {
+            this.steps = 3;
+            if (isNIK) this.errors.nik = error.data.message;
+            else if (isPhone) this.errors.phone = error.data.message;
+
+            return;
+          }
           this.steps = 1;
         });
       }

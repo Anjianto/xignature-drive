@@ -30,12 +30,14 @@
             :placeholder="$t('page_registration.placeholder_nik')"
             type="number"
             class="reset-input-number"
-            :class="{ 'is-error': errors[0] }"
+            :class="{ 'is-error': errors[0] || APIErrors.nik }"
           />
           <span v-if="nikHint && !errors.length" class="input-hint"
             >{{ nikHint }}
           </span>
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span v-if="errors[0] || APIErrors.nik" class="error-message">{{
+            errors[0] || APIErrors.nik
+          }}</span>
         </ValidationProvider>
       </div>
 
@@ -54,12 +56,14 @@
             :placeholder="$t('page_registration.placeholder_phone')"
             type="number"
             class="reset-input-number"
-            :class="{ 'is-error': errors[0] }"
+            :class="{ 'is-error': errors[0] || APIErrors.phone }"
           />
           <span v-if="phoneHint && !errors.length" class="input-hint"
             >{{ phoneHint }}
           </span>
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span v-if="errors[0] || APIErrors.phone" class="error-message">{{
+            errors[0] || APIErrors.phone
+          }}</span>
         </ValidationProvider>
       </div>
 
@@ -137,7 +141,7 @@ export default {
     AuthButton,
   },
   // eslint-disable-next-line vue/require-prop-types
-  props: ["value"],
+  props: ["value", "APIErrors"],
   computed: {
     ...mapGetters(["config", "registerErrors"]),
     nikHint() {
