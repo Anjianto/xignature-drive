@@ -700,12 +700,14 @@ export default {
       this.$store.dispatch("signDocument");
     },
     selfSign() {
-      window.router.push({
-        name: "SignDoc",
-        params: {
-          fileId: this.item.integrity,
-        },
-      });
+      if (this.item.integrity) {
+        this.$router.push({
+          name: "SignDoc",
+          params: {
+            fileId: this.item.integrity,
+          },
+        });
+      }
     },
     moveItem() {
       events.$emit("popup:open", { name: "move", item: [this.item] });
