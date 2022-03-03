@@ -91,7 +91,7 @@ export default {
     },
   },
   async mounted() {
-    this.fetchPreview(this.val);
+    this.fetchPreview(this.value);
   },
   methods: {
     async fetchPreview(val) {
