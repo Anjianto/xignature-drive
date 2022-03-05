@@ -4,7 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class SignerAuth {
+class SignerAuth
+{
     public function handle($request, Closure $next)
     {
         if (!$request->bearerToken()) {

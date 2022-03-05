@@ -125,10 +125,10 @@ class FileAccessController extends Controller
             ->whereRaw(
                 "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
             )
-            ->orWhere('user_id', $user_id)	
+            ->orWhere('user_id', $user_id)
             ->where('basename', $filename)
             ->firstOrFail();
-        
+
 
         // Check user permission
         // if (!$request->user()->tokenCan('master')) {

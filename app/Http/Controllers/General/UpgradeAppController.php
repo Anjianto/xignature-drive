@@ -20,7 +20,6 @@ use Schema;
  */
 class UpgradeAppController extends Controller
 {
-
     /**
      *  Start maintenance mode
      */

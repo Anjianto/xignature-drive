@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class SignDocuInvitation extends Notification {
+class SignDocuInvitation extends Notification
+{
     use Queueable;
 
     /**
@@ -15,7 +16,8 @@ class SignDocuInvitation extends Notification {
      *
      * @return void
      */
-    public function __construct($token, $filename) {
+    public function __construct($token, $filename)
+    {
         $this->token = $token;
         $this->filename = $filename;
         $this->user = Auth::user();
@@ -27,7 +29,8 @@ class SignDocuInvitation extends Notification {
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable) {
+    public function via($notifiable)
+    {
         return ['mail'];
     }
 
@@ -36,10 +39,11 @@ class SignDocuInvitation extends Notification {
      * @param mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable) {
+    public function toMail($notifiable)
+    {
         $url_inv = url('/invitation', ['token' => $this->token]) . '?filename=' . $this->filename;
-        
-        return (new MailMessage)
+
+        return (new MailMessage())
         ->subject(__t('shared_link_email_sign_subject', ['user' => $this->user->name]))
         ->greeting(__t('shared_link_email_sign_greeting'))
         ->line(__t('shared_link_email_sign_user', ['user' => $this->user->name, 'email' => $this->user->email]))

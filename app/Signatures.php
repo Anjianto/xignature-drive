@@ -31,7 +31,7 @@ class Signatures extends Model
      */
     public $timestamps = true;
 
-    const EXPIRES_AT = 'expired_at';
+    public const EXPIRES_AT = 'expired_at';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

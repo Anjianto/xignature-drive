@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Validator;
  */
 class AuthController extends Controller
 {
-
     /**
      * Check if user account exist
      *

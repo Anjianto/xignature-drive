@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class FileSharingController extends Controller
 {
-
     /**
      * @param $token
      * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View

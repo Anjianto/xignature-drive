@@ -349,7 +349,7 @@ class EditItemsController extends Controller
         return $new_file;
     }
 
-    
+
     /**
          * User download folder via zip
          *
@@ -360,7 +360,7 @@ class EditItemsController extends Controller
     {
         // Get user id
         $user_id = Auth::id();
-        
+
         // Check permission to download for authenticated editor
         if ($request->user()->tokenCan('editor')) {
 
@@ -412,7 +412,7 @@ class EditItemsController extends Controller
         // Get folder
         $folder = FileManagerFolder::whereUserId($shared->user_id)
             ->where('unique_id', $unique_id);
-            
+
 
         if (! $folder->exists()) {
             abort(404, 'Requested folder doesn\'t exists.');

@@ -27,7 +27,7 @@ class UploadRequest extends FormRequest
         return [
             'filename'  => 'required|string',
             'parent_id' => 'required|integer',
-            'file'      => ['required', 'file', new MimetypeBlacklistValidation]
+            'file'      => ['required', 'file', new MimetypeBlacklistValidation()]
         ];
     }
 }

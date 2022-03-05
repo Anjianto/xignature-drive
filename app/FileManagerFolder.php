@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
-use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
 /**
@@ -63,7 +63,9 @@ use Kyslik\ColumnSortable\Sortable;
  */
 class FileManagerFolder extends Model
 {
-    use Searchable, SoftDeletes , Sortable;
+    use Searchable;
+    use SoftDeletes ;
+    use Sortable;
 
     /**
      * @var string[]
@@ -151,7 +153,7 @@ class FileManagerFolder extends Model
         return [
             'id'         => $this->id,
             'name'       => $name,
-            'nameNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams(implode(', ', [$name]))),
+            'nameNgrams' => utf8_encode((new TNTIndexer())->buildTrigrams(implode(', ', [$name]))),
         ];
     }
 

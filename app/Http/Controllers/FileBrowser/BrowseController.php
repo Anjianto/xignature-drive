@@ -23,7 +23,6 @@ use Symfony\Component\Console\Helper\Table;
  */
 class BrowseController extends Controller
 {
-
     /**
      * Get trashed files
      *
@@ -177,19 +176,19 @@ class BrowseController extends Controller
             ->where('parent_id', $unique_id)
             ->sortable()
             ->get();
-            // ::select(
-            //     DB::raw("SELECT * FROM file_manager_files WHERE file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id );")
-            // )
-        
+        // ::select(
+        //     DB::raw("SELECT * FROM file_manager_files WHERE file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id );")
+        // )
+
         $files = FileManagerFile::with(['parent', 'shared:token,id,item_id,permission,protected,expire_in'])
             ->whereRaw(
                 "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
             )
-            ->orWhere('user_id', $user_id)	
+            ->orWhere('user_id', $user_id)
             ->where('folder_id', $unique_id)
             ->sortable()
             ->get();
-        
+
         $result = $files->map(function ($file) {
             $file['integrity'] = encrypt($file->id);
             $file['signer'] = $file->signatures()->get()->map(

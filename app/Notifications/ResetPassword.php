@@ -42,7 +42,7 @@ class ResetPassword extends Notification
         $reset_url = url('/create-new-password?token=' . $this->token);
         $app_name = get_setting('app_title') ?? 'Xignature Drive';
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__t('reset_password_subject') . $app_name)
             ->greeting(__t('reset_password_greeting'))
             ->line(__t('reset_password_line_1'))

@@ -256,7 +256,7 @@ class AppFunctionsController extends Controller
         Artisan::call('config:clear');
         Artisan::call('config:cache');
     }
-    
+
     /**
      * Get Emojis List from the server
      *

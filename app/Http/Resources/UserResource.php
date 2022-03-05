@@ -14,7 +14,6 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-
         $assets = $request->query('assets', null);
 
 

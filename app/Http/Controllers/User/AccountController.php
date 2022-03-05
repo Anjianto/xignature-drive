@@ -27,7 +27,6 @@ use Illuminate\Http\Request;
  */
 class AccountController extends Controller
 {
-
     /**
      * List User for role user
      *
@@ -36,7 +35,6 @@ class AccountController extends Controller
     public function list_users()
     {
         return ListUserResource::collection(User::all());
-
     }
     /**
      * Get all user data to frontend
@@ -143,7 +141,7 @@ class AccountController extends Controller
             $user->update(['ktp' => $ktp]);
         } elseif ($request->hasFile('selfie')) {
             $ktp = store_system_image($request->file('selfie'), 'selfie');
-    
+
             $user->update(['selfie' => $ktp]);
         } else {
             // Update text data

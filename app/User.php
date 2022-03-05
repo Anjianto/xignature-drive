@@ -85,7 +85,11 @@ use TeamTNT\TNTSearch\Indexer\TNTIndexer;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Billable, Sortable, Searchable;
+    use HasApiTokens;
+    use Notifiable;
+    use Billable;
+    use Sortable;
+    use Searchable;
 
     /**
      * @var string[]
@@ -151,7 +155,7 @@ class User extends Authenticatable
     {
         return $this->email;
     }
- 
+
     /**
      * Get the key name used to index the model.
      *
@@ -161,7 +165,7 @@ class User extends Authenticatable
     {
         return 'email';
     }
-        /**
+    /**
      * Index file
      *
      * @return array
@@ -172,7 +176,7 @@ class User extends Authenticatable
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'emailNgrams' => utf8_encode((new TNTIndexer)->buildTrigrams($this->email)),
+            'emailNgrams' => utf8_encode((new TNTIndexer())->buildTrigrams($this->email)),
         ];
     }
 

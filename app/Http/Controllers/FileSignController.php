@@ -44,8 +44,7 @@ class FileSignController extends Controller
                 'message' => 'Please generate token'
             ], 400);
         }
-        if ($token->expired())
-        {
+        if ($token->expired()) {
             return response()->json(['message' => 'token was expired, Please generate again'], 400);
         }
 
@@ -72,26 +71,26 @@ class FileSignController extends Controller
         $apiData = $apiResponse->object();
 
         if (isset($apiData)) {
-            if($apiData->statusCode == 201) {
+            if ($apiData->statusCode == 201) {
                 $document->update(['metadata' => $apiData->data]);
                 $token->update(['document_id' => $document->id]);
                 return new FileManagerResource($document);
             }
-            if($apiData->statusCode == 500) {
+            if ($apiData->statusCode == 500) {
                 return response()->json(['message' => $apiData->error], 400);
             }
             return response()->json([
                 'status' => 'unknown',
                 'message' => 'Something went wrong'
             ], 400);
-            
         }
         return response()->json($apiResponse->body(), $apiResponse->status());
     }
 
-    public function download_document(string $document_id) {
+    public function download_document(string $document_id)
+    {
         $settings = Setting::whereIn('name', ['storage_default', 'registration', 'api_key'])->pluck('value', 'name');
-        // download the document        
+        // download the document
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
             'Accept' => 'application/pdf',
@@ -111,7 +110,7 @@ class FileSignController extends Controller
 
 
         Log::debug("ktp is loading");
-        
+
         $ktp_file = Storage::get('/' . $user->ktp);
         // dd("ktp is loading");
         $selfie_file = Storage::get('/' . $user->selfie);
@@ -131,7 +130,7 @@ class FileSignController extends Controller
             "selfie" => $selfie,
             "ktp" => $ktp
         ]);
-        
+
         $apiData = $apiResponse->object();
         // dd($apiData);
         if (isset($apiData) && $apiData->statusCode == 200) {
@@ -211,7 +210,7 @@ class FileSignController extends Controller
             ]);
         }
         // check if request api or not web
-        if($request->is('api/*') == false) {
+        if ($request->is('api/*') == false) {
             $request->session()->put('file_id', $fileId);
         }
         return response()->json([
@@ -225,7 +224,8 @@ class FileSignController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    function allow_signature(Request $request) {
+    public function allow_signature(Request $request)
+    {
         $email = $request->email;
         $fileId = $request->file_id;
         $user = User::whereEmail($email)->first();
@@ -243,12 +243,11 @@ class FileSignController extends Controller
             $file_hash = encrypt($fileId);
             $filename = $document->basename;
             Notification::route('mail', $email)->notify(new SignDocuInvitation($file_hash, $filename));
-            
+
             return response()->json([
                 'statusCode' => 201,
                 'message' => 'Mail send to user.'
             ]);
-            
         }
 
         try {
@@ -271,12 +270,13 @@ class FileSignController extends Controller
         }
     }
 
-    public function get_file_by_hash(string $hash, Request $request) {
+    public function get_file_by_hash(string $hash, Request $request)
+    {
         $base_name = $request->filename;
         $files = FileManagerFile::where('basename', $base_name)->get();
 
-        for ($i=0; $i < count($files); $i++) { 
-            if($hash == md5($files[$i]->id)) {
+        for ($i=0; $i < count($files); $i++) {
+            if ($hash == md5($files[$i]->id)) {
                 return response()->json([
                     'statusCode' => 200,
                     'message' => 'File founded.',

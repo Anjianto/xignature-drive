@@ -59,7 +59,7 @@ class ConfirmPayment extends Notification implements ShouldQueue
     {
         $url = route('cashier.payment', ['id' => $this->paymentId]);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__t('cashier.confirm_payment'))
             ->greeting(__t('cashier.confirm_amount', ['amount' => $this->amount]))
             ->line(__t('cashier.confirm_description'))

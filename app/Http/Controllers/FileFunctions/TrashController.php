@@ -88,7 +88,7 @@ class TrashController extends Controller
         }
 
         foreach ($request->input('data') as $restore_item) {
-    
+
             // Get folder
             if ($restore_item['type'] === 'folder') {
 

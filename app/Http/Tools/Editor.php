@@ -29,7 +29,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class Editor
 {
-
     /**
      * @param $name
      * @return bool
