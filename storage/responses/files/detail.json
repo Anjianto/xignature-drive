@@ -1,0 +1,20 @@
+{
+  "data": {
+    "id": 24,
+    "user_id": 29,
+    "unique_id": 33,
+    "folder_id": 0,
+    "thumbnail": null,
+    "name": "permen 102 tahun 2019.pdf",
+    "basename": "4atweyuwvwf336i7-permen-102-tahun-2019.pdf",
+    "mimetype": "pdf",
+    "filesize": "744.01kB",
+    "type": "file",
+    "metadata": null,
+    "user_scope": "master",
+    "deleted_at": null,
+    "created_at": "06. March. 2022 at 00:13",
+    "updated_at": "06. March. 2022 at 00:13",
+    "file_url": "https://circle-storage.sgp1.digitaloceanspaces.com/file-manager/4atweyuwvwf336i7-permen-102-tahun-2019.pdf?response-content-type=pdf&response-content-disposition=attachment%3B%20filename%3Dpermen%20102%20tahun%202019.pdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=7KIA3HX6CE2QQ2NP72QN%2F20220305%2Fsgp1%2Fs3%2Faws4_request&X-Amz-Date=20220305T174054Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=293a82d9607b87901a02a63a0a733b7d89ed5fc778c06967c34c8bf716fa6691"
+  }
+}
