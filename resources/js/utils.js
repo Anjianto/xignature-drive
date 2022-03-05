@@ -10,7 +10,10 @@ export const notifError = (error, callback) => {
       button: "OK",
     });
   } else if (error.status >= 400) {
-    let message = error.data.message;
+    let message = error.data.message.endsWith(".")
+      ? error.data.message.split(".").filter(Boolean).join(" ")
+      : error.data.message;
+
     let errors = error.data.errors;
     if (errors) {
       message += ": ";
