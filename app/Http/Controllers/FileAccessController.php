@@ -101,6 +101,14 @@ class FileAccessController extends Controller
         return Storage::download($path, $basename);
     }
 
+    /**
+     * Get File
+     *
+     * @urlParam id string required The base  of the file. Example: 4atweyuwvwf336i7-permen-102-tahun-2019.pdf
+     * @responseFile storage/responses/files/detail.json
+     * @param string $id
+     * @return FileManagerResource
+     */
     public function getFile(string $id)
     {
         $file = FileManagerFile::where('basename', $id)->firstOrFail();
