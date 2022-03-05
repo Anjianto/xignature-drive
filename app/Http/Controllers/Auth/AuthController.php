@@ -145,7 +145,7 @@ class AuthController extends Controller
             "selfie" => $selfie,
             "ktp" => $ktp
         ]);
-        
+
         $apiData = $apiResponse->object();
 
 
@@ -153,7 +153,7 @@ class AuthController extends Controller
 
         if (isset($apiData) && $apiData->statusCode == '200') {
             // Create user
-//           DB::beginTransaction();
+            //           DB::beginTransaction();
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -167,27 +167,27 @@ class AuthController extends Controller
             ]);
 
             $user->settings()->create([
-//                Create settings
+                //                Create settings
                 'storage_capacity' => $settings['storage_default'],
             ]);
-                
 
 
 
-//            $sign_doc_key = $request->input('sign_doc_key');
-//            $sign_doc_id = $request->input('sign_doc_id');
-//            $file_id = null;
-//            if($sign_doc_key && $sign_doc_id){
-//                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
-//
-//                if($file){
-//                    $file_id = $file->id;
-//                }
-//            }
-//            $signService->sign($apiData->data->token, $file_id, $user->id);
+
+            //            $sign_doc_key = $request->input('sign_doc_key');
+            //            $sign_doc_id = $request->input('sign_doc_id');
+            //            $file_id = null;
+            //            if($sign_doc_key && $sign_doc_id){
+            //                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
+            //
+            //                if($file){
+            //                    $file_id = $file->id;
+            //                }
+            //            }
+            //            $signService->sign($apiData->data->token, $file_id, $user->id);
 
             $response = Route::dispatch(self::make_login_request($request));
-//            dd($response);
+            //            dd($response);
 
             if ($response->isSuccessful()) {
                 $data = json_decode($response->content(), true);
@@ -197,7 +197,8 @@ class AuthController extends Controller
                 $user->email_verified_at = now();
                 $user->save();
 
-                return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
+                // ->cookie('access_token', $data['access_token'], 43200);
+                return response('Register Successfull!', 200);
             }
 
             DB::commit();
