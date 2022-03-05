@@ -217,7 +217,7 @@ export default {
               "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
             buttonStyle:
               "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-            button: "Go To Files",
+            button: "Go To Login",
           });
           this.isDataLoading = false;
         } else {

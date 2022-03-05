@@ -25,11 +25,8 @@
         <Step1 v-if="steps === 1" @step="changeStep" />
         <Step2 v-else-if="steps === 2" @step="changeStep" />
         <Step3 v-else-if="steps === 3" @step="changeStep" />
-        <Step4
-          v-else-if="steps === 4"
-          @submit="saveRegister"
-          @step="changeStep"
-        />
+        <!-- @submit="saveRegister" -->
+        <Step4 v-else-if="steps === 4" @step="changeStep" />
       </AuthContent>
     </AuthContentWrapper>
     <ConfirmModal v-model="confirm" @accept="confirmValid" />

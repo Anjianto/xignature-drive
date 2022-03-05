@@ -39,7 +39,7 @@ const actions = {
     commit("SET_AUTHORIZED", true);
     setTimeout(() => {
       window.router.replace({
-        name: "Files",
+        name: "SignIn",
         query: { ref: isRefSign ? "invitation" : "register" },
       });
     }, 1000);
