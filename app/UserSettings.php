@@ -36,10 +36,19 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserSettings extends Model
 {
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
-//    protected $guarded = ['id', 'storage_capacity'];
+    /**
+     * @var string[]
+     */
+    protected $guarded = ['storage_capacity'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

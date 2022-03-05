@@ -121,17 +121,15 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|min:12',
-            'nik' => 'numeric',
-            'ktp' => 'required',
-            'selfie' => 'required',
+            'nik' => 'numeric|digits:16',
+            'ktp' => 'required|image',
+            'selfie' => 'required|image',
             'birth_date' => 'required|date',
             'birth_place' => 'required|string'
         ]);
-        // dd($request->all());
-        
+
         $ktp = base64_encode(file_get_contents($request->file('ktp')));
         $selfie = base64_encode(file_get_contents($request->file('selfie')));
-        // dd($request->file('ktp')->store('ktp'));
 
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
@@ -155,7 +153,7 @@ class AuthController extends Controller
 
         if (isset($apiData) && $apiData->statusCode == '200') {
             // Create user
-           DB::beginTransaction();
+//           DB::beginTransaction();
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -168,31 +166,36 @@ class AuthController extends Controller
                 "ktp" => $request->file('ktp')->store('ktp'),
             ]);
 
-            // Create settings
-            UserSettings::forceCreate([
-                'user_id' => $user->id,
+            $user->settings()->create([
+//                Create settings
                 'storage_capacity' => $settings['storage_default'],
             ]);
+                
 
-            $sign_doc_key = $request->input('sign_doc_key');	
-            $sign_doc_id = $request->input('sign_doc_id');
-            $file_id = null;
-            if($sign_doc_key && $sign_doc_id){
-                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
 
-                if($file){
-                    $file_id = $file->id;
-                }
-            }
-            $signService->sign($apiData->data->token, $file_id, $user->id);
+
+//            $sign_doc_key = $request->input('sign_doc_key');
+//            $sign_doc_id = $request->input('sign_doc_id');
+//            $file_id = null;
+//            if($sign_doc_key && $sign_doc_id){
+//                $file = $signService->get_file_by_hash($sign_doc_key, $sign_doc_id);
+//
+//                if($file){
+//                    $file_id = $file->id;
+//                }
+//            }
+//            $signService->sign($apiData->data->token, $file_id, $user->id);
 
             $response = Route::dispatch(self::make_login_request($request));
+//            dd($response);
 
             if ($response->isSuccessful()) {
                 $data = json_decode($response->content(), true);
                 $user->signatures()->create([
                     'sign_token' => $apiData->data->token
                 ]);
+                $user->email_verified_at = now();
+                $user->save();
 
                 return response('Register Successfull!', 200)->cookie('access_token', $data['access_token'], 43200);
             }
