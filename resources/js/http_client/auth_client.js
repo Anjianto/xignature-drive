@@ -4,7 +4,7 @@ import { joinUrlPath } from "@/utils";
 
 export const register = async (endpoint, formData) => {
   try {
-    const { data } = await axios.post(
+    const response = await axios.post(
       // eslint-disable-next-line no-undef
       joinUrlPath(config.api || endpoint, REGISTER),
       formData,
@@ -14,10 +14,8 @@ export const register = async (endpoint, formData) => {
         },
       }
     );
-    console.log(data);
-    return { data, error: false };
+    return { data: response.data, error: false };
   } catch (error) {
-    console.log(error);
     return { data: null, error: error.response };
   }
 };

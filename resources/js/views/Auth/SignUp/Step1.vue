@@ -24,13 +24,17 @@
           rules="required|mailcheck|email"
         >
           <input
-            v-model="value.email"
+            v-model="email"
             name="email"
             :placeholder="$t('page_registration.placeholder_email')"
             type="email"
-            :class="{ 'is-error': errors[0] }"
+            :class="{ 'is-error': errors[0] || registerErrors.email }"
           />
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span
+            v-if="errors[0] || registerErrors.email"
+            class="error-message"
+            >{{ errors[0] || registerErrors.email }}</span
+          >
         </ValidationProvider>
       </div>
 
@@ -45,12 +49,14 @@
           rules="required"
         >
           <input
-            v-model="value.name"
+            v-model="name"
             :placeholder="$t('page_registration.placeholder_name')"
             type="text"
-            :class="{ 'is-error': errors[0] }"
+            :class="{ 'is-error': errors[0] || registerErrors.name }"
           />
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span v-if="errors[0] || registerErrors.name" class="error-message">{{
+            errors[0] || registerErrors.name
+          }}</span>
         </ValidationProvider>
       </div>
 
@@ -65,12 +71,16 @@
           rules="required|confirmed:confirmation"
         >
           <input
-            v-model="value.password"
+            v-model="password"
             :placeholder="$t('page_registration.placeholder_pass')"
             type="password"
-            :class="{ 'is-error': errors[0] }"
+            :class="{ 'is-error': errors[0] || registerErrors.password }"
           />
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span
+            v-if="errors[0] || registerErrors.password"
+            class="error-message"
+            >{{ errors[0] || registerErrors.password }}</span
+          >
         </ValidationProvider>
       </div>
 
@@ -86,12 +96,18 @@
           rules="required"
         >
           <input
-            v-model="value.password_confirmation"
+            v-model="password_confirmation"
             :placeholder="$t('page_registration.placeholder_confirm_pass')"
             type="password"
-            :class="{ 'is-error': errors[0] }"
+            :class="{
+              'is-error': errors[0] || registerErrors.password_confirmation,
+            }"
           />
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span
+            v-if="errors[0] || registerErrors.password_confirmation"
+            class="error-message"
+            >{{ errors[0] || registerErrors.password_confirmation }}</span
+          >
         </ValidationProvider>
       </div>
 
@@ -152,10 +168,16 @@ export default {
     ValidationObserver,
     AuthButton,
   },
-  // eslint-disable-next-line vue/require-prop-types
-  props: ["value"],
+  data() {
+    return {
+      email: "",
+      name: "",
+      password: "",
+      password_confirmation: "",
+    };
+  },
   computed: {
-    ...mapGetters(["config", "api"]),
+    ...mapGetters(["config", "api", "registerData", "registerErrors"]),
     privacyPolicy() {
       return this.config.legal.find((legal) => {
         return legal.slug === "privacy-policy";
@@ -171,6 +193,12 @@ export default {
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
       if (!isValid) return;
+      this.$store.dispatch("setRegisterData", {
+        email: this.email,
+        name: this.name,
+        password: this.password,
+        password_confirmation: this.password_confirmation,
+      });
       this.$emit("step", 2);
     },
   },

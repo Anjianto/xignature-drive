@@ -22,21 +22,23 @@
           tag="div"
           mode="passive"
           class="input-wrapper"
-          name="KTP"
+          name="nik"
           rules="required|min:16|max:16"
         >
           <input
-            v-model="value.nik"
+            v-model="nik"
             :placeholder="$t('page_registration.placeholder_nik')"
             type="number"
             class="reset-input-number"
-            :class="{ 'is-error': errors[0] || APIErrors.nik }"
+            :class="{ 'is-error': errors[0] || registerErrors.nik }"
+            name="nik"
+            @input="changeRegisterData"
           />
           <span v-if="nikHint && !errors.length" class="input-hint"
             >{{ nikHint }}
           </span>
-          <span v-if="errors[0] || APIErrors.nik" class="error-message">{{
-            errors[0] || APIErrors.nik
+          <span v-if="errors[0] || registerErrors.nik" class="error-message">{{
+            errors[0] || registerErrors.nik
           }}</span>
         </ValidationProvider>
       </div>
@@ -48,22 +50,26 @@
           tag="div"
           mode="passive"
           class="input-wrapper"
-          name="Phone"
+          name="phone"
           rules="required|min:12|max:12"
         >
           <input
-            v-model="value.phone"
+            v-model="phone"
             :placeholder="$t('page_registration.placeholder_phone')"
             type="number"
             class="reset-input-number"
-            :class="{ 'is-error': errors[0] || APIErrors.phone }"
+            :class="{ 'is-error': errors[0] || registerErrors.phone }"
+            name="phone"
+            @input="changeRegisterData"
           />
           <span v-if="phoneHint && !errors.length" class="input-hint"
             >{{ phoneHint }}
           </span>
-          <span v-if="errors[0] || APIErrors.phone" class="error-message">{{
-            errors[0] || APIErrors.phone
-          }}</span>
+          <span
+            v-if="errors[0] || registerErrors.phone"
+            class="error-message"
+            >{{ errors[0] || registerErrors.phone }}</span
+          >
         </ValidationProvider>
       </div>
 
@@ -78,7 +84,7 @@
           rules="required"
         >
           <input
-            v-model="value.birthplace"
+            v-model="birthplace"
             :placeholder="$t('page_registration.label_birthplace')"
             type="text"
             :class="{ 'is-error': errors[0] }"
@@ -99,7 +105,7 @@
             rules="required"
           >
             <DatePicker
-              v-model="value.birthdate"
+              v-model="birthdate"
               :placeholder="$t('page_registration.placeholder_birthdate')"
               format="YYYY-MM-DD"
               :input-attr="{
@@ -140,26 +146,42 @@ export default {
     ValidationObserver,
     AuthButton,
   },
-  // eslint-disable-next-line vue/require-prop-types
-  props: ["value", "APIErrors"],
+  data() {
+    return {
+      nik: undefined,
+      phone: undefined,
+      birthplace: undefined,
+      birthdate: undefined,
+    };
+  },
   computed: {
-    ...mapGetters(["config", "registerErrors"]),
+    ...mapGetters(["config", "registerData", "registerErrors"]),
     nikHint() {
-      const size = this.value.nik?.length || 0;
+      const size = this.registerData.nik?.length || 0;
       const total = 16 - size;
       return total && total > 0 ? `type ${total} number more` : "";
     },
     phoneHint() {
-      const size = this.value.phone?.length || 0;
+      const size = this.registerData.phone?.length || 0;
       const total = 12 - size;
       return total && total > 0 ? `type ${total} number more` : "";
     },
   },
   methods: {
+    changeRegisterData(e) {
+      this.$store.dispatch("setRegisterData", {
+        [e.target.name]: e.target.value,
+      });
+    },
     async saveRegister() {
       const isValid = await this.$refs.form.validate();
       if (!isValid) return;
-
+      this.$store.dispatch("setRegisterData", {
+        nik: this.nik,
+        phone: this.phone,
+        birthplace: this.birthplace,
+        birthdate: this.birthdate,
+      });
       this.$emit("step", 4);
     },
   },

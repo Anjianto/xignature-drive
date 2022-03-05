@@ -22,24 +22,13 @@
           <h1>{{ $t("page_registration.title") }}</h1>
           <h2>{{ $t("page_registration.subtitle") }}</h2>
         </div>
-        <Step1
-          v-if="steps === 1"
-          v-model="data"
-          :errors="errors"
-          @step="changeStep"
-        />
-        <Step2 v-else-if="steps === 2" v-model="data.ktp" @step="changeStep" />
-        <Step3
-          v-else-if="steps === 3"
-          v-model="data"
-          :APIErrors="errors"
-          @step="changeStep"
-        />
+        <Step1 v-if="steps === 1" @step="changeStep" />
+        <Step2 v-else-if="steps === 2" @step="changeStep" />
+        <Step3 v-else-if="steps === 3" @step="changeStep" />
         <Step4
           v-else-if="steps === 4"
-          v-model="data.selfie"
-          :is-loading="isLoading"
           @submit="saveRegister"
+          @step="changeStep"
         />
       </AuthContent>
     </AuthContentWrapper>
@@ -48,21 +37,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import AuthContentWrapper from "@/components/Auth/AuthContentWrapper";
 import AuthContent from "@/components/Auth/AuthContent";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
-import { mapGetters } from "vuex";
-import { events } from "@/bus";
-import { SIGN_DOC_KEY, SIGN_DOC_ID } from "@/constants/variables";
-import Cookies from "js-cookie";
-import { format } from "date-fns";
-import { ACT_REGISTER } from "@/constants/action";
-import { ALERT_OPEN } from "@/constants/events";
-import { notifError } from "@/utils";
 import ConfirmModal from "@/components/Modal/ConfirmModal";
+// import { events } from "@/bus";
+// import { SIGN_DOC_KEY, SIGN_DOC_ID } from "@/constants/variables";
+// import Cookies from "js-cookie";
+// import { format } from "date-fns";
+// import { ACT_REGISTER } from "@/constants/action";
+// import { ALERT_OPEN } from "@/constants/events";
+// import { notifError } from "@/utils";
 
 export default {
   name: "SignUp",
@@ -80,49 +70,37 @@ export default {
       steps: 1,
       confirm: false,
       accept: false,
-      data: {
-        name: undefined,
-        email: undefined,
-        password: undefined,
-        password_confirmation: undefined,
-        phone: undefined,
-        nik: undefined,
-        ktp: undefined,
-        birthplace: undefined,
-        birthdate: undefined,
-        selfie: undefined,
-      },
-      errors: {},
-      isLoading: false,
+      // isLoading: false,
     };
   },
   computed: {
     ...mapGetters(["config"]),
-    formData() {
-      const dataRegister = new FormData();
+    // formData() {
+    //   const dataRegister = new FormData();
 
-      dataRegister.append("name", this.data.name);
-      dataRegister.append("email", this.data.email);
-      dataRegister.append("password", this.data.password);
-      dataRegister.append(
-        "password_confirmation",
-        this.data.password_confirmation
-      );
-      dataRegister.append("phone", this.data.phone);
-      dataRegister.append("nik", this.data.nik);
-      dataRegister.append("ktp", this.data.ktp);
-      dataRegister.append("selfie", this.data.selfie);
-      dataRegister.append(
-        "birth_date",
-        format(this.data.birthdate, "yyyy-MM-dd")
-      );
-      dataRegister.append("birth_place", this.data.birthplace);
+    //   dataRegister.append("name", this.registerData.name);
+    //   dataRegister.append("email", this.registerData.email);
+    //   dataRegister.append("password", this.registerData.password);
+    //   dataRegister.append(
+    //     "password_confirmation",
+    //     this.registerData.password_confirmation
+    //   );
+    //   dataRegister.append("phone", this.registerData.phone);
+    //   dataRegister.append("nik", this.registerData.nik);
+    //   dataRegister.append("ktp", this.registerData.ktp);
 
-      dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY));
-      dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID));
+    //   dataRegister.append("selfie", this.registerData.selfie);
+    //   dataRegister.append(
+    //     "birth_date",
+    //     format(this.registerData.birthdate, "yyyy-MM-dd")
+    //   );
+    //   dataRegister.append("birth_place", this.registerData.birthplace);
 
-      return dataRegister;
-    },
+    //   dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY));
+    //   dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID));
+
+    //   return dataRegister;
+    // },
   },
   created() {
     this.$scrollTop();
@@ -140,43 +118,53 @@ export default {
       }
       this.steps = step;
     },
-    async saveRegister() {
-      this.isLoading = true;
-      const { data, error } = await this.$store.dispatch(ACT_REGISTER, {
-        formData: this.formData,
-      });
-      if (data) {
-        events.$emit(ALERT_OPEN, {
-          emoji: "🗝️",
-          title: "Berhasil",
-          message:
-            "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
-          buttonStyle:
-            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-          button: "Go To Files",
-        });
-        this.isLoading = false;
-      } else {
-        this.isLoading = false;
-        notifError(error, () => {
-          const splitMessage = error?.data?.message?.split?.(" ");
-          const isNIK = splitMessage?.[0]?.toLowerCase?.() === "nik";
-          const isPhone =
-            splitMessage?.[0]?.toLowerCase?.() +
-              " " +
-              splitMessage?.[1]?.toLowerCase?.() ===
-            "no hp";
-          if (isNIK || isPhone) {
-            this.steps = 3;
-            if (isNIK) this.errors.nik = error.data.message;
-            else if (isPhone) this.errors.phone = error.data.message;
+    // async saveRegister() {
+    // this.isLoading = true;
+    // const { data, error } = await this.$store.dispatch(ACT_REGISTER, {
+    //   formData: this.formData,
+    // });
 
-            return;
-          }
-          this.steps = 1;
-        });
-      }
-    },
+    // if (data) {
+    //   events.$emit(ALERT_OPEN, {
+    //     emoji: "🗝️",
+    //     title: "Berhasil",
+    //     message:
+    //       "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+    //     buttonStyle:
+    //       "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+    //     button: "Go To Files",
+    //   });
+    //   this.isLoading = false;
+    // }
+    //  else {
+    //   this.isLoading = false;
+    //   notifError(error, () => {
+    //     const splitMessage = error?.data?.message?.split?.(" ");
+    //     const isNIK = splitMessage?.[0]?.toLowerCase?.() === "nik";
+    //     const isPhone =
+    //       splitMessage?.[0]?.toLowerCase?.() +
+    //         " " +
+    //         splitMessage?.[1]?.toLowerCase?.() ===
+    //       "no hp";
+    //     const isSelfie = error?.data?.errors?.selfie;
+    //     if (isNIK || isPhone) {
+    //       this.steps = 3;
+    //       if (isNIK) this.registerErrors.nik = error.data.message;
+    //       else if (isPhone) this.registerErrors.phone = error.data.message;
+
+    //       return;
+    //     }
+    //     if (isSelfie) {
+    //       this.steps = 0;
+    //       this.steps = 4;
+    //       this.registerErrors.selfie =
+    //         error.data.errors.selfie?.[0] ?? "The selfie is not valid!";
+    //       return;
+    //     }
+    //     this.steps = 1;
+    //   });
+    // }
+    // },
   },
 };
 </script>

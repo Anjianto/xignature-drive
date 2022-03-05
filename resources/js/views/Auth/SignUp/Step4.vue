@@ -10,6 +10,16 @@
           </p>
         </div>
       </div>
+      <div>
+        <p>isLoaded: {{ isLoaded }}</p>
+        <p>isFinish: {{ isFinish }}</p>
+        <p>isLoadingCamera: {{ isLoadingCamera }}</p>
+        <!-- <p>stream: {{ stream }}</p> -->
+        <p>isCapture: {{ isCapture }}</p>
+        <!-- <p>video: {{ video }}</p> -->
+        <!-- <p>capturedImg: {{ capturedImg }}</p> -->
+      </div>
+
       <div style="height: 342px">
         <div class="image preview relative">
           <!-- class="relative mx-auto flex h-[250px] w-[90%] flex-col items-center justify-center overflow-hidden rounded border-2 sm:w-[380px]" -->
@@ -35,35 +45,42 @@
               </div>
             </div>
           </div>
+          <span v-if="registerErrors.selfie" class="error-message">{{
+            registerErrors.selfie
+          }}</span>
         </div>
       </div>
       <div class="container center">
         <AuthButton
-          v-if="isCapture && !isFinish"
+          v-if="isFinish"
           id="btn-retake"
           text="Retake"
           icon="camera"
           type="button"
-          :disabled="isLoadingCamera || isLoading"
-          :loading="isLoadingCamera || isLoading"
+          :disabled="isLoadingCamera || isDataLoading"
           @click="retake"
         />
         <AuthButton
-          v-if="!isCapture && !isFinish"
+          v-if="!isFinish"
           icon="chevron-right"
           :text="
-            isLoadingCamera ? 'Preparing' : isLoading ? 'Creating' : 'Capture'
+            isLoadingCamera
+              ? 'Preparing'
+              : isDataLoading
+              ? 'Creating'
+              : 'Capture'
           "
           type="button"
-          :disabled="isLoadingCamera || isLoading"
-          :loading="isLoadingCamera || isLoading"
+          :disabled="isLoadingCamera || isDataLoading"
+          :loading="isLoadingCamera || isDataLoading"
           @click="capture"
         />
         <AuthButton
           v-else
           icon="save"
-          text="Register"
+          :text="registerData.selfie ? 'Register' : 'Processing'"
           @click.native="submitData"
+          :loading="isLoadingCamera || isDataLoading || !registerData.selfie"
         />
       </div>
     </div>
@@ -71,21 +88,24 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { format } from "date-fns";
+import Cookies from "js-cookie";
+
 import AuthButton from "@/components/Auth/AuthButton";
-import { getBlobUrl } from "@/utils";
 import Spinner from "@/components/FilesView/Spinner";
+import { getBlobUrl } from "@/utils";
+import { ACT_REGISTER } from "@/constants/action";
+import { events } from "@/bus";
+import { ALERT_OPEN } from "@/constants/events";
+import { SIGN_DOC_KEY, SIGN_DOC_ID } from "@/constants/variables";
+import { notifError } from "@/utils";
 
 export default {
   name: "SignUpStep4",
   components: {
     AuthButton,
     Spinner,
-  },
-  props: {
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -96,11 +116,17 @@ export default {
       isCapture: false,
       video: null,
       capturedImg: null,
+      selfieWrapper: null,
+      isDataLoading: false,
+      selfieFile: null,
       retake: () => {},
     };
   },
+  computed: {
+    ...mapGetters(["registerData", "registerErrors"]),
+  },
   async mounted() {
-    const selfieWrapper = document.getElementById("selfie-wrapper");
+    this.selfieWrapper = document.getElementById("selfie-wrapper");
     this.video = document.getElementById("video");
     this.capturedImg = document.getElementById("capturedImg");
     this.isLoadingCamera = true;
@@ -108,8 +134,8 @@ export default {
       .getUserMedia({
         audio: false,
         video: {
-          width: selfieWrapper.clientWidth,
-          height: selfieWrapper.clientHeight,
+          width: this.selfieWrapper.clientWidth,
+          height: this.selfieWrapper.clientHeight,
         },
       })
       .then((stream) => {
@@ -118,8 +144,8 @@ export default {
         this.isLoadingCamera = false;
 
         // we check if the selfie field already has value
-        if (this.value) {
-          this.capturedImg.src = this.value;
+        if (this.registerData.selfie) {
+          this.capturedImg.src = this.registerData.selfie;
           this.video.pause();
         } else {
           this.video.play();
@@ -130,6 +156,9 @@ export default {
       .catch(console.error);
 
     const retake = () => {
+      this.$store.dispatch("setRegisterData", {
+        selfie: undefined,
+      });
       this.video.play();
       this.isCapture = false;
       this.isFinish = false;
@@ -139,32 +168,134 @@ export default {
     this.retake = retake;
   },
   methods: {
-    submitData() {
+    stopStream(stream) {
+      stream?.getTracks().forEach((track) => {
+        track.stop();
+      });
+    },
+    async submitData() {
       if (this.isFinish) {
-        this.$emit("submit");
+        const dataRegister = new FormData();
+
+        dataRegister.append("name", this.registerData.name);
+        dataRegister.append("email", this.registerData.email);
+        dataRegister.append("password", this.registerData.password);
+        dataRegister.append(
+          "password_confirmation",
+          this.registerData.password_confirmation
+        );
+        dataRegister.append("phone", this.registerData.phone);
+        dataRegister.append("nik", this.registerData.nik);
+        dataRegister.append("ktp", this.registerData.ktp);
+
+        dataRegister.append(
+          "selfie",
+          this.registerData.selfie || this.selfieFile
+        );
+        dataRegister.append(
+          "birth_date",
+          format(this.registerData.birthdate, "yyyy-MM-dd")
+        );
+        dataRegister.append("birth_place", this.registerData.birthplace);
+
+        dataRegister.append("sign_doc_key", Cookies.get(SIGN_DOC_KEY));
+        dataRegister.append("sign_doc_id", Cookies.get(SIGN_DOC_ID));
+
+        this.isDataLoading = true;
+        this.$store.dispatch("setRegisterErrors", {});
+        const { data, error } = await this.$store.dispatch(ACT_REGISTER, {
+          formData: dataRegister,
+        });
+
+        this.stopStream(this.stream);
+
+        if (data) {
+          events.$emit(ALERT_OPEN, {
+            emoji: "🗝️",
+            title: "Berhasil",
+            message:
+              "Akun anda berhasil dibuat, silahkan cek email anda untuk verifikasi akun",
+            buttonStyle:
+              "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+            button: "Go To Files",
+          });
+          this.isDataLoading = false;
+        } else {
+          this.isDataLoading = false;
+          notifError(error, () => {
+            const splitMessage = error?.data?.message?.split?.(" ");
+            const isNIK = splitMessage?.[0]?.toLowerCase?.() === "nik";
+            const isPhone =
+              splitMessage?.[0]?.toLowerCase?.() +
+                " " +
+                splitMessage?.[1]?.toLowerCase?.() ===
+              "no hp";
+            const isSelfie = error?.data?.errors?.selfie;
+            if (isNIK || isPhone) {
+              this.$emit("step", 3);
+              if (isNIK) this.registerErrors.nik = error.data.message;
+              else if (isPhone) this.registerErrors.phone = error.data.message;
+
+              return;
+            }
+            if (isSelfie) {
+              this.$emit("step", 4);
+              this.registerErrors.selfie =
+                error.data.errors.selfie?.[0] ?? "The selfie is not valid!";
+              return;
+            }
+            this.$emit("step", 1);
+          });
+        }
       }
     },
     async capture() {
-      const video = document.getElementById("video");
-      const capturedImg = document.getElementById("capturedImg");
-      video.pause();
-      this.isCapture = true;
+      if (this.isLoaded && this.isFinish) {
+        this.stopStream(this.stream);
+        return;
+      }
+      const canvas = document.getElementById("canvas");
+
+      this.isFinish = true;
+      this.video.pause();
+      const context = canvas.getContext("2d");
+
+      canvas.width = this.selfieWrapper.clientWidth;
+      canvas.height = this.selfieWrapper.clientHeight;
+
+      context.drawImage(this.video, 0, 0, canvas.width, canvas.height);
+
+      // const blob = decodeURIComponent(
+      //   escape(window.atob(canvas.toDataURL().split("data:")[1].split(";")[0]))
+      // );
+      // const selfieFile = new File([blob], "selfie.jpg", {
+      //   type: "image/jpeg",
+      // });
+      // this.$emit("input", selfieFile);
+      this.capturedImg.src = canvas.toDataURL();
+
+      // const video = document.getElementById("video");
+      // const capturedImg = document.getElementById("capturedImg");
+      // video.pause();
+      // this.isCapture = true;
       const track = this.stream.getVideoTracks()[0];
       let imageCapture = new ImageCapture(track);
       let image = await imageCapture.takePhoto();
       let imgUrl = await getBlobUrl(image);
       this.imageBlob = image;
-      capturedImg.src = imgUrl;
-      this.capturedImgisFinish = true;
-      // stop camera running in background
-      video.srcObject.getTracks().forEach((track) => {
-        track.stop();
-      });
-      const selfieFile = new File([this.imageBlob], "selfie.jpg", {
+      // capturedImg.src = imgUrl;
+      // this.capturedImgisFinish = true;
+      // // stop camera running in background
+      // video.srcObject.getTracks().forEach((track) => {
+      //   track.stop();
+      // });
+      this.selfieFile = new File([this.imageBlob], "selfie.jpg", {
         type: "image/jpeg",
       });
-      this.$emit("input", selfieFile);
-      this.isFinish = true;
+      this.$store.dispatch("setRegisterData", {
+        selfie: this.selfieFile,
+      });
+      // this.isFinish = true;
     },
   },
 };

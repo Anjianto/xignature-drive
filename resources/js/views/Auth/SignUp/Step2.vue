@@ -17,7 +17,12 @@
       <div class="block-wrapper">
         <div class="input-wrapper">
           <div class="image preview" @click="() => $refs.ktpUpload.click()">
-            <img v-if="value" ref="ktpPreview" :src="ktp" alt="ktp photo" />
+            <img
+              v-if="registerData.ktp"
+              ref="ktpPreview"
+              :src="ktp"
+              alt="ktp photo"
+            />
             <div v-else class="placeholder center">
               <FontAwesomeIcon class="icon" icon="camera" />
               <h4>Empty</h4>
@@ -31,7 +36,9 @@
             type="file"
             @change="changeUserKTP"
           />
-          <span v-if="errors[0]" class="error-message">{{ errors[0] }}</span>
+          <span v-if="registerErrors.ktp" class="error-message">{{
+            registerErrors.ktp
+          }}</span>
         </div>
       </div>
 
@@ -69,6 +76,7 @@ import AuthContent from "@/components/Auth/AuthContent";
 import AuthButton from "@/components/Auth/AuthButton";
 import ProfileForm from "@/components/Signature/ProfileForm";
 import { getBlobUrl } from "@/utils";
+import { mapGetters } from "vuex";
 export default {
   name: "SignUpStep2",
   components: {
@@ -78,20 +86,17 @@ export default {
     AuthButton,
     ProfileForm,
   },
-  props: ["value"],
   data() {
     return {
       ktp: null,
       errors: [],
     };
   },
-  watch: {
-    async value(val) {
-      this.fetchPreview(val);
-    },
+  computed: {
+    ...mapGetters(["registerData", "registerErrors"]),
   },
   async mounted() {
-    this.fetchPreview(this.value);
+    this.fetchPreview(this.registerData.ktp);
   },
   methods: {
     async fetchPreview(val) {
@@ -100,10 +105,10 @@ export default {
       }
     },
     async saveRegister() {
-      if (!this.value) {
-        this.errors.push("foto ktp required");
+      if (!this.registerData.ktp) {
+        this.registerErrors.ktp = "foto ktp required";
       } else {
-        this.errors = [];
+        this.registerErrors.ktp = [];
         this.$emit("step", 3);
       }
     },
@@ -111,11 +116,13 @@ export default {
       const files = e.target.files || e.dataTransfer.files;
       const isImage = files[0].type.match(/image.*/);
       if (!files.length || !isImage) {
-        this.errors.push("invalid file");
+        this.registerErrors.ktp = "invalid file";
         return;
       }
       this.ktp = await getBlobUrl(files[0]);
-      this.$emit("input", files[0]);
+      this.$store.dispatch("setRegisterData", {
+        ktp: files[0],
+      });
     },
   },
 };
