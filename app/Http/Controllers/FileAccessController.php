@@ -123,18 +123,18 @@ class FileAccessController extends Controller
      * @return mixed
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function get_file(Request $request, $filename)
+    public function get_file(Request $request, $id)
     {
         // Get user id
         $user_id = Auth::id();
 
         // Get file record
         $file = FileManagerFile::withTrashed()
-            ->whereRaw(
-                "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
-            )
+//            ->whereRaw(
+//                "file_manager_files.id IN (SELECT file_manager_files.id FROM signatures WHERE signatures.user_id = $user_id AND signatures.file_manager_file = file_manager_files.id )"
+//            )
             ->orWhere('user_id', $user_id)
-            ->where('basename', $filename)
+            ->where('id', $id)
             ->firstOrFail();
 
 
