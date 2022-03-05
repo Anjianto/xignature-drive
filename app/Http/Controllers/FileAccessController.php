@@ -101,9 +101,9 @@ class FileAccessController extends Controller
         return Storage::download($path, $basename);
     }
 
-    public function getFile($id)
+    public function getFile(string $id)
     {
-        $file = FileManagerFile::findOrFail($id);
+        $file = FileManagerFile::where('basename', $id)->firstOrFail();
         return new FileManagerResource($file);
     }
 
