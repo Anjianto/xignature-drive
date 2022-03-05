@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FileManagerResource;
 use App\Http\Tools\Guardian;
 use App\User;
 use App\Zip;
@@ -98,6 +99,12 @@ class FileAccessController extends Controller
 
         // Return avatar
         return Storage::download($path, $basename);
+    }
+
+    public function getFile($id)
+    {
+        $file = FileManagerFile::findOrFail($id);
+        return new FileManagerResource($file);
     }
 
     /**
