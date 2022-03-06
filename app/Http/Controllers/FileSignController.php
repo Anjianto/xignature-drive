@@ -35,7 +35,7 @@ class FileSignController extends Controller
      */
     public function sign(SignRequest $request)
     {
-        $fileId = decrypt($request->input('fileId'));
+        $fileId = $request->input('fileId');
         $document = FileManagerFile::findOrFail($fileId);
         $token = $request->user()->signatures->last();
         if (!isset($token)) {
@@ -94,7 +94,7 @@ class FileSignController extends Controller
         $apiResponse = Http::withHeaders([
             'api-key' => $settings['api_key'],
             'Accept' => 'application/pdf',
-        ]) -> get(config('app.api') . 'v1/document/download/' . $document_id);
+        ])->get(config('app.api') . 'v1/document/download/' . $document_id);
 
         return response($apiResponse->body(), $apiResponse->status())->header('Content-Type', 'application/pdf');
     }
@@ -275,7 +275,7 @@ class FileSignController extends Controller
         $base_name = $request->filename;
         $files = FileManagerFile::where('basename', $base_name)->get();
 
-        for ($i=0; $i < count($files); $i++) {
+        for ($i = 0; $i < count($files); $i++) {
             if ($hash == md5($files[$i]->id)) {
                 return response()->json([
                     'statusCode' => 200,

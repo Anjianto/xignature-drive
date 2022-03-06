@@ -46,10 +46,7 @@ export const loadDocuments = async ({
 export const getDocument = async (id) => {
   try {
     const { data } = await axios.get(
-      joinUrlPath(config.api, `${GET_DOC}/${id}`),
-      {
-        responseType: "arraybuffer",
-      }
+      joinUrlPath(config.api, `${GET_DOC}/${id}`)
     );
     console.log(data);
     return { data, error: false };

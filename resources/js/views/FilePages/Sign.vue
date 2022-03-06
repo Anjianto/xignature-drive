@@ -158,7 +158,7 @@ export default {
       numPages: 0,
       numOfPages: 0,
       otp: undefined,
-      pdfdata: undefined,
+      pdfData: null,
       pdfSrc: null,
       prevPosition: {
         x: 0,
@@ -190,13 +190,10 @@ export default {
       this.isLoading = true;
       const formData = new FormData();
       formData.append("fileId", this.$route.params.fileId);
-      formData.append("title", "this.file.name");
+      formData.append("title", this.pdfData.name);
       formData.append("reason", "accpet all");
       formData.append("sign_page", this.numPages);
-      formData.append("sign_pos", {
-        x: 100,
-        y: 100,
-      });
+      formData.append("sign_pos", this.axis);
       formData.append("share_document_to_customer", 1);
       formData.append("otp", otp);
       this.$store.dispatch(SHOW_PROCESSING, {
@@ -225,6 +222,14 @@ export default {
             }
           });
         }, 500);
+        return;
+      }
+      if (data) {
+        this.$store.dispatch(HIDE_PROCESSING);
+
+        this.$router.push({
+          name: "Files",
+        });
         return;
       }
       this.file = data;
@@ -277,7 +282,7 @@ export default {
       this.isLoading = true;
       try {
         const fileId = this.$route.params.fileId;
-        const { data: body, error } = await getDocument(fileId);
+        const { data, error } = await getDocument(fileId);
         if (error) {
           this.$store.dispatch(HIDE_PROCESSING);
           notifError(error, () => {
@@ -292,12 +297,14 @@ export default {
         //   console.log("show signing doc version");
         //   url = `${window.location.origin}/file/${body.data.metadata.id}/signed`;
         // }
-        const { doc } = await loadPdf(
-          `http://127.0.0.1:8000/api/file/${fileId}`
+        this.pdfData = data.data;
+        const pdfBuffer = Uint8Array.from(atob(data.data.file_pdf), (c) =>
+          c.charCodeAt(0)
         );
-        this.pdfSrc = body;
 
-        const loadingTask = this.createLoadingTask(body);
+        const { doc } = await loadPdf(data.data.file_pdf);
+        this.pdfSrc = pdfBuffer;
+        const loadingTask = this.createLoadingTask(pdfBuffer);
         loadingTask.promise
           .then((pdf) => {
             // this.pdfdata = pdf;
@@ -321,13 +328,14 @@ export default {
               this.allPages[0].height.end * this.allPages.length;
 
             return p.getViewport({ scale: 1 });
-          });
+          })
+          .catch(console.log);
 
         this.files = doc.computePages();
         this.allPages = doc.getPages();
         this.numPages = this.files.length;
         this.isLoading = false;
-        this.file = body.data;
+        this.file = data.data;
         setTimeout(() => {
           const wrapper = document.getElementById("sign-wrapper");
           wrapper.onscroll = (e) => {
@@ -345,9 +353,7 @@ export default {
           };
         }, 1000);
       } catch (error) {
-        console.log(error);
         notifError(error, () => {
-          console.log(error);
           this.errors = [error];
           this.$route.replace({
             name: "Files",
