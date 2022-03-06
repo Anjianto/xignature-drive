@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="user" class="menu-bar">
+  <nav v-if="user && $route.name !== 'SignDoc'" class="menu-bar">
     <!--Navigation Icons-->
     <div class="icon-navigation menu">
       <router-link :to="{ name: 'Profile' }" class="icon-navigation-item user">
