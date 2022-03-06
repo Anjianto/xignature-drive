@@ -10,15 +10,6 @@
           </p>
         </div>
       </div>
-      <div>
-        <p>isLoaded: {{ isLoaded }}</p>
-        <p>isFinish: {{ isFinish }}</p>
-        <p>isLoadingCamera: {{ isLoadingCamera }}</p>
-        <!-- <p>stream: {{ stream }}</p> -->
-        <p>isCapture: {{ isCapture }}</p>
-        <!-- <p>video: {{ video }}</p> -->
-        <!-- <p>capturedImg: {{ capturedImg }}</p> -->
-      </div>
 
       <div style="height: 342px">
         <div class="image preview relative">

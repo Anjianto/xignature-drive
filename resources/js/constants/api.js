@@ -13,3 +13,4 @@ export const SIGNER_WRITE = "/api/signer/write";
 export const SIGNER_DOC = "/api/signer/doc";
 export const SIGNER_INVITE = "/api/signer/invite";
 export const SIGNER_FIND = "/api/signer/find";
+export const GET_DOC = "/api/file";

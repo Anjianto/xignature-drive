@@ -1,5 +1,7 @@
 import { events } from "@/bus";
 import { PDFDocument } from "pdf-lib";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.js";
+import PDFJSWorker from "pdfjs-dist/legacy/build/pdf.worker.entry";
 
 export const notifError = (error, callback) => {
   // api http error
@@ -132,4 +134,86 @@ export function convertBlobToBase64(blob) {
 
 export const joinUrlPath = (base, path) => {
   return new URL(path, base).href;
+};
+
+export const createLoadingTask = (src) => {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJSWorker;
+  const loadingTask = pdfjsLib.getDocument(src);
+  return loadingTask;
+};
+
+// Manipulate pdf page position
+/**
+ * Create an array of numbers for each pdf page canvas element
+ * The canvas element has 'mb-5' class which value is 1.25rem or equal to 20px
+ */
+const MARGIN_BOTTOM = 20;
+export const getPageSizes = (option) => {
+  const { total, height } = option;
+  const pageSizes = [...Array(total).keys()].map((i) => {
+    const MARGIN_BOTTOM = 20;
+
+    const page = i + 1;
+    const start = height * i;
+    const size = {
+      page,
+      height: {
+        start,
+        end: start + height,
+      },
+    };
+
+    if (page === 1) {
+      return size;
+    }
+
+    const marginBottom = MARGIN_BOTTOM * i;
+
+    return {
+      ...size,
+      height: {
+        start: start + marginBottom,
+        end: start + height + marginBottom,
+      },
+    };
+  });
+
+  return pageSizes;
+};
+
+/**
+ * This numbers is experimental, to match center coordinate of signature placement image
+ * Need to recalculate if the image size is changed
+ */
+const OFFSET_X = 50;
+const OFFSET_Y = 85;
+
+export const getPageCoordinate = (pageSizes, coordinate) => {
+  if (!Array.isArray(pageSizes) || !coordinate) {
+    return null;
+  }
+
+  const offsetTop = coordinate.top + OFFSET_Y;
+
+  const page = pageSizes.find((value) => {
+    const { height } = value;
+    console.log(height);
+    // Mean that the coordinate is in the page area, not in the margin area
+    const isExist = offsetTop >= height.start && offsetTop <= height.end;
+    return isExist;
+  });
+
+  if (!page) {
+    return null;
+  }
+
+  const y =
+    coordinate.top -
+    (pageSizes[0].height.end + MARGIN_BOTTOM) * (page.page - 1);
+
+  return {
+    y: y + OFFSET_Y,
+    x: coordinate.left + OFFSET_X,
+    page: page.page,
+  };
 };

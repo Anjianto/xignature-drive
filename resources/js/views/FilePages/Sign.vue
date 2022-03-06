@@ -1,33 +1,52 @@
 <template>
-  <div class="sign-wrapper">
-    <header class="header">
-      <router-link to="/files" class="logo">
-        <img src="/assets/images/logo.png" alt="Logo  " />
-      </router-link>
-      <div class="flex gap-1">
-        <button
-          v-if="isSigned"
-          class="btn-action flat"
-          :disabled="isLoading"
-          @click="switchMode"
-        >
-          {{ !showOriginal ? "Original Document" : "Signed Document" }}
-        </button>
-        <button class="btn-action" :disabled="isLoading" @click="showOtpModal">
-          Sign Document
-        </button>
-      </div>
-    </header>
-    <main>
-      <div class="file-wrapper-preview">
+  <div class="sign">
+    <div class="sign-wrapper" id="sign-wrapper">
+      <header class="header">
+        <router-link to="/files" class="logo">
+          <img src="/assets/images/logo.png" alt="Logo  " />
+        </router-link>
+        <div class="flex gap-1">
+          <button
+            v-if="isSigned"
+            class="btn-action flat"
+            :disabled="isLoading"
+            @click="switchMode"
+          >
+            {{ !showOriginal ? "Original Document" : "Signed Document" }}
+          </button>
+          <button
+            class="btn-action"
+            :disabled="isLoading"
+            @click="isSignatureOpen ? showOtpModal() : showSignature()"
+          >
+            <template v-if="isSignatureOpen"> Sign Document </template>
+            <template v-else> Place Signature </template>
+          </button>
+        </div>
+      </header>
+      <main class="file-wrapper-preview">
         <!--Show PDF-->
         <div
           v-if="isLoading === false && errors < true === true"
           id="pdf-wrapper"
           ref="pdfwrapper"
-          :style="{ width: documentSize + '%', height: '100vh' }"
         >
-          <pdf
+          <PDFPage
+            v-for="page in numOfPages"
+            :key="page"
+            :src="pdfSrc"
+            :page="page"
+          />
+          <template v-if="isSignatureOpen && isValidPosition">
+            <SignatureModal
+              @handleSubmitCoordinate="handleSubmitCoordinate"
+              @handleClose="closeSignature"
+              :isValidPosition="isValidPosition"
+              :x="prevPosition.x"
+              :y="prevPosition.y"
+            />
+          </template>
+          <!-- <pdf
             v-for="i in numPages"
             :id="i"
             :key="i"
@@ -46,11 +65,11 @@
               >
                 <div class="mx-auto">
                   <Spinner />
-                  <h1>loading content...</h1>
+                  <h1 style="margin-top: 2rem">loading content...</h1>
                 </div>
               </div>
             </template>
-          </pdf>
+          </pdf> -->
           <div class="utilities">
             <p>Page {{ currentIndex + 1 }} / {{ numPages }}</p>
             <div class="zoom">
@@ -64,8 +83,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
     <footer class="footer">
       <p>Powered by Xignature</p>
     </footer>
@@ -95,9 +114,13 @@ import {
   HIDE_PROCESSING,
   SHOW_PROCESSING,
 } from "@/constants/action";
-import { findDocToSign } from "@/http_client/signature_client";
-import { loadPdf, notifError } from "@/utils";
+import { getDocument } from "@/http_client/signature_client";
+import { getPageCoordinate, getPageSizes, loadPdf, notifError } from "@/utils";
 import OTPModal from "@/components/FilesView/OTPModal";
+import SignatureModal from "@/components/FilesView/SignatureModal";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.js";
+import PDFJSWorker from "pdfjs-dist/legacy/build/pdf.worker.entry";
+import PDFPage from "@/components/Admin/PDFPage.vue";
 
 export default {
   name: "SignView",
@@ -108,6 +131,45 @@ export default {
     PlusIcon,
     MinusIcon,
     OTPModal,
+    SignatureModal,
+    PDFPage,
+  },
+  data() {
+    return {
+      allPages: [],
+      allHeightDocument: 0,
+      askOTP: false,
+      axis: {
+        x: 0,
+        y: 0,
+      },
+      container: {
+        width: 743 || 0,
+        height: 1052 || 0,
+      },
+      currentIndex: 0,
+      documentSize: 50,
+      errors: [],
+      file: undefined,
+      files: [],
+      isLoading: false,
+      isSignatureOpen: false,
+      isSigned: false,
+      isValidPosition: true,
+      isWaitingSign: false,
+      numPages: 0,
+      numOfPages: 0,
+      otp: undefined,
+      pdfdata: undefined,
+      pdfSrc: null,
+      prevPosition: {
+        x: 0,
+        y: 0,
+      },
+      signPage: 1,
+      showOriginal: true,
+      waitingSignMsg: undefined,
+    };
   },
   computed: {
     ...mapGetters(["fileInfoDetail", "data"]),
@@ -138,7 +200,7 @@ export default {
       this.isLoading = true;
       const formData = new FormData();
       formData.append("fileId", this.$route.params.fileId);
-      formData.append("title", this.file.name);
+      formData.append("title", "this.file.name");
       formData.append("reason", "accpet all");
       formData.append("sign_page", this.numPages);
       formData.append("sign_pos", {
@@ -202,6 +264,12 @@ export default {
     showOtpModal() {
       this.askOTP = true;
     },
+    showSignature() {
+      this.isSignatureOpen = true;
+    },
+    closeSignature() {
+      this.isSignatureOpen = false;
+    },
     switchMode() {
       this.$store.dispatch(SHOW_PROCESSING, {
         title: "Preparing Original Document",
@@ -219,7 +287,7 @@ export default {
       this.isLoading = true;
       try {
         const fileId = this.$route.params.fileId;
-        const { data: body, error } = await findDocToSign(fileId);
+        const { data: body, error } = await getDocument(fileId);
         if (error) {
           this.$store.dispatch(HIDE_PROCESSING);
           notifError(error, () => {
@@ -228,20 +296,50 @@ export default {
           });
           return;
         }
-        let url = body.data.file_url;
-        this.isSigned = body.data.metadata && body.data.metadata.id;
-        if (this.isSigned && original === false) {
-          console.log("show signing doc version");
-          url = `${window.location.origin}/file/${body.data.metadata.id}/signed`;
-        }
-        const { doc } = await loadPdf(url);
-        this.pdfdata = pdf.createLoadingTask(url);
+        // let url = body.data.file_url;
+        // this.isSigned = body.data.metadata && body.data.metadata.id;
+        // if (this.isSigned && original === false) {
+        //   console.log("show signing doc version");
+        //   url = `${window.location.origin}/file/${body.data.metadata.id}/signed`;
+        // }
+        const { doc } = await loadPdf(
+          `http://127.0.0.1:8000/api/file/${fileId}`
+        );
+        this.pdfSrc = body;
+
+        const loadingTask = this.createLoadingTask(body);
+        loadingTask.promise
+          .then((pdf) => {
+            // this.pdfdata = pdf;
+            this.numOfPages = pdf.numPages;
+            return pdf.getPage(1);
+          })
+          .then((p) => {
+            const width = p.view[2];
+            const height = p.view[3];
+            this.container.width = width;
+            this.container.height = height;
+
+            const pageSizes = getPageSizes({
+              total: this.numOfPages,
+              height,
+            });
+            this.allPages = pageSizes;
+            this.allPages[0].height;
+
+            this.allHeightDocument =
+              this.allPages[0].height.end * this.allPages.length;
+
+            return p.getViewport({ scale: 1 });
+          });
+
         this.files = doc.computePages();
+        this.allPages = doc.getPages();
         this.numPages = this.files.length;
         this.isLoading = false;
         this.file = body.data;
         setTimeout(() => {
-          const wrapper = document.getElementById("pdf-wrapper");
+          const wrapper = document.getElementById("sign-wrapper");
           wrapper.onscroll = (e) => {
             // get scroll position
             const scrollTop = e.target.scrollTop;
@@ -275,24 +373,54 @@ export default {
     decreaseSizeOfPDF() {
       events.$emit("document-zoom:out");
     },
-  },
-  data() {
-    return {
-      pdfdata: undefined,
-      numPages: 0,
-      currentIndex: 0,
-      otp: undefined,
-      askOTP: false,
-      file: undefined,
-      files: [],
-      isLoading: false,
-      showOriginal: true,
-      isWaitingSign: false,
-      isSigned: false,
-      waitingSignMsg: undefined,
-      errors: [],
-      documentSize: 50,
-    };
+    createLoadingTask(src) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJSWorker;
+      const loadingTask = pdfjsLib.getDocument(src);
+      return loadingTask;
+    },
+    handleSubmitCoordinate(coordinate) {
+      const page = getPageCoordinate(this.allPages, coordinate);
+
+      console.log("page :", page);
+      if (!page) {
+        /**
+         * Default page is 1
+         * Disable element drag in certain area by moving to previous position
+         */
+        this.signPage = 1;
+        this.isValidPosition = false;
+        /**
+         * We need to set the place signature element to original position.
+         * When user drag the element out of the page.
+         * For now, we need to remove the element from the page.
+         * Because we can't programmatically set x & y props in vue-drag-resize.
+         */
+        setTimeout(() => {
+          this.isValidPosition = true;
+        }, 200);
+        return;
+      }
+
+      // Store previous position for revert back when user drag the element out of the page
+      this.prevPosition.x = coordinate.left;
+      this.prevPosition.y = coordinate.top;
+
+      /**
+       * coordinate.left = x
+       * coordinate.top = div.clientHeight - y
+       */
+      // axis.x = coordinate.left + OFFSET_X;
+      // axis.y = container.height - (coordinate.top + OFFSET_Y);
+      this.axis.x = page.x;
+      // We need to reverse the y axis, because backend is using the opposite axis
+      this.axis.y = this.container.height - page.y;
+
+      this.signPage = page.page;
+      this.isValidPosition = true;
+
+      // We Get the page number
+      console.log("handleSubmitCoordinate", page);
+    },
   },
 };
 </script>
@@ -302,17 +430,12 @@ export default {
 @import "@assets/vue-file-manager/_variables";
 @import "@assets/vue-file-manager/_mixins";
 $header-color: hsl(251, 59%, 31%);
-$btn-border-color: hsl(251, 39%, 31%);
+$btn-border-color: hsl(252, 22%, 5%);
 $content-bg-color: hsl(251, 35%, 31%);
 
-.sign-wrapper {
-  padding-bottom: 40px;
+.sign {
+  width: 100%;
   position: relative;
-  .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
 }
 
 .preload {
@@ -323,10 +446,7 @@ $content-bg-color: hsl(251, 35%, 31%);
   position: absolute;
   inset: 0;
   background-color: $content-bg-color;
-  max-height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  overflow-y: scroll;
 }
 
 .header {
@@ -337,6 +457,9 @@ $content-bg-color: hsl(251, 35%, 31%);
   width: 100%;
   background: $header-color;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
   .logo {
     height: 2rem;
@@ -366,10 +489,14 @@ $content-bg-color: hsl(251, 35%, 31%);
 }
 
 .footer {
-  margin-top: auto;
   padding: 1rem 3rem;
   background-color: $header-color;
   z-index: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: auto;
 
   p {
     color: #fff;
@@ -377,24 +504,20 @@ $content-bg-color: hsl(251, 35%, 31%);
 }
 
 #pdf-wrapper {
-  overflow-y: scroll;
-  margin: 0 auto;
-  position: absolute;
-  top: 8rem;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  overflow-y: hidden;
+  min-height: fit-content;
+  margin-top: 100px;
+  padding-bottom: 100px;
   z-index: 1;
-  height: 80%;
-
-  @media screen and (min-width: 640px) {
-    top: 6rem;
-  }
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .file-wrapper-preview {
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   padding: 30px 0px;
   display: flex;
   overflow: hidden;
