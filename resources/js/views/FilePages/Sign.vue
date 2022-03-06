@@ -1,6 +1,6 @@
 <template>
   <div class="sign">
-    <div class="sign-wrapper">
+    <div class="sign-wrapper" id="sign-wrapper">
       <header class="header">
         <router-link to="/files" class="logo">
           <img src="/assets/images/logo.png" alt="Logo  " />
@@ -339,7 +339,7 @@ export default {
         this.isLoading = false;
         this.file = body.data;
         setTimeout(() => {
-          const wrapper = document.getElementById("pdf-wrapper");
+          const wrapper = document.getElementById("sign-wrapper");
           wrapper.onscroll = (e) => {
             // get scroll position
             const scrollTop = e.target.scrollTop;
@@ -438,16 +438,6 @@ $content-bg-color: hsl(251, 35%, 31%);
   position: relative;
 }
 
-// .sign-wrapper {
-// padding-bottom: 40px;
-// position: relative;
-// .footer {
-//   position: absolute;
-//   bottom: 0;
-//   width: 100%;
-// }
-// }
-
 .preload {
   height: 100vh;
 }
@@ -457,8 +447,6 @@ $content-bg-color: hsl(251, 35%, 31%);
   inset: 0;
   background-color: $content-bg-color;
   overflow-y: scroll;
-  // display: flex;
-  // flex-direction: column;
 }
 
 .header {
@@ -524,17 +512,6 @@ $content-bg-color: hsl(251, 35%, 31%);
   max-width: 50%;
   margin-left: auto;
   margin-right: auto;
-  // margin: 5rem auto 0;
-  // position: absolute;
-  // top: 8rem;
-  // left: 0;
-  // right: 0;
-  // bottom: 0;
-  // height: 80%;
-
-  // @media screen and (min-width: 640px) {
-  //   top: 6rem;
-  // }
 }
 
 .file-wrapper-preview {
@@ -547,7 +524,6 @@ $content-bg-color: hsl(251, 35%, 31%);
   justify-content: center;
   align-items: center;
   background-color: transparent !important;
-  // position: relative;
 
   .file-wrapper {
     width: 100%;
