@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GEN_OTP,
+  GET_DOC,
   LOAD_DOC,
   SIGNER_FIND,
   SIGNER_INVITE,
@@ -36,6 +37,21 @@ export const loadDocuments = async ({
       status,
       search,
     });
+    return { data, error: false };
+  } catch (error) {
+    return { data: null, error: error.response };
+  }
+};
+
+export const getDocument = async (id) => {
+  try {
+    const { data } = await axios.get(
+      joinUrlPath(config.api, `${GET_DOC}/${id}`),
+      {
+        responseType: "arraybuffer",
+      }
+    );
+    console.log(data);
     return { data, error: false };
   } catch (error) {
     return { data: null, error: error.response };
