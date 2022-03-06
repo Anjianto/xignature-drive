@@ -26,27 +26,24 @@
       </header>
       <main class="file-wrapper-preview">
         <!--Show PDF-->
-        <div
-          v-if="isLoading === false && errors < true === true"
-          id="pdf-wrapper"
-          ref="pdfwrapper"
-        >
-          <PDFPage
-            v-for="page in numOfPages"
-            :key="page"
-            :src="pdfSrc"
-            :page="page"
-          />
-          <template v-if="isSignatureOpen && isValidPosition">
-            <SignatureModal
-              @handleSubmitCoordinate="handleSubmitCoordinate"
-              @handleClose="closeSignature"
-              :isValidPosition="isValidPosition"
-              :x="prevPosition.x"
-              :y="prevPosition.y"
+        <div v-if="isLoading === false && errors < true === true">
+          <div id="pdf-wrapper" ref="pdfwrapper">
+            <PDFPage
+              v-for="page in numOfPages"
+              :key="page"
+              :src="pdfSrc"
+              :page="page"
             />
-          </template>
-          <!-- <pdf
+            <template v-if="isSignatureOpen && isValidPosition">
+              <SignatureModal
+                @handleSubmitCoordinate="handleSubmitCoordinate"
+                @handleClose="closeSignature"
+                :isValidPosition="isValidPosition"
+                :x="prevPosition.x"
+                :y="prevPosition.y"
+              />
+            </template>
+            <!-- <pdf
             v-for="i in numPages"
             :id="i"
             :key="i"
@@ -70,6 +67,7 @@
               </div>
             </template>
           </pdf> -->
+          </div>
           <div class="utilities">
             <p>Page {{ currentIndex + 1 }} / {{ numPages }}</p>
             <div class="zoom">
@@ -148,7 +146,7 @@ export default {
         height: 1052 || 0,
       },
       currentIndex: 0,
-      documentSize: 50,
+      documentSize: 1,
       errors: [],
       file: undefined,
       files: [],
@@ -176,18 +174,10 @@ export default {
   },
   created() {
     // Set zoom size
-    this.documentSize = window.innerWidth < 960 ? 100 : 50;
 
     events.$on("file-preview:next", () => this.next());
     events.$on("file-preview:prev", () => this.prev());
 
-    events.$on("document-zoom:in", () => {
-      if (this.documentSize < 100) this.documentSize += 10;
-    });
-
-    events.$on("document-zoom:out", () => {
-      if (this.documentSize > 40) this.documentSize -= 10;
-    });
     this.getPdf();
   },
   methods: {
@@ -345,7 +335,7 @@ export default {
             const scrollTop = e.target.scrollTop;
             // get height of the scroll
             const scrollHeight = e.target.scrollHeight;
-            // get percetage scroll
+            // get percentage scroll
             const scrollPercent = (scrollTop / scrollHeight) * 100;
             // get interpolated scroll percentage into range pages
             const page = Math.round((scrollPercent / 100) * this.numPages);
@@ -368,10 +358,18 @@ export default {
       }
     },
     increaseSizeOfPDF() {
-      events.$emit("document-zoom:in");
+      if (this.documentSize >= 1.55) return;
+      this.documentSize += 0.05;
+      document.getElementById(
+        "pdf-wrapper"
+      ).style.transform = `scale(${this.documentSize})`;
     },
     decreaseSizeOfPDF() {
-      events.$emit("document-zoom:out");
+      if (this.documentSize <= 0.55) return;
+      this.documentSize -= 0.05;
+      document.getElementById(
+        "pdf-wrapper"
+      ).style.transform = `scale(${this.documentSize})`;
     },
     createLoadingTask(src) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJSWorker;
@@ -484,6 +482,7 @@ $content-bg-color: hsl(251, 35%, 31%);
     &:hover {
       border-color: transparent;
       cursor: pointer;
+      transition: colors 150ms ease;
     }
   }
 }
@@ -504,7 +503,7 @@ $content-bg-color: hsl(251, 35%, 31%);
 }
 
 #pdf-wrapper {
-  overflow-y: hidden;
+  overflow: visible;
   min-height: fit-content;
   margin-top: 100px;
   padding-bottom: 100px;
