@@ -153,7 +153,8 @@ class FileAccessController extends Controller
 
 //        return $file->file_url;
 
-        return $this->download_file($file);
+        return new FileManagerResource($file);
+//        return $this->download_file($file);
     }
 
     /**
