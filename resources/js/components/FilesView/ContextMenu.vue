@@ -700,11 +700,11 @@ export default {
       this.$store.dispatch("signDocument");
     },
     selfSign() {
-      if (this.item.integrity) {
+      if (this.item.id) {
         this.$router.push({
           name: "SignDoc",
           params: {
-            fileId: this.item.integrity,
+            fileId: this.item.id,
           },
         });
       }
